@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Client", "src\We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Server", "src\Web\Server\XClaim.Web.Server.csproj", "{FDE3A403-4040-41F9-8003-B074CD3820FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Mobile", "src\Mobile\XClaim.Mobile.csproj", "{BB167C19-9FFF-4A05-9361-EE0E3FC67A3D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,10 +36,5 @@ Global
 		{FDE3A403-4040-41F9-8003-B074CD3820FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDE3A403-4040-41F9-8003-B074CD3820FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDE3A403-4040-41F9-8003-B074CD3820FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BB167C19-9FFF-4A05-9361-EE0E3FC67A3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB167C19-9FFF-4A05-9361-EE0E3FC67A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB167C19-9FFF-4A05-9361-EE0E3FC67A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB167C19-9FFF-4A05-9361-EE0E3FC67A3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BB167C19-9FFF-4A05-9361-EE0E3FC67A3D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal
