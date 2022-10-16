@@ -1,4 +1,6 @@
 using XClaim.Mobile.Views;
+using XClaim.Mobile.Views.Claim;
+using XClaim.Mobile.Views.Payment;
 
 namespace XClaim.Mobile;
 
@@ -24,7 +26,7 @@ public class AppShell : Shell
                  }
             },
             new Tab {
-                Title = "Claim",
+                Title = "Claims",
                 Icon = "icon_claim.svg",
                 Items = {
                         new ShellContent
