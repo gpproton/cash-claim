@@ -1,11 +1,15 @@
-﻿namespace XClaim.Mobile;
+﻿using XClaim.Mobile.Views.Claim;
+using XClaim.Mobile.Views.Payment;
+
+namespace XClaim.Mobile;
 
 public partial class App : Application
 {
-	public App()
-	{
+	public App(AppShell shell) {
 		InitializeComponent();
+		MainPage = shell;
 
-		MainPage = new AppShell();
-	}
+        Routing.RegisterRoute(nameof(ClaimView), typeof(ClaimView));
+        Routing.RegisterRoute(nameof(PaymentView), typeof(PaymentView));
+    }
 }

@@ -8,18 +8,13 @@ public class AppShell : Shell
 {
 	public AppShell()
 	{
-        Routing.RegisterRoute(nameof(HomeView), typeof(HomeView));
-        Routing.RegisterRoute(nameof(ClaimView), typeof(ClaimView));
-        Routing.RegisterRoute(nameof(PaymentView), typeof(PaymentView));
-
         Items.Add(new TabBar {
             Items = {
             new Tab {
                 Title = "Home",
                 Icon = "icon_home.svg",
                 Items = {
-                        new ShellContent
-                        {
+                        new ShellContent  {
                             Route = nameof(HomeView),
                             ContentTemplate = new DataTemplate(typeof(HomeView))
                         }
@@ -29,8 +24,7 @@ public class AppShell : Shell
                 Title = "Claims",
                 Icon = "icon_claim.svg",
                 Items = {
-                        new ShellContent
-                        {
+                        new ShellContent  {
                             Route = nameof(ClaimView),
                             ContentTemplate = new DataTemplate(typeof(ClaimView))
                         }
@@ -40,8 +34,7 @@ public class AppShell : Shell
                 Title = "Payments",
                 Icon = "icon_payment.svg",
                 Items = {
-                        new ShellContent
-                        {
+                        new ShellContent {
                             Route = nameof(PaymentView),
                             ContentTemplate = new DataTemplate(typeof(PaymentView))
                         }
