@@ -1,10 +1,10 @@
 using CommunityToolkit.Maui.Markup;
 
-namespace XClaim.Mobile.Views.Manage;
+namespace XClaim.Mobile.Views.Review;
 
-public class ClaimPendingView : ContentPage
+public class ReviewView : ContentPage
 {
-	public ClaimPendingView()
+	public ReviewView()
 	{
 		Content = new VerticalStackLayout
 		{

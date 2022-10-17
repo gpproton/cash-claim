@@ -1,5 +1,3 @@
-using CommunityToolkit.Maui.Markup;
-
 namespace XClaim.Mobile.Views;
 
 public class SplashView : ContentPage
@@ -9,7 +7,7 @@ public class SplashView : ContentPage
 		Content = new VerticalStackLayout
 		{
 			Children = {
-                new Label { Text = "Splash view!" }.TextCenterHorizontal().TextCenterVertical()
+                new Label().Text("Splash view!").TextCenterHorizontal().TextCenterVertical()
             }
 		};
 	}
