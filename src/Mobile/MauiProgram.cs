@@ -19,7 +19,7 @@ public static class MauiProgram {
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
         builder.Services.AddTransientWithShellRoute<HomeView, HomeViewModel>(nameof(HomeView));
-        builder.Services.AddTransientWithShellRoute<DemoView, DemoViewModel>(nameof(DemoView));
+        builder.Services.AddTransientWithShellRoute<DemoOneView, DemoOneViewModel>(nameof(DemoOneView));
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

@@ -2,11 +2,11 @@ using XClaim.Mobile.ViewModel;
 
 namespace XClaim.Mobile.Views;
 
-internal class DemoView : BaseView<DemoViewModel>
+internal class DemoOneView : BaseView<DemoOneViewModel>
 {
     enum FrameRow { First, Second }
     enum FrameColumn { First, Second }
-    public DemoView(DemoViewModel demoViewModel) : base(demoViewModel) => Content = new VerticalStackLayout
+    public DemoOneView(DemoOneViewModel demoViewModel) : base(demoViewModel) => Content = new VerticalStackLayout
     {
         Children = {
                  new Label().Text("Demo view!").TextCenterHorizontal().TextCenterVertical(),
@@ -58,16 +58,16 @@ internal class DemoView : BaseView<DemoViewModel>
                         }
                     )
                  }
-                 .Bind(ItemsView.ItemsSourceProperty, nameof(DemoViewModel.DemoItems))
+                 .Bind(ItemsView.ItemsSourceProperty, nameof(DemoOneViewModel.DemoItems))
                }
             }
     };
 }
 
-internal partial class DemoViewModel : BaseViewModel {
+internal partial class DemoOneViewModel : BaseViewModel {
     public List<DemoItem> DemoItems { get; }
 
-    public DemoViewModel()
+    public DemoOneViewModel()
     {
         DemoItems = new()
         {

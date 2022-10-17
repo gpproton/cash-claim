@@ -12,9 +12,13 @@ internal class HomeView : BaseView<HomeViewModel>
             .TextCenterHorizontal()
             .TextCenterVertical(),
             new Button {BackgroundColor = Colors.DodgerBlue }
-            .Text("Goto Demo")
-            .Margins(8,16,8,16)
-            .BindCommand(nameof(HomeViewModel.NavigateToDemoCommand))
+            .Text("Demo One")
+            .Margins(8,8,8,8)
+            .BindCommand(nameof(HomeViewModel.NavigateToDemoOneCommand)),
+            new Button {BackgroundColor = Colors.DarkOrchid }
+            .Text("Demo Two")
+            .Margins(8,8,8,8)
+            .BindCommand(nameof(HomeViewModel.NavigateToDemoTwoCommand)),
          }
     };
 }
@@ -22,5 +26,8 @@ internal class HomeView : BaseView<HomeViewModel>
 internal partial class HomeViewModel : BaseViewModel
 {
     [RelayCommand]
-    public async void NavigateToDemo() => await Shell.Current.GoToAsync(nameof(DemoView));
+    public async void NavigateToDemoOne() => await Shell.Current.GoToAsync(nameof(DemoOneView));
+
+    [RelayCommand]
+    public async void NavigateToDemoTwo() => await Shell.Current.GoToAsync(nameof(DemoTwoView));
 }
