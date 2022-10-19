@@ -85,19 +85,16 @@ protected override void OnAppearing() {
 
 internal partial class DemoOneViewModel : BaseViewModel {
     [ObservableProperty]
-    public ObservableCollection<DemoDto> items = new();
+    private ObservableCollection<DemoDto> _items = new();
 
     [ObservableProperty]
-    public DemoDto _selected;
+    private DemoDto _selected;
 
     [ObservableProperty]
-    public bool _loading = true;
+    private bool _loading = true;
 
     [RelayCommand]
-    public void SelectionChanged() { }
-
-    [RelayCommand]
-    public async void GetItems() {
+    private async void GetItems() {
         var NewItems = new List<DemoDto>() {
             new DemoDto("test a 1", "Test a 2"),
             new DemoDto("test b 1", "Test b 2"),
@@ -106,10 +103,10 @@ internal partial class DemoOneViewModel : BaseViewModel {
             new DemoDto("test e 1", "Test e 2"),
             new DemoDto("test f 1", "Test f 2")
         };
-        Items.Clear();
+        // OPTION: Items.Clear();
         await Task.Delay(2500);
         Loading = false;
-        foreach (var item in NewItems) { Items.Add(item);}
+        foreach (var item in NewItems) _items.Add(item);
     }
 }
 
