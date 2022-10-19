@@ -10,25 +10,37 @@ internal class DemoOneView : BaseView<DemoOneViewModel>
     public DemoOneView(DemoOneViewModel demoViewModel) : base(demoViewModel) => Content = new VerticalStackLayout {
             Children = {
                  new Label().Text("Demo view!").TextCenterHorizontal().TextCenterVertical(),
-                 new AvatarView {
-                     BorderColor = Color.FromArgb("7F7F7F"),
-                     BackgroundColor = Color.FromArgb("EDEDED"),
-                     BorderWidth = 2,
-                     Text = "AK"
-                 }
-                 .Font(size: 22)
-                 .TextColor(Color.FromArgb("8742f5"))
-                 .Size(48, 48),
-                 new AvatarView {
+                 new HorizontalStackLayout() {
+                    Children = {
+                        new AvatarView {
+                             BorderColor = Color.FromArgb("8742f5"),
+                             BackgroundColor = Colors.White,
+                             BorderWidth = 1,
+                             Text = "AK"
+                         }
+                         .Font(size: 22)
+                         .TextColor(Color.FromArgb("8742f5"))
+                         .Size(48, 48),
+                         new AvatarView() {
+                             BackgroundColor = Color.FromArgb("c9a9fc"),
+                             ClassId = "Elevation3",
+                             Content = new Image().Source(new FontImageSource() {
+                                    FontFamily = "FASolid", Glyph = FA.Solid.House, Color = Colors.White
+                             }).Size(18)
+                         }.Size(48, 48),
+                    }
+                 }.CenterHorizontal(),
+                 new Frame {
                      BackgroundColor = Color.FromArgb("c9a9fc"),
-                     Content = new Image().Size(18, 18).Source("icon_home.svg")
-                 }.Size(48, 48),
-                 new Frame
-                 {
-                     BackgroundColor = Color.FromArgb("c9a9fc"),
-                     Content = new Label().Text("XXX")
+                     Content = new Label().Text("XXX"),
+                     CornerRadius = 8,
+                     BorderColor = Colors.Transparent,
+                     StyleClass = new List<string> { "Elevation1" }
                  }.Size(250, 100),
-                 new Label { Padding = 8, Margin = 8 }.Text("Text Two").SetStyle("BlueLabel"),
+                 new Label { Padding = 8, Margin = 8 }
+                    .Text("Text Two")
+                    //.SetStyle("BlueLabel")
+                    .DynamicResources((StyleProperty, "BlueLabel")),
                  new ActivityIndicator()  { Color = Colors.Crimson }
                     .Bind(IsVisibleProperty, nameof(DemoOneViewModel.Loading))
                     .Bind(ActivityIndicator.IsRunningProperty, nameof(DemoOneViewModel.Loading)),
@@ -50,30 +62,36 @@ internal class DemoOneView : BaseView<DemoOneViewModel>
                                    (FrameColumn.Second, Auto)
                             ),
                          Children = {
-                                
-                                new StackLayout() {
+                                new HorizontalStackLayout () {
                                     Children = {
                                         new Label()
                                         .Bind(Label.TextProperty, nameof(DemoDto.First))
                                         .TextColor(Colors.Fuchsia),
                                         new Label()
                                         .Bind(Label.TextProperty, nameof(DemoDto.Third))
-                                        .TextColor(Colors.Aquamarine),
+                                        .TextColor(Colors.DarkKhaki),
                                     }
                                 }.Row(FrameRow.First).Column(FrameColumn.First),
+                                new Image().Source(new FontImageSource() {
+                                    FontFamily = "FASolid", Glyph = FA.Solid.User, Color = Colors.Orange
+                                }).Size(16)
+                                  .Row(FrameRow.First)
+                                  .Column(FrameColumn.First),
                                 new Label { Padding = 1, Margin = 2 }
                                     .Bind(Label.TextProperty, nameof(DemoDto.Second))
                                     .Row(FrameRow.Second)
-                                    .Column(FrameColumn.First)
-                                    .DynamicResources((Label.StyleProperty, "BlueLabel")),
-                                new Button().Bind(Button.TextProperty, nameof(DemoDto.Third))
-                                    .Row(FrameRow.Second).Column(FrameColumn.Second)
-                                    .RowSpan(2)
+                                    .Column(FrameColumn.First),
+                                new Image().Source(new FontImageSource() {
+                                    FontFamily = "FASolid", Glyph = FA.Solid.EllipsisVertical, Color = Colors.Grey
+                                }).Size(16).RowSpan(1).Row(FrameRow.Second).Column(FrameColumn.Second)
                          }
                      }
                      ))
                      
-                 }
+                 },
+                 new Button(){ StyleClass = new List<string> { "FilledButton", "Elevation2" }, BackgroundColor = Colors.Indigo }
+                .Text("Material Button")
+                .Margins(8,16,8,16)
             }
         };
 
@@ -103,9 +121,9 @@ internal partial class DemoOneViewModel : BaseViewModel {
             new DemoDto("test e 1", "Test e 2"),
             new DemoDto("test f 1", "Test f 2")
         };
-        // OPTION: Items.Clear();
+        // Option: Items.Clear();
         await Task.Delay(2500);
-        Loading = false;
+        if(NewItems.Count > 0) Loading = false;
         foreach (var item in NewItems) _items.Add(item);
     }
 }
