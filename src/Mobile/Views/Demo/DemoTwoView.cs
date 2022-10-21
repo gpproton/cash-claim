@@ -1,8 +1,10 @@
+using InputKit.Shared.Controls;
 using XClaim.Mobile.ViewModel;
 
-namespace XClaim.Mobile.Views;
+namespace XClaim.Mobile.Views.Demo;
 
-public class DemoTwoView : UraniumContentPage {
+public class DemoTwoView : UraniumContentPage
+{
     public DemoTwoView() => Content = new VerticalStackLayout
     {
         Children = {
@@ -13,10 +15,15 @@ public class DemoTwoView : UraniumContentPage {
                         Color = Colors.Indigo, Size = 16
                     }
                 },
-                //new TimePickerField {
-                //    Title = "Sample Picker",
-                //    Icon = new FontImageSource() { FontFamily = "FASolid", Glyph = FA.Solid.Clock }
-                //}
+                new FormView {
+                Spacing = 20,
+                Children = {
+                    new TimePickerField {
+                        Title = "Time Picker",
+                        Icon = new FontImageSource() { FontFamily = "FASolid", Glyph = FA.Solid.Clock }
+                    }
+                }
+            }
         }
     };
 }

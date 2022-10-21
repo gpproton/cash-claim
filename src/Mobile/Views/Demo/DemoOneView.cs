@@ -139,7 +139,6 @@ internal partial class DemoOneViewModel : BaseViewModel {
             new DemoDto("test e 1", "Test e 2"),
             new DemoDto("test f 1", "Test f 2")
         };
-        // Option: Items.Clear();
         await Task.Delay(2500);
         if(NewItems.Count > 0) Loading = false;
         foreach (var item in NewItems) _items.Add(item);

@@ -6,8 +6,7 @@ namespace XClaim.Mobile;
 
 public class AppShell : Shell
 {
-	public AppShell()
-	{
+	public AppShell() {
         Items.Add(new TabBar {
             Items = {
             new Tab {

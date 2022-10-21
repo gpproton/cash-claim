@@ -1,12 +1,11 @@
 ﻿global using System.Collections;
 global using System.Collections.ObjectModel;
-global using CommunityToolkit.Maui.Behaviors;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
 global using CommunityToolkit.Maui.Markup;
 global using CommunityToolkit.Maui.Views;
 global using static CommunityToolkit.Maui.Markup.GridRowsColumns;
-global using XClaim.Mobile.Extensions;
 global using UraniumUI.Pages;
 global using UraniumUI.Material.Controls;
 global using FA = UraniumUI.Icons.FontAwesome;
+global using XClaim.Mobile.Extensions;
