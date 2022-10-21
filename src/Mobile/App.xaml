@@ -13,14 +13,13 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <m:StyleResource />
             </ResourceDictionary.MergedDictionaries>
-            
             <Style TargetType="TabBar">
-                <Setter Property="Shell.TabBarBackgroundColor" Value="Transparent" />
-                <Setter Property="Shell.TabBarTitleColor" Value="Indigo" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="Indigo" />
-                <Setter Property="Shell.TabBarUnselectedColor" Value="LightGrey" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="#EBECF9" />
+                <Setter Property="Shell.TabBarTitleColor" Value="#4E549C" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="#4E549C" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#919AFA" />
             </Style>
-
+            
             <Style x:Key="BlueLabel" TargetType="Label">
                 <Setter Property="BackgroundColor" Value="DodgerBlue" />
                 <Setter Property="TextColor" Value="White" />
