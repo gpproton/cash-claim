@@ -7,3 +7,6 @@ global using CommunityToolkit.Maui.Markup;
 global using CommunityToolkit.Maui.Views;
 global using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 global using XClaim.Mobile.Extensions;
+global using UraniumUI.Pages;
+global using UraniumUI.Material.Controls;
+global using FA = UraniumUI.Icons.FontAwesome;

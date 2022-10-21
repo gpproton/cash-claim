@@ -4,7 +4,7 @@ using XClaim.Mobile.ViewModel;
 
 namespace XClaim.Mobile.Views;
 
-internal class BaseView : ContentPage {
+internal class BaseView : UraniumContentPage {
     protected BaseView(in bool shouldUseSafeArea = false) {
         On<iOS>().SetUseSafeArea(shouldUseSafeArea);
         On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.FormSheet);
