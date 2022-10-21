@@ -7,7 +7,17 @@ internal class DemoOneView : BaseView<DemoOneViewModel>
     enum FrameRow { First, Second }
     enum FrameColumn { First, Second }
 
-    public DemoOneView(DemoOneViewModel demoViewModel) : base(demoViewModel) => Content = new VerticalStackLayout {
+    public DemoOneView(DemoOneViewModel demoViewModel) : base(demoViewModel)
+    {
+        Background = new LinearGradientBrush() {
+            StartPoint = new Point(0, 0),
+            GradientStops = {
+                new GradientStop { Color = Colors.Indigo, Offset = 0.1F },
+                new GradientStop { Color = Colors.LightSteelBlue, Offset = 0.8F }
+            }
+        };
+        Content = new VerticalStackLayout
+        {
             Children = {
                  new Label().Text("Demo view!").TextCenterHorizontal().TextCenterVertical(),
                  new HorizontalStackLayout() {
@@ -39,13 +49,12 @@ internal class DemoOneView : BaseView<DemoOneViewModel>
                  }.Size(250, 100),
                  new Label { Padding = 8, Margin = 8 }
                     .Text("Text Two")
-                    //.SetStyle("BlueLabel")
+                    // Style Extension: .SetStyle("BlueLabel")
                     .DynamicResources((StyleProperty, "BlueLabel")),
                  new ActivityIndicator()  { Color = Colors.Crimson }
                     .Bind(IsVisibleProperty, nameof(DemoOneViewModel.Loading))
                     .Bind(ActivityIndicator.IsRunningProperty, nameof(DemoOneViewModel.Loading)),
                  new ScrollView {
-                     HeightRequest = 300,
                      Content = new CollectionView() { SelectionMode = SelectionMode.Single }
                      .EmptyViewTemplate(new DataTemplate(() => new Label().Text("The Collection is Empty")))
                      .Bind(ItemsView.ItemsSourceProperty, nameof(DemoOneViewModel.Items))
@@ -66,7 +75,8 @@ internal class DemoOneView : BaseView<DemoOneViewModel>
                                     Children = {
                                         new Label()
                                         .Bind(Label.TextProperty, nameof(DemoDto.First))
-                                        .TextColor(Colors.Fuchsia),
+                                        .TextColor(Colors.Fuchsia)
+                                        .Margins(5, 0, 5, 0),
                                         new Label()
                                         .Bind(Label.TextProperty, nameof(DemoDto.Third))
                                         .TextColor(Colors.DarkKhaki),
@@ -87,17 +97,25 @@ internal class DemoOneView : BaseView<DemoOneViewModel>
                          }
                      }
                      ))
-                     
-                 },
-                 new Button(){ StyleClass = new List<string> { "FilledButton", "Elevation2" }, BackgroundColor = Colors.Indigo }
+                 }.FillVertical(),
+                 new Button(){
+                     StyleClass = new List<string> { "FilledButton", "Elevation2" },
+                     BackgroundColor = Colors.Indigo,
+                     VerticalOptions = LayoutOptions.End
+                 }
                 .Text("Material Button")
-                .Margins(8,16,8,16)
+                .Margins(8,5,8,5)
             }
         };
+    }
 
-protected override void OnAppearing() {
+    protected override void OnAppearing() {
         base.OnAppearing();
         BindingContext.GetItemsCommand.Execute(null);
+    }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args) {
+        base.OnNavigatedTo(args);
     }
 }
 
