@@ -1,6 +1,6 @@
 namespace XClaim.Mobile.Templates;
 
-public class SampleContent : ContentView
+public class DemoSharedView : ContentView
 {
 	public string SampleTitle
 	{
@@ -10,7 +10,7 @@ public class SampleContent : ContentView
     public static readonly BindableProperty SampleTitleProperty = BindableProperty.Create(
     nameof(SampleTitle),
     typeof(string),
-    typeof(SampleContent),
+    typeof(DemoSharedView),
     "Default Title");
 
     public string SampleDesc
@@ -22,10 +22,10 @@ public class SampleContent : ContentView
     public static readonly BindableProperty SampleDescProperty = BindableProperty.Create(
     nameof(SampleDesc),
     typeof(string),
-    typeof(SampleContent),
+    typeof(DemoSharedView),
     "Default Desc");
 
-    public SampleContent()
+    public DemoSharedView()
 	{
 		BindingContext = this;
 		Content = new StackLayout
