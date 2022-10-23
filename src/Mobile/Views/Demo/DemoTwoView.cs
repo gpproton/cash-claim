@@ -7,12 +7,7 @@ public class DemoTwoView : ContentPage
     public DemoTwoView() => Content = new VerticalStackLayout
     {
         Children = {
-                new Label().Text("Demo two view!").CenterHorizontal().CenterVertical(),
-                
-                new FormView {
-                Spacing = 20,
-                Children = { }
-            }
+                new Label().Text("Demo two view!").CenterHorizontal().CenterVertical()
         }
     };
 }
