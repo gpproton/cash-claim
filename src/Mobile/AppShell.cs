@@ -6,8 +6,20 @@ namespace XClaim.Mobile;
 
 public class AppShell : Shell
 {
-	public AppShell()
-	{
+	public AppShell() {
+        FlyoutBehavior = FlyoutBehavior.Disabled;
+        Items.Add(new ShellContent
+        {
+            FlyoutItemIsVisible = false,
+            Route = nameof(WelcomeView),
+            ContentTemplate = new DataTemplate(typeof(WelcomeView))
+        });
+        Items.Add(new ShellContent
+        {
+            FlyoutItemIsVisible = false,
+            Route = nameof(AuthView),
+            ContentTemplate = new DataTemplate(typeof(AuthView))
+        });
         Items.Add(new TabBar {
             Items = {
             new Tab {

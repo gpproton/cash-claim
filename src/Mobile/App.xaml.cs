@@ -1,12 +1,13 @@
 ﻿using XClaim.Mobile.Views;
 using XClaim.Mobile.Views.Claim;
+using XClaim.Mobile.Views.Demo;
 using XClaim.Mobile.Views.Payment;
 
 namespace XClaim.Mobile;
 
 public partial class App : Application
 {
-	public App(AppShell shell) {
+    public App(AppShell shell) {
 		InitializeComponent();
 		MainPage = shell;
 

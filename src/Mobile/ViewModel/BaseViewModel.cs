@@ -1,4 +1,10 @@
 ﻿namespace XClaim.Mobile.ViewModel;
 
 [INotifyPropertyChanged]
-internal  abstract partial class BaseViewModel { }
+public abstract partial class BaseViewModel {
+    [ObservableProperty]
+    public bool _isBusy;
+
+    [ObservableProperty]
+    public string _title;
+}

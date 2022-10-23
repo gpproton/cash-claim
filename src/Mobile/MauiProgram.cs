@@ -12,10 +12,7 @@ public static class MauiProgram {
             .UseMauiApp<App>()
 			.UseMauiCommunityToolkit()
 			.UseMauiCommunityToolkitMarkup()
-            .ConfigureMauiHandlers(handlers =>
-            {
-                handlers.AddUraniumUIHandlers();
-            }).ConfigureFonts(fonts =>
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
@@ -27,7 +24,12 @@ public static class MauiProgram {
             });
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
+        builder.Services.AddTransientWithShellRoute<WelcomeView, WelcomeViewModel>(nameof(WelcomeView));
+        builder.Services.AddTransientWithShellRoute<AuthView, AuthViewModel>(nameof(AuthView));
         builder.Services.AddTransientWithShellRoute<HomeView, HomeViewModel>(nameof(HomeView));
+
+        // Demo
+        builder.Services.AddTransientWithShellRoute<DemoLinkView, DemoLinkViewModel>(nameof(DemoLinkView));
         builder.Services.AddTransientWithShellRoute<DemoOneView, DemoOneViewModel>(nameof(DemoOneView));
 #if DEBUG
         builder.Logging.AddDebug();
