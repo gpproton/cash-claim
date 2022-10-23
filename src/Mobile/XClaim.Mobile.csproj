@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<MauiVersion>6.0.536</MauiVersion>
-		<TargetFrameworks>net6.0-android</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('macos'))">$(TargetFrameworks);net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-ios;net6.0-maccatalyst;net6.0-windows10.0.19041.0;</TargetFrameworks>
+		<TargetFrameworks>net7.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('macos'))">$(TargetFrameworks);net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-ios;net7.0-maccatalyst;net7.0-windows10.0.19041.0;</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>XClaim.Mobile</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -12,7 +11,7 @@
 		<!-- Display name -->
 		<ApplicationTitle>XClaim</ApplicationTitle>
 		<!-- App Identifier -->
-		<ApplicationId>dev.godwin.xclaim</ApplicationId>
+		<ApplicationId>dev.proton.xclaim</ApplicationId>
 		<ApplicationIdGuid>aaa6acf7-a77c-4d08-909c-e80b4a894388</ApplicationIdGuid>
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -46,11 +45,18 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="1.3.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.1.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.*" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0-rc.2.22472.3" />
 		<PackageReference Include="UraniumUI.Icons.FontAwesome" Version="0.13.1" />
-		<PackageReference Include="UraniumUI.Material" Version="0.13.1" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Common\XClaim.Common.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Models\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="Resources\Styles\Custom.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 </Project>
