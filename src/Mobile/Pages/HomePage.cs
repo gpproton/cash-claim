@@ -1,4 +1,6 @@
 using Microsoft.Maui.Controls.Shapes;
+using XClaim.Mobile.Pages.Claim;
+using XClaim.Mobile.Pages.Profile;
 using XClaim.Mobile.Templates;
 using XClaim.Mobile.ViewModel;
 
@@ -26,7 +28,7 @@ public class HomePage : BasePage<HomeViewModel> {
         Children = {
                 new Grid() {
                     ColumnDefinitions = Columns.Define(
-                        (HeaderColumns.First, 72),
+                        (HeaderColumns.First, Auto),
                         (HeaderColumns.Second, Star),
                         (HeaderColumns.Third, Auto)
                     ),
@@ -38,21 +40,25 @@ public class HomePage : BasePage<HomeViewModel> {
                          }.Size(54, 54)
                          .CenterVertical()
                          .DynamicResource(BackgroundColorProperty, "Gray300")
+                         .TapGesture(async () => await Shell.Current.GoToAsync(nameof(ProfilePage)))
                          .Column(HeaderColumns.First),
                          new StackLayout {
                              Children = {
                                  new Label().Text("Hello")
-                                 .DynamicResource(Label.TextColorProperty, "Gray500"),
-                                 new Label().Text("Saurav").Font(size: 20, family: "RobotoBold").Margins(0, -5, 0, 0)
+                                 .DynamicResource(Label.TextColorProperty, "Secondary"),
+                                 new Label().Text("Saurav")
+                                 .Font(size: 20, family: "RobotoBold")
+                                 .Margins(0, -5, 0, 0)
                                  .DynamicResource(Label.TextColorProperty, "Gray500")
                              }
-                         }.Margins(0, 16, 0, 0)
+                         }.Margins(8, 16, 0, 0)
                          .Column(HeaderColumns.Second),
                          new Image().Source(new FontImageSource() {
                             FontFamily = "FASolid", Glyph = FA.Solid.Bell
                          }.DynamicResource(FontImageSource.ColorProperty, "Primary"))
                          .Size(28)
                          .CenterVertical()
+                         .TapGesture(async () => await Shell.Current.GoToAsync($"///{nameof(HomePage)}/{nameof(NotificationPage)}"))
                          .Column(HeaderColumns.Third)
                     }
                 }
@@ -106,6 +112,7 @@ public class HomePage : BasePage<HomeViewModel> {
                             new Label()
                             .Text("See all")
                             .Font(size: 16)
+                            .TapGesture(async () => await Shell.Current.GoToAsync($"//{nameof(ClaimPage)}"))
                             .Column(ListTitleColumn.Second)
                             .DynamicResource(Label.TextColorProperty, "Primary")
                         },
@@ -117,6 +124,7 @@ public class HomePage : BasePage<HomeViewModel> {
                 .DynamicResource(StyleProperty, "ButtonLargePrimary")
                 .CenterVertical()
                 .Margins(24, 16, 24, 24)
+                .TapGesture(async () => await Shell.Current.GoToAsync($"///{nameof(HomePage)}/{nameof(ClaimFormPage)}"))
                 .Row(PageRow.Fourth)
             }
     };

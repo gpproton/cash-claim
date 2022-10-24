@@ -1,14 +1,15 @@
+using XClaim.Mobile.ViewModel;
+
 namespace XClaim.Mobile.Pages.Claim;
 
-public class ClaimFormPage : ContentPage
+public class ClaimFormPage : BasePage<ClaimFormViewModel>
 {
-	public ClaimFormPage()
-	{
-		Content = new VerticalStackLayout
-		{
-			Children = {
+	public ClaimFormPage(ClaimFormViewModel claimFormVm) : base(claimFormVm) => Content = new VerticalStackLayout
+    {
+        Children = {
                 new Label { Text = "Claim form view!" }.TextCenterHorizontal().TextCenterVertical()
             }
-		};
-	}
+    };
 }
+
+public class ClaimFormViewModel : BaseViewModel { }

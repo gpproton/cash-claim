@@ -29,7 +29,9 @@ public class WelcomePage : BasePage<WelcomeViewModel>
                                 .Text("Get Started")
                                 .DynamicResource(StyleProperty, "ButtonLargeLight")
                                 .CenterVertical()
-                                .BindCommand(nameof(WelcomeViewModel.NavigateToAuthCommand))
+                                .Invoke (l => l.Clicked += async (sender, args) =>
+                                    await Shell.Current.GoToAsync($"//{nameof(AuthPage)}")
+                                )
                             }
                         }
                         .Row(PageRow.Second)
@@ -42,8 +44,4 @@ public class WelcomePage : BasePage<WelcomeViewModel>
     }
 }
 
-public partial class WelcomeViewModel : BaseViewModel
-{
-    [RelayCommand]
-    private async void NavigateToAuth() => await Shell.Current.GoToAsync($"//{nameof(AuthPage)}");
-}
+public partial class WelcomeViewModel : BaseViewModel { }

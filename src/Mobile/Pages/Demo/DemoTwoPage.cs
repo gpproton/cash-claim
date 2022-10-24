@@ -2,7 +2,7 @@ using XClaim.Mobile.ViewModel;
 
 namespace XClaim.Mobile.Pages.Demo;
 
-public class DemoTwoPage : ContentPage
+public class DemoTwoPage : BasePage
 {
     public DemoTwoPage() => Content = new VerticalStackLayout
     {

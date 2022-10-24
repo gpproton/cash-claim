@@ -1,14 +1,11 @@
 namespace XClaim.Mobile.Pages.Profile;
 
-public class PasswordPage : ContentPage
+public class PasswordPage : BasePage
 {
-	public PasswordPage()
-	{
-		Content = new VerticalStackLayout
-		{
-			Children = {
+	public PasswordPage() => Content = new VerticalStackLayout
+    {
+        Children = {
                 new Label { Text = "Password reset view!" }.TextCenterHorizontal().TextCenterVertical()
             }
-		};
-	}
+    };
 }

@@ -1,14 +1,15 @@
+using XClaim.Mobile.ViewModel;
+
 namespace XClaim.Mobile.Pages.Payment;
 
-public class PaymentPage : ContentPage
+public class PaymentPage : BasePage<PaymentViewModel>
 {
-    public PaymentPage()
+    public PaymentPage(PaymentViewModel paymentVm) : base(paymentVm) => Content = new VerticalStackLayout
     {
-        Content = new VerticalStackLayout
-        {
-            Children = {
+        Children = {
                 new Label { Text = "Payment view!" }.TextCenterHorizontal().TextCenterVertical()
             }
-        };
-    }
+    };
 }
+
+public class PaymentViewModel : BaseViewModel { }
