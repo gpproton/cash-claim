@@ -30,16 +30,10 @@
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#4E549C" BaseSize="128,128" />
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Remove="Resources\Images\icon_claim.svg" />
-	  <None Remove="Resources\Images\icon_home.svg" />
-	  <None Remove="Resources\Images\icon_payment.svg" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="1.3.0" />

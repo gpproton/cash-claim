@@ -1,12 +1,12 @@
 using XClaim.Mobile.Templates;
 using XClaim.Mobile.ViewModel;
 
-namespace XClaim.Mobile.Views;
+namespace XClaim.Mobile.Pages;
 
-public class WelcomeView : BaseView<WelcomeViewModel>
+public class WelcomePage : BasePage<WelcomeViewModel>
 {
     enum PageRow { First, Second }
-    public WelcomeView(WelcomeViewModel welcomeViewModel) : base(welcomeViewModel) {
+    public WelcomePage(WelcomeViewModel welcomeViewModel) : base(welcomeViewModel) {
         Background = Gradients.GetAppGradient();
         Content = new Grid()
         {
@@ -29,7 +29,9 @@ public class WelcomeView : BaseView<WelcomeViewModel>
                                 .Text("Get Started")
                                 .DynamicResource(StyleProperty, "ButtonLargeLight")
                                 .CenterVertical()
-                                .BindCommand(nameof(WelcomeViewModel.NavigateToAuthCommand))
+                                .Invoke (l => l.Clicked += async (sender, args) =>
+                                    await Shell.Current.GoToAsync($"//{nameof(AuthPage)}")
+                                )
                             }
                         }
                         .Row(PageRow.Second)
@@ -42,8 +44,4 @@ public class WelcomeView : BaseView<WelcomeViewModel>
     }
 }
 
-public partial class WelcomeViewModel : BaseViewModel
-{
-    [RelayCommand]
-    private async void NavigateToAuth() => await Shell.Current.GoToAsync($"//{nameof(AuthView)}");
-}
+public partial class WelcomeViewModel : BaseViewModel { }

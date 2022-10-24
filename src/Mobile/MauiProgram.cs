@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using UraniumUI;
-using XClaim.Mobile.Views;
+using XClaim.Mobile.Pages;
+using XClaim.Mobile.Pages.Claim;
+using XClaim.Mobile.Pages.Payment;
+using XClaim.Mobile.Pages.Profile;
 
 namespace XClaim.Mobile;
 
@@ -24,13 +27,13 @@ public static class MauiProgram {
             });
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
-        builder.Services.AddTransientWithShellRoute<WelcomeView, WelcomeViewModel>(nameof(WelcomeView));
-        builder.Services.AddTransientWithShellRoute<AuthView, AuthViewModel>(nameof(AuthView));
-        builder.Services.AddTransientWithShellRoute<HomeView, HomeViewModel>(nameof(HomeView));
-
-        // Demo
-        builder.Services.AddTransientWithShellRoute<DemoLinkView, DemoLinkViewModel>(nameof(DemoLinkView));
-        builder.Services.AddTransientWithShellRoute<DemoOneView, DemoOneViewModel>(nameof(DemoOneView));
+        builder.Services.AddTransientWithShellRoute<AuthPage, AuthViewModel>(nameof(AuthPage));
+        builder.Services.AddTransientWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));
+        builder.Services.AddTransientWithShellRoute<NotificationPage, NotificationViewModel>($"{nameof(HomePage)}/{nameof(NotificationPage)}");
+        builder.Services.AddTransientWithShellRoute<ClaimPage, ClaimViewModel>(nameof(ClaimPage));
+        builder.Services.AddTransientWithShellRoute<ClaimFormPage, ClaimFormViewModel>($"{nameof(HomePage)}/{nameof(ClaimFormPage)}");
+        builder.Services.AddTransientWithShellRoute<PaymentPage, PaymentViewModel>(nameof(PaymentPage));
+        builder.Services.AddTransientWithShellRoute<ProfilePage, ProfileViewModel>(nameof(ProfilePage));
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

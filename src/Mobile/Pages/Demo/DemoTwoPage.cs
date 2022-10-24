@@ -1,10 +1,10 @@
 using XClaim.Mobile.ViewModel;
 
-namespace XClaim.Mobile.Views.Demo;
+namespace XClaim.Mobile.Pages.Demo;
 
-public class DemoTwoView : ContentPage
+public class DemoTwoPage : BasePage
 {
-    public DemoTwoView() => Content = new VerticalStackLayout
+    public DemoTwoPage() => Content = new VerticalStackLayout
     {
         Children = {
                 new Label().Text("Demo two view!").CenterHorizontal().CenterVertical()

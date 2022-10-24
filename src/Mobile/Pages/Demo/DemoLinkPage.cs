@@ -1,11 +1,10 @@
 using XClaim.Mobile.ViewModel;
-using XClaim.Mobile.Views.Demo;
 
-namespace XClaim.Mobile.Views;
+namespace XClaim.Mobile.Pages.Demo;
 
-internal class DemoLinkView : BaseView<DemoLinkViewModel>
+internal class DemoLinkPage : BasePage<DemoLinkViewModel>
 {
-    public DemoLinkView(DemoLinkViewModel demoLinkViewModel) : base(demoLinkViewModel) {
+    public DemoLinkPage(DemoLinkViewModel demoLinkViewModel) : base(demoLinkViewModel) {
         Content = new VerticalStackLayout {
             Children = {
             new Label()
@@ -29,8 +28,8 @@ internal class DemoLinkView : BaseView<DemoLinkViewModel>
 internal partial class DemoLinkViewModel : BaseViewModel
 {
     [RelayCommand]
-    public async void NavigateToDemoOne() => await Shell.Current.GoToAsync(nameof(DemoOneView));
+    public async void NavigateToDemoOne() => await Shell.Current.GoToAsync(nameof(DemoOnePage));
 
     [RelayCommand]
-    public async void NavigateToDemoTwo() => await Shell.Current.GoToAsync(nameof(DemoTwoView));
+    public async void NavigateToDemoTwo() => await Shell.Current.GoToAsync(nameof(DemoTwoPage));
 }

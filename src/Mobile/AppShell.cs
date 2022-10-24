@@ -1,6 +1,7 @@
-using XClaim.Mobile.Views;
-using XClaim.Mobile.Views.Claim;
-using XClaim.Mobile.Views.Payment;
+using XClaim.Mobile.Pages;
+using XClaim.Mobile.Pages.Claim;
+using XClaim.Mobile.Pages.Payment;
+using XClaim.Mobile.Pages.Profile;
 
 namespace XClaim.Mobile;
 
@@ -11,14 +12,8 @@ public class AppShell : Shell
         Items.Add(new ShellContent
         {
             FlyoutItemIsVisible = false,
-            Route = nameof(WelcomeView),
-            ContentTemplate = new DataTemplate(typeof(WelcomeView))
-        });
-        Items.Add(new ShellContent
-        {
-            FlyoutItemIsVisible = false,
-            Route = nameof(AuthView),
-            ContentTemplate = new DataTemplate(typeof(AuthView))
+            Route = nameof(AuthPage),
+            ContentTemplate = new DataTemplate(typeof(AuthPage))
         });
         Items.Add(new TabBar {
             Items = {
@@ -27,8 +22,8 @@ public class AppShell : Shell
                 Icon = "icon_home.svg",
                 Items = {
                         new ShellContent  {
-                            Route = nameof(HomeView),
-                            ContentTemplate = new DataTemplate(typeof(HomeView))
+                            Route = nameof(HomePage),
+                            ContentTemplate = new DataTemplate(typeof(HomePage))
                         }
                  }
             },
@@ -37,8 +32,8 @@ public class AppShell : Shell
                 Icon = "icon_claim.svg",
                 Items = {
                         new ShellContent  {
-                            Route = nameof(ClaimView),
-                            ContentTemplate = new DataTemplate(typeof(ClaimView))
+                            Route = nameof(ClaimPage),
+                            ContentTemplate = new DataTemplate(typeof(ClaimPage))
                         }
                  }
             },
@@ -47,12 +42,18 @@ public class AppShell : Shell
                 Icon = "icon_payment.svg",
                 Items = {
                         new ShellContent {
-                            Route = nameof(PaymentView),
-                            ContentTemplate = new DataTemplate(typeof(PaymentView))
+                            Route = nameof(PaymentPage),
+                            ContentTemplate = new DataTemplate(typeof(PaymentPage))
                         }
                  }
             }
          }
+        });
+        Items.Add(new ShellContent
+        {
+            FlyoutItemIsVisible = false,
+            Route = nameof(ProfilePage),
+            ContentTemplate = new DataTemplate(typeof(ProfilePage))
         });
     }
 }

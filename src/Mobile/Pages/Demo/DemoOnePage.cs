@@ -1,13 +1,13 @@
 using XClaim.Mobile.ViewModel;
 
-namespace XClaim.Mobile.Views;
+namespace XClaim.Mobile.Pages.Demo;
 
-internal class DemoOneView : BaseView<DemoOneViewModel>
+internal class DemoOnePage : BasePage<DemoOneViewModel>
 {
     enum FrameRow { First, Second }
     enum FrameColumn { First, Second }
 
-    public DemoOneView(DemoOneViewModel demoViewModel) : base(demoViewModel)
+    public DemoOnePage(DemoOneViewModel demoViewModel) : base(demoViewModel)
     {
         Background = new LinearGradientBrush() {
             StartPoint = new Point(0, 0),
