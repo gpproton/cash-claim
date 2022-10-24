@@ -1,12 +1,12 @@
-namespace XClaim.Mobile.Templates;
+namespace XClaim.Mobile.Views;
 
 public class DemoSharedView : ContentView
 {
-	public string SampleTitle
-	{
-		get => (string)GetValue(SampleTitleProperty);
-		set => SetValue(SampleTitleProperty, value);
-	}
+    public string SampleTitle
+    {
+        get => (string)GetValue(SampleTitleProperty);
+        set => SetValue(SampleTitleProperty, value);
+    }
     public static readonly BindableProperty SampleTitleProperty = BindableProperty.Create(
     nameof(SampleTitle),
     typeof(string),
@@ -26,19 +26,19 @@ public class DemoSharedView : ContentView
     "Default Desc");
 
     public DemoSharedView()
-	{
-		BindingContext = this;
-		Content = new StackLayout
-		{
-			Children = {
-				new Label()
-				.CenterHorizontal()
-				.Font(size: 24, family: "RobotoBold")
-				.Bind(Label.TextProperty, nameof(SampleTitle)),
+    {
+        BindingContext = this;
+        Content = new StackLayout
+        {
+            Children = {
                 new Label()
-				.CenterHorizontal()
-				.Bind(Label.TextProperty, nameof(SampleDesc))
+                .CenterHorizontal()
+                .Font(size: 24, family: "RobotoBold")
+                .Bind(Label.TextProperty, nameof(SampleTitle)),
+                new Label()
+                .CenterHorizontal()
+                .Bind(Label.TextProperty, nameof(SampleDesc))
             }
-		};
-	}
+        };
+    }
 }

@@ -1,10 +1,8 @@
-using CommunityToolkit.Maui.Markup;
+namespace XClaim.Mobile.Pages.Profile;
 
-namespace XClaim.Mobile.Views.Profile;
-
-public class ProfileView : ContentPage
+public class ProfilePage : ContentPage
 {
-	public ProfileView()
+	public ProfilePage()
 	{
 		Content = new VerticalStackLayout
 		{

@@ -2,12 +2,12 @@ using XClaim.Mobile.Templates;
 using XClaim.Mobile.ViewModel;
 using static Microsoft.Maui.Controls.Button;
 
-namespace XClaim.Mobile.Views;
+namespace XClaim.Mobile.Pages;
 
-public class AuthView : BaseView<AuthViewModel>
+public class AuthPage : BasePage<AuthViewModel>
 {
     enum PageRow { First, Second }
-    public AuthView(AuthViewModel authViewModel) : base(authViewModel)
+    public AuthPage(AuthViewModel authViewModel) : base(authViewModel)
 	{
         Background = Gradients.GetAppGradient();
         Content = new Grid
@@ -52,5 +52,5 @@ public class AuthView : BaseView<AuthViewModel>
 
 public partial class AuthViewModel : BaseViewModel {
     [RelayCommand]
-    private async void NavigateToHome() => await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
+    private async void NavigateToHome() => await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
 }

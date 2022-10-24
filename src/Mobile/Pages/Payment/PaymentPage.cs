@@ -1,10 +1,8 @@
-using CommunityToolkit.Maui.Markup;
+namespace XClaim.Mobile.Pages.Payment;
 
-namespace XClaim.Mobile.Views.Payment;
-
-public class PaymentView : ContentPage
+public class PaymentPage : ContentPage
 {
-    public PaymentView()
+    public PaymentPage()
     {
         Content = new VerticalStackLayout
         {

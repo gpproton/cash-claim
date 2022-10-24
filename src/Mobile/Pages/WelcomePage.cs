@@ -1,12 +1,12 @@
 using XClaim.Mobile.Templates;
 using XClaim.Mobile.ViewModel;
 
-namespace XClaim.Mobile.Views;
+namespace XClaim.Mobile.Pages;
 
-public class WelcomeView : BaseView<WelcomeViewModel>
+public class WelcomePage : BasePage<WelcomeViewModel>
 {
     enum PageRow { First, Second }
-    public WelcomeView(WelcomeViewModel welcomeViewModel) : base(welcomeViewModel) {
+    public WelcomePage(WelcomeViewModel welcomeViewModel) : base(welcomeViewModel) {
         Background = Gradients.GetAppGradient();
         Content = new Grid()
         {
@@ -45,5 +45,5 @@ public class WelcomeView : BaseView<WelcomeViewModel>
 public partial class WelcomeViewModel : BaseViewModel
 {
     [RelayCommand]
-    private async void NavigateToAuth() => await Shell.Current.GoToAsync($"//{nameof(AuthView)}");
+    private async void NavigateToAuth() => await Shell.Current.GoToAsync($"//{nameof(AuthPage)}");
 }

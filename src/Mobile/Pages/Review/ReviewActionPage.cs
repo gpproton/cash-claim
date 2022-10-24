@@ -1,10 +1,8 @@
-using CommunityToolkit.Maui.Markup;
+namespace XClaim.Mobile.Pages.Review;
 
-namespace XClaim.Mobile.Views.Review;
-
-public class ReviewActionView : ContentPage
+public class ReviewActionPage : ContentPage
 {
-	public ReviewActionView()
+	public ReviewActionPage()
 	{
 		Content = new VerticalStackLayout
 		{

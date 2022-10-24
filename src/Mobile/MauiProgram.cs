@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using UraniumUI;
-using XClaim.Mobile.Views;
+using XClaim.Mobile.Pages;
 
 namespace XClaim.Mobile;
 
@@ -24,13 +24,9 @@ public static class MauiProgram {
             });
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
-        builder.Services.AddTransientWithShellRoute<WelcomeView, WelcomeViewModel>(nameof(WelcomeView));
-        builder.Services.AddTransientWithShellRoute<AuthView, AuthViewModel>(nameof(AuthView));
-        builder.Services.AddTransientWithShellRoute<HomeView, HomeViewModel>(nameof(HomeView));
-
-        // Demo
-        builder.Services.AddTransientWithShellRoute<DemoLinkView, DemoLinkViewModel>(nameof(DemoLinkView));
-        builder.Services.AddTransientWithShellRoute<DemoOneView, DemoOneViewModel>(nameof(DemoOneView));
+        builder.Services.AddTransientWithShellRoute<WelcomePage, WelcomeViewModel>(nameof(WelcomePage));
+        builder.Services.AddTransientWithShellRoute<AuthPage, AuthViewModel>(nameof(AuthPage));
+        builder.Services.AddTransientWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

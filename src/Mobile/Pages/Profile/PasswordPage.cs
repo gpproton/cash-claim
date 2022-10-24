@@ -1,10 +1,8 @@
-using CommunityToolkit.Maui.Markup;
+namespace XClaim.Mobile.Pages.Profile;
 
-namespace XClaim.Mobile.Views.Profile;
-
-public class PasswordView : ContentPage
+public class PasswordPage : ContentPage
 {
-	public PasswordView()
+	public PasswordPage()
 	{
 		Content = new VerticalStackLayout
 		{

@@ -1,10 +1,8 @@
-using CommunityToolkit.Maui.Markup;
+namespace XClaim.Mobile.Pages.Claim;
 
-namespace XClaim.Mobile.Views.Claim;
-
-public class ClaimDetailView : ContentPage
+public class ClaimDetailPage : ContentPage
 {
-	public ClaimDetailView()
+	public ClaimDetailPage()
 	{
 		Content = new VerticalStackLayout
 		{

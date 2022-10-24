@@ -1,10 +1,8 @@
-using CommunityToolkit.Maui.Markup;
+namespace XClaim.Mobile.Pages.Profile;
 
-namespace XClaim.Mobile.Views.Profile;
-
-public class BankFormView : ContentPage
+public class BankFormPage : ContentPage
 {
-	public BankFormView()
+	public BankFormPage()
 	{
 		Content = new VerticalStackLayout
 		{

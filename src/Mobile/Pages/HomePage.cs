@@ -2,15 +2,15 @@ using Microsoft.Maui.Controls.Shapes;
 using XClaim.Mobile.Templates;
 using XClaim.Mobile.ViewModel;
 
-namespace XClaim.Mobile.Views;
+namespace XClaim.Mobile.Pages;
 
 enum PageRow { First, Second, Third, Fourth }
 enum HeaderRows { First, Second }
 enum HeaderColumns { First, Second, Third }
 enum ListTitleColumn { First, Second }
 
-public class HomeView : BaseView<HomeViewModel> {
-    public HomeView(HomeViewModel homeViewModel) : base(homeViewModel)
+public class HomePage : BasePage<HomeViewModel> {
+    public HomePage(HomeViewModel homeViewModel) : base(homeViewModel)
     {
         Build();
     }
