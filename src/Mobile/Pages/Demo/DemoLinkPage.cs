@@ -21,7 +21,7 @@ internal class DemoLinkPage : BasePage<DemoLinkViewModel>
             .BindCommand(nameof(DemoLinkViewModel.NavigateToDemoTwoCommand))
         }
         };
-        Shell.SetNavBarIsVisible(Content, false);
+        //Shell.SetNavBarIsVisible(Content, false);
     }
 }
 

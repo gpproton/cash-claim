@@ -120,7 +120,7 @@ public class HomePage : BasePage<HomeViewModel> {
                 }
                 .Margins(16, 16, 16, 8)
                 .Row(PageRow.Third),
-                new Button().Text("New Request")
+                new Button().Text("Create Request")
                 .DynamicResource(StyleProperty, "ButtonLargePrimary")
                 .CenterVertical()
                 .Margins(24, 16, 24, 24)
@@ -130,8 +130,6 @@ public class HomePage : BasePage<HomeViewModel> {
     };
     protected override void OnAppearing() {
         base.OnAppearing();
-        Shell.SetNavBarIsVisible(this, false);
-        Shell.SetTabBarIsVisible(this, true);
     }
 }
 
