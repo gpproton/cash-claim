@@ -1,4 +1,3 @@
-using Java.Lang;
 using XClaim.Mobile.ViewModel;
 
 namespace XClaim.Mobile.Pages.Profile;
