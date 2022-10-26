@@ -40,7 +40,7 @@
                 <Setter Property="BackgroundColor" Value="{DynamicResource Primary}" />
                 <Setter Property="TextColor" Value="{DynamicResource Tertiary}" />
             </Style>
-
+            
             <Style x:Key="ButtonAuth" TargetType="Button">
                 <Setter Property="Padding" Value="48, 16, 48, 16" />
                 <Setter Property="Margin" Value="24, 16, 24, 8" />
@@ -50,10 +50,32 @@
                 <Setter Property="BorderWidth" Value="1" />
                 <Setter Property="TextColor" Value="{DynamicResource Tertiary}" />
             </Style>
-
+            <Style x:Key="FieldControl" TargetType="Border">
+                <Setter Property="Stroke" Value="{DynamicResource Tertiary}" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="Padding" Value="12" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="StrokeShape">
+                    <RoundRectangle>
+                        <RoundRectangle.CornerRadius>
+                            <CornerRadius>6</CornerRadius>
+                        </RoundRectangle.CornerRadius>
+                    </RoundRectangle>
+                </Setter>
+            </Style>
             <Style x:Key="BlueLabel" TargetType="Label">
                 <Setter Property="BackgroundColor" Value="DodgerBlue" />
                 <Setter Property="TextColor" Value="White" />
+            </Style>
+
+            <Style x:Key="CustomEntry" TargetType="Entry">
+                <Setter Property="PlaceholderColor" Value="{DynamicResource Secondary}" />
+                <Setter Property="TextColor" Value="{DynamicResource Primary}" />
+                <Setter Property="Margin" Value="8, 0" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>
