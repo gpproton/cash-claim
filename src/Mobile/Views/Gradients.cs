@@ -1,8 +1,8 @@
-﻿namespace XClaim.Mobile.Templates;
+﻿namespace XClaim.Mobile.Views;
 
 internal static class Gradients
 {
-    internal static LinearGradientBrush GetAppGradient() => new LinearGradientBrush()
+    internal static LinearGradientBrush AppGradient => new()
     {
         StartPoint = new Point(0, 0),
         EndPoint = new Point(1, 0),

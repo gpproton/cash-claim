@@ -1,17 +1,18 @@
 using Microsoft.Maui.Controls.Shapes;
 using XClaim.Mobile.Pages.Claim;
 using XClaim.Mobile.Pages.Profile;
-using XClaim.Mobile.Templates;
 using XClaim.Mobile.ViewModel;
+using XClaim.Mobile.Views;
 
-namespace XClaim.Mobile.Pages;
+namespace XClaim.Mobile.Pages.Home;
 
 enum PageRow { First, Second, Third, Fourth }
 enum HeaderRows { First, Second }
 enum HeaderColumns { First, Second, Third }
 enum ListTitleColumn { First, Second }
 
-public class HomePage : BasePage<HomeViewModel> {
+public class HomePage : BasePage<HomeViewModel>
+{
     public HomePage(HomeViewModel homeViewModel) : base(homeViewModel)
     {
         Build();
@@ -68,7 +69,7 @@ public class HomePage : BasePage<HomeViewModel> {
                     Padding = 16,
                     StrokeThickness = 0F,
                     StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(10) },
-                    Background = Gradients.GetAppGradient(),
+                    Background = Gradients.AppGradient,
                     Shadow = new Shadow {
                         Offset = new Point(4, 8),
                         Opacity = 0.5F,
@@ -116,11 +117,11 @@ public class HomePage : BasePage<HomeViewModel> {
                             .Column(ListTitleColumn.Second)
                             .DynamicResource(Label.TextColorProperty, "Primary")
                         },
-                    }
+                    },
                 }
                 .Margins(16, 16, 16, 8)
                 .Row(PageRow.Third),
-                new Button().Text("New Request")
+                new Button().Text("Create Request")
                 .DynamicResource(StyleProperty, "ButtonLargePrimary")
                 .CenterVertical()
                 .Margins(24, 16, 24, 24)
@@ -128,10 +129,9 @@ public class HomePage : BasePage<HomeViewModel> {
                 .Row(PageRow.Fourth)
             }
     };
-    protected override void OnAppearing() {
+    protected override void OnAppearing()
+    {
         base.OnAppearing();
-        Shell.SetNavBarIsVisible(this, false);
-        Shell.SetTabBarIsVisible(this, true);
     }
 }
 
