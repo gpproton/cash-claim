@@ -1,13 +1,14 @@
-using XClaim.Mobile.Templates;
 using XClaim.Mobile.ViewModel;
+using XClaim.Mobile.Views;
 
-namespace XClaim.Mobile.Pages;
+namespace XClaim.Mobile.Pages.Startup;
 
 public class WelcomePage : BasePage<WelcomeViewModel>
 {
     enum PageRow { First, Second }
-    public WelcomePage(WelcomeViewModel welcomeViewModel) : base(welcomeViewModel) {
-        Background = Gradients.GetAppGradient();
+    public WelcomePage(WelcomeViewModel welcomeViewModel) : base(welcomeViewModel)
+    {
+        Background = Gradients.AppGradient;
         Content = new Grid()
         {
             RowDefinitions = Rows.Define(
@@ -20,7 +21,7 @@ public class WelcomePage : BasePage<WelcomeViewModel>
                             MaximumHeightRequest = 768,
                             Aspect = Aspect.AspectFill
                         }
-                        .Source("welcome_vector.svg")
+                        .Source(Icons.WelcomeBanner)
                         .CenterHorizontal()
                         .Row(PageRow.First),
                         new VerticalStackLayout() {
@@ -39,7 +40,8 @@ public class WelcomePage : BasePage<WelcomeViewModel>
         };
     }
 
-    protected override void OnAppearing() {
+    protected override void OnAppearing()
+    {
         base.OnAppearing();
     }
 }

@@ -1,5 +1,6 @@
-using XClaim.Mobile.Templates;
+using XClaim.Mobile.Pages.Home;
 using XClaim.Mobile.ViewModel;
+using XClaim.Mobile.Views;
 using static Microsoft.Maui.Controls.Button;
 
 namespace XClaim.Mobile.Pages;
@@ -9,7 +10,7 @@ public class AuthPage : BasePage<AuthViewModel>
     enum PageRow { First, Second }
     public AuthPage(AuthViewModel authViewModel) : base(authViewModel)
 	{
-        Background = Gradients.GetAppGradient();
+        Background = Gradients.AppGradient;
         Content = new Grid
 		{
             RowDefinitions = Rows.Define(
@@ -22,14 +23,14 @@ public class AuthPage : BasePage<AuthViewModel>
                     MaximumHeightRequest = 768,
                     Aspect = Aspect.AspectFill
                 }
-                .Source("auth_vector.svg")
+                .Source(Icons.AuthBanner)
                 .CenterHorizontal()
                 .Row(PageRow.First),
                 new VerticalStackLayout()
                 {
                     Children = {
                          new Button() {
-                             ImageSource = "google_icon.svg",
+                             ImageSource = Icons.Google,
                              ContentLayout = new ButtonContentLayout(ButtonContentLayout.ImagePosition.Left, 32)
                          }
                         .Text("Sign in with Google")
