@@ -1,5 +1,6 @@
 using XClaim.Mobile.Pages;
 using XClaim.Mobile.Pages.Claim;
+using XClaim.Mobile.Pages.Home;
 using XClaim.Mobile.Pages.Payment;
 using XClaim.Mobile.Pages.Profile;
 
@@ -19,7 +20,7 @@ public class AppShell : Shell
             Items = {
             new Tab {
                 Title = "Home",
-                Icon = "icon_home.svg",
+                Icon = Icons.Home,
                 Items = {
                         new ShellContent  {
                             Route = nameof(HomePage),
@@ -29,7 +30,7 @@ public class AppShell : Shell
             },
             new Tab {
                 Title = "Claims",
-                Icon = "icon_claim.svg",
+                Icon = Icons.Claim,
                 Items = {
                         new ShellContent  {
                             Route = nameof(ClaimPage),
@@ -39,7 +40,7 @@ public class AppShell : Shell
             },
             new Tab {
                 Title = "Payments",
-                Icon = "icon_payment.svg",
+                Icon = Icons.Payment,
                 Items = {
                         new ShellContent {
                             Route = nameof(PaymentPage),
