@@ -1,7 +1,6 @@
-using Android.OS;
 using XClaim.Mobile.ViewModel;
 
-namespace XClaim.Mobile.Pages;
+namespace XClaim.Mobile.Pages.Home;
 
 public class NotificationPage : BasePage<NotificationViewModel>
 {
@@ -21,7 +20,7 @@ public class NotificationPage : BasePage<NotificationViewModel>
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        
+
     }
 }
 
