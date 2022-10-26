@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using UraniumUI;
 using XClaim.Mobile.Pages;
 using XClaim.Mobile.Pages.Claim;
+using XClaim.Mobile.Pages.Home;
 using XClaim.Mobile.Pages.Payment;
 using XClaim.Mobile.Pages.Profile;
 
@@ -37,6 +38,6 @@ public static class MauiProgram {
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-		return builder.Build();
+        return builder.Build();
 	}
 }

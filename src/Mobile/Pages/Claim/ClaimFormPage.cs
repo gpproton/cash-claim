@@ -1,4 +1,3 @@
-using Android.OS;
 using XClaim.Mobile.ViewModel;
 
 namespace XClaim.Mobile.Pages.Claim;
