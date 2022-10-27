@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.Platform;
-using XClaim.Mobile.Handlers;
+using System.ComponentModel;
+using XClaim.Mobile.Services;
 
 namespace XClaim.Mobile;
 
@@ -7,7 +8,25 @@ public partial class App : Application
 {
     public App(AppShell shell) {
 		InitializeComponent();
+        BuildNativeControls();
 
+        MainPage = shell;
+        SetTheme();
+        SettingsService.Instance.PropertyChanged += OnSettingsPropertyChanged;
+        //Routing.RegisterRoute(nameof(PaymentPage), typeof(PaymentPage));
+    }
+
+    private void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SettingsService.Theme)) SetTheme();
+    }
+
+    private void SetTheme() => UserAppTheme = SettingsService.Instance?.Theme != null
+                     ? SettingsService.Instance.Theme.AppTheme
+                     : AppTheme.Unspecified;
+
+    private void BuildNativeControls()
+    {
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomEntry), (handler, view) =>
         {
             if (view is CustomEntry)
@@ -43,8 +62,5 @@ public partial class App : Application
 #endif
             }
         });
-
-        MainPage = shell;
-        //Routing.RegisterRoute(nameof(PaymentPage), typeof(PaymentPage));
     }
 }
