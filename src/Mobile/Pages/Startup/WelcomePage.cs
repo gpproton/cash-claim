@@ -1,4 +1,3 @@
-using XClaim.Mobile.ViewModel;
 using XClaim.Mobile.Views;
 
 namespace XClaim.Mobile.Pages.Startup;
@@ -6,7 +5,7 @@ namespace XClaim.Mobile.Pages.Startup;
 public class WelcomePage : BasePage<WelcomeViewModel>
 {
     enum PageRow { First, Second }
-    public WelcomePage(WelcomeViewModel welcomeViewModel) : base(welcomeViewModel)
+    public WelcomePage(WelcomeViewModel vm) : base(vm)
     {
         Background = Gradients.AppGradient;
         Content = new Grid()
