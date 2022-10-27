@@ -1,6 +1,6 @@
 ﻿namespace XClaim.Mobile.Models
 {
-    internal class AppConstant
+    internal static class AppConstant
     {
     }
 }
