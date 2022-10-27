@@ -105,7 +105,7 @@ public partial class RangeFilterToolbar : Grid
         Children.Add(new Grid {
             Children = {
                 new Border().DynamicResource(StyleProperty, "FieldControl"),
-                new CustomEntry()
+                new CustomEntry { FontSize = 12 }
                 .Placeholder("Search")
                 .Bind(CustomEntry.TextProperty, nameof(Search), source: this)
                 .DynamicResource(StyleProperty, "CustomEntry")
