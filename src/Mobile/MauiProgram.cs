@@ -6,6 +6,7 @@ using XClaim.Mobile.Pages.Claim;
 using XClaim.Mobile.Pages.Home;
 using XClaim.Mobile.Pages.Payment;
 using XClaim.Mobile.Pages.Profile;
+using XClaim.Mobile.Pages.Review;
 using XClaim.Mobile.Pages.Startup;
 
 namespace XClaim.Mobile;
@@ -36,6 +37,7 @@ public static class MauiProgram {
         builder.Services.AddTransientWithShellRoute<ClaimPage, ClaimViewModel>(nameof(ClaimPage));
         builder.Services.AddTransientWithShellRoute<ClaimFormPage, ClaimFormViewModel>($"{nameof(HomePage)}/{nameof(ClaimFormPage)}");
         builder.Services.AddTransientWithShellRoute<PaymentPage, PaymentViewModel>(nameof(PaymentPage));
+        builder.Services.AddTransientWithShellRoute<ReviewPage, ReviewViewModel>(nameof(ReviewPage));
         builder.Services.AddTransientWithShellRoute<ProfilePage, ProfileViewModel>(nameof(ProfilePage));
 #if DEBUG
         builder.Logging.AddDebug();

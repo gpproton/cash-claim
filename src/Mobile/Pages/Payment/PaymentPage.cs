@@ -1,14 +1,20 @@
-using XClaim.Mobile.ViewModel;
-
 namespace XClaim.Mobile.Pages.Payment;
 
 public class PaymentPage : BasePage<PaymentViewModel>
 {
-    public PaymentPage(PaymentViewModel paymentVm) : base(paymentVm) => Build();
+    public PaymentPage(PaymentViewModel vm) : base(vm) => Build();
 
     void Build()
     {
         Title = "Payments";
+        ToolbarItems.Add(new ToolbarItem
+        {
+            IconImageSource = new FontImageSource
+            {
+                FontFamily = "FASolid",
+                Glyph = FA.Solid.Sliders
+            }.DynamicResource(FontImageSource.ColorProperty, "Primary")
+        });
         Content = new VerticalStackLayout
         {
             Children = {
