@@ -6,6 +6,7 @@ using XClaim.Mobile.Pages.Claim;
 using XClaim.Mobile.Pages.Home;
 using XClaim.Mobile.Pages.Payment;
 using XClaim.Mobile.Pages.Profile;
+using XClaim.Mobile.Pages.Startup;
 
 namespace XClaim.Mobile;
 
@@ -28,6 +29,7 @@ public static class MauiProgram {
             });
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
+        builder.Services.AddTransientWithShellRoute<LoadingPage, LoadingViewModel>(nameof(LoadingPage));
         builder.Services.AddTransientWithShellRoute<AuthPage, AuthViewModel>(nameof(AuthPage));
         builder.Services.AddTransientWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));
         builder.Services.AddTransientWithShellRoute<NotificationPage, NotificationViewModel>($"{nameof(HomePage)}/{nameof(NotificationPage)}");

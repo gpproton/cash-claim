@@ -10,3 +10,4 @@ global using XClaim.Mobile.Extensions;
 global using Maui.BindableProperty.Generator.Core;
 global using XClaim.Mobile.Handlers;
 global using XClaim.Mobile.Models;
+global using XClaim.Mobile.ViewModel;
