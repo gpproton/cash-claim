@@ -13,7 +13,7 @@ public class ReviewPage : BasePage<ReviewViewModel>
         }.DynamicResource(FontImageSource.ColorProperty, "Primary")});
         Content = new VerticalStackLayout {
             Children = {
-                new Label { Text = "Claim pending view!" }.TextCenterHorizontal().TextCenterVertical()
+                new Label { Text = "Claim pending view!" }.CenterHorizontal().CenterVertical()
             }
         };
     }
