@@ -1,5 +1,5 @@
 using XClaim.Mobile.Templates;
-using XClaim.Mobile.ViewModel;
+using XClaim.Mobile.Views;
 
 namespace XClaim.Mobile.Pages.Claim;
 
@@ -11,7 +11,8 @@ public class ClaimPage : BasePage<ClaimViewModel>
     {
         Content = new VerticalStackLayout {
             Children = {
-                new RangeFilterToolbar()
+                new RangeFilterToolbar(),
+                new EmptyItemView().Margins(0, 56)
             }
         };
     }

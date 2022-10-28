@@ -1,3 +1,5 @@
+using XClaim.Mobile.Views;
+
 namespace XClaim.Mobile.Pages.Review;
 
 public class ReviewPage : BasePage<ReviewViewModel>
@@ -6,16 +8,13 @@ public class ReviewPage : BasePage<ReviewViewModel>
 
     void Build()
     {
-        Title = "Claim reviews";
+        Title = "Claim Reviews";
         ToolbarItems.Add(new ToolbarItem { IconImageSource = new FontImageSource {
             FontFamily = "FASolid",
             Glyph = FA.Solid.Sliders
         }.DynamicResource(FontImageSource.ColorProperty, "Primary")});
-        Content = new VerticalStackLayout {
-            Children = {
-                new Label { Text = "Claim pending view!" }.CenterHorizontal().CenterVertical()
-            }
-        };
+
+        Content = new EmptyItemView().Margins(0, 56);
     }
 }
 
