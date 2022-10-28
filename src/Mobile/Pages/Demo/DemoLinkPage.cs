@@ -28,8 +28,8 @@ internal class DemoLinkPage : BasePage<DemoLinkViewModel> {
 
 internal partial class DemoLinkViewModel : BaseViewModel {
     [RelayCommand]
-    public async void NavigateToDemoOne() => await Shell.Current.GoToAsync(nameof(DemoOnePage));
+    private async void NavigateToDemoOne() => await Shell.Current.GoToAsync(nameof(DemoOnePage));
 
     [RelayCommand]
-    public async void NavigateToDemoTwo() => await Shell.Current.GoToAsync(nameof(DemoTwoPage));
+    private async void NavigateToDemoTwo() => await Shell.Current.GoToAsync(nameof(DemoTwoPage));
 }

@@ -1,4 +1,6 @@
-﻿public enum ClaimStatus {
+﻿namespace XClaim.Common.Enums; 
+
+public enum ClaimStatus {
     Pending,
     Review,
     Checked,

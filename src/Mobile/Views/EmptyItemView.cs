@@ -3,7 +3,7 @@ namespace XClaim.Mobile.Views;
 public class EmptyItemView : ContentView {
     public EmptyItemView() => Build();
 
-    void Build() {
+    private void Build() {
         Content = new StackLayout {
             Children = {
                 new Image().Source(Icons.EmptyBanner)

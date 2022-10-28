@@ -5,7 +5,7 @@ namespace XClaim.Mobile.Pages.Claim;
 public class ClaimFormPage : BasePage<ClaimFormViewModel> {
     public ClaimFormPage(ClaimFormViewModel claimFormVm) : base(claimFormVm) => Build();
 
-    void Build() {
+    private void Build() {
         Title = "Create Request";
         Content = new VerticalStackLayout {
             Children = {

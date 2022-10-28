@@ -1,4 +1,5 @@
 ﻿using XClaim.Common.Base;
+using XClaim.Common.Enums;
 
 namespace XClaim.Common.Entities;
 

@@ -16,7 +16,6 @@ public class NotificationPage : BasePage<NotificationViewModel> {
 
     protected override void OnAppearing() {
         base.OnAppearing();
-
     }
 }
 

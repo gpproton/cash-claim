@@ -31,10 +31,10 @@
         <Setter Property="TextColor" Value="{DynamicResource Tertiary}" />
     </Style>
     <Style x:Key="FieldControl" TargetType="Border">
-        <Setter Property="Stroke" Value="{DynamicResource Tertiary}" />
+        <Setter Property="Stroke" Value="{DynamicResource Secondary}" />
         <Setter Property="StrokeThickness" Value="1" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="Padding" Value="12" />
+        <Setter Property="Padding" Value="18, 2" />
         <Setter Property="HeightRequest" Value="48" />
         <Setter Property="StrokeShape">
             <RoundRectangle>

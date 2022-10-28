@@ -5,7 +5,7 @@ namespace XClaim.Mobile.Pages.Review;
 public class ReviewPage : BasePage<ReviewViewModel> {
     public ReviewPage(ReviewViewModel vm) : base(vm) => Build();
 
-    void Build() {
+    private void Build() {
         Title = "Claim Reviews";
         ToolbarItems.Add(new ToolbarItem {
             IconImageSource = new FontImageSource {

@@ -12,11 +12,9 @@ internal enum HeaderColumns { First, Second, Third }
 internal enum ListTitleColumn { First, Second }
 
 public class HomePage : BasePage<HomeViewModel> {
-    public HomePage(HomeViewModel homeViewModel) : base(homeViewModel) {
-        Build();
-    }
+    public HomePage(HomeViewModel homeViewModel) : base(homeViewModel) => Build();
 
-    void Build() => Content = new Grid() {
+    private void Build() => Content = new Grid() {
         RowDefinitions = Rows.Define(
             (PageRow.First, 85),
             (PageRow.Second, 115),

@@ -1,27 +1,29 @@
 using Microsoft.Maui.Controls.Shapes;
 
-namespace XClaim.Mobile.Templates;
+namespace XClaim.Mobile.Views;
 
 public partial class RangeFilterToolbar : Grid {
-    static Page CurrentPage => Application.Current?.MainPage ?? throw new NullReferenceException();
+    private static Page CurrentPage => Application.Current?.MainPage ?? throw new NullReferenceException();
 
-#pragma warning disable IDE0051 // Remove unused private members rule
+#pragma warning disable IDE0051
+#pragma warning disable CS0169
     [AutoBindable]
-    readonly string _search;
+    private readonly string _search;
 
     [AutoBindable]
-    readonly bool _showSearch;
+    private readonly bool _showSearch;
 
     [AutoBindable(DefaultValue = "DateTime.Now.AddDays(-7)")]
-    readonly DateTime _startDate;
+    private readonly DateTime _startDate;
 
     [AutoBindable(DefaultValue = "DateTime.Now")]
-    readonly DateTime _endDate;
-    enum FrameColumn { First, Second, Third }
+    private readonly DateTime _endDate;
+
+    private enum FrameColumn { First, Second, Third }
     public RangeFilterToolbar() => Build();
 
-    void Build() {
-        Margin = 8;
+    private void Build() {
+        Margin = new Thickness { Top = 4, Left = 8, Right = 8, Bottom = 0 };
         ColumnDefinitions = Columns.Define(
             (FrameColumn.First, Star),
             (FrameColumn.Second, Auto)
@@ -42,14 +44,14 @@ public partial class RangeFilterToolbar : Grid {
                         ),
                         Children = {
                             new Label()
-                            .DynamicResource(Label.TextColorProperty, "Secondary")
+                            .DynamicResource(Label.TextColorProperty, "Primary")
                             .Bind(Label.TextProperty, nameof(StartDate),
                                 source: this,
-                                convert: (DateTime time) => time.ToDateOnly().ToString("yyyy-MMM-dd").ToUpper()
-                            )
+                                convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
+                            ).CenterVertical()
                             .Column(FrameColumn.First),
                             new Rectangle()
-                            .DynamicResource(BackgroundColorProperty, "Secondary")
+                            .DynamicResource(BackgroundColorProperty, "Primary")
                             .Size(12, 4)
                             .Center()
                             .Column(FrameColumn.Second),
@@ -57,20 +59,20 @@ public partial class RangeFilterToolbar : Grid {
                             .Bind(Label.TextProperty,
                                 nameof(EndDate),
                                 source: this,
-                                convert: (DateTime time) => time.ToDateOnly().ToString("yyyy-MMM-dd").ToUpper()
-                            )
-                            .DynamicResource(Label.TextColorProperty, "Secondary")
+                                convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
+                            ).CenterVertical()
+                            .DynamicResource(Label.TextColorProperty, "Primary")
                             .Column(FrameColumn.Third)
                         }
-                    }.Column(FrameColumn.First)
+                    }.CenterVertical()
+                    .Column(FrameColumn.First)
                 }
             }
         }
         .DynamicResource(StyleProperty, "FieldControl")
         .Bind(IsVisibleProperty, nameof(ShowSearch), source: this, convert: (bool value) => !value)
         .TapGesture(async () =>
-        await PopupExtensions.ShowPopupAsync<Popup>(CurrentPage,
-            new Popup() {
+        await CurrentPage.ShowPopupAsync(new Popup {
                 VerticalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Start,
                 Color = Colors.Transparent,
                 Content = new Border {

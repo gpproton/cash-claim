@@ -3,8 +3,8 @@
 [INotifyPropertyChanged]
 public abstract partial class BaseViewModel {
     [ObservableProperty]
-    public bool _isBusy;
+    private bool _isBusy;
 
     [ObservableProperty]
-    public string _title;
+    private string _title;
 }

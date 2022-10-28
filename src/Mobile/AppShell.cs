@@ -25,7 +25,7 @@ public class AppShell : Shell {
             ContentTemplate = new DataTemplate(typeof(AuthPage))
         });
 
-        var TabItems = new TabBar {
+        var tabItems = new TabBar {
             Items = {
                 new Tab {
                     Title = "Home",
@@ -59,8 +59,9 @@ public class AppShell : Shell {
                 }
             }
         };
+        if (tabItems == null) throw new ArgumentNullException(nameof(tabItems));
 
-        TabItems.Items.Add(new Tab {
+        tabItems.Items.Add(new Tab {
             Title = "Review",
             Icon = Icons.Review,
             Items = {
@@ -71,7 +72,7 @@ public class AppShell : Shell {
             }
         });
 
-        Items.Add(TabItems);
+        Items.Add(tabItems);
 
         Items.Add(new ShellContent {
             FlyoutItemIsVisible = false,
@@ -87,6 +88,7 @@ public class AppShell : Shell {
     }
 }
 
-public class AppShellViewModel : BaseViewModel {
-    async void SignOut() { }
+public partial class AppShellViewModel : BaseViewModel {
+    [RelayCommand]
+    private async void SignOut() { }
 }

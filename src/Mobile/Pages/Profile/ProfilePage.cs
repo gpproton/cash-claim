@@ -1,11 +1,9 @@
-using XClaim.Mobile.ViewModel;
-
 namespace XClaim.Mobile.Pages.Profile;
 
 public class ProfilePage : BasePage<ProfileViewModel> {
     public ProfilePage(ProfileViewModel profileVm) : base(profileVm) => Build();
 
-    void Build() {
+    private void Build() {
         Title = "Profile";
         Content = new VerticalStackLayout {
             Children = {
