@@ -1,5 +1,4 @@
-﻿public enum UserPermission
-{
+﻿public enum UserPermission {
     User,
     Lead,
     Finance,

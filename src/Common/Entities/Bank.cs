@@ -2,7 +2,6 @@
 
 namespace XClaim.Common.Entities;
 
-internal class Bank : BaseEntity
-{
+internal class Bank : BaseEntity {
     public string Name { get; set; } = string.Empty;
 }

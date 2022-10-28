@@ -1,5 +1,4 @@
-﻿public enum ClaimStatus
-{
+﻿public enum ClaimStatus {
     Pending,
     Review,
     Checked,

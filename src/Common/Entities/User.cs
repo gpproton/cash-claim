@@ -2,11 +2,10 @@
 
 namespace XClaim.Common.Entities;
 
-internal class User : BaseEntity
-{
+internal class User : BaseEntity {
     public string Email { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
-    public string FirstName { get; set; } = string.Empty; 
+    public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public User? Manager { get; set; }
     public Team? Team { get; set; }

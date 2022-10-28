@@ -2,8 +2,7 @@
 
 namespace XClaim.Common.Base;
 
-public abstract class BaseEntity
-{
+public abstract class BaseEntity {
     [Key]
     protected Guid Id { get; set; } = Guid.NewGuid();
     protected DateTime CreatedAt { get; set; } = DateTime.Now;
