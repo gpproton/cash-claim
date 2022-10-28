@@ -8,16 +8,14 @@ public class LoadingPage : BasePage<LoadingViewModel>
     void Build()
     {
         Background = Gradients.AppGradient;
-        Content = new VerticalStackLayout {
-            HorizontalOptions = LayoutOptions.Fill,
-            Children = {
-                new ActivityIndicator { IsRunning = true, Color = Colors.White }
-                .CenterHorizontal()
-                .CenterVertical()
-                .Margins(0, 96, 0, 0)
-                .Size(72, 72)
-            }
-        };
+        var layout = new ColumnLayout();
+        var activity = new ActivityIndicator { IsRunning = true, Color = Colors.White }
+            .CenterHorizontal()
+            .CenterVertical()
+            .Size(72, 72);
+        layout.Add(activity);
+        layout.SetFill(activity, true);
+        Content = layout;
     }
 }
 
@@ -26,7 +24,7 @@ public class LoadingViewModel : BaseViewModel {
     public LoadingViewModel() => VerifyAuth();
     private async void VerifyAuth()
     {
-        await Task.Delay(1000);
+        await Task.Delay(2500);
         await Shell.Current.GoToAsync($"//{nameof(AuthPage)}");
     }
 }
