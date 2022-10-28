@@ -18,7 +18,6 @@ public partial class RangeFilterToolbar : Grid
 
     [AutoBindable(DefaultValue = "DateTime.Now")]
     private readonly DateTime _endDate;
-#pragma warning restore IDE0051 // Restore unused private members rule
     enum FrameColumn { First, Second, Third }
     public RangeFilterToolbar() => Build();
 
@@ -105,7 +104,7 @@ public partial class RangeFilterToolbar : Grid
         Children.Add(new Grid {
             Children = {
                 new Border().DynamicResource(StyleProperty, "FieldControl"),
-                new CustomEntry { FontSize = 12 }
+                new CustomEntry { FontSize = 14 }
                 .Placeholder("Search")
                 .Bind(CustomEntry.TextProperty, nameof(Search), source: this)
                 .DynamicResource(StyleProperty, "CustomEntry")
