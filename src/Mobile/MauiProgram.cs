@@ -12,22 +12,21 @@ using XClaim.Mobile.Pages.Startup;
 namespace XClaim.Mobile;
 
 public static class MauiProgram {
-	public static MauiApp CreateMauiApp() {
-		var builder = MauiApp.CreateBuilder();
-		builder
-            .UseMauiApp<App>()
-			.UseMauiCommunityToolkit()
-			.UseMauiCommunityToolkitMarkup()
-            .ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                fonts.AddFont("Roboto-Thin.ttf", "RobotoThin");
-                fonts.AddFont("Roboto-Regular.ttf", "RobotoRegular");
-                fonts.AddFont("Roboto-Medium.ttf", "RobotoMedium");
-                fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
-                fonts.AddFontAwesomeIconFonts();
-            });
+    public static MauiApp CreateMauiApp() {
+        var builder = MauiApp.CreateBuilder();
+        builder
+        .UseMauiApp<App>()
+        .UseMauiCommunityToolkit()
+        .UseMauiCommunityToolkitMarkup()
+        .ConfigureFonts(fonts => {
+            fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+            fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            fonts.AddFont("Roboto-Thin.ttf", "RobotoThin");
+            fonts.AddFont("Roboto-Regular.ttf", "RobotoRegular");
+            fonts.AddFont("Roboto-Medium.ttf", "RobotoMedium");
+            fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
+            fonts.AddFontAwesomeIconFonts();
+        });
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
         builder.Services.AddTransientWithShellRoute<LoadingPage, LoadingViewModel>(nameof(LoadingPage));
@@ -43,5 +42,5 @@ public static class MauiProgram {
         builder.Logging.AddDebug();
 #endif
         return builder.Build();
-	}
+    }
 }

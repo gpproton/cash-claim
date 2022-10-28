@@ -1,16 +1,12 @@
 ﻿namespace XClaim.Mobile.Services;
 
 [INotifyPropertyChanged]
-public partial class SettingsService
-{
-    private static SettingsService _instance;
+public partial class SettingsService {
+    static SettingsService _instance;
     public static SettingsService Instance => _instance ??= new SettingsService();
 
-    private SettingsService()
-    {
-        Theme = Theme.System;
-    }
+    SettingsService() => Theme = Theme.System;
 
     [ObservableProperty]
-    private Theme _theme;
+    Theme _theme;
 }

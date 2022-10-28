@@ -2,8 +2,7 @@ using Microsoft.Maui.Layouts;
 
 namespace XClaim.Mobile.Extensions.Layouts;
 
-public class ColumnLayout : VerticalStackLayout
-{
+public class ColumnLayout : VerticalStackLayout {
     public static readonly BindableProperty FillProperty = BindableProperty.Create("Fill", typeof(bool),
         typeof(ColumnLayout), false);
 
@@ -13,8 +12,7 @@ public class ColumnLayout : VerticalStackLayout
     public bool GetFill(BindableObject bindableObject) => (bool)bindableObject.GetValue(FillProperty);
 
     public void SetFill(BindableObject bindableObject, bool fill) => bindableObject.SetValue(FillProperty, fill);
-    public bool GetFill(IView view)
-    {
+    public bool GetFill(IView view) {
         if (view is BindableObject bindableObject) return GetFill(bindableObject);
 
         return false;

@@ -2,23 +2,19 @@ using XClaim.Mobile.ViewModel;
 
 namespace XClaim.Mobile.Pages.Home;
 
-public class NotificationPage : BasePage<NotificationViewModel>
-{
+public class NotificationPage : BasePage<NotificationViewModel> {
     public NotificationPage(NotificationViewModel notificationVm) : base(notificationVm) => Build();
 
-    void Build()
-    {
+    void Build() {
         Title = "Notifications";
-        Content = new VerticalStackLayout
-        {
+        Content = new VerticalStackLayout {
             Children = {
                 new Label().Text("Notification!!").CenterHorizontal()
             }
         };
     }
 
-    protected override void OnAppearing()
-    {
+    protected override void OnAppearing() {
         base.OnAppearing();
 
     }

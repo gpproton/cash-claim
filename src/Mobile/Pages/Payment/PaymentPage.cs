@@ -2,12 +2,10 @@ using XClaim.Mobile.Views;
 
 namespace XClaim.Mobile.Pages.Payment;
 
-public class PaymentPage : BasePage<PaymentViewModel>
-{
+public class PaymentPage : BasePage<PaymentViewModel> {
     public PaymentPage(PaymentViewModel vm) : base(vm) => Build();
 
-    void Build()
-    {
+    void Build() {
         Title = "Payments";
         ToolbarItems.Add(new ToolbarItem {
             IconImageSource = new FontImageSource {
@@ -15,8 +13,7 @@ public class PaymentPage : BasePage<PaymentViewModel>
                 Glyph = FA.Solid.Sliders
             }.DynamicResource(FontImageSource.ColorProperty, "Primary")
         });
-        Content = new VerticalStackLayout
-        {
+        Content = new VerticalStackLayout {
             Children = {
                 new EmptyItemView().Margins(0, 56)
             }

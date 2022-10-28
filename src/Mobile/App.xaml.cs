@@ -4,10 +4,9 @@ using XClaim.Mobile.Services;
 
 namespace XClaim.Mobile;
 
-public partial class App : Application
-{
+public partial class App : Application {
     public App(AppShell shell) {
-		InitializeComponent();
+        InitializeComponent();
         BuildNativeControls();
 
         MainPage = shell;
@@ -16,21 +15,17 @@ public partial class App : Application
         //Routing.RegisterRoute(nameof(PaymentPage), typeof(PaymentPage));
     }
 
-    private void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
+    void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e) {
         if (e.PropertyName == nameof(SettingsService.Theme)) SetTheme();
     }
 
-    private void SetTheme() => UserAppTheme = SettingsService.Instance?.Theme != null
-                     ? SettingsService.Instance.Theme.AppTheme
-                     : AppTheme.Unspecified;
+    void SetTheme() => UserAppTheme = SettingsService.Instance?.Theme != null
+                                      ? SettingsService.Instance.Theme.AppTheme
+                                      : AppTheme.Unspecified;
 
-    private void BuildNativeControls()
-    {
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomEntry), (handler, view) =>
-        {
-            if (view is CustomEntry)
-            {
+    void BuildNativeControls() {
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomEntry), (handler, view) => {
+            if (view is CustomEntry) {
 #if __ANDROID__
                 handler.PlatformView.SetBackgroundColor(Colors.Transparent.ToPlatform());
 #elif __IOS__
@@ -39,10 +34,8 @@ public partial class App : Application
             }
         });
 
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomTimePicker), (handler, view) =>
-        {
-            if (view is CustomTimePicker)
-            {
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomTimePicker), (handler, view) => {
+            if (view is CustomTimePicker) {
 #if __ANDROID__
                 handler.PlatformView.SetBackgroundColor(Colors.Transparent.ToPlatform());
 #elif __IOS__
@@ -51,10 +44,8 @@ public partial class App : Application
             }
         });
 
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomDatePicker), (handler, view) =>
-        {
-            if (view is CustomDatePicker)
-            {
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomDatePicker), (handler, view) => {
+            if (view is CustomDatePicker) {
 #if __ANDROID__
                 handler.PlatformView.SetBackgroundColor(Colors.Transparent.ToPlatform());
 #elif __IOS__

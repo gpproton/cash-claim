@@ -4,8 +4,7 @@ using XClaim.Mobile.ViewModel;
 
 namespace XClaim.Mobile.Pages;
 
-public class BasePage : ContentPage
-{
+public class BasePage : ContentPage {
     protected BasePage(in bool shouldUseSafeArea = false) {
         On<iOS>().SetUseSafeArea(shouldUseSafeArea);
         On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.FormSheet);
@@ -13,9 +12,7 @@ public class BasePage : ContentPage
 }
 
 public abstract class BasePage<T> : BasePage where T : BaseViewModel {
-    protected BasePage(in T viewModel, in bool shouldUseSafeArea = false) : base(shouldUseSafeArea) {
-        base.BindingContext = viewModel;
-    }
+    protected BasePage(in T viewModel, in bool shouldUseSafeArea = false) : base(shouldUseSafeArea) => base.BindingContext = viewModel;
 
     protected new T BindingContext => (T)base.BindingContext;
 }

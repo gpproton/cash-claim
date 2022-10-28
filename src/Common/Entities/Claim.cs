@@ -3,7 +3,7 @@
 namespace XClaim.Common.Entities;
 
 internal class Claim : BaseEntity {
-    public Decimal Amount { get; set; } = 0;
+    public decimal Amount { get; set; } = 0;
     public DateTime ReviewedAt { get; set; }
     public Category Category { get; set; }
     public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
