@@ -1,5 +1,4 @@
-﻿global using System.Collections;
-global using System.Collections.ObjectModel;
+﻿global using System.Collections.ObjectModel;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
 global using CommunityToolkit.Maui.Markup;
@@ -11,3 +10,4 @@ global using Maui.BindableProperty.Generator.Core;
 global using XClaim.Mobile.Handlers;
 global using XClaim.Mobile.Models;
 global using XClaim.Mobile.ViewModel;
+global using XClaim.Mobile.Extensions.Layouts;
