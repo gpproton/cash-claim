@@ -9,6 +9,7 @@ internal static class Icons
     public const string Review = "icon_review.svg";
     public const string Home = "icon_home.svg";
     public const string Payment = "icon_payment.svg";
+    public const string EmptyBanner = "empty_banner.svg";
     public const string AuthBanner = "auth_vector.svg";
     public const string WelcomeBanner = "welcome_vector.png";
 }
