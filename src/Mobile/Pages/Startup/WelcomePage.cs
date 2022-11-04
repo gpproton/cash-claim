@@ -4,7 +4,9 @@ namespace XClaim.Mobile.Pages.Startup;
 
 public class WelcomePage : BasePage<WelcomeViewModel> {
     enum PageRow { First, Second }
-    public WelcomePage(WelcomeViewModel vm) : base(vm) {
+    public WelcomePage(WelcomeViewModel vm) : base(vm) => Build();
+
+    protected override void Build() {
         Background = Gradients.AppGradient;
         Content = new Grid() {
             RowDefinitions = Rows.Define(

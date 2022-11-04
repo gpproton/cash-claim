@@ -3,9 +3,9 @@ using XClaim.Mobile.ViewModel;
 namespace XClaim.Mobile.Pages.Home;
 
 public class NotificationPage : BasePage<NotificationViewModel> {
-    public NotificationPage(NotificationViewModel notificationVm) : base(notificationVm) => Build();
+    public NotificationPage(NotificationViewModel vm) : base(vm) => Build();
 
-    void Build() {
+    protected override void Build() {
         Title = "Notifications";
         Content = new VerticalStackLayout {
             Children = {

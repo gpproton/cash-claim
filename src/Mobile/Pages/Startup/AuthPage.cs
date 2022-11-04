@@ -6,7 +6,9 @@ namespace XClaim.Mobile.Pages.Startup;
 
 public class AuthPage : BasePage<AuthViewModel> {
     enum PageRow { First, Second }
-    public AuthPage(AuthViewModel authViewModel) : base(authViewModel) {
+    public AuthPage(AuthViewModel vm) : base(vm) => Build();
+
+    protected override void Build() {
         Background = Gradients.AppGradient;
         Content = new Grid {
             RowDefinitions = Rows.Define(

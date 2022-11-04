@@ -4,7 +4,7 @@ namespace XClaim.Mobile.Pages.Startup;
 
 public class LoadingPage : BasePage<LoadingViewModel> {
     public LoadingPage(LoadingViewModel vm) : base(vm) => Build();
-    void Build() {
+    protected override void Build() {
         Background = Gradients.AppGradient;
         var layout = new ColumnLayout();
         var activity = new ActivityIndicator {

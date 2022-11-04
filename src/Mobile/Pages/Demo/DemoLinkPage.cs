@@ -3,8 +3,13 @@ using XClaim.Mobile.ViewModel;
 namespace XClaim.Mobile.Pages.Demo;
 
 internal class DemoLinkPage : BasePage<DemoLinkViewModel> {
-    public DemoLinkPage(DemoLinkViewModel demoLinkViewModel) : base(demoLinkViewModel) => Content = new VerticalStackLayout {
-        Children = {
+    public DemoLinkPage(DemoLinkViewModel vm) : base(vm) => Build();
+
+    //Shell.SetNavBarIsVisible(Content, false);
+
+    protected override void Build() {
+        Content = new VerticalStackLayout {
+            Children = {
             new Label()
             .Text("Home view!")
             .TextCenterHorizontal()
@@ -22,8 +27,8 @@ internal class DemoLinkPage : BasePage<DemoLinkViewModel> {
             .Margins(8, 8, 8, 8)
             .BindCommand(nameof(DemoLinkViewModel.NavigateToDemoTwoCommand))
         }
-    };
-    //Shell.SetNavBarIsVisible(Content, false);
+        };
+    }
 }
 
 internal partial class DemoLinkViewModel : BaseViewModel {

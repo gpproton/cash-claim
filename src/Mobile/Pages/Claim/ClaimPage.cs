@@ -3,12 +3,13 @@ using XClaim.Mobile.Views;
 namespace XClaim.Mobile.Pages.Claim;
 
 public class ClaimPage : BasePage<ClaimViewModel> {
-    public ClaimPage(ClaimViewModel claimVm) : base(claimVm) => Build();
+    public ClaimPage(ClaimViewModel vm) : base(vm) => Build();
 
-    private void Build() {
+    protected override void Build() {
         Content = new VerticalStackLayout {
             Children = {
-                new RangeFilterToolbar(),
+                new FilterToolbarView(),
+                new SegmentView(),
                 new EmptyItemView().Margins(0, 56)
             }
         };

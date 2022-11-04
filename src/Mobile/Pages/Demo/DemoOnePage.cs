@@ -6,7 +6,9 @@ internal class DemoOnePage : BasePage<DemoOneViewModel> {
     enum FrameRow { First, Second }
     enum FrameColumn { First, Second }
 
-    public DemoOnePage(DemoOneViewModel demoViewModel) : base(demoViewModel) {
+    public DemoOnePage(DemoOneViewModel vm) : base(vm) => Build();
+
+    protected override void Build() {
         Background = new LinearGradientBrush() {
             StartPoint = new Point(0, 0),
             GradientStops = {

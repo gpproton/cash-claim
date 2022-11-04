@@ -2,7 +2,7 @@ using Microsoft.Maui.Controls.Shapes;
 
 namespace XClaim.Mobile.Views;
 
-public partial class RangeFilterToolbar : Grid {
+public partial class FilterToolbarView : Grid {
     private static Page CurrentPage => Application.Current?.MainPage ?? throw new NullReferenceException();
 
 #pragma warning disable IDE0051
@@ -20,7 +20,7 @@ public partial class RangeFilterToolbar : Grid {
     private readonly DateTime _endDate;
 
     private enum FrameColumn { First, Second, Third }
-    public RangeFilterToolbar() => Build();
+    public FilterToolbarView() => Build();
 
     private void Build() {
         Margin = new Thickness { Top = 4, Left = 8, Right = 8, Bottom = 0 };
@@ -113,12 +113,9 @@ public partial class RangeFilterToolbar : Grid {
         Children.Add(new Grid {
             Children = {
                 new Border().DynamicResource(StyleProperty, "FieldControl"),
-                new CustomEntry {
-                    FontSize = 14
-                }
-                .Placeholder("Search")
-                .Bind(Entry.TextProperty, nameof(Search), source: this)
-                .DynamicResource(StyleProperty, "CustomEntry")
+                new SearchBar { Placeholder = "Search.." }
+                .Bind(SearchBar.TextProperty, nameof(Search), source: this)
+                .DynamicResource(StyleProperty, "SearchEntry")
             }
         }
         .Bind(IsVisibleProperty, nameof(ShowSearch), source: this));
