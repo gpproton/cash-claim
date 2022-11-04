@@ -58,4 +58,10 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
     </Style>
 
+    <Style x:Key="SearchEntry" TargetType="SearchBar">
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Secondary}" />
+        <Setter Property="TextColor" Value="{DynamicResource Primary}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
 </ResourceDictionary>
