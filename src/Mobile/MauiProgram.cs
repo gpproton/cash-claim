@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using UraniumUI;
-using XClaim.Mobile.Pages;
 using XClaim.Mobile.Pages.Claim;
 using XClaim.Mobile.Pages.Home;
 using XClaim.Mobile.Pages.Payment;
@@ -27,10 +26,12 @@ public static class MauiProgram {
             fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
             fonts.AddFontAwesomeIconFonts();
         });
+
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
         builder.Services.AddTransientWithShellRoute<LoadingPage, LoadingViewModel>(nameof(LoadingPage));
         builder.Services.AddTransientWithShellRoute<AuthPage, AuthViewModel>(nameof(AuthPage));
+        builder.Services.AddTransientWithShellRoute<ConfigPage, ConfigViewModel>($"{nameof(AuthPage)}/{nameof(ConfigPage)}");
         builder.Services.AddTransientWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));
         builder.Services.AddTransientWithShellRoute<NotificationPage, NotificationViewModel>($"{nameof(HomePage)}/{nameof(NotificationPage)}");
         builder.Services.AddTransientWithShellRoute<ClaimPage, ClaimViewModel>(nameof(ClaimPage));
