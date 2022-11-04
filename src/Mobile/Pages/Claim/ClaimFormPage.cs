@@ -3,9 +3,9 @@ using XClaim.Mobile.ViewModel;
 namespace XClaim.Mobile.Pages.Claim;
 
 public class ClaimFormPage : BasePage<ClaimFormViewModel> {
-    public ClaimFormPage(ClaimFormViewModel claimFormVm) : base(claimFormVm) => Build();
+    public ClaimFormPage(ClaimFormViewModel vm) : base(vm) => Build();
 
-    private void Build() {
+    protected override void Build() {
         Title = "Create Request";
         Content = new VerticalStackLayout {
             Children = {
