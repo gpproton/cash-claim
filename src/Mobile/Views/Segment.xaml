@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XClaim.Mobile.Views.SegmentView">
-    <Border Margin="8" Padding="3" StrokeThickness="0"  BackgroundColor="{DynamicResource Tertiary}">
+             x:Class="XClaim.Mobile.Views.Segment"
+             x:Name="this">
+    <Border Padding="3" StrokeThickness="0"  BackgroundColor="{DynamicResource Tertiary}">
         <Border.StrokeShape>
             <RoundRectangle>
                 <RoundRectangle.CornerRadius>
@@ -11,7 +12,7 @@
             </RoundRectangle>
         </Border.StrokeShape>
         <ScrollView>
-            <FlexLayout BindableLayout.ItemsSource="{Binding SegmentItems, Mode=TwoWay}" RadioButtonGroup.SelectedValue="{Binding SelectedItem}" MinimumHeightRequest="40" Wrap="NoWrap" JustifyContent="SpaceBetween" RadioButtonGroup.GroupName="SegmentRadios">
+            <FlexLayout BindableLayout.ItemsSource="{Binding Source={x:Reference this},Path=SegmentItems}" RadioButtonGroup.SelectedValue="{Binding Source={x:Reference this},Path=SelectedItem}" MinimumHeightRequest="40" Wrap="NoWrap" JustifyContent="SpaceBetween" RadioButtonGroup.GroupName="SegmentRadios">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate  x:DataType="{x:Type x:String}">
                         <RadioButton FlexLayout.Basis="50%" Content="{Binding .}" Value="{Binding .}">
