@@ -49,12 +49,4 @@
     <ItemGroup>
         <ProjectReference Include="..\Common\XClaim.Common.csproj" />
     </ItemGroup>
-    <ItemGroup>
-        <MauiXaml Update="Resources\Styles\Custom.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </MauiXaml>
-        <MauiXaml Update="Resources\Styles\Default.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </MauiXaml>
-    </ItemGroup>
 </Project>

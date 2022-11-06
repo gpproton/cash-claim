@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XClaim.Mobile.Views.SegmentView">
+    <Border Margin="8" Padding="3" StrokeThickness="0"  BackgroundColor="{DynamicResource Tertiary}">
+        <Border.StrokeShape>
+            <RoundRectangle>
+                <RoundRectangle.CornerRadius>
+                    <CornerRadius>10</CornerRadius>
+                </RoundRectangle.CornerRadius>
+            </RoundRectangle>
+        </Border.StrokeShape>
+        <ScrollView>
+            <FlexLayout BindableLayout.ItemsSource="{Binding SegmentItems, Mode=TwoWay}" RadioButtonGroup.SelectedValue="{Binding SelectedItem}" MinimumHeightRequest="40" Wrap="NoWrap" JustifyContent="SpaceBetween" RadioButtonGroup.GroupName="SegmentRadios">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate  x:DataType="{x:Type x:String}">
+                        <RadioButton FlexLayout.Basis="50%" Content="{Binding .}" Value="{Binding .}">
+                            <RadioButton.ControlTemplate>
+                                <ControlTemplate>
+                                    <Grid VerticalOptions="Center">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup x:Name="CheckedStates">
+                                                    <VisualState x:Name="Checked">
+                                                        <VisualState.Setters>
+                                                            <Setter TargetName="SegmentItem" Property="Button.TextColor" Value="{DynamicResource White}" />
+                                                            <Setter TargetName="SegmentItem" Property="Button.BackgroundColor" Value="{DynamicResource Primary}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Unchecked">
+                                                        <VisualState.Setters>
+                                                            <Setter TargetName="SegmentItem" Property="Button.TextColor" Value="{DynamicResource Primary}" />
+                                                            <Setter TargetName="SegmentItem" Property="Button.BackgroundColor" Value="Transparent" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Button x:Name="SegmentItem" Clicked="OnItemClicked" HorizontalOptions="Fill" Text="{TemplateBinding Content}" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </RadioButton.ControlTemplate>
+                        </RadioButton>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </ScrollView>
+    </Border>
+</ContentView>
