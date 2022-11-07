@@ -1,3 +1,4 @@
+
 using Microsoft.Maui.Controls.Shapes;
 
 namespace XClaim.Mobile.Views;
@@ -7,17 +8,17 @@ public partial class FilterToolbarView : Grid {
 
 #pragma warning disable IDE0051
 #pragma warning disable CS0169
-    [AutoBindable]
-    private readonly string _search;
+    [BindableProp]
+    private string _search;
 
-    [AutoBindable]
-    private readonly bool _showSearch;
+    [BindableProp]
+    private bool _showSearch;
 
-    [AutoBindable(DefaultValue = "DateTime.Now.AddDays(-7)")]
-    private readonly DateTime _startDate;
+    [BindableProp]
+    private DateTime _startDate = DateTime.Now.AddDays(-7);
 
-    [AutoBindable(DefaultValue = "DateTime.Now")]
-    private readonly DateTime _endDate;
+    [BindableProp]
+    private DateTime _endDate = DateTime.Now;
 
     private enum FrameColumn { First, Second, Third }
     public FilterToolbarView() => Build();

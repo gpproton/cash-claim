@@ -1,21 +1,18 @@
 #pragma warning disable
 #nullable enable
 namespace XClaim.Mobile.Views;
+enum DefaultState { First, Second, Third }
+public partial class Segment : ContentView {
+    static string[] defaultItems = Enum.GetNames(typeof(DefaultState));
 
-public partial class Segment : ContentView
-{
-    [AutoBindable]
-    private readonly string[]? _segmentItems;
+    [BindableProp]
+    private string[] _segmentItems = defaultItems;
 
-    [AutoBindable]
-    private readonly string? _selectedItem;
-
-    public enum ItemState { Pending, Confirmed, Completed }
+    [BindableProp]
+    private string _selectedItem = defaultItems[0];
 
     public Segment() {
         InitializeComponent();
-        if(SegmentItems is null) SegmentItems = Enum.GetNames(typeof(ItemState));
-        if(SegmentItems is not null) SelectedItem = SegmentItems[0];
     }
 
     async void OnItemClicked(object sender, EventArgs args) {
