@@ -34,3 +34,12 @@ public abstract class BaseView<T> : BaseView where T : BaseViewModel {
 
     protected new T BindingContext => (T)base.BindingContext;
 }
+
+[INotifyPropertyChanged]
+public abstract partial class BaseViewModel {
+    [ObservableProperty]
+    private bool _isBusy;
+
+    [ObservableProperty]
+    private string _title;
+}
