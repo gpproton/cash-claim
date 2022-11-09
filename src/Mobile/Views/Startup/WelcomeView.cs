@@ -1,8 +1,8 @@
 namespace XClaim.Mobile.Views.Startup;
 
-public class WelcomePage : BaseView<WelcomeViewModel> {
+public class WelcomeView : BaseView<WelcomeViewModel> {
     enum PageRow { First, Second }
-    public WelcomePage(WelcomeViewModel vm) : base(vm) => Build();
+    public WelcomeView(WelcomeViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
         Background = Gradients.AppGradient;
@@ -27,7 +27,7 @@ public class WelcomePage : BaseView<WelcomeViewModel> {
                         .DynamicResource(StyleProperty, "ButtonLargeLight")
                         .CenterVertical()
                         .Invoke(l => l.Clicked += async (sender, args) =>
-                                     await Shell.Current.GoToAsync($"//{nameof(AuthPage)}")
+                                     await Shell.Current.GoToAsync($"//{nameof(AuthView)}")
                         )
                     }
                 }

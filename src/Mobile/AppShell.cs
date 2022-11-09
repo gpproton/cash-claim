@@ -14,14 +14,14 @@ public class AppShell : Shell {
 
         Items.Add(new ShellContent {
             FlyoutItemIsVisible = false,
-            Route = nameof(LoadingPage),
-            ContentTemplate = new DataTemplate(typeof(LoadingPage))
+            Route = nameof(LoadingView),
+            ContentTemplate = new DataTemplate(typeof(LoadingView))
         });
 
         Items.Add(new ShellContent {
             FlyoutItemIsVisible = false,
-            Route = nameof(AuthPage),
-            ContentTemplate = new DataTemplate(typeof(AuthPage))
+            Route = nameof(AuthView),
+            ContentTemplate = new DataTemplate(typeof(AuthView))
         });
 
         var tabItems = new TabBar {
@@ -31,8 +31,8 @@ public class AppShell : Shell {
                     Icon = Icons.Home,
                     Items = {
                         new ShellContent {
-                            Route = nameof(HomePage),
-                            ContentTemplate = new DataTemplate(typeof(HomePage))
+                            Route = nameof(HomeView),
+                            ContentTemplate = new DataTemplate(typeof(HomeView))
                         }
                     }
                 },
@@ -41,8 +41,8 @@ public class AppShell : Shell {
                     Icon = Icons.Claim,
                     Items = {
                         new ShellContent {
-                            Route = nameof(ClaimPage),
-                            ContentTemplate = new DataTemplate(typeof(ClaimPage))
+                            Route = nameof(ClaimView),
+                            ContentTemplate = new DataTemplate(typeof(ClaimView))
                         }
                     }
                 },
@@ -51,8 +51,8 @@ public class AppShell : Shell {
                     Icon = Icons.Payment,
                     Items = {
                         new ShellContent {
-                            Route = nameof(PaymentPage),
-                            ContentTemplate = new DataTemplate(typeof(PaymentPage))
+                            Route = nameof(PaymentView),
+                            ContentTemplate = new DataTemplate(typeof(PaymentView))
                         }
                     }
                 }
@@ -65,8 +65,8 @@ public class AppShell : Shell {
             Icon = Icons.Review,
             Items = {
                 new ShellContent {
-                    Route = nameof(ReviewPage),
-                    ContentTemplate = new DataTemplate(typeof(ReviewPage))
+                    Route = nameof(ReviewView),
+                    ContentTemplate = new DataTemplate(typeof(ReviewView))
                 }
             }
         });
@@ -75,14 +75,14 @@ public class AppShell : Shell {
 
         Items.Add(new ShellContent {
             FlyoutItemIsVisible = false,
-            Route = nameof(NotificationPage),
-            ContentTemplate = new DataTemplate(typeof(NotificationPage))
+            Route = nameof(NotificationView),
+            ContentTemplate = new DataTemplate(typeof(NotificationView))
         });
 
         Items.Add(new ShellContent {
             FlyoutItemIsVisible = false,
-            Route = nameof(ProfilePage),
-            ContentTemplate = new DataTemplate(typeof(ProfilePage))
+            Route = nameof(ProfileView),
+            ContentTemplate = new DataTemplate(typeof(ProfileView))
         });
     }
 }

@@ -9,8 +9,8 @@ internal enum HeaderRows { First, Second }
 internal enum HeaderColumns { First, Second, Third }
 internal enum ListTitleColumn { First, Second }
 
-public class HomePage : BaseView<HomeViewModel> {
-    public HomePage(HomeViewModel vm) : base(vm) => Build();
+public class HomeView : BaseView<HomeViewModel> {
+    public HomeView(HomeViewModel vm) : base(vm) => Build();
 
     protected override void Build() => Content = new Grid() {
         RowDefinitions = Rows.Define(
@@ -36,7 +36,7 @@ public class HomePage : BaseView<HomeViewModel> {
                     }.Size(54, 54)
                     .CenterVertical()
                     .DynamicResource(BackgroundColorProperty, "Gray300")
-                    .TapGesture(async () => await Shell.Current.GoToAsync(nameof(ProfilePage)))
+                    .TapGesture(async () => await Shell.Current.GoToAsync(nameof(ProfileView)))
                     .Column(HeaderColumns.First),
                     new StackLayout {
                         Children = {
@@ -55,7 +55,7 @@ public class HomePage : BaseView<HomeViewModel> {
                     }.DynamicResource(FontImageSource.ColorProperty, "Primary"))
                     .Size(28)
                     .CenterVertical()
-                    .TapGesture(async () => await Shell.Current.GoToAsync($"///{nameof(HomePage)}/{nameof(NotificationPage)}"))
+                    .TapGesture(async () => await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(NotificationView)}"))
                     .Column(HeaderColumns.Third)
                 }
             }
@@ -117,7 +117,7 @@ public class HomePage : BaseView<HomeViewModel> {
                         new Label()
                         .Text("See all")
                         .Font(size: 16)
-                        .TapGesture(async () => await Shell.Current.GoToAsync($"//{nameof(ClaimPage)}"))
+                        .TapGesture(async () => await Shell.Current.GoToAsync($"//{nameof(ClaimView)}"))
                         .Column(ListTitleColumn.Second)
                         .DynamicResource(Label.TextColorProperty, "Primary")
                     }
@@ -129,7 +129,7 @@ public class HomePage : BaseView<HomeViewModel> {
             .DynamicResource(StyleProperty, "ButtonLargePrimary")
             .CenterVertical()
             .Margins(24, 16, 24, 24)
-            .TapGesture(async () => await Shell.Current.GoToAsync($"///{nameof(HomePage)}/{nameof(ClaimFormPage)}"))
+            .TapGesture(async () => await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(ClaimFormView)}"))
             .Row(PageRow.Fourth)
         }
     };

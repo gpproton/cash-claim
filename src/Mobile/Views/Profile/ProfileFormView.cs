@@ -1,13 +1,13 @@
-namespace XClaim.Mobile.Views.Review;
+namespace XClaim.Mobile.Views.Profile;
 
-public class ReviewActionPage : BaseView {
-    public ReviewActionPage() => Build();
+public class ProfileFormView : BaseView {
+    public ProfileFormView() => Build();
 
     protected override void Build() {
         Content = new VerticalStackLayout {
             Children = {
             new Label {
-                Text = "Claim review view!"
+                Text = "Profile form view!"
             }.TextCenterHorizontal().TextCenterVertical()
         }
         };

@@ -1,7 +1,7 @@
 namespace XClaim.Mobile.Views.Claim;
 
-public class ClaimFormPage : BaseView<ClaimFormViewModel> {
-    public ClaimFormPage(ClaimFormViewModel vm) : base(vm) => Build();
+public class ClaimFormView : BaseView<ClaimFormViewModel> {
+    public ClaimFormView(ClaimFormViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
         Title = "Create Request";

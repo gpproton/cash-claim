@@ -1,7 +1,7 @@
 namespace XClaim.Mobile.Views.Home;
 
-public class NotificationPage : BaseView<NotificationViewModel> {
-    public NotificationPage(NotificationViewModel vm) : base(vm) => Build();
+public class NotificationView : BaseView<NotificationViewModel> {
+    public NotificationView(NotificationViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
         Title = "Notifications";

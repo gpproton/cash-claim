@@ -1,7 +1,7 @@
 namespace XClaim.Mobile.Views.Payment;
 
-public class PaymentPage : BaseView<PaymentViewModel> {
-    public PaymentPage(PaymentViewModel vm) : base(vm) {
+public class PaymentView : BaseView<PaymentViewModel> {
+    public PaymentView(PaymentViewModel vm) : base(vm) {
         ToolbarItems.Add(new ToolbarItem {
             IconImageSource = new FontImageSource {
                 FontFamily = "FASolid",

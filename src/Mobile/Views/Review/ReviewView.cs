@@ -1,7 +1,7 @@
 namespace XClaim.Mobile.Views.Review;
 
-public class ReviewPage : BaseView<ReviewViewModel> {
-    public ReviewPage(ReviewViewModel vm) : base(vm) {
+public class ReviewView : BaseView<ReviewViewModel> {
+    public ReviewView(ReviewViewModel vm) : base(vm) {
         ToolbarItems.Add(new ToolbarItem {
             IconImageSource = new FontImageSource {
                 FontFamily = "FASolid",

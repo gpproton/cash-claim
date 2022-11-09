@@ -1,7 +1,7 @@
 namespace XClaim.Mobile.Views.Startup;
 
-public class LoadingPage : BaseView<LoadingViewModel> {
-    public LoadingPage(LoadingViewModel vm) : base(vm) => Build();
+public class LoadingView : BaseView<LoadingViewModel> {
+    public LoadingView(LoadingViewModel vm) : base(vm) => Build();
     protected override void Build() {
         Background = Gradients.AppGradient;
         var layout = new ColumnLayout();
@@ -23,6 +23,6 @@ public class LoadingViewModel : BaseViewModel {
     public LoadingViewModel() => VerifyAuth();
     async void VerifyAuth() {
         await Task.Delay(2500);
-        await Shell.Current.GoToAsync($"//{nameof(AuthPage)}");
+        await Shell.Current.GoToAsync($"//{nameof(AuthView)}");
     }
 }

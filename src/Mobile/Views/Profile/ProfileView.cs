@@ -1,7 +1,7 @@
 namespace XClaim.Mobile.Views.Profile;
 
-public class ProfilePage : BaseView<ProfileViewModel> {
-    public ProfilePage(ProfileViewModel profileVm) : base(profileVm) => Build();
+public class ProfileView : BaseView<ProfileViewModel> {
+    public ProfileView(ProfileViewModel profileVm) : base(profileVm) => Build();
 
     protected override void Build() {
         Title = "Profile";

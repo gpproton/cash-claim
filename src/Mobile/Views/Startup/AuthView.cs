@@ -3,9 +3,9 @@ using static Microsoft.Maui.Controls.Button;
 
 namespace XClaim.Mobile.Views.Startup;
 
-public class AuthPage : BaseView<AuthViewModel> {
+public class AuthView : BaseView<AuthViewModel> {
     enum PageRow { First, Second }
-    public AuthPage(AuthViewModel vm) : base(vm) => Build();
+    public AuthView(AuthViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
         Background = Gradients.AppGradient;
@@ -48,5 +48,5 @@ public class AuthPage : BaseView<AuthViewModel> {
 
 public partial class AuthViewModel : BaseViewModel {
     [RelayCommand]
-    async void NavigateToHome() => await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+    async void NavigateToHome() => await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
 }

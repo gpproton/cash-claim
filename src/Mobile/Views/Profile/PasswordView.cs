@@ -1,15 +1,13 @@
-using XClaim.Mobile.Views;
-
 namespace XClaim.Mobile.Views.Profile;
 
-public class BankPage : BaseView {
-    public BankPage() => Build();
+public class PasswordView : BaseView {
+    public PasswordView() => Build();
 
     protected override void Build() {
         Content = new VerticalStackLayout {
             Children = {
             new Label {
-                Text = "Bank view!"
+                Text = "Password reset view!"
             }.TextCenterHorizontal().TextCenterVertical()
         }
         };
