@@ -1,4 +1,4 @@
-namespace XClaim.Mobile.Pages.Payment;
+namespace XClaim.Mobile.Views.Payment;
 
 public class PaymentPage : BaseView<PaymentViewModel> {
     public PaymentPage(PaymentViewModel vm) : base(vm) {

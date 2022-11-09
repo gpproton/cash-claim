@@ -1,13 +1,13 @@
-namespace XClaim.Mobile.Pages.Profile;
+namespace XClaim.Mobile.Views.Profile;
 
-public class BankFormPage : BaseView {
-    public BankFormPage() => Build();
+public class SettingPage : BaseView {
+    public SettingPage() => Build();
 
     protected override void Build() {
         Content = new VerticalStackLayout {
             Children = {
             new Label {
-                Text = "Bank form view!"
+                Text = "Settings view!"
             }.TextCenterHorizontal().TextCenterVertical()
         }
         };

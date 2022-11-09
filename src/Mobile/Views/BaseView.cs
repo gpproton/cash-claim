@@ -1,7 +1,7 @@
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
-namespace XClaim.Mobile.Pages;
+namespace XClaim.Mobile.Views;
 
 public abstract class BaseView : ContentPage {
     protected BaseView(in bool shouldUseSafeArea = false) {

@@ -1,10 +1,8 @@
 using Microsoft.Maui.Controls.Shapes;
-using XClaim.Mobile.Components;
-using XClaim.Mobile.Pages.Claim;
-using XClaim.Mobile.Pages.Profile;
-using XClaim.Mobile.ViewModel;
+using XClaim.Mobile.Views.Profile;
+using XClaim.Mobile.Views.Claim;
 
-namespace XClaim.Mobile.Pages.Home;
+namespace XClaim.Mobile.Views.Home;
 
 internal enum PageRow { First, Second, Third, Fourth }
 internal enum HeaderRows { First, Second }

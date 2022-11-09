@@ -1,4 +1,4 @@
-namespace XClaim.Mobile.Pages.Profile;
+namespace XClaim.Mobile.Views.Profile;
 
 public class ProfileFormPage : BaseView {
     public ProfileFormPage() => Build();

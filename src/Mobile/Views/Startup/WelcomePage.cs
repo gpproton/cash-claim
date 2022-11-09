@@ -1,4 +1,4 @@
-namespace XClaim.Mobile.Pages.Startup;
+namespace XClaim.Mobile.Views.Startup;
 
 public class WelcomePage : BaseView<WelcomeViewModel> {
     enum PageRow { First, Second }

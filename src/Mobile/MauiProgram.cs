@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using UraniumUI;
-using XClaim.Mobile.Pages.Claim;
-using XClaim.Mobile.Pages.Home;
-using XClaim.Mobile.Pages.Payment;
-using XClaim.Mobile.Pages.Profile;
-using XClaim.Mobile.Pages.Review;
-using XClaim.Mobile.Pages.Startup;
+using XClaim.Mobile.Views.Profile;
+using XClaim.Mobile.Views.Review;
+using XClaim.Mobile.Views.Startup;
+using XClaim.Mobile.Views.Claim;
+using XClaim.Mobile.Views.Home;
+using XClaim.Mobile.Views.Payment;
 
 namespace XClaim.Mobile;
 

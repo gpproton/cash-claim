@@ -1,4 +1,4 @@
-namespace XClaim.Mobile.Pages.Review;
+namespace XClaim.Mobile.Views.Review;
 
 public class ReviewHistoryPage : BaseView {
     public ReviewHistoryPage() => Build();

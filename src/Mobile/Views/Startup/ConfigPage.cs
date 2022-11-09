@@ -1,4 +1,4 @@
-namespace XClaim.Mobile.Pages.Startup;
+namespace XClaim.Mobile.Views.Startup;
 
 public class ConfigPage : BaseView<ConfigViewModel> {
     public ConfigPage(ConfigViewModel vm) : base(vm) => Build();

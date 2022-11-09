@@ -1,7 +1,7 @@
-using XClaim.Mobile.Pages.Home;
+using XClaim.Mobile.Views.Home;
 using static Microsoft.Maui.Controls.Button;
 
-namespace XClaim.Mobile.Pages.Startup;
+namespace XClaim.Mobile.Views.Startup;
 
 public class AuthPage : BaseView<AuthViewModel> {
     enum PageRow { First, Second }

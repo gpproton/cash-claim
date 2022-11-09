@@ -1,4 +1,4 @@
-namespace XClaim.Mobile.Pages.Review;
+namespace XClaim.Mobile.Views.Review;
 
 public class ReviewPage : BaseView<ReviewViewModel> {
     public ReviewPage(ReviewViewModel vm) : base(vm) {

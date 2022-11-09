@@ -1,3 +1,4 @@
+#nullable enable
 using Microsoft.Maui.Layouts;
 
 namespace XClaim.Mobile.Extensions.Layouts;

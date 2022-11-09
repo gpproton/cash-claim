@@ -1,4 +1,4 @@
-namespace XClaim.Mobile.Pages.Startup;
+namespace XClaim.Mobile.Views.Startup;
 
 public class LoadingPage : BaseView<LoadingViewModel> {
     public LoadingPage(LoadingViewModel vm) : base(vm) => Build();

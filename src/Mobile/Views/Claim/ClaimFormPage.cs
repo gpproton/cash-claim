@@ -1,6 +1,4 @@
-using XClaim.Mobile.ViewModel;
-
-namespace XClaim.Mobile.Pages.Claim;
+namespace XClaim.Mobile.Views.Claim;
 
 public class ClaimFormPage : BaseView<ClaimFormViewModel> {
     public ClaimFormPage(ClaimFormViewModel vm) : base(vm) => Build();

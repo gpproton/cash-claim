@@ -1,6 +1,4 @@
-using XClaim.Mobile.ViewModel;
-
-namespace XClaim.Mobile.Pages.Home;
+namespace XClaim.Mobile.Views.Home;
 
 public class NotificationPage : BaseView<NotificationViewModel> {
     public NotificationPage(NotificationViewModel vm) : base(vm) => Build();

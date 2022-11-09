@@ -1,9 +1,9 @@
-using XClaim.Mobile.Pages.Claim;
-using XClaim.Mobile.Pages.Home;
-using XClaim.Mobile.Pages.Payment;
-using XClaim.Mobile.Pages.Profile;
-using XClaim.Mobile.Pages.Review;
-using XClaim.Mobile.Pages.Startup;
+using XClaim.Mobile.Views.Profile;
+using XClaim.Mobile.Views.Review;
+using XClaim.Mobile.Views.Startup;
+using XClaim.Mobile.Views.Claim;
+using XClaim.Mobile.Views.Home;
+using XClaim.Mobile.Views.Payment;
 
 namespace XClaim.Mobile;
 
@@ -89,5 +89,5 @@ public class AppShell : Shell {
 
 public partial class AppShellViewModel : BaseViewModel {
     [RelayCommand]
-    private async void SignOut() { }
+    private void SignOut() { }
 }
