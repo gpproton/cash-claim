@@ -1,17 +1,31 @@
 ﻿using Microsoft.Maui.Platform;
-using XClaim.Mobile.Handlers;
+using System.ComponentModel;
+using XClaim.Mobile.Services;
 
 namespace XClaim.Mobile;
 
-public partial class App : Application
-{
+public partial class App : Application {
     public App(AppShell shell) {
-		InitializeComponent();
+        InitializeComponent();
+        BuildNativeControls();
 
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomEntry), (handler, view) =>
-        {
-            if (view is CustomEntry)
-            {
+        MainPage = shell;
+        SetTheme();
+        SettingsService.Instance.PropertyChanged += OnSettingsPropertyChanged;
+        //Routing.RegisterRoute(nameof(PaymentPage), typeof(PaymentPage));
+    }
+
+    void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e) {
+        if (e.PropertyName == nameof(SettingsService.Theme)) SetTheme();
+    }
+
+    void SetTheme() => UserAppTheme = SettingsService.Instance?.Theme != null
+                                      ? SettingsService.Instance.Theme.AppTheme
+                                      : AppTheme.Unspecified;
+
+    void BuildNativeControls() {
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomEntry), (handler, view) => {
+            if (view is CustomEntry) {
 #if __ANDROID__
                 handler.PlatformView.SetBackgroundColor(Colors.Transparent.ToPlatform());
 #elif __IOS__
@@ -19,32 +33,5 @@ public partial class App : Application
 #endif
             }
         });
-
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomTimePicker), (handler, view) =>
-        {
-            if (view is CustomTimePicker)
-            {
-#if __ANDROID__
-                handler.PlatformView.SetBackgroundColor(Colors.Transparent.ToPlatform());
-#elif __IOS__
-                        handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
-#endif
-            }
-        });
-
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomDatePicker), (handler, view) =>
-        {
-            if (view is CustomDatePicker)
-            {
-#if __ANDROID__
-                handler.PlatformView.SetBackgroundColor(Colors.Transparent.ToPlatform());
-#elif __IOS__
-                        handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
-#endif
-            }
-        });
-
-        MainPage = shell;
-        //Routing.RegisterRoute(nameof(PaymentPage), typeof(PaymentPage));
     }
 }

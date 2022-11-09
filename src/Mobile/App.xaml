@@ -1,82 +1,16 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:XClaim.Mobile"
              x:Class="XClaim.Mobile.App">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Default.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Custom.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="local:AppShell">
-                <Setter Property="Shell.ForegroundColor" Value="{DynamicResource Primary}" />
-                <Setter Property="Shell.TitleColor" Value="{DynamicResource Primary}" />
-                <Setter Property="Shell.BackgroundColor" Value="White" />
-            </Style>
-            <Style TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="Gray" />
-            </Style>
-            <Style TargetType="TabBar">
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource Tertiary}" />
-                <Setter Property="Shell.TabBarTitleColor" Value="{DynamicResource Primary}" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="{DynamicResource Primary}" />
-                <Setter Property="Shell.TabBarUnselectedColor" Value="{DynamicResource Gray400}" />
-            </Style>
-
-            <Style x:Key="ButtonLargeLight" TargetType="Button">
-                <Setter Property="Padding" Value="0, 16, 0, 16" />
-                <Setter Property="Margin" Value="24, 0, 24, 0" />
-                <Setter Property="FontSize" Value="16" />
-                <Setter Property="BackgroundColor" Value="{DynamicResource Tertiary}" />
-                <Setter Property="TextColor" Value="{DynamicResource Primary}" />
-            </Style>
-
-            <Style x:Key="ButtonLargePrimary" TargetType="Button">
-                <Setter Property="Padding" Value="0, 16, 0, 16" />
-                <Setter Property="Margin" Value="24, 0, 24, 0" />
-                <Setter Property="FontSize" Value="16" />
-                <Setter Property="BackgroundColor" Value="{DynamicResource Primary}" />
-                <Setter Property="TextColor" Value="{DynamicResource Tertiary}" />
-            </Style>
-            
-            <Style x:Key="ButtonAuth" TargetType="Button">
-                <Setter Property="Padding" Value="48, 16, 48, 16" />
-                <Setter Property="Margin" Value="24, 16, 24, 8" />
-                <Setter Property="FontSize" Value="16" />
-                <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="BorderColor" Value="{DynamicResource Tertiary}" />
-                <Setter Property="BorderWidth" Value="1" />
-                <Setter Property="TextColor" Value="{DynamicResource Tertiary}" />
-            </Style>
-            <Style x:Key="FieldControl" TargetType="Border">
-                <Setter Property="Stroke" Value="{DynamicResource Tertiary}" />
-                <Setter Property="StrokeThickness" Value="1" />
-                <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="Padding" Value="12" />
-                <Setter Property="HeightRequest" Value="48" />
-                <Setter Property="StrokeShape">
-                    <RoundRectangle>
-                        <RoundRectangle.CornerRadius>
-                            <CornerRadius>6</CornerRadius>
-                        </RoundRectangle.CornerRadius>
-                    </RoundRectangle>
-                </Setter>
-            </Style>
-            <Style x:Key="BlueLabel" TargetType="Label">
-                <Setter Property="BackgroundColor" Value="DodgerBlue" />
-                <Setter Property="TextColor" Value="White" />
-            </Style>
-
-            <Style x:Key="CustomEntry" TargetType="Entry">
-                <Setter Property="PlaceholderColor" Value="{DynamicResource Secondary}" />
-                <Setter Property="TextColor" Value="{DynamicResource Primary}" />
-                <Setter Property="Margin" Value="8, 0" />
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="BackgroundColor" Value="Transparent" />
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -9,12 +9,10 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+if (app.Environment.IsDevelopment()) {
     app.UseWebAssemblyDebugging();
 }
-else
-{
+else {
     app.UseExceptionHandler("/Error");
 }
 
