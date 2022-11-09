@@ -33,25 +33,5 @@ public partial class App : Application {
 #endif
             }
         });
-
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomTimePicker), (handler, view) => {
-            if (view is CustomTimePicker) {
-#if __ANDROID__
-                handler.PlatformView.SetBackgroundColor(Colors.Transparent.ToPlatform());
-#elif __IOS__
-                        handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
-#endif
-            }
-        });
-
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomDatePicker), (handler, view) => {
-            if (view is CustomDatePicker) {
-#if __ANDROID__
-                handler.PlatformView.SetBackgroundColor(Colors.Transparent.ToPlatform());
-#elif __IOS__
-                        handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
-#endif
-            }
-        });
     }
 }

@@ -88,14 +88,14 @@ public partial class FilterToolbarView : Grid {
                             .DynamicResource(Label.TextColorProperty, "Primary")
                             .Font(size: 22, family: "RobotoRegular")
                             .CenterHorizontal().Margins(0, 4, 0, 4),
-                            new CustomDatePicker {
+                            new DatePicker {
                                 BackgroundColor = Colors.Transparent,
                                 Format = "yyyy-MMMM-dd"
                             }
                             .FillHorizontal()
                             .Bind(nameof(StartDate), source: this)
                             .DynamicResource(DatePicker.TextColorProperty, "Primary"),
-                            new CustomDatePicker {
+                            new DatePicker {
                                 BackgroundColor = Colors.Transparent,
                                 Format = "yyyy-MMMM-dd"
                             }
