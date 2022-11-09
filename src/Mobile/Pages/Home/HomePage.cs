@@ -1,8 +1,8 @@
 using Microsoft.Maui.Controls.Shapes;
+using XClaim.Mobile.Components;
 using XClaim.Mobile.Pages.Claim;
 using XClaim.Mobile.Pages.Profile;
 using XClaim.Mobile.ViewModel;
-using XClaim.Mobile.Views;
 
 namespace XClaim.Mobile.Pages.Home;
 

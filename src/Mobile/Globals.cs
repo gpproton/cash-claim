@@ -11,3 +11,4 @@ global using XClaim.Mobile.Handlers;
 global using XClaim.Mobile.Models;
 global using XClaim.Mobile.ViewModel;
 global using XClaim.Mobile.Extensions.Layouts;
+global using XClaim.Mobile.Components;

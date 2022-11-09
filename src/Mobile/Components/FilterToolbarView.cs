@@ -1,7 +1,6 @@
-
 using Microsoft.Maui.Controls.Shapes;
 
-namespace XClaim.Mobile.Views;
+namespace XClaim.Mobile.Components;
 
 public partial class FilterToolbarView : Grid {
     private static Page CurrentPage => Application.Current?.MainPage ?? throw new NullReferenceException();

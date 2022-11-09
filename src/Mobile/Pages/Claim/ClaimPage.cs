@@ -1,5 +1,3 @@
-using XClaim.Mobile.Views;
-
 namespace XClaim.Mobile.Pages.Claim;
 
 public enum StatusOptions { Confirmed, Pending, Completed }

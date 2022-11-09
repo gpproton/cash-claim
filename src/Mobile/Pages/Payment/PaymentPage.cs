@@ -1,5 +1,3 @@
-using XClaim.Mobile.Views;
-
 namespace XClaim.Mobile.Pages.Payment;
 
 public class PaymentPage : BasePage<PaymentViewModel> {

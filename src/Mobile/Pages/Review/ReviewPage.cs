@@ -1,5 +1,3 @@
-using XClaim.Mobile.Views;
-
 namespace XClaim.Mobile.Pages.Review;
 
 public class ReviewPage : BasePage<ReviewViewModel> {

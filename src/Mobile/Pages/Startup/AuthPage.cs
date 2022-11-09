@@ -1,5 +1,4 @@
 using XClaim.Mobile.Pages.Home;
-using XClaim.Mobile.Views;
 using static Microsoft.Maui.Controls.Button;
 
 namespace XClaim.Mobile.Pages.Startup;

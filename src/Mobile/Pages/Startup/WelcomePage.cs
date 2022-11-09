@@ -1,5 +1,3 @@
-using XClaim.Mobile.Views;
-
 namespace XClaim.Mobile.Pages.Startup;
 
 public class WelcomePage : BasePage<WelcomeViewModel> {

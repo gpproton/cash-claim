@@ -1,4 +1,3 @@
-using XClaim.Mobile.Pages;
 using XClaim.Mobile.Pages.Claim;
 using XClaim.Mobile.Pages.Home;
 using XClaim.Mobile.Pages.Payment;
