@@ -1,6 +1,6 @@
 namespace XClaim.Mobile.Pages.Profile;
 
-public class ProfilePage : BasePage<ProfileViewModel> {
+public class ProfilePage : BaseView<ProfileViewModel> {
     public ProfilePage(ProfileViewModel profileVm) : base(profileVm) => Build();
 
     protected override void Build() {

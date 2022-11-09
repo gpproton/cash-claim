@@ -1,6 +1,6 @@
 namespace XClaim.Mobile.Pages.Startup;
 
-public class WelcomePage : BasePage<WelcomeViewModel> {
+public class WelcomePage : BaseView<WelcomeViewModel> {
     enum PageRow { First, Second }
     public WelcomePage(WelcomeViewModel vm) : base(vm) => Build();
 

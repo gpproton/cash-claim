@@ -3,7 +3,7 @@ using static Microsoft.Maui.Controls.Button;
 
 namespace XClaim.Mobile.Pages.Startup;
 
-public class AuthPage : BasePage<AuthViewModel> {
+public class AuthPage : BaseView<AuthViewModel> {
     enum PageRow { First, Second }
     public AuthPage(AuthViewModel vm) : base(vm) => Build();
 

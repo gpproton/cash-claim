@@ -1,6 +1,6 @@
 namespace XClaim.Mobile.Pages.Review;
 
-public class ReviewPage : BasePage<ReviewViewModel> {
+public class ReviewPage : BaseView<ReviewViewModel> {
     public ReviewPage(ReviewViewModel vm) : base(vm) {
         ToolbarItems.Add(new ToolbarItem {
             IconImageSource = new FontImageSource {

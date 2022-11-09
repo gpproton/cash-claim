@@ -2,7 +2,7 @@ using XClaim.Mobile.ViewModel;
 
 namespace XClaim.Mobile.Pages.Home;
 
-public class NotificationPage : BasePage<NotificationViewModel> {
+public class NotificationPage : BaseView<NotificationViewModel> {
     public NotificationPage(NotificationViewModel vm) : base(vm) => Build();
 
     protected override void Build() {

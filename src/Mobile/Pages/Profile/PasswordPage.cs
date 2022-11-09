@@ -1,6 +1,6 @@
 namespace XClaim.Mobile.Pages.Profile;
 
-public class PasswordPage : BasePage {
+public class PasswordPage : BaseView {
     public PasswordPage() => Build();
 
     protected override void Build() {

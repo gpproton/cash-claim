@@ -1,6 +1,6 @@
 namespace XClaim.Mobile.Pages.Review;
 
-public class ReviewHistoryPage : BasePage {
+public class ReviewHistoryPage : BaseView {
     public ReviewHistoryPage() => Build();
 
     protected override void Build() {

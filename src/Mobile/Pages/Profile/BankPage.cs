@@ -1,6 +1,6 @@
 namespace XClaim.Mobile.Pages.Profile;
 
-public class BankPage : BasePage {
+public class BankPage : BaseView {
     public BankPage() => Build();
 
     protected override void Build() {

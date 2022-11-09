@@ -2,7 +2,7 @@ namespace XClaim.Mobile.Pages.Claim;
 
 public enum StatusOptions { Confirmed, Pending, Completed }
 
-public class ClaimPage : BasePage<ClaimViewModel> {
+public class ClaimPage : BaseView<ClaimViewModel> {
     public ClaimPage(ClaimViewModel vm) : base(vm) => Build();
 
     protected override void Build() {

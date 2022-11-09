@@ -1,6 +1,6 @@
 namespace XClaim.Mobile.Pages.Startup;
 
-public class ConfigPage : BasePage<ConfigViewModel> {
+public class ConfigPage : BaseView<ConfigViewModel> {
     public ConfigPage(ConfigViewModel vm) : base(vm) => Build();
 
     protected override void Build() {

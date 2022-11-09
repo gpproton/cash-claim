@@ -1,6 +1,6 @@
 namespace XClaim.Mobile.Pages.Profile;
 
-public class SettingPage : BasePage {
+public class SettingPage : BaseView {
     public SettingPage() => Build();
 
     protected override void Build() {

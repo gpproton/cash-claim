@@ -3,8 +3,8 @@ using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace XClaim.Mobile.Pages;
 
-public abstract class BasePage : ContentPage {
-    protected BasePage(in bool shouldUseSafeArea = false) {
+public abstract class BaseView : ContentPage {
+    protected BaseView(in bool shouldUseSafeArea = false) {
         On<iOS>().SetUseSafeArea(shouldUseSafeArea);
         On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.FormSheet);
     }
@@ -29,8 +29,8 @@ public abstract class BasePage : ContentPage {
     private void ReloadUI(Type[] obj) => MainThread.BeginInvokeOnMainThread(Build);
 }
 
-public abstract class BasePage<T> : BasePage where T : BaseViewModel {
-    protected BasePage(in T viewModel, in bool shouldUseSafeArea = false) : base(shouldUseSafeArea) => base.BindingContext = viewModel;
+public abstract class BaseView<T> : BaseView where T : BaseViewModel {
+    protected BaseView(in T viewModel, in bool shouldUseSafeArea = false) : base(shouldUseSafeArea) => base.BindingContext = viewModel;
 
     protected new T BindingContext => (T)base.BindingContext;
 }

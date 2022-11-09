@@ -2,7 +2,7 @@ using XClaim.Mobile.ViewModel;
 
 namespace XClaim.Mobile.Pages.Claim;
 
-public class ClaimFormPage : BasePage<ClaimFormViewModel> {
+public class ClaimFormPage : BaseView<ClaimFormViewModel> {
     public ClaimFormPage(ClaimFormViewModel vm) : base(vm) => Build();
 
     protected override void Build() {

@@ -11,7 +11,7 @@ internal enum HeaderRows { First, Second }
 internal enum HeaderColumns { First, Second, Third }
 internal enum ListTitleColumn { First, Second }
 
-public class HomePage : BasePage<HomeViewModel> {
+public class HomePage : BaseView<HomeViewModel> {
     public HomePage(HomeViewModel vm) : base(vm) => Build();
 
     protected override void Build() => Content = new Grid() {
