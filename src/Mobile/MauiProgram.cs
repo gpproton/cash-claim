@@ -25,23 +25,38 @@ public static class MauiProgram {
             fonts.AddFont("Roboto-Medium.ttf", "RobotoMedium");
             fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
             fonts.AddFontAwesomeIconFonts();
+        })
+        .ConfigureMauiHandlers(handlers =>
+        {
+            handlers.AddUraniumUIHandlers();
         });
 
-        builder.Services.AddSingleton<App>();
-        builder.Services.AddSingleton<AppShell>();
-        builder.Services.AddTransientWithShellRoute<LoadingView, LoadingViewModel>(nameof(LoadingView));
-        builder.Services.AddTransientWithShellRoute<AuthView, AuthViewModel>(nameof(AuthView));
-        builder.Services.AddTransientWithShellRoute<ConfigView, ConfigViewModel>($"{nameof(AuthView)}/{nameof(ConfigView)}");
-        builder.Services.AddTransientWithShellRoute<HomeView, HomeViewModel>(nameof(HomeView));
-        builder.Services.AddTransientWithShellRoute<NotificationView, NotificationViewModel>($"{nameof(HomeView)}/{nameof(NotificationView)}");
-        builder.Services.AddTransientWithShellRoute<ClaimView, ClaimViewModel>(nameof(ClaimView));
-        builder.Services.AddTransientWithShellRoute<ClaimFormView, ClaimFormViewModel>($"{nameof(HomeView)}/{nameof(ClaimFormView)}");
-        builder.Services.AddTransientWithShellRoute<PaymentView, PaymentViewModel>(nameof(PaymentView));
-        builder.Services.AddTransientWithShellRoute<ReviewView, ReviewViewModel>(nameof(ReviewView));
-        builder.Services.AddTransientWithShellRoute<ProfileView, ProfileViewModel>(nameof(ProfileView));
+        RegisterServices(builder.Services);
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
         return builder.Build();
+    }
+
+    private static void RegisterServices(IServiceCollection s) {
+        s.AddSingleton<App>();
+        s.AddSingleton<AppShell>();
+        // Startup views
+        s.AddTransientWithShellRoute<LoadingView, LoadingViewModel>(nameof(LoadingView));
+        s.AddTransientWithShellRoute<AuthView, AuthViewModel>(nameof(AuthView));
+        s.AddTransientWithShellRoute<ConfigView, ConfigViewModel>($"{nameof(AuthView)}/{nameof(ConfigView)}");
+        // Home views
+        s.AddTransientWithShellRoute<HomeView, HomeViewModel>(nameof(HomeView));
+        s.AddTransientWithShellRoute<NotificationView, NotificationViewModel>($"{nameof(HomeView)}/{nameof(NotificationView)}");
+        // Profile views
+        s.AddTransientWithShellRoute<ProfileView, ProfileViewModel>(nameof(ProfileView));
+        // Claim views
+        s.AddTransientWithShellRoute<ClaimView, ClaimViewModel>(nameof(ClaimView));
+        s.AddTransientWithShellRoute<ClaimFormView, ClaimFormViewModel>($"{nameof(HomeView)}/{nameof(ClaimFormView)}");
+        // Payment views
+        s.AddTransientWithShellRoute<PaymentView, PaymentViewModel>(nameof(PaymentView));
+        // Review views
+        s.AddTransientWithShellRoute<ReviewView, ReviewViewModel>(nameof(ReviewView));
+        
     }
 }
