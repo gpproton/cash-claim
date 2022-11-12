@@ -1,12 +1,15 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using UraniumUI;
+using UraniumUI.Handlers;
+using InputKit.Handlers;
 using XClaim.Mobile.Views.Profile;
 using XClaim.Mobile.Views.Review;
 using XClaim.Mobile.Views.Startup;
 using XClaim.Mobile.Views.Claim;
 using XClaim.Mobile.Views.Home;
 using XClaim.Mobile.Views.Payment;
+using XClaim.Mobile.Services;
 
 namespace XClaim.Mobile;
 
@@ -17,6 +20,7 @@ public static class MauiProgram {
         .UseMauiApp<App>()
         .UseMauiCommunityToolkit()
         .UseMauiCommunityToolkitMarkup()
+        .UseUraniumUI()
         .ConfigureFonts(fonts => {
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
@@ -39,8 +43,8 @@ public static class MauiProgram {
     }
 
     private static void RegisterServices(IServiceCollection s) {
-        s.AddSingleton<App>();
-        s.AddSingleton<AppShell>();
+        s.AddTransient<AppShell>();
+        s.AddSingleton<SettingsService>();
         // Startup views
         s.AddTransientWithShellRoute<LoadingView, LoadingViewModel>(nameof(LoadingView));
         s.AddTransientWithShellRoute<AuthView, AuthViewModel>(nameof(AuthView));

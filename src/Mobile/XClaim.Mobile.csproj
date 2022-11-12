@@ -46,7 +46,7 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
         <PackageReference Include="UraniumUI.Icons.FontAwesome" Version="1.1.0-pre.1" />
         <PackageReference Include="UraniumUI.Material" Version="1.1.0-pre.1" />
-    </ItemGroup>
+	</ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Common\XClaim.Common.csproj" />
     </ItemGroup>
