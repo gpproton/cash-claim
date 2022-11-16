@@ -12,7 +12,7 @@ public partial class App : Application {
         MainPage = shell;
         SetTheme();
         SettingsService.Instance.PropertyChanged += OnSettingsPropertyChanged;
-        //Routing.RegisterRoute(nameof(PaymentPage), typeof(PaymentPage));
+        // Routing.RegisterRoute(nameof(PaymentPage), typeof(PaymentPage));
     }
 
     void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e) {
@@ -33,5 +33,18 @@ public partial class App : Application {
 #endif
             }
         });
+    }
+
+    protected override Window CreateWindow(IActivationState activationState) {
+        var window = base.CreateWindow(activationState);
+        const int defaultWidth = 800;
+        const int defaultHeight = 600;
+
+        window.MinimumHeight = defaultHeight;
+        window.MaximumHeight = defaultHeight;
+        window.MinimumWidth = defaultWidth;
+        window.MaximumWidth = defaultWidth;
+
+        return window;
     }
 }
