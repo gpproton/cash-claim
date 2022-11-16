@@ -44,6 +44,7 @@ public static class MauiProgram {
 
     private static void RegisterServices(IServiceCollection s) {
         s.AddTransient<AppShell>();
+        s.AddTransient<AppShellViewModel>();
         s.AddSingleton<SettingsService>();
         // Startup views
         s.AddTransientWithShellRoute<LoadingView, LoadingViewModel>(nameof(LoadingView));

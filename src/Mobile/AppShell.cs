@@ -8,9 +8,9 @@ using XClaim.Mobile.Views.Payment;
 namespace XClaim.Mobile;
 
 public class AppShell : Shell {
-    public AppShell() {
+    public AppShell(AppShellViewModel vm) {
         FlyoutBehavior = FlyoutBehavior.Disabled;
-        BindingContext = new AppShellViewModel();
+        BindingContext = vm;
 
         Items.Add(new ShellContent {
             FlyoutItemIsVisible = false,
