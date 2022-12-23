@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using UraniumUI;
-using UraniumUI.Handlers;
-using InputKit.Handlers;
 using XClaim.Mobile.Views.Profile;
 using XClaim.Mobile.Views.Review;
 using XClaim.Mobile.Views.Startup;
@@ -62,6 +60,5 @@ public static class MauiProgram {
         s.AddTransientWithShellRoute<PaymentView, PaymentViewModel>(nameof(PaymentView));
         // Review views
         s.AddTransientWithShellRoute<ReviewView, ReviewViewModel>(nameof(ReviewView));
-        
     }
 }
