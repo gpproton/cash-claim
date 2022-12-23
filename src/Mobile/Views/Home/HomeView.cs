@@ -121,21 +121,119 @@ public class HomeView : BaseView<HomeViewModel> {
                         .Column(ListTitleColumn.Second)
                         .DynamicResource(Label.TextColorProperty, "Primary")
                     }
-                }
+                },
+
+
+                // TODO: Use RefreshView with ScrollView
+                //new RefreshView {
+                //    Content = new ScrollView {}
+                //}.Bind(RefreshView.IsRefreshingProperty, nameof(HomeViewModel.RecentItemsIsRefreshing))
+                //.Bind(RefreshView.CommandProperty, nameof(HomeViewModel.RefreshRecentsCommand))
+
+                new ScrollView {
+                      Content = Content = new CollectionView() { SelectionMode = SelectionMode.Single }
+                     .EmptyViewTemplate(new DataTemplate(() => new Label().Text("The Collection is Empty")))
+                     .Bind(ItemsView.ItemsSourceProperty, nameof(HomeViewModel.RecentItems))
+                     .Bind(SelectableItemsView.SelectedItemProperty, nameof(HomeViewModel.SelectedRecentItem))
+                     .ItemTemplate(new DataTemplate(() => new Grid {
+                        Padding = 10,
+                        ColumnDefinitions = Columns.Define(
+                            (PageRow.First, Auto),
+                            (PageRow.Second, Star),
+                            (PageRow.Third, Auto)
+                        ),
+                        RowDefinitions = Rows.Define(
+                            (PageRow.First, Auto),
+                            (PageRow.Second, Auto)
+                        ),
+
+                        Children = {
+                          new Label { Padding = 1, Margin = 2 }
+                            .Font(size: 16)
+                            .Bind(Label.TextProperty, nameof(TempRecent.Name))
+                            .Row(PageRow.First)
+                            .Column(PageRow.First),
+
+                          new HorizontalStackLayout {
+                              Children = {
+                                 new Label { Padding = 1, Margin = 2 }
+                                 .Font(size: 11)
+                                .Bind(Label.TextProperty, nameof(TempRecent.Category)),
+                                new Label { Padding = 1, Margin = 2 }
+                                .Font(size: 11)
+                                .Text("."),
+                                new Label { Padding = 1, Margin = 2 }
+                                .Font(size: 11)
+                                .Text("3 Hours ago")
+                              }
+                          }.Row(PageRow.Second)
+                          .Column(PageRow.First),
+
+                         new Label { TextColor = Colors.Green }
+                        .Font(size: 22, family: "RobotoMedium")
+                        .Bind(Label.TextProperty, nameof(TempRecent.Amount), convert: (int value) => "₦" + value)
+                        .Width(95)
+                        .Row(PageRow.First)
+                        .RowSpan(2)
+                        .Column(PageRow.Third)
+                        .CenterVertical()
+                        }
+                     }))
+                    }.FillVertical()
+
             }
             .Margins(16, 16, 16, 8)
             .Row(PageRow.Third),
-            new Button().Text("Create Request")
+
+            new Button().Text("New Request")
             .DynamicResource(StyleProperty, "ButtonLargePrimary")
             .CenterVertical()
             .Margins(24, 16, 24, 24)
-            .TapGesture(async () => await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(ClaimFormView)}"))
+            .BindCommand(nameof(HomeViewModel.ToClaimFormCommand))
             .Row(PageRow.Fourth)
         }
     };
     protected override void OnAppearing() {
         base.OnAppearing();
+        BindingContext.LoadRecentItemsCommand.Execute(null);
     }
 }
 
-public partial class HomeViewModel : BaseViewModel { }
+public record TempRecent(string Name, string Category, int Amount);
+
+public partial class HomeViewModel : BaseViewModel {
+    [ObservableProperty]
+    private ObservableCollection<TempRecent> _recentItems;
+
+
+    [ObservableProperty]
+    private bool _recentItemsIsRefreshing = false;
+
+    [ObservableProperty]
+    private TempRecent _selectedRecentItem;
+
+    [ObservableProperty]
+    private bool _loading = true;
+
+    [RelayCommand]
+    private async void LoadRecentItems() {
+        Loading = true;
+        await Task.Delay(500);
+        RecentItems = new ObservableCollection<TempRecent> {
+            new TempRecent("Travel expense calabar", "Transport", 7000),
+            new TempRecent("20 Litre Petrol", "Fuel", 1000),
+            new TempRecent("Spectranet 4G max", "Internet", 30000)
+        };
+        Loading = false;
+    }
+
+    [RelayCommand]
+    private async void RefreshRecents() {
+        RecentItemsIsRefreshing = true;
+        await Task.Delay(1500);
+        RecentItemsIsRefreshing = false;
+    }
+
+    [RelayCommand]
+    private async void ToClaimForm() => await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(ClaimFormView)}");
+}
