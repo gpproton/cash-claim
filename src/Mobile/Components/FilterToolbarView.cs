@@ -1,4 +1,5 @@
 using Microsoft.Maui.Controls.Shapes;
+using XClaim.Common.Extensions;
 
 namespace XClaim.Mobile.Components;
 
