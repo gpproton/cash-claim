@@ -1,4 +1,5 @@
 using Microsoft.Maui.Controls.Shapes;
+using UraniumUI.Material.Controls;
 using XClaim.Common.Extensions;
 
 namespace XClaim.Mobile.Components;
@@ -88,22 +89,21 @@ public partial class FilterToolbarView : Grid {
                             new Label().Text("Select Range")
                             .DynamicResource(Label.TextColorProperty, "Primary")
                             .Font(size: 22, family: "RobotoRegular")
-                            .CenterHorizontal().Margins(0, 4, 0, 4),
-                            new DatePicker {
-                                BackgroundColor = Colors.Transparent,
-                                Format = "yyyy-MMMM-dd"
-                            }
-                            .FillHorizontal()
-                            .Bind(nameof(StartDate), source: this)
-                            .DynamicResource(DatePicker.TextColorProperty, "Primary"),
-                            new DatePicker {
-                                BackgroundColor = Colors.Transparent,
-                                Format = "yyyy-MMMM-dd"
-                            }
-                            .FillHorizontal()
+                            .CenterHorizontal()
+                            .Margins(0, 4, 0, 4),
+
+                            new DatePickerField { Title = "Start Date", Format = "yyyy-MMMM-dd" }
+                            .Bind(DatePickerField.DateProperty, nameof(StartDate), source: this)
+                            .DynamicResource(DatePickerField.TextColorProperty, "Primary")
                             .Margins(0, 8, 0, 0)
-                            .Bind(nameof(EndDate), source: this)
-                            .DynamicResource(DatePicker.TextColorProperty, "Primary")
+                            .FillHorizontal(),
+
+                            new DatePickerField { Title = "End Date", Format = "yyyy-MMMM-dd" }
+                            .Bind(DatePickerField.DateProperty, nameof(EndDate), source: this)
+                            .DynamicResource(DatePickerField.TextColorProperty, "Primary")
+                            .Margins(0, 8, 0, 0)
+                            .FillHorizontal()
+
                         }
                     }
                 }.Padding(16).FillHorizontal()
