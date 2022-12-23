@@ -12,7 +12,7 @@ public class ReviewView : BaseView<ReviewViewModel> {
     }
 
     protected override void Build() {
-        Title = "Claim Reviews";
+        Title = "Reviews";
         Content = new EmptyItemView().Margins(0, 56);
     }
 }

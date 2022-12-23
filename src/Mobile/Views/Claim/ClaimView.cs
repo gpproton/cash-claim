@@ -1,3 +1,5 @@
+using UraniumUI.Material.Controls;
+
 namespace XClaim.Mobile.Views.Claim;
 
 public enum StatusOptions { Confirmed, Pending, Completed }
@@ -12,7 +14,9 @@ public class ClaimView : BaseView<ClaimViewModel> {
                 new Segment().Margins(8, 4, 8, 4)
                 .Bind(Segment.SegmentItemsProperty, nameof(ClaimViewModel.StatusItems))
                 .Bind(Segment.SelectedItemProperty, nameof(ClaimViewModel.StatusValue), mode: BindingMode.TwoWay),
-                new EmptyItemView().Margins(0, 56)
+                //new EmptyItemView().Margins(0, 56),
+                //new TextField { Title = "Sampling" },
+                new TimePickerField { Title = "Time Sample" }.Margins(0, 8, 0,8)
             }
         };
     }

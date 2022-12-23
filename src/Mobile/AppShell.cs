@@ -85,6 +85,10 @@ public class AppShell : Shell {
             ContentTemplate = new DataTemplate(typeof(ProfileView))
         });
     }
+
+    private void MobileShell() { }
+
+    private void DesktopShell() { }
 }
 
 public partial class AppShellViewModel : BaseViewModel {
