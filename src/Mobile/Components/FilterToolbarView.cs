@@ -1,5 +1,4 @@
 using Microsoft.Maui.Controls.Shapes;
-using UraniumUI.Material.Controls;
 using XClaim.Common.Extensions;
 
 namespace XClaim.Mobile.Components;
@@ -92,13 +91,13 @@ public partial class FilterToolbarView : Grid {
                             .CenterHorizontal()
                             .Margins(0, 4, 0, 4),
 
-                            new DatePickerField { Title = "Start Date", Format = "yyyy-MMMM-dd" }
+                            new DatePickerField { Title = "Start Date", Format = "yyyy-MMMM-dd", AllowClear = false }
                             .Bind(DatePickerField.DateProperty, nameof(StartDate), source: this)
                             .DynamicResource(DatePickerField.TextColorProperty, "Primary")
                             .Margins(0, 8, 0, 0)
                             .FillHorizontal(),
 
-                            new DatePickerField { Title = "End Date", Format = "yyyy-MMMM-dd" }
+                            new DatePickerField { Title = "End Date", Format = "yyyy-MMMM-dd", AllowClear = false }
                             .Bind(DatePickerField.DateProperty, nameof(EndDate), source: this)
                             .DynamicResource(DatePickerField.TextColorProperty, "Primary")
                             .Margins(0, 8, 0, 0)
