@@ -4,6 +4,8 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Entities;
 
 internal class Claim : BaseEntity {
+    public string Description { get; set; }
+    public string? Notes { get; set; }
     public decimal Amount { get; set; } = 0;
     public DateTime ReviewedAt { get; set; }
     public Category Category { get; set; }
@@ -13,6 +15,6 @@ internal class Claim : BaseEntity {
     public User? ConfirmedBy { get; set; }
     public User? ApprovedBy { get; set; }
     public DateTime? ApprovedAt { get; set; }
-    public ICollection<Attachment> Attachments { get; set; }
-    public ICollection<Comment> Comments { get; set; }
+    public ICollection<Attachment>? Attachments { get; set; }
+    public ICollection<Comment>? Comments { get; set; }
 }
