@@ -1,6 +1,9 @@
 using Microsoft.Maui.Controls.Shapes;
 using XClaim.Mobile.Views.Profile;
 using XClaim.Mobile.Views.Claim;
+using XClaim.Common.Enums;
+using XClaim.Common.Dtos;
+using XClaim.Common.Extensions;
 
 namespace XClaim.Mobile.Views.Home;
 
@@ -41,11 +44,12 @@ public class HomeView : BaseView<HomeViewModel> {
                     new StackLayout {
                         Children = {
                             new Label().Text("Hello")
-                            .DynamicResource(Label.TextColorProperty, "Secondary"),
-                            new Label().Text("Saurav")
-                            .Font(size: 20, family: "RobotoBold")
-                            .Margins(0, -5, 0, 0)
-                            .DynamicResource(Label.TextColorProperty, "Gray500")
+                                .DynamicResource(Label.TextColorProperty, "Secondary"),
+                            new Label()
+                                .Bind(Label.TextProperty, "Status.FirstName")
+                                .Font(size: 20, family: "RobotoBold")
+                                .Margins(0, -5, 0, 0)
+                                .DynamicResource(Label.TextColorProperty, "Gray500")
                         }
                     }.Margins(8, 16, 0, 0)
                     .Column(HeaderColumns.Second),
@@ -93,9 +97,9 @@ public class HomeView : BaseView<HomeViewModel> {
                         .TextColor(Colors.White)
                         .Margins(0, 0, 0, 4),
                         new Label()
-                        .Text("\u20A6" + "10,000")
                         .TextColor(Colors.White)
                         .Font(size: 32, family: "RobotoBold")
+                        .Bind(Label.TextProperty,"Status.Amount", convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
                     }
                 }
             }
@@ -127,11 +131,12 @@ public class HomeView : BaseView<HomeViewModel> {
                 // TODO: Use RefreshView with ScrollView
                 //new RefreshView {
                 //    Content = new ScrollView {}
-                //}.Bind(RefreshView.IsRefreshingProperty, nameof(HomeViewModel.RecentItemsIsRefreshing))
+                //}
+                //.Bind(RefreshView.IsRefreshingProperty, nameof(HomeViewModel.RecentItemsIsRefreshing))
                 //.Bind(RefreshView.CommandProperty, nameof(HomeViewModel.RefreshRecentsCommand))
 
                 new ScrollView {
-                      Content = Content = new CollectionView() { SelectionMode = SelectionMode.Single }
+                      Content = Content = new CollectionView() { SelectionMode = SelectionMode.None }
                      .EmptyViewTemplate(new DataTemplate(() => new Label().Text("The Collection is Empty")))
                      .Bind(ItemsView.ItemsSourceProperty, nameof(HomeViewModel.RecentItems))
                      .Bind(SelectableItemsView.SelectedItemProperty, nameof(HomeViewModel.SelectedRecentItem))
@@ -148,9 +153,9 @@ public class HomeView : BaseView<HomeViewModel> {
                         ),
 
                         Children = {
-                          new Label { Padding = 1, Margin = 2 }
+                          new Label { Padding = 1, Margin = 2, TextColor = Color.FromRgba("#7F7F7F") }
                             .Font(size: 16)
-                            .Bind(Label.TextProperty, nameof(TempRecent.Name))
+                            .Bind(Label.TextProperty, nameof(RecentActions.Name))
                             .Row(PageRow.First)
                             .Column(PageRow.First),
 
@@ -158,25 +163,26 @@ public class HomeView : BaseView<HomeViewModel> {
                               Children = {
                                  new Label { Padding = 1, Margin = 2 }
                                  .Font(size: 11)
-                                .Bind(Label.TextProperty, nameof(TempRecent.Category)),
+                                .Bind(Label.TextProperty, nameof(RecentActions.Category)),
                                 new Label { Padding = 1, Margin = 2 }
                                 .Font(size: 11)
                                 .Text("."),
                                 new Label { Padding = 1, Margin = 2 }
                                 .Font(size: 11)
-                                .Text("3 Hours ago")
+                                .Bind(Label.TextProperty, nameof(RecentActions.Time), convert: (DateTime value) => value.TimeAgo())
                               }
                           }.Row(PageRow.Second)
                           .Column(PageRow.First),
 
-                         new Label { TextColor = Colors.Green }
-                        .Font(size: 22, family: "RobotoMedium")
-                        .Bind(Label.TextProperty, nameof(TempRecent.Amount), convert: (int value) => "₦" + value)
-                        .Width(95)
-                        .Row(PageRow.First)
-                        .RowSpan(2)
-                        .Column(PageRow.Third)
-                        .CenterVertical()
+                         new Label { TextColor = Colors.LightSeaGreen }
+                            .Font(size: 22, family: "RobotoMedium")
+                            .Bind(Label.TextProperty, nameof(RecentActions.Amount), convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
+                            .MinWidth(125)
+                            .Row(PageRow.First)
+                            .RowSpan(2)
+                            .Column(PageRow.Third)
+                            .CenterVertical()
+                            .CenterHorizontal()
                         }
                      }))
                     }.FillVertical()
@@ -195,34 +201,37 @@ public class HomeView : BaseView<HomeViewModel> {
     };
     protected override void OnAppearing() {
         base.OnAppearing();
-        BindingContext.LoadRecentItemsCommand.Execute(null);
+        BindingContext.LoadDefaultsCommand.Execute(null);
     }
 }
 
-public record TempRecent(string Name, string Category, int Amount);
-
 public partial class HomeViewModel : BaseViewModel {
     [ObservableProperty]
-    private ObservableCollection<TempRecent> _recentItems;
+    private ObservableCollection<RecentActions> _recentItems;
 
 
     [ObservableProperty]
     private bool _recentItemsIsRefreshing = false;
 
     [ObservableProperty]
-    private TempRecent _selectedRecentItem;
+    private RecentActions _selectedRecentItem;
 
     [ObservableProperty]
     private bool _loading = true;
 
+    [ObservableProperty]
+    private UserProfile _status;
+
     [RelayCommand]
-    private async void LoadRecentItems() {
+    private async void LoadDefaults() {
         Loading = true;
         await Task.Delay(500);
-        RecentItems = new ObservableCollection<TempRecent> {
-            new TempRecent("Travel expense calabar", "Transport", 7000),
-            new TempRecent("20 Litre Petrol", "Fuel", 1000),
-            new TempRecent("Spectranet 4G max", "Internet", 30000)
+        Status = new UserProfile("Saurav", "Argawal", UserPermission.Administrator, 0, 10000);
+
+        RecentItems = new ObservableCollection<RecentActions> {
+            new RecentActions("Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
+            new RecentActions("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1)),
+            new RecentActions("Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
         };
         Loading = false;
     }
