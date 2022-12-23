@@ -1,7 +1,7 @@
 ﻿namespace XClaim.Common.Enums; 
 
 public enum UserPermission {
-    User,
+    Standard,
     Lead,
     Finance,
     Administrator
