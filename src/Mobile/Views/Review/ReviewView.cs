@@ -69,7 +69,7 @@ public class ReviewView : BaseView<ReviewViewModel> {
                               }
                           }.Row(SectionLevel.Second)
                           .Column(SectionLevel.Second),
-                         new Label { TextColor = Colors.LightGray }
+                         new Label { TextColor = Colors.Gray }
                             .Font(size: 18)
                             .Bind(Label.TextProperty, nameof(ReviewDto.Amount), convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
                             .MinWidth(95)
