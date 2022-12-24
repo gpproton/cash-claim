@@ -1,8 +1,8 @@
 namespace XClaim.Mobile.Views.Claim;
 
-enum SectionLevel { First, Second , Third }
-
 public class ClaimFormView : BaseView<ClaimFormViewModel> {
+    enum SectionLevel { First, Second, Third }
+
     public ClaimFormView(ClaimFormViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
