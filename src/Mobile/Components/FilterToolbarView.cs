@@ -105,7 +105,7 @@ public partial class FilterToolbarView : Grid {
 
                         }
                     }
-                }.Padding(16).FillHorizontal()
+                }.Padding(4).FillHorizontal()
             }
         )
         ));

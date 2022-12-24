@@ -111,7 +111,7 @@ public class HomeView : BaseView<HomeViewModel> {
                         (ListTitleColumn.First, Star),
                         (ListTitleColumn.Second, Auto)
                     ),
-                    Padding = 4,
+                    Padding = 8,
                     Children = {
                         new Label()
                         .Text("Recents")
@@ -141,7 +141,6 @@ public class HomeView : BaseView<HomeViewModel> {
                      .Bind(ItemsView.ItemsSourceProperty, nameof(HomeViewModel.RecentItems))
                      .Bind(SelectableItemsView.SelectedItemProperty, nameof(HomeViewModel.SelectedRecentItem))
                      .ItemTemplate(new DataTemplate(() => new Grid {
-                        Padding = 10,
                         ColumnDefinitions = Columns.Define(
                             (PageRow.First, Auto),
                             (PageRow.Second, Star),
@@ -149,16 +148,15 @@ public class HomeView : BaseView<HomeViewModel> {
                         ),
                         RowDefinitions = Rows.Define(
                             (PageRow.First, Auto),
-                            (PageRow.Second, Auto)
+                            (PageRow.Second, Auto),
+                            (PageRow.Third, 1)
                         ),
-
                         Children = {
                           new Label { Padding = 1, Margin = 2, TextColor = Color.FromRgba("#7F7F7F") }
                             .Font(size: 16)
                             .Bind(Label.TextProperty, nameof(RecentActions.Name))
                             .Row(PageRow.First)
                             .Column(PageRow.First),
-
                           new HorizontalStackLayout {
                               Children = {
                                  new Label { Padding = 1, Margin = 2 }
@@ -173,22 +171,24 @@ public class HomeView : BaseView<HomeViewModel> {
                               }
                           }.Row(PageRow.Second)
                           .Column(PageRow.First),
-
                          new Label { TextColor = Colors.LightSeaGreen }
                             .Font(size: 22, family: "RobotoMedium")
                             .Bind(Label.TextProperty, nameof(RecentActions.Amount), convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
-                            .MinWidth(125)
+                            .MinWidth(105)
                             .Row(PageRow.First)
                             .RowSpan(2)
                             .Column(PageRow.Third)
                             .CenterVertical()
-                            .CenterHorizontal()
+                            .CenterHorizontal(),
+                         new BoxView()
+                             .DynamicResource(StyleProperty, "SeparatorLine")
+                             .Row(PageRow.Third)
+                             .ColumnSpan(3)
                         }
-                     }))
+                     }.Paddings(4, 2, 4, 4)))
                     }.FillVertical()
-
             }
-            .Margins(16, 16, 16, 8)
+            .Margins(8, 16, 8, 8)
             .Row(PageRow.Third),
 
             new Button().Text("New Request")

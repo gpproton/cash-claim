@@ -35,7 +35,6 @@ public class ClaimFormView : BaseView<ClaimFormViewModel> {
                                     (SectionLevel.Second, Auto)
                                 ),
                                 Children = {
-
                                      new AvatarView() {
                                          CornerRadius = 8,
                                          Margin = 4,
@@ -47,7 +46,6 @@ public class ClaimFormView : BaseView<ClaimFormViewModel> {
                                     }.BackgroundColor(Colors.OrangeRed)
                                     .Size(48, 48).Row(SectionLevel.First)
                                     .TapGesture(() => TakePhoto()),
-
                                     new AvatarView() {
                                         CornerRadius = 8,
                                         Margin = 4,
@@ -58,8 +56,7 @@ public class ClaimFormView : BaseView<ClaimFormViewModel> {
                                         }).Size(24)
                                     }.BackgroundColor(Colors.DodgerBlue)
                                     .Size(48, 48).Row(SectionLevel.Second)
-                                    .TapGesture(() => PickFiles()),
-
+                                    .TapGesture(() => PickFiles())
                                 }
                             }.CenterVertical()
                             .Margins(8, 8, 8, 8)
