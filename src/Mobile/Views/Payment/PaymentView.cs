@@ -107,7 +107,7 @@ public partial class PaymentViewModel : BaseViewModel {
     private ObservableCollection<PaymentDto> _selected;
 
     [RelayCommand]
-    private async void Load() {
+    private void Load() {
         Items = new ObservableCollection<PaymentDto>() {
             new PaymentDto("Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
             new PaymentDto("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Pending"),

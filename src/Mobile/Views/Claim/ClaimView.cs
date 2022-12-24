@@ -119,7 +119,7 @@ public partial class ClaimViewModel : BaseViewModel {
     }
 
     [RelayCommand]
-    private async void Load() {
+    private void Load() {
         Items = new ObservableCollection<ClaimDto>() {
             new ClaimDto("Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4), "Checked documents already."),
             new ClaimDto("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Total filling station"),
