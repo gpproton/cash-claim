@@ -26,10 +26,10 @@ public class AuthView : BaseView<AuthViewModel> {
                 new VerticalStackLayout() {
                     Children = {
                         new Button() {
-                            ImageSource = Icons.Google,
-                            ContentLayout = new ButtonContentLayout(ButtonContentLayout.ImagePosition.Left, 32)
+                            //ImageSource = new FileImageSource { File = Icons.Microsoft },
+                            //ContentLayout = new ButtonContentLayout(ButtonContentLayout.ImagePosition.Left, 32)
                         }
-                        .Text("Sign in with Google")
+                        .Text("Sign in with Microsoft")
                         .DynamicResource(StyleProperty, "ButtonAuth")
                         .CenterVertical()
                         .BindCommand(nameof(AuthViewModel.NavigateToHomeCommand))

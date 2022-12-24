@@ -30,13 +30,11 @@
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#4E549C" BaseSize="128,128" />
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
+		<MauiImage Include="Resources\Images\microsoft_icon.svg" BaseSize="32,32" Resize="false" Color="#EBECF9" />
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-    </ItemGroup>
-    <ItemGroup>
-        <None Remove="Resources\Images\chevron_left_solid.svg" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="BindableProps" Version="1.2.0" />
