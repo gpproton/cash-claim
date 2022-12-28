@@ -65,7 +65,7 @@
     </Style>
 
     <Style TargetType="BoxView" x:Key="SeparatorLine">
-        <Setter Property="Color" Value="LightGray"/>
+        <Setter Property="Color" Value="LightGray" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="HeightRequest" Value="1" />
         <Setter Property="Margin" Value="8,0,8,0" />

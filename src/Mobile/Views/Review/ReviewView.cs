@@ -3,7 +3,11 @@ using XClaim.Common.Dtos;
 namespace XClaim.Mobile.Views.Review;
 
 public class ReviewView : BaseView<ReviewViewModel> {
-    enum SectionLevel { First, Second, Third }
+    private enum SectionLevel {
+        First,
+        Second,
+        Third
+    }
 
     public ReviewView(ReviewViewModel vm) : base(vm) {
         ToolbarItems.Add(new ToolbarItem {
@@ -23,76 +27,78 @@ public class ReviewView : BaseView<ReviewViewModel> {
             ),
             Children = {
                 new RefreshView {
-                    Content = new CollectionView() {
-                        SelectionMode = SelectionMode.None,
-                        EmptyView = "No items to display"
-                    }.Bind(ItemsView.ItemsSourceProperty, nameof(ReviewViewModel.Items))
-                    .ItemTemplate(new DataTemplate(() => new Grid {
-                        ColumnDefinitions = Columns.Define(
-                            (SectionLevel.First, Auto),
-                            (SectionLevel.Second, Star),
-                            (SectionLevel.Third, Auto)
-                        ),
-                        RowDefinitions = Rows.Define(
-                            (SectionLevel.First, Auto),
-                            (SectionLevel.Second, Auto),
-                            (SectionLevel.Third, 1)
-                        ),
-                        Children = {
-                            new AvatarView() {
-                            CornerRadius = 8,
-                            Margin = 4,
-                            Content = new Image().Source(new FontImageSource() {
-                            FontFamily = "FASolid",
-                            Glyph = FA.Solid.Book,
-                            Color = Colors.Indigo
-                            }).Size(24)
-                        }.BackgroundColor(Colors.LightGray)
-                        .Size(48, 48)
-                        .Column(SectionLevel.First)
-                        .RowSpan(2),
-                            new Label { TextColor = Color.FromRgba("#7F7F7F") }
-                            .Font(size: 14)
-                            .Bind(Label.TextProperty, nameof(ReviewDto.Name))
-                            .Row(SectionLevel.First)
-                            .Column(SectionLevel.Second)
-                            .Margins(0, 8, 0, 0),
-                            new HorizontalStackLayout {
+                        Content = new CollectionView() {
+                                SelectionMode = SelectionMode.None,
+                                EmptyView = "No items to display"
+                            }.Bind(ItemsView.ItemsSourceProperty, nameof(ReviewViewModel.Items))
+                            .ItemTemplate(new DataTemplate(() => new Grid {
+                                ColumnDefinitions = Columns.Define(
+                                    (SectionLevel.First, Auto),
+                                    (SectionLevel.Second, Star),
+                                    (SectionLevel.Third, Auto)
+                                ),
+                                RowDefinitions = Rows.Define(
+                                    (SectionLevel.First, Auto),
+                                    (SectionLevel.Second, Auto),
+                                    (SectionLevel.Third, 1)
+                                ),
                                 Children = {
+                                    new AvatarView() {
+                                            CornerRadius = 8,
+                                            Margin = 4,
+                                            Content = new Image().Source(new FontImageSource() {
+                                                FontFamily = "FASolid",
+                                                Glyph = FA.Solid.Book,
+                                                Color = Colors.Indigo
+                                            }).Size(24)
+                                        }.BackgroundColor(Colors.LightGray)
+                                        .Size(48, 48)
+                                        .Column(SectionLevel.First)
+                                        .RowSpan(2),
+                                    new Label { TextColor = Color.FromRgba("#7F7F7F") }
+                                        .Font(size: 14)
+                                        .Bind(Label.TextProperty, nameof(ReviewDto.Name))
+                                        .Row(SectionLevel.First)
+                                        .Column(SectionLevel.Second)
+                                        .Margins(0, 8, 0, 0),
+                                    new HorizontalStackLayout {
+                                            Children = {
+                                                new Label()
+                                                    .Font(size: 11)
+                                                    .Bind(Label.TextProperty, nameof(ReviewDto.Time),
+                                                        convert: (DateTime value) => value.ToString("dd-MMM-yyyy")),
+                                                new Label()
+                                                    .Font(size: 11)
+                                                    .Text(".")
+                                                    .Margins(3, 0, 3, 0),
+                                                new Label()
+                                                    .Font(size: 11)
+                                                    .Bind(Label.TextProperty, nameof(ReviewDto.Owner))
+                                            }
+                                        }.Row(SectionLevel.Second)
+                                        .Column(SectionLevel.Second),
+                                    new Label { TextColor = Colors.Gray }
+                                        .Font(size: 18)
+                                        .Bind(Label.TextProperty, nameof(ReviewDto.Amount),
+                                            convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
+                                        .MinWidth(95)
+                                        .Row(SectionLevel.First)
+                                        .Column(SectionLevel.Third)
+                                        .CenterVertical()
+                                        .CenterHorizontal(),
                                     new Label()
-                                .Font(size: 11)
-                                .Bind(Label.TextProperty, nameof(ReviewDto.Time), convert: (DateTime value) => value.ToString("dd-MMM-yyyy")),
-                                new Label()
-                                .Font(size: 11)
-                                .Text(".")
-                                .Margins(3, 0, 3, 0),
-                                    new Label()
-                                    .Font(size: 11)
-                                .Bind(Label.TextProperty, nameof(ReviewDto.Owner))
+                                        .Font(size: 11)
+                                        .Bind(Label.TextProperty, nameof(ReviewDto.Status))
+                                        .Row(SectionLevel.Second)
+                                        .Column(SectionLevel.Third),
+                                    new BoxView()
+                                        .DynamicResource(StyleProperty, "SeparatorLine")
+                                        .Row(SectionLevel.Third)
+                                        .ColumnSpan(3)
                                 }
-                            }.Row(SectionLevel.Second)
-                            .Column(SectionLevel.Second),
-                            new Label { TextColor = Colors.Gray }
-                            .Font(size: 18)
-                            .Bind(Label.TextProperty, nameof(ReviewDto.Amount), convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
-                            .MinWidth(95)
-                            .Row(SectionLevel.First)
-                            .Column(SectionLevel.Third)
-                            .CenterVertical()
-                            .CenterHorizontal(),
-                            new Label()
-                            .Font(size: 11)
-                            .Bind(Label.TextProperty, nameof(ReviewDto.Status))
-                            .Row(SectionLevel.Second)
-                            .Column(SectionLevel.Third),
-                            new BoxView()
-                                .DynamicResource(StyleProperty, "SeparatorLine")
-                                .Row(SectionLevel.Third)
-                                .ColumnSpan(3)
-                        }
-                    }.Paddings(4, 8, 4, 4)))
-                }.Bind(RefreshView.CommandProperty, nameof(ReviewViewModel.RefreshItemsCommand))
-                .Bind(RefreshView.IsRefreshingProperty, nameof(ReviewViewModel.IsRefreshing))
+                            }.Paddings(4, 8, 4, 4)))
+                    }.Bind(RefreshView.CommandProperty, nameof(ReviewViewModel.RefreshItemsCommand))
+                    .Bind(RefreshView.IsRefreshingProperty, nameof(ReviewViewModel.IsRefreshing))
             }
         };
     }
@@ -104,26 +110,23 @@ public class ReviewView : BaseView<ReviewViewModel> {
 }
 
 public partial class ReviewViewModel : BaseViewModel {
-    [ObservableProperty]
-    private bool _isRefreshing;
+    [ObservableProperty] private bool _isRefreshing;
 
-    [ObservableProperty]
-    private ObservableCollection<ReviewDto> _items;
+    [ObservableProperty] private ObservableCollection<ReviewDto> _items;
 
-    [ObservableProperty]
-    private ObservableCollection<ReviewDto> _selected;
+    [ObservableProperty] private ObservableCollection<ReviewDto> _selected;
 
     [RelayCommand]
     private async Task Load() {
         await Task.Delay(100);
         Items = new ObservableCollection<ReviewDto>() {
-            new ReviewDto("Travel expense calabar", "Saurav Argawal", 7000, DateTime.Now.AddHours(-4), "Reviwed"),
+            new("Travel expense calabar", "Saurav Argawal", 7000, DateTime.Now.AddHours(-4), "Reviwed")
         };
     }
 
     [RelayCommand]
     private async Task RefreshItems() {
-        if(IsRefreshing!) IsRefreshing = true;
+        if (IsRefreshing!) IsRefreshing = true;
         await Task.Delay(500);
         IsRefreshing = false;
     }

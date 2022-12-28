@@ -8,10 +8,18 @@ public class ColumnLayout : VerticalStackLayout {
 
     public ColumnLayout() { }
 
-    protected override ILayoutManager CreateLayoutManager() => new ColumnLayoutManager(this);
-    public bool GetFill(BindableObject bindableObject) => (bool)bindableObject.GetValue(FillProperty);
+    protected override ILayoutManager CreateLayoutManager() {
+        return new ColumnLayoutManager(this);
+    }
 
-    public void SetFill(BindableObject bindableObject, bool fill) => bindableObject.SetValue(FillProperty, fill);
+    public bool GetFill(BindableObject bindableObject) {
+        return (bool)bindableObject.GetValue(FillProperty);
+    }
+
+    public void SetFill(BindableObject bindableObject, bool fill) {
+        bindableObject.SetValue(FillProperty, fill);
+    }
+
     public bool GetFill(IView view) {
         if (view is BindableObject bindableObject) return GetFill(bindableObject);
 

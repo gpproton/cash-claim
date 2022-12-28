@@ -26,20 +26,22 @@ public abstract class BaseView : ContentPage {
 #endif
     }
 
-    private void ReloadUI(Type[] obj) => MainThread.BeginInvokeOnMainThread(Build);
+    private void ReloadUI(Type[] obj) {
+        MainThread.BeginInvokeOnMainThread(Build);
+    }
 }
 
 public abstract class BaseView<T> : BaseView where T : BaseViewModel {
-    protected BaseView(in T viewModel, in bool shouldUseSafeArea = false) : base(shouldUseSafeArea) => base.BindingContext = viewModel;
+    protected BaseView(in T viewModel, in bool shouldUseSafeArea = false) : base(shouldUseSafeArea) {
+        base.BindingContext = viewModel;
+    }
 
     protected new T BindingContext => (T)base.BindingContext;
 }
 
 [INotifyPropertyChanged]
 public abstract partial class BaseViewModel {
-    [ObservableProperty]
-    private bool _isBusy;
+    [ObservableProperty] private bool _isBusy;
 
-    [ObservableProperty]
-    private string _title;
+    [ObservableProperty] private string _title;
 }

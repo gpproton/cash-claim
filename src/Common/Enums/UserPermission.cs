@@ -1,4 +1,4 @@
-﻿namespace XClaim.Common.Enums; 
+﻿namespace XClaim.Common.Enums;
 
 public enum UserPermission {
     Standard,

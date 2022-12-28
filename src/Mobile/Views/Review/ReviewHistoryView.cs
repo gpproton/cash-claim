@@ -1,7 +1,9 @@
 namespace XClaim.Mobile.Views.Review;
 
 public class ReviewHistoryView : BaseView {
-    public ReviewHistoryView() => Build();
+    public ReviewHistoryView() {
+        Build();
+    }
 
     protected override void Build() {
         Content = new VerticalStackLayout {

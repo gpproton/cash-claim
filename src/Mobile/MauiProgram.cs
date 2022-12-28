@@ -15,23 +15,20 @@ public static class MauiProgram {
     public static MauiApp CreateMauiApp() {
         var builder = MauiApp.CreateBuilder();
         builder
-        .UseMauiApp<App>()
-        .UseMauiCommunityToolkit()
-        .UseMauiCommunityToolkitMarkup()
-        .UseUraniumUI()
-        .ConfigureFonts(fonts => {
-            fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-            fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            fonts.AddFont("Roboto-Thin.ttf", "RobotoThin");
-            fonts.AddFont("Roboto-Regular.ttf", "RobotoRegular");
-            fonts.AddFont("Roboto-Medium.ttf", "RobotoMedium");
-            fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
-            fonts.AddFontAwesomeIconFonts();
-        })
-        .ConfigureMauiHandlers(handlers =>
-        {
-            handlers.AddUraniumUIHandlers();
-        });
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .UseMauiCommunityToolkitMarkup()
+            .UseUraniumUI()
+            .ConfigureFonts(fonts => {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("Roboto-Thin.ttf", "RobotoThin");
+                fonts.AddFont("Roboto-Regular.ttf", "RobotoRegular");
+                fonts.AddFont("Roboto-Medium.ttf", "RobotoMedium");
+                fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
+                fonts.AddFontAwesomeIconFonts();
+            })
+            .ConfigureMauiHandlers(handlers => { handlers.AddUraniumUIHandlers(); });
 
         RegisterServices(builder.Services);
 #if DEBUG
@@ -50,7 +47,8 @@ public static class MauiProgram {
         s.AddTransientWithShellRoute<ConfigView, ConfigViewModel>($"{nameof(AuthView)}/{nameof(ConfigView)}");
         // Home views
         s.AddTransientWithShellRoute<HomeView, HomeViewModel>(nameof(HomeView));
-        s.AddTransientWithShellRoute<NotificationView, NotificationViewModel>($"{nameof(HomeView)}/{nameof(NotificationView)}");
+        s.AddTransientWithShellRoute<NotificationView, NotificationViewModel>(
+            $"{nameof(HomeView)}/{nameof(NotificationView)}");
         // Profile views
         s.AddTransientWithShellRoute<ProfileView, ProfileViewModel>(nameof(ProfileView));
         // Claim views

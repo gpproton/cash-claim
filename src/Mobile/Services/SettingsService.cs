@@ -5,8 +5,9 @@ public partial class SettingsService {
     private static SettingsService _instance;
     public static SettingsService Instance => _instance ??= new SettingsService();
 
-    SettingsService() => Theme = Theme.System;
+    private SettingsService() {
+        Theme = Theme.System;
+    }
 
-    [ObservableProperty]
-    private Theme _theme;
+    [ObservableProperty] private Theme _theme;
 }

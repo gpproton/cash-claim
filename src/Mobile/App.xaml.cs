@@ -15,15 +15,17 @@ public partial class App : Application {
         // Routing.RegisterRoute(nameof(PaymentPage), typeof(PaymentPage));
     }
 
-    void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e) {
+    private void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e) {
         if (e.PropertyName == nameof(SettingsService.Theme)) SetTheme();
     }
 
-    void SetTheme() => UserAppTheme = SettingsService.Instance?.Theme != null
-                                      ? SettingsService.Instance.Theme.AppTheme
-                                      : AppTheme.Unspecified;
+    private void SetTheme() {
+        UserAppTheme = SettingsService.Instance?.Theme != null
+            ? SettingsService.Instance.Theme.AppTheme
+            : AppTheme.Unspecified;
+    }
 
-    void BuildNativeControls() {
+    private void BuildNativeControls() {
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomEntry), (handler, view) => {
             if (view is CustomEntry) {
 #if __ANDROID__
