@@ -3,7 +3,7 @@ using XClaim.Common.Enums;
 
 namespace XClaim.Common.Entities;
 
-internal class Claim : BaseEntity {
+public class Claim : BaseEntity {
     public string Description { get; set; }
     public string? Notes { get; set; }
     public decimal Amount { get; set; } = 0;

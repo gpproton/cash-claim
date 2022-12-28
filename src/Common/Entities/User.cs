@@ -3,7 +3,7 @@ using XClaim.Common.Enums;
 
 namespace XClaim.Common.Entities;
 
-internal class User : BaseEntity {
+public class User : BaseEntity {
     public string Email { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
