@@ -99,7 +99,7 @@ public class HomeView : BaseView<HomeViewModel> {
                         new Label()
                         .TextColor(Colors.White)
                         .Font(size: 32, family: "RobotoBold")
-                        .Bind(Label.TextProperty,"Status.Amount", convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
+                        .Bind(Label.TextProperty,"Status.Balance", convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
                     }
                 }
             }
