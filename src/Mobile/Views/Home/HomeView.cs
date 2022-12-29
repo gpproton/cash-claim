@@ -128,7 +128,12 @@ public class HomeView : BaseView<HomeViewModel> {
                     }
                     .Margins(24, 6, 24, 6)
                     .Row(PageRow.Second),
-                new VerticalStackLayout() {
+                    new Grid() {
+                        RowDefinitions = Rows.Define(
+                            (PageRow.First, Auto),
+                            (PageRow.Second, Star)
+                        ),
+                        Children = {
                         new Grid() {
                             ColumnDefinitions = Columns.Define(
                                 (ListTitleColumn.First, Star),
@@ -148,19 +153,12 @@ public class HomeView : BaseView<HomeViewModel> {
                                     .Column(ListTitleColumn.Second)
                                     .DynamicResource(Label.TextColorProperty, "Primary")
                             }
-                        },
-
-
-                        // TODO: Use RefreshView with ScrollView
-                        //new RefreshView {
-                        //    Content = new ScrollView {}
-                        //}
-                        //.Bind(RefreshView.IsRefreshingProperty, nameof(HomeViewModel.RecentItemsIsRefreshing))
-                        //.Bind(RefreshView.CommandProperty, nameof(HomeViewModel.RefreshRecentsCommand))
-
-                        new ScrollView {
-                            Content = Content = new CollectionView() { SelectionMode = SelectionMode.None }
-                                .EmptyViewTemplate(new DataTemplate(() => new Label().Text("The Collection is Empty")))
+                        }.Row(PageRow.First),
+                        new RefreshView {
+                                Content = new CollectionView() {
+                                    SelectionMode = SelectionMode.None,
+                                    EmptyView = "No recent event"
+                                }
                                 .Bind(ItemsView.ItemsSourceProperty, nameof(HomeViewModel.RecentItems))
                                 .Bind(SelectableItemsView.SelectedItemProperty,
                                     nameof(HomeViewModel.SelectedRecentItem))
@@ -212,7 +210,10 @@ public class HomeView : BaseView<HomeViewModel> {
                                             .ColumnSpan(3)
                                     }
                                 }.Paddings(4, 2, 4, 4)))
-                        }.FillVertical()
+                        }.Row(PageRow.Second)
+                        .Bind(RefreshView.IsRefreshingProperty, nameof(HomeViewModel.IsRefreshing))
+                        .Bind(RefreshView.CommandProperty, nameof(HomeViewModel.RefreshRecentsCommand))
+                    }
                     }
                     .Margins(8, 16, 8, 8)
                     .Row(PageRow.Third),
@@ -236,8 +237,7 @@ public class HomeView : BaseView<HomeViewModel> {
 public partial class HomeViewModel : BaseViewModel {
     [ObservableProperty] private ObservableCollection<RecentActions> _recentItems;
 
-
-    [ObservableProperty] private bool _recentItemsIsRefreshing = false;
+    [ObservableProperty] private bool _isRefreshing;
 
     [ObservableProperty] private RecentActions _selectedRecentItem;
 
@@ -246,11 +246,10 @@ public partial class HomeViewModel : BaseViewModel {
     [ObservableProperty] private UserProfile _status;
 
     [RelayCommand]
-    private async void LoadDefaults() {
+    private async Task LoadDefaults() {
         Loading = true;
         await Task.Delay(500);
         Status = new UserProfile("Saurav", "Argawal", UserPermission.Administrator, 0, 10000);
-
         RecentItems = new ObservableCollection<RecentActions> {
             new("Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
             new("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1)),
@@ -260,10 +259,10 @@ public partial class HomeViewModel : BaseViewModel {
     }
 
     [RelayCommand]
-    private async void RefreshRecents() {
-        RecentItemsIsRefreshing = true;
+    private async Task RefreshRecents() {
+        IsRefreshing = true;
         await Task.Delay(1500);
-        RecentItemsIsRefreshing = false;
+        IsRefreshing = false;
     }
 
     [RelayCommand]
