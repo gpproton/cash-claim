@@ -41,7 +41,7 @@ public static class MauiProgram {
         s.AddTransient<AppShell>();
         s.AddTransient<AppShellViewModel>();
         s.AddSingleton<SettingsService>();
-        // Startup views
+        // Startup section
         s.AddTransientWithShellRoute<LoadingView, LoadingViewModel>(nameof(LoadingView));
         s.AddTransientWithShellRoute<AuthView, AuthViewModel>(nameof(AuthView));
         s.AddTransientWithShellRoute<ConfigView, ConfigViewModel>($"{nameof(AuthView)}/{nameof(ConfigView)}");
@@ -50,9 +50,14 @@ public static class MauiProgram {
         s.AddTransientWithShellRoute<ClaimFormView, ClaimFormViewModel>($"{nameof(HomeView)}/{nameof(ClaimFormView)}");
         s.AddTransientWithShellRoute<NotificationView, NotificationViewModel>(
             $"{nameof(HomeView)}/{nameof(NotificationView)}");
-        // Profile views
+        // Profile section
         s.AddTransientWithShellRoute<ProfileView, ProfileViewModel>(nameof(ProfileView));
         s.AddTransientWithShellRoute<BankView, BankViewModel>($"{nameof(ProfileView)}/{nameof(BankView)}");
+        s.AddTransientWithShellRoute<AlertsView, AlertsViewModel>($"{nameof(ProfileView)}/{nameof(AlertsView)}");
+        s.AddTransientWithShellRoute<LogView, LogViewModel>($"{nameof(ProfileView)}/{nameof(LogView)}");
+        s.AddTransientWithShellRoute<SettingView, SettingViewModel>($"{nameof(ProfileView)}/{nameof(SettingView)}");
+        s.AddTransientWithShellRoute<ThemeView, ThemeViewModel>($"{nameof(ProfileView)}/{nameof(ThemeView)}");
+        s.AddTransientWithShellRoute<HelpView, HelpViewModel>($"{nameof(ProfileView)}/{nameof(HelpView)}");
         // Claim views
         s.AddTransientWithShellRoute<ClaimView, ClaimViewModel>(nameof(ClaimView));
         // Payment views

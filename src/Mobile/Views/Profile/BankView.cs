@@ -6,9 +6,7 @@ public class BankView : BaseView<BankViewModel> {
     protected override void Build() {
         Title = "Bank Account";
         Content = new VerticalStackLayout {
-            Children = {
-                new Label().Text("Bank view").CenterHorizontal()
-            }
+             new Label().Text("Bank!!").CenterHorizontal()
         };
     }
 }

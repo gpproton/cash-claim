@@ -140,11 +140,12 @@ public class ProfileView : BaseView<ProfileViewModel> {
 }
 
 public partial class ProfileViewModel : BaseViewModel {
+    const string root = $"///{nameof(ProfileView)}";
     [ObservableProperty] private ObservableCollection<ProfileLink> _items = new() {
-        new ProfileLink("Bank Account", FA.Solid.Wallet, $"///{nameof(ProfileView)}/{nameof(BankView)}"),
-        //new ProfileLink("Account Logs", FA.Solid.CalendarDay, $"/{nameof(HomeView)}/{nameof(SettingView)}"),
-        //new ProfileLink("Appearance", FA.Solid.Sun, $"///{nameof(HomeView)}/{nameof(SettingView)}"),
-        //new ProfileLink("Notification", FA.Solid.Bell, $"///{nameof(HomeView)}/{nameof(SettingView)}"),
-        //new ProfileLink("Help", FA.Solid.CircleInfo, $"///{nameof(HomeView)}/{nameof(SettingView)}")
+        new ProfileLink("Bank Account", FA.Solid.Wallet, $"{root}/{nameof(BankView)}"),
+        new ProfileLink("Account History", FA.Solid.CalendarDay, $"{root}/{nameof(LogView)}"),
+        new ProfileLink("Appearance", FA.Solid.Sun, $"{root}/{nameof(ThemeView)}"),
+        new ProfileLink("Notification", FA.Solid.Bell, $"{root}/{nameof(AlertsView)}"),
+        new ProfileLink("Help", FA.Solid.CircleInfo, $"{root}/{nameof(HelpView)}")
     };
 }
