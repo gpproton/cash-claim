@@ -4,6 +4,7 @@ using XClaim.Mobile.Views.Claim;
 using XClaim.Common.Enums;
 using XClaim.Common.Dtos;
 using XClaim.Common.Extensions;
+using XClaim.Mobile.Views.Home.Component;
 
 namespace XClaim.Mobile.Views.Home;
 
@@ -31,9 +32,7 @@ internal enum ListTitleColumn {
 }
 
 public class HomeView : BaseView<HomeViewModel> {
-    public HomeView(HomeViewModel vm) : base(vm) {
-        Build();
-    }
+    public HomeView(HomeViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
         Content = new Grid() {
@@ -156,12 +155,13 @@ public class HomeView : BaseView<HomeViewModel> {
                         }.Row(PageRow.First),
                         new RefreshView {
                                 Content = new CollectionView() {
-                                    SelectionMode = SelectionMode.None,
+                                    SelectionMode = SelectionMode.Single,
                                     EmptyView = "No recent event"
                                 }
                                 .Bind(ItemsView.ItemsSourceProperty, nameof(HomeViewModel.RecentItems))
                                 .Bind(SelectableItemsView.SelectedItemProperty,
                                     nameof(HomeViewModel.SelectedRecentItem))
+                                .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
                                 .ItemTemplate(new DataTemplate(() => new Grid {
                                     ColumnDefinitions = Columns.Define(
                                         (PageRow.First, Auto),
@@ -231,6 +231,16 @@ public class HomeView : BaseView<HomeViewModel> {
     protected override void OnAppearing() {
         base.OnAppearing();
         BindingContext.LoadDefaultsCommand.Execute(null);
+    }
+
+    async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
+        ArgumentNullException.ThrowIfNull(sender);
+        var cx = (CollectionView)sender;
+        cx.SelectedItem = null;
+        if (e.CurrentSelection.FirstOrDefault() is RecentActions item) {
+            if (!string.IsNullOrEmpty(item.Name))
+               await MauiPopup.PopupAction.DisplayPopup(new HomeEventPop(item) );
+        }
     }
 }
 

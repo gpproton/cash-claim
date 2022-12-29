@@ -22,9 +22,7 @@ public partial class FilterToolbarView : Grid {
         Third
     }
 
-    public FilterToolbarView() {
-        Build();
-    }
+    public FilterToolbarView() => Build();
 
     private void Build() {
         Margin = new Thickness { Top = 4, Left = 8, Right = 8, Bottom = 0 };
@@ -77,39 +75,39 @@ public partial class FilterToolbarView : Grid {
             .Bind(IsVisibleProperty, nameof(ShowSearch), source: this, convert: (bool value) => !value)
             .TapGesture(async () =>
                 await CurrentPage.ShowPopupAsync(new Popup {
-                        VerticalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Start,
+                        VerticalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Center,
+                        HorizontalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Fill,
                         Color = Colors.Transparent,
                         Content = new Border {
                             BackgroundColor = Colors.White,
-                            MinimumHeightRequest = 120,
+                            MinimumHeightRequest = 100,
                             MinimumWidthRequest = 320,
                             StrokeShape = new RoundRectangle {
                                 CornerRadius = new CornerRadius(10)
                             },
-                            Content = new StackLayout {
-                                Children = {
-                                    new Label().Text("Select Range")
-                                        .DynamicResource(Label.TextColorProperty, "Primary")
-                                        .Font(size: 22, family: "RobotoRegular")
-                                        .CenterHorizontal()
-                                        .Margins(0, 4, 0, 4),
+                            Content = new VerticalStackLayout {
+                                new Label().Text("Select Range")
+                                    .DynamicResource(Label.TextColorProperty, "Primary")
+                                    .Font(size: 22, family: "RobotoRegular")
+                                    .CenterHorizontal()
+                                    .Margins(0, 4, 0, 4),
 
-                                    new DatePickerField
-                                            { Title = "Start Date", Format = "yyyy-MMMM-dd", AllowClear = false }
-                                        .Bind(DatePickerField.DateProperty, nameof(StartDate), source: this)
-                                        .DynamicResource(DatePickerField.TextColorProperty, "Primary")
-                                        .Margins(0, 8, 0, 0)
-                                        .FillHorizontal(),
+                                new DatePickerField
+                                        { Title = "Start Date", Format = "yyyy-MMMM-dd", AllowClear = false }
+                                    .Bind(DatePickerField.DateProperty, nameof(StartDate), source: this)
+                                    .DynamicResource(DatePickerField.TextColorProperty, "Primary")
+                                    .Margins(0, 8, 0, 0)
+                                    .FillHorizontal(),
 
-                                    new DatePickerField
-                                            { Title = "End Date", Format = "yyyy-MMMM-dd", AllowClear = false }
-                                        .Bind(DatePickerField.DateProperty, nameof(EndDate), source: this)
-                                        .DynamicResource(DatePickerField.TextColorProperty, "Primary")
-                                        .Margins(0, 8, 0, 0)
-                                        .FillHorizontal()
-                                }
+                                new DatePickerField
+                                        { Title = "End Date", Format = "yyyy-MMMM-dd", AllowClear = false }
+                                    .Bind(DatePickerField.DateProperty, nameof(EndDate), source: this)
+                                    .DynamicResource(DatePickerField.TextColorProperty, "Primary")
+                                    .Margins(0, 8, 0, 0)
+                                    .FillHorizontal()
                             }
-                        }.Padding(4).FillHorizontal()
+                        }.Paddings(16, 4, 16, 16)
+                        .FillHorizontal()
                     }
                 )
             ));

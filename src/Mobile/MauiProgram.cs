@@ -47,6 +47,7 @@ public static class MauiProgram {
         s.AddTransientWithShellRoute<ConfigView, ConfigViewModel>($"{nameof(AuthView)}/{nameof(ConfigView)}");
         // Home views
         s.AddScopedWithShellRoute<HomeView, HomeViewModel>(nameof(HomeView));
+        // Home relateds
         s.AddTransientWithShellRoute<ClaimFormView, ClaimFormViewModel>($"{nameof(HomeView)}/{nameof(ClaimFormView)}");
         s.AddTransientWithShellRoute<NotificationView, NotificationViewModel>(
             $"{nameof(HomeView)}/{nameof(NotificationView)}");
