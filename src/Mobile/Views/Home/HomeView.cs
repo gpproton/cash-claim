@@ -60,7 +60,7 @@ public class HomeView : BaseView<HomeViewModel> {
                                 }.Size(54, 54)
                                 .CenterVertical()
                                 .DynamicResource(BackgroundColorProperty, "Gray300")
-                                .TapGesture(async () => await Shell.Current.GoToAsync(nameof(ProfileView)))
+                                .TapGesture(async () => await Shell.Current.GoToAsync($"///{nameof(ProfileView)}"))
                                 .Column(HeaderColumns.First),
                             new StackLayout {
                                     Children = {

@@ -9,27 +9,35 @@ public class ProfileView : BaseView<ProfileViewModel> {
         First,
         Second,
         Third,
-        Fourth
+        Fourth,
+        Fifth
     }
 
-    public ProfileView(ProfileViewModel vm) : base(vm) {
-        Build();
-    }
+    public ProfileView(ProfileViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
-        Title = "Profile";
         Content = new Grid {
             ColumnSpacing = 10,
             Margin = 8,
             RowDefinitions = Rows.Define(
                 (SectionLevel.First, Auto),
                 (SectionLevel.Second, Auto),
-                (SectionLevel.Third, Star),
-                (SectionLevel.Fourth, Auto)
+                (SectionLevel.Third, Auto),
+                (SectionLevel.Fourth, Star),
+                (SectionLevel.Fifth, Auto)
             ),
             Children = {
-                new StackLayout {
-                        Orientation = StackOrientation.Vertical,
+                new HorizontalStackLayout {
+                    new Image()
+                    .TapGesture(async () => await Shell.Current.GoToAsync($"///{nameof(HomeView)}"))
+                    .Source(new FontImageSource() {
+                        FontFamily = "FASolid",
+                        Glyph = FA.Solid.Xmark,
+                        Color = Colors.Grey
+                    }).Size(28)
+                }.Paddings(8, 2, 0, 0)
+                .Row(SectionLevel.First),
+                new VerticalStackLayout {
                         Spacing = 2,
                         Children = {
                             new AvatarView() {
@@ -47,87 +55,96 @@ public class ProfileView : BaseView<ProfileViewModel> {
                         }
                     }
                     .CenterHorizontal()
-                    .Row(SectionLevel.First),
-
+                    .Row(SectionLevel.Second),
                 new Button().Text("Update Profile")
                     .Paddings(24, 8, 24, 8)
                     .Margins(0, 16, 0, 24)
                     .DynamicResource(BackgroundColorProperty, "Secondary")
                     .CenterHorizontal()
-                    .Row(SectionLevel.Second),
-
+                    .Row(SectionLevel.Third),
                 new StackLayout {
                         Orientation = StackOrientation.Vertical,
                         Children = {
-                            new CollectionView() { SelectionMode = SelectionMode.None }
-                                .EmptyViewTemplate(new DataTemplate(() => new Label().Text("The Collection is Empty")))
+                            new CollectionView() { SelectionMode = SelectionMode.Single }
                                 .Bind(ItemsView.ItemsSourceProperty, nameof(ProfileViewModel.Items))
+                                .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
                                 .ItemTemplate(new DataTemplate(() => new Grid {
-                                        RowDefinitions = Rows.Define(
-                                            (SectionLevel.First, Auto),
-                                            (SectionLevel.Second, 1)
-                                        ),
-                                        ColumnDefinitions = Columns.Define(
-                                            (SectionLevel.First, Auto),
-                                            (SectionLevel.Second, Star),
-                                            (SectionLevel.Third, Auto)
-                                        ),
-                                        ColumnSpacing = 5,
-                                        Children = {
-                                            new Image()
-                                                .Margins(2, 4, 4, 2)
-                                                .Source(new FontImageSource() {
-                                                        FontFamily = "FASolid",
-                                                        Glyph = FA.Solid.PiggyBank,
-                                                        Color = Colors.DarkGray
-                                                    }.Bind(FontImageSource.GlyphProperty, nameof(ProfileLink.Icon))
-                                                ).Size(24)
-                                                .Row(SectionLevel.First)
-                                                .Margins(8, 0, 0, 0)
-                                                .Column(SectionLevel.First),
-                                            new Label { TextColor = Color.FromRgba("#7F7F7F") }
-                                                .Font(size: 18)
-                                                .Bind(Label.TextProperty, nameof(ProfileLink.Name))
-                                                .Row(SectionLevel.First)
-                                                .CenterVertical()
-                                                .Column(SectionLevel.Second),
-                                            new Image().Source(new FontImageSource() {
+                                    RowDefinitions = Rows.Define(
+                                        (SectionLevel.First, Auto),
+                                        (SectionLevel.Second, 1)
+                                    ),
+                                    ColumnDefinitions = Columns.Define(
+                                        (SectionLevel.First, Auto),
+                                        (SectionLevel.Second, Star),
+                                        (SectionLevel.Third, Auto)
+                                    ),
+                                    ColumnSpacing = 5,
+                                    Children = {
+                                        new Image()
+                                            .Margins(2, 4, 4, 2)
+                                            .Source(new FontImageSource() {
                                                     FontFamily = "FASolid",
-                                                    Glyph = FA.Solid.ChevronRight,
-                                                    Color = Colors.Gray
-                                                }).Size(28)
-                                                .Margins(0, 0, 8, 0)
-                                                .Row(SectionLevel.First)
-                                                .Column(SectionLevel.Third),
-                                            new BoxView()
-                                                .DynamicResource(StyleProperty, "SeparatorLine")
-                                                .Row(SectionLevel.Second)
-                                                .ColumnSpan(3)
-                                                .Margins(0, 8, 0, 0)
-                                        }
-                                    }.FillVertical()
-                                    .Paddings(4, 8, 4, 4)))
+                                                    Glyph = FA.Solid.PiggyBank,
+                                                    Color = Colors.DarkGray
+                                                }.Bind(FontImageSource.GlyphProperty, nameof(ProfileLink.Icon))
+                                            ).Size(24)
+                                            .Row(SectionLevel.First)
+                                            .Margins(8, 0, 0, 0)
+                                            .Column(SectionLevel.First),
+                                        new Label { TextColor = Color.FromRgba("#7F7F7F") }
+                                            .Font(size: 18)
+                                            .Bind(Label.TextProperty, nameof(ProfileLink.Name))
+                                            .Row(SectionLevel.First)
+                                            .CenterVertical()
+                                            .Column(SectionLevel.Second),
+                                        new Image().Source(new FontImageSource() {
+                                                FontFamily = "FASolid",
+                                                Glyph = FA.Solid.ChevronRight,
+                                                Color = Colors.Gray
+                                            }).Size(28)
+                                            .Margins(0, 0, 8, 0)
+                                            .Row(SectionLevel.First)
+                                            .Column(SectionLevel.Third),
+                                        new BoxView()
+                                            .DynamicResource(StyleProperty, "SeparatorLine")
+                                            .Row(SectionLevel.Second)
+                                            .ColumnSpan(3)
+                                            .Margins(0, 8, 0, 0)
+                                    }
+                                }.FillVertical()
+                                .Paddings(4, 8, 4, 4)))
                         }
                     }
                     .FillVertical()
-                    .Row(SectionLevel.Third),
-
+                    .Row(SectionLevel.Fourth),
                 new Button().Text("Sign Out")
                     .DynamicResource(StyleProperty, "ButtonLargePrimary")
                     .CenterVertical()
                     .Margins(16, 16, 16, 24)
-                    .Row(SectionLevel.Fourth)
+                    .Row(SectionLevel.Fifth)
             }
         };
+    }
+
+    async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
+        ArgumentNullException.ThrowIfNull(sender);
+        var cx = (CollectionView)sender;
+        cx.SelectedItem = null;
+        if (e.CurrentSelection.FirstOrDefault() is ProfileLink link) {
+            if (!string.IsNullOrEmpty(link.Route))
+                await Shell.Current.GoToAsync(link.Route);
+            else
+                await DisplayAlert("Invalid Shell", "Fix shell path", "OK");
+        }
     }
 }
 
 public partial class ProfileViewModel : BaseViewModel {
     [ObservableProperty] private ObservableCollection<ProfileLink> _items = new() {
-        new ProfileLink("Bank Account", FA.Solid.Wallet, $"///{nameof(HomeView)}/{nameof(BankView)}"),
-        new ProfileLink("Account History", FA.Solid.CalendarDay, $"///{nameof(HomeView)}/{nameof(SettingView)}"),
-        new ProfileLink("Appearance", FA.Solid.Sun, $"///{nameof(HomeView)}/{nameof(SettingView)}"),
-        new ProfileLink("Notification", FA.Solid.Bell, $"///{nameof(HomeView)}/{nameof(SettingView)}"),
-        new ProfileLink("Help", FA.Solid.CircleInfo, $"///{nameof(HomeView)}/{nameof(SettingView)}")
+        new ProfileLink("Bank Account", FA.Solid.Wallet, $"///{nameof(ProfileView)}/{nameof(BankView)}"),
+        //new ProfileLink("Account Logs", FA.Solid.CalendarDay, $"/{nameof(HomeView)}/{nameof(SettingView)}"),
+        //new ProfileLink("Appearance", FA.Solid.Sun, $"///{nameof(HomeView)}/{nameof(SettingView)}"),
+        //new ProfileLink("Notification", FA.Solid.Bell, $"///{nameof(HomeView)}/{nameof(SettingView)}"),
+        //new ProfileLink("Help", FA.Solid.CircleInfo, $"///{nameof(HomeView)}/{nameof(SettingView)}")
     };
 }

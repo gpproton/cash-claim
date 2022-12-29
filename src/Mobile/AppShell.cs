@@ -75,7 +75,7 @@ public class AppShell : Shell {
 
         Items.Add(new ShellContent {
             FlyoutItemIsVisible = false,
-            Route = nameof(NotificationView),
+            Route = $"{nameof(HomeView)}/{nameof(NotificationView)}",
             ContentTemplate = new DataTemplate(typeof(NotificationView))
         });
 
