@@ -22,22 +22,56 @@ public class ClaimView : BaseView<ClaimViewModel> {
 
     protected override void Build() {
         Content = new Grid {
+            RowSpacing = 3,
+            Padding = 4,
             RowDefinitions = Rows.Define(
                 (SectionLevel.First, Auto),
                 (SectionLevel.Second, Auto),
                 (SectionLevel.Third, Star)
             ),
             Children = {
-                new FilterToolbarView().Row(SectionLevel.First),
+                new Grid {
+                    ColumnDefinitions = Columns.Define(
+                        (SectionLevel.First, Star),
+                        (SectionLevel.Second, Auto)
+                    ),
+                    Children = {
+                        new FilterToolbarView()
+                            .Bind(FilterToolbarView.StartDateProperty, nameof(ClaimViewModel.StartDate), mode: BindingMode.TwoWay)
+                            .Bind(FilterToolbarView.EndDateProperty, nameof(ClaimViewModel.EndDate), mode: BindingMode.TwoWay)
+                            .Bind(FilterToolbarView.ShowSearchProperty, nameof(ClaimViewModel.ShowSearch), mode: BindingMode.TwoWay)
+                            .Bind(FilterToolbarView.SearchProperty, nameof(ClaimViewModel.Search), mode: BindingMode.TwoWay)
+                            .Column(SectionLevel.First),
+                        new Button {
+                            ImageSource = new FontImageSource() {
+                                FontFamily = "FASolid",
+                                Color = Colors.White,
+                                Glyph = FA.Solid.Sliders,
+                                Size = 18
+                            }
+                            // TODO: fix for dynamic GlyphProperty
+                            //.Bind(
+                            //    FontImageSource.GlyphProperty,
+                            //    nameof(ClaimViewModel.ShowSearch),
+                            //    mode: BindingMode.TwoWay,
+                            //    convert: (bool value) => !value ? FA.Solid.MagnifyingGlass : FA.Solid.Sliders
+                            //)
+                        }
+                        .Height(46)
+                        .Paddings(16, 0, 16, 0)
+                        .Margins(4, 0, 0, 0)
+                        .Bind(Button.CommandProperty, nameof(ClaimViewModel.ToggleSearchCommand))
+                        .Column(SectionLevel.Second)
+                    }
+                }.Row(SectionLevel.First),
                 new Segment().Row(SectionLevel.Second)
-                    .Margins(8, 4, 8, 4)
                     .Bind(Segment.SegmentItemsProperty, nameof(ClaimViewModel.FilterItems))
                     .Bind(Segment.SelectedItemProperty, nameof(ClaimViewModel.FilterValue), BindingMode.TwoWay),
                 new RefreshView {
                     Content = new CollectionView() {
                         SelectionMode = SelectionMode.None,
                         EmptyView = "No item to display"
-                        }
+                    }
                         .Bind(ItemsView.ItemsSourceProperty, nameof(ClaimViewModel.Items))
                         .Bind(SelectableItemsView.SelectedItemProperty, nameof(ClaimViewModel.Selected))
                         .ItemTemplate(new DataTemplate(() => new Grid {
@@ -54,14 +88,14 @@ public class ClaimView : BaseView<ClaimViewModel> {
                             ),
                             Children = {
                                 new AvatarView() {
-                                        CornerRadius = 8,
-                                        Margin = 4,
-                                        Content = new Image().Source(new FontImageSource() {
-                                            FontFamily = "FASolid",
-                                            Glyph = FA.Solid.Book,
-                                            Color = Colors.Indigo
-                                        }).Size(24)
-                                    }.BackgroundColor(Colors.LightGray)
+                                    CornerRadius = 8,
+                                    Margin = 4,
+                                    Content = new Image().Source(new FontImageSource() {
+                                        FontFamily = "FASolid",
+                                        Glyph = FA.Solid.Book,
+                                        Color = Colors.Indigo
+                                    }).Size(24)
+                                }.BackgroundColor(Colors.LightGray)
                                     .Size(48, 48)
                                     .Column(SectionLevel.First)
                                     .RowSpan(3),
@@ -71,20 +105,20 @@ public class ClaimView : BaseView<ClaimViewModel> {
                                     .Row(SectionLevel.First)
                                     .Column(SectionLevel.Second),
                                 new HorizontalStackLayout {
-                                        Children = {
-                                            new Label()
+                                    Children = {
+                                        new Label()
                                                 .Font(size: 11)
                                                 .Bind(Label.TextProperty, nameof(ClaimDto.Time),
                                                     convert: (DateTime value) => value.ToString("dd-MMM-yyyy")),
-                                            new Label()
+                                        new Label()
                                                 .Font(size: 11)
                                                 .Text(".")
                                                 .Margins(3, 0, 3, 0),
-                                            new Label()
+                                        new Label()
                                                 .Font(size: 11)
                                                 .Bind(Label.TextProperty, nameof(ClaimDto.Category))
-                                        }
-                                    }.Row(SectionLevel.Second)
+                                    }
+                                }.Row(SectionLevel.Second)
                                     .Column(SectionLevel.Second),
                                 new Label()
                                     .Font(size: 11)
@@ -108,7 +142,6 @@ public class ClaimView : BaseView<ClaimViewModel> {
                             }
                         }))
                 }.Row(SectionLevel.Third)
-                .Paddings(4, 8, 4, 4)
                 .Bind(RefreshView.CommandProperty, nameof(ClaimViewModel.RefreshItemsCommand))
                 .Bind(RefreshView.IsRefreshingProperty, nameof(ClaimViewModel.IsRefreshing))
             }
@@ -126,6 +159,14 @@ public partial class ClaimViewModel : ListViewModel {
 
     [ObservableProperty] private string _filterValue;
 
+    [ObservableProperty] private DateTime _startDate;
+
+    [ObservableProperty] private DateTime _endDate;
+
+    [ObservableProperty] private bool _showSearch;
+
+    [ObservableProperty] private string _search;
+
     [ObservableProperty] private ObservableCollection<ClaimDto> _items;
 
     [ObservableProperty] private ObservableCollection<ClaimDto> _selected;
@@ -133,11 +174,16 @@ public partial class ClaimViewModel : ListViewModel {
     public ClaimViewModel() {
         FilterItems = Enum.GetNames(typeof(FilterOptions));
         FilterValue = Enum.GetName(FilterOptions.Pending);
+        StartDate = DateTime.Now.AddDays(-7);
+        EndDate = DateTime.Now;
     }
 
     [RelayCommand]
+    private void ToggleSearch() => ShowSearch = !ShowSearch;
+
+    [RelayCommand]
     private async Task Load() {
-        await Task.Delay(500);
+        await Task.Delay(100);
         Items = new ObservableCollection<ClaimDto>() {
             new("Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4), "Checked documents already."),
             new("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Total filling station"),

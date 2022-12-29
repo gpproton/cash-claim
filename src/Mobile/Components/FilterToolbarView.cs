@@ -8,13 +8,17 @@ public partial class FilterToolbarView : Grid {
 
 #pragma warning disable IDE0051
 #pragma warning disable CS0169
-    [BindableProp] private string _search;
+    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
+    private string _search = string.Empty;
 
-    [BindableProp] private bool _showSearch;
+    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
+    private bool _showSearch = false;
 
-    [BindableProp] private DateTime _startDate = DateTime.Now.AddDays(-7);
+    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
+    private DateTime _startDate = DateTime.Now.AddDays(-7);
 
-    [BindableProp] private DateTime _endDate = DateTime.Now;
+    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
+    private DateTime _endDate = DateTime.Now;
 
     private enum FrameColumn {
         First,
@@ -25,7 +29,7 @@ public partial class FilterToolbarView : Grid {
     public FilterToolbarView() => Build();
 
     private void Build() {
-        Margin = new Thickness { Top = 4, Left = 8, Right = 8, Bottom = 0 };
+        Margin = new Thickness { Top = 4, Left = 0, Right = 0, Bottom = 0 };
         ColumnDefinitions = Columns.Define(
             (FrameColumn.First, Star),
             (FrameColumn.Second, Auto)
@@ -39,108 +43,54 @@ public partial class FilterToolbarView : Grid {
                     ),
                     Children = {
                         new Grid {
-                                ColumnDefinitions = Columns.Define(
-                                    (FrameColumn.First, Auto),
-                                    (FrameColumn.Second, Star),
-                                    (FrameColumn.Third, Auto)
-                                ),
-                                Children = {
-                                    new Label()
-                                        .DynamicResource(Label.TextColorProperty, "Primary")
-                                        .Bind(Label.TextProperty, nameof(StartDate),
-                                            source: this,
-                                            convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
-                                        ).CenterVertical()
-                                        .Column(FrameColumn.First),
-                                    new Rectangle()
-                                        .DynamicResource(BackgroundColorProperty, "Primary")
-                                        .Size(12, 4)
-                                        .Center()
-                                        .Column(FrameColumn.Second),
-                                    new Label()
-                                        .Bind(Label.TextProperty,
-                                            nameof(EndDate),
-                                            source: this,
-                                            convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
-                                        ).CenterVertical()
-                                        .DynamicResource(Label.TextColorProperty, "Primary")
-                                        .Column(FrameColumn.Third)
-                                }
-                            }.CenterVertical()
-                            .Column(FrameColumn.First)
+                            ColumnDefinitions = Columns.Define(
+                                (FrameColumn.First, Auto),
+                                (FrameColumn.Second, Star),
+                                (FrameColumn.Third, Auto)
+                            ),
+                            Children = {
+                                new Label()
+                                    .DynamicResource(Label.TextColorProperty, "Primary")
+                                    .Bind(Label.TextProperty, nameof(StartDate),
+                                        source: this,
+                                        convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
+                                    ).CenterVertical()
+                                    .Column(FrameColumn.First),
+                                new Rectangle()
+                                    .DynamicResource(BackgroundColorProperty, "Primary")
+                                    .Size(12, 4)
+                                    .Center()
+                                    .Margins(4, 0, 4, 0)
+                                    .Column(FrameColumn.Second),
+                                new Label()
+                                    .Bind(Label.TextProperty,
+                                        nameof(EndDate),
+                                        source: this,
+                                        convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
+                                    ).CenterVertical()
+                                    .DynamicResource(Label.TextColorProperty, "Primary")
+                                    .Column(FrameColumn.Third)
+                            }
+                        }.CenterVertical()
+                        .Column(FrameColumn.First)
                     }
                 }
             }
             .DynamicResource(StyleProperty, "FieldControl")
             .Bind(IsVisibleProperty, nameof(ShowSearch), source: this, convert: (bool value) => !value)
-            .TapGesture(async () =>
-                await CurrentPage.ShowPopupAsync(new Popup {
-                        VerticalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Center,
-                        HorizontalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Fill,
-                        Color = Colors.Transparent,
-                        Content = new Border {
-                            BackgroundColor = Colors.White,
-                            MinimumHeightRequest = 100,
-                            MinimumWidthRequest = 320,
-                            StrokeShape = new RoundRectangle {
-                                CornerRadius = new CornerRadius(10)
-                            },
-                            Content = new VerticalStackLayout {
-                                new Label().Text("Select Range")
-                                    .DynamicResource(Label.TextColorProperty, "Primary")
-                                    .Font(size: 22, family: "RobotoRegular")
-                                    .CenterHorizontal()
-                                    .Margins(0, 4, 0, 4),
-
-                                new DatePickerField
-                                        { Title = "Start Date", Format = "yyyy-MMMM-dd", AllowClear = false }
-                                    .Bind(DatePickerField.DateProperty, nameof(StartDate), source: this)
-                                    .DynamicResource(DatePickerField.TextColorProperty, "Primary")
-                                    .Margins(0, 8, 0, 0)
-                                    .FillHorizontal(),
-
-                                new DatePickerField
-                                        { Title = "End Date", Format = "yyyy-MMMM-dd", AllowClear = false }
-                                    .Bind(DatePickerField.DateProperty, nameof(EndDate), source: this)
-                                    .DynamicResource(DatePickerField.TextColorProperty, "Primary")
-                                    .Margins(0, 8, 0, 0)
-                                    .FillHorizontal()
-                            }
-                        }.Paddings(16, 4, 16, 16)
-                        .FillHorizontal()
-                    }
-                )
+            .TapGesture(async () => await MauiPopup.PopupAction.DisplayPopup(new DateRangePop()
+                .Bind(DateRangePop.StartDateProperty, nameof(StartDate), source: this)
+                .Bind(DateRangePop.EndDateProperty, nameof(EndDate), source: this))
             ));
 
         Children.Add(new Grid {
-                Children = {
-                    new Border().DynamicResource(StyleProperty, "FieldControl"),
-                    new SearchBar { Placeholder = "Search.." }
-                        .Bind(SearchBar.TextProperty, nameof(Search), source: this)
-                        .DynamicResource(StyleProperty, "SearchEntry")
-                }
+            Children = {
+                new Border().DynamicResource(StyleProperty, "FieldControl"),
+                new SearchBar { Placeholder = "Search.." }
+                    .Bind(SearchBar.TextProperty, nameof(Search), source: this)
+                    .DynamicResource(StyleProperty, "SearchEntry")
             }
-            .Bind(IsVisibleProperty, nameof(ShowSearch), source: this));
-
-        Children.Add(new Button {
-                CornerRadius = 6,
-                ImageSource = new FontImageSource() {
-                        FontFamily = "FASolid",
-                        Color = Colors.White,
-                        Size = 18
-                    }
-                    .Bind(
-                        FontImageSource.GlyphProperty,
-                        nameof(ShowSearch),
-                        source: this,
-                        convert: (bool value) => value ? FA.Solid.MagnifyingGlass : FA.Solid.Sliders
-                    )
-            }
-            .Height(46)
-            .DynamicResource(BackgroundColorProperty, "Primary")
-            .Paddings(16, 0, 16, 0)
-            .Margins(4, 0, 0, 0)
-            .Invoke(l => l.Clicked += (sender, obj) => ShowSearch = !ShowSearch)
-            .Column(FrameColumn.Second));
+        }
+        .Bind(IsVisibleProperty, nameof(ShowSearch), source: this));
     }
 }
