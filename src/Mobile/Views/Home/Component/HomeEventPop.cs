@@ -4,7 +4,8 @@ using XClaim.Common.Dtos;
 namespace XClaim.Mobile.Views.Home.Component;
 
 public partial class HomeEventPop : BasePopupPage {
-    [BindableProp] private RecentActions _item;
+    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
+    private RecentActions _item;
 
     enum LevelSection {
         First,
@@ -18,6 +19,7 @@ public partial class HomeEventPop : BasePopupPage {
         Content = new VerticalStackLayout {
             Padding = 8,
             Spacing = 5,
+            MinimumHeightRequest = 320,
             HorizontalOptions = LayoutOptions.Center,
             Children = {
                 new Label().Text(Item.Name).Font(size: 18)
@@ -32,7 +34,7 @@ public partial class HomeEventPop : BasePopupPage {
                     .Font(size: 12),
                 }.CenterHorizontal().Margins(0, 2, 0, 8),
                 new Image().Source(new FontImageSource() {
-                    FontFamily = "FASolid",
+                    FontFamily = "FARegular",
                     Glyph = FA.Regular.CircleCheck,
                     Color = Colors.LightSeaGreen
                 }).CenterHorizontal().Size(72)
@@ -43,6 +45,6 @@ public partial class HomeEventPop : BasePopupPage {
                     .Font(size: 32, family: "RobotoMedium")
                     .CenterHorizontal()
             }
-        }.MinHeight(320);
+        };
     }
 }
