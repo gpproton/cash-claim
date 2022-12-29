@@ -21,10 +21,13 @@ public class PaymentView : BaseView<PaymentViewModel> {
 
     protected override void Build() {
         Title = "Payments";
-        Content = new VerticalStackLayout {
+        Content = new Grid {
+            RowDefinitions = Rows.Define(
+                (SectionLevel.First, Star)
+            ),
             Children = {
-                new ScrollView {
-                    Content = Content = new CollectionView() { SelectionMode = SelectionMode.None }
+                new RefreshView {
+                    Content = new CollectionView() { SelectionMode = SelectionMode.None }
                         .EmptyViewTemplate(new DataTemplate(() => new EmptyItemView().Margins(0, 56)))
                         .Bind(ItemsView.ItemsSourceProperty, nameof(PaymentViewModel.Items))
                         .Bind(SelectableItemsView.SelectedItemProperty, nameof(PaymentViewModel.Selected))
@@ -94,7 +97,9 @@ public class PaymentView : BaseView<PaymentViewModel> {
                                     .ColumnSpan(3)
                             }
                         }.Paddings(4, 8, 4, 4)))
-                }.FillVertical()
+                }.Row(SectionLevel.First)
+                .Bind(RefreshView.CommandProperty, nameof(PaymentViewModel.RefreshItemsCommand))
+                .Bind(RefreshView.IsRefreshingProperty, nameof(PaymentViewModel.IsRefreshing))
             }
         };
     }
@@ -105,7 +110,7 @@ public class PaymentView : BaseView<PaymentViewModel> {
     }
 }
 
-public partial class PaymentViewModel : BaseViewModel {
+public partial class PaymentViewModel : ListViewModel {
     [ObservableProperty] private ObservableCollection<PaymentDto> _items;
 
     [ObservableProperty] private ObservableCollection<PaymentDto> _selected;

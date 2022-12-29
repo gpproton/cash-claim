@@ -109,9 +109,7 @@ public class ReviewView : BaseView<ReviewViewModel> {
     }
 }
 
-public partial class ReviewViewModel : BaseViewModel {
-    [ObservableProperty] private bool _isRefreshing;
-
+public partial class ReviewViewModel : ListViewModel {
     [ObservableProperty] private ObservableCollection<ReviewDto> _items;
 
     [ObservableProperty] private ObservableCollection<ReviewDto> _selected;
@@ -122,12 +120,5 @@ public partial class ReviewViewModel : BaseViewModel {
         Items = new ObservableCollection<ReviewDto>() {
             new("Travel expense calabar", "Saurav Argawal", 7000, DateTime.Now.AddHours(-4), "Reviwed")
         };
-    }
-
-    [RelayCommand]
-    private async Task RefreshItems() {
-        if (IsRefreshing!) IsRefreshing = true;
-        await Task.Delay(500);
-        IsRefreshing = false;
     }
 }

@@ -34,8 +34,10 @@ public class ClaimView : BaseView<ClaimViewModel> {
                     .Bind(Segment.SegmentItemsProperty, nameof(ClaimViewModel.FilterItems))
                     .Bind(Segment.SelectedItemProperty, nameof(ClaimViewModel.FilterValue), BindingMode.TwoWay),
                 new RefreshView {
-                    Content = new CollectionView() { SelectionMode = SelectionMode.None }
-                        .EmptyViewTemplate(new DataTemplate(() => new Label().Text("The Collection is Empty")))
+                    Content = new CollectionView() {
+                        SelectionMode = SelectionMode.None,
+                        EmptyView = "No item to display"
+                        }
                         .Bind(ItemsView.ItemsSourceProperty, nameof(ClaimViewModel.Items))
                         .Bind(SelectableItemsView.SelectedItemProperty, nameof(ClaimViewModel.Selected))
                         .ItemTemplate(new DataTemplate(() => new Grid {
@@ -119,9 +121,7 @@ public class ClaimView : BaseView<ClaimViewModel> {
     }
 }
 
-public partial class ClaimViewModel : BaseViewModel {
-    [ObservableProperty] private bool _isRefreshing;
-
+public partial class ClaimViewModel : ListViewModel {
     [ObservableProperty] private string[] _filterItems;
 
     [ObservableProperty] private string _filterValue;
@@ -143,12 +143,5 @@ public partial class ClaimViewModel : BaseViewModel {
             new("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Total filling station"),
             new("Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3), "20GB Packages")
         };
-    }
-
-    [RelayCommand]
-    private async Task RefreshItems() {
-        if (IsRefreshing!) IsRefreshing = true;
-        await Task.Delay(500);
-        IsRefreshing = false;
     }
 }

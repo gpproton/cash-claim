@@ -39,9 +39,21 @@ public abstract class BaseView<T> : BaseView where T : BaseViewModel {
     protected new T BindingContext => (T)base.BindingContext;
 }
 
-[INotifyPropertyChanged]
-public abstract partial class BaseViewModel {
+public abstract partial class BaseViewModel : ObservableObject {
     [ObservableProperty] private bool _isBusy;
 
     [ObservableProperty] private string _title;
+}
+
+public abstract partial class ListViewModel : BaseViewModel {
+    [ObservableProperty] protected bool _isRefreshing;
+
+    [ObservableProperty] protected bool _isLoading;
+
+    [RelayCommand]
+    protected async Task RefreshItems() {
+        if (!IsRefreshing) IsRefreshing = true;
+        await Task.Delay(500);
+        IsRefreshing = false;
+    }
 }

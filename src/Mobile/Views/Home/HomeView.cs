@@ -212,7 +212,7 @@ public class HomeView : BaseView<HomeViewModel> {
                                 }.Paddings(4, 2, 4, 4)))
                         }.Row(PageRow.Second)
                         .Bind(RefreshView.IsRefreshingProperty, nameof(HomeViewModel.IsRefreshing))
-                        .Bind(RefreshView.CommandProperty, nameof(HomeViewModel.RefreshRecentsCommand))
+                        .Bind(RefreshView.CommandProperty, nameof(HomeViewModel.RefreshItemsCommand))
                     }
                     }
                     .Margins(8, 16, 8, 8)
@@ -234,20 +234,16 @@ public class HomeView : BaseView<HomeViewModel> {
     }
 }
 
-public partial class HomeViewModel : BaseViewModel {
+public partial class HomeViewModel : ListViewModel {
     [ObservableProperty] private ObservableCollection<RecentActions> _recentItems;
 
-    [ObservableProperty] private bool _isRefreshing;
-
     [ObservableProperty] private RecentActions _selectedRecentItem;
-
-    [ObservableProperty] private bool _loading = true;
 
     [ObservableProperty] private UserProfile _status;
 
     [RelayCommand]
     private async Task LoadDefaults() {
-        Loading = true;
+        IsLoading = true;
         await Task.Delay(500);
         Status = new UserProfile("Saurav", "Argawal", UserPermission.Administrator, 0, 10000);
         RecentItems = new ObservableCollection<RecentActions> {
@@ -255,14 +251,7 @@ public partial class HomeViewModel : BaseViewModel {
             new("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1)),
             new("Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
         };
-        Loading = false;
-    }
-
-    [RelayCommand]
-    private async Task RefreshRecents() {
-        IsRefreshing = true;
-        await Task.Delay(1500);
-        IsRefreshing = false;
+        IsLoading = false;
     }
 
     [RelayCommand]
