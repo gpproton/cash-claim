@@ -2,7 +2,7 @@ using XClaim.Common.Dtos;
 
 namespace XClaim.Mobile.Views.Claim;
 
-internal enum StatusOptions {
+internal enum FilterOptions {
     Confirmed,
     Pending,
     Completed
@@ -21,18 +21,20 @@ public class ClaimView : BaseView<ClaimViewModel> {
     }
 
     protected override void Build() {
-        Content = new VerticalStackLayout {
+        Content = new Grid {
+            RowDefinitions = Rows.Define(
+                (SectionLevel.First, Auto),
+                (SectionLevel.Second, Auto),
+                (SectionLevel.Third, Star)
+            ),
             Children = {
-                new FilterToolbarView(),
-                new Segment().Margins(8, 4, 8, 4)
-                    .Bind(Segment.SegmentItemsProperty, nameof(ClaimViewModel.StatusItems))
-                    .Bind(Segment.SelectedItemProperty, nameof(ClaimViewModel.StatusValue), BindingMode.TwoWay),
-
-                // TODO: sample for time picker.
-                // new TimePickerField { Title = "Time Sample", Time = DateTime.Now.AddMinutes(15).TimeOfDay }.Margins(0, 8, 0,8)
-
-                new ScrollView {
-                    Content = Content = new CollectionView() { SelectionMode = SelectionMode.None }
+                new FilterToolbarView().Row(SectionLevel.First),
+                new Segment().Row(SectionLevel.Second)
+                    .Margins(8, 4, 8, 4)
+                    .Bind(Segment.SegmentItemsProperty, nameof(ClaimViewModel.FilterItems))
+                    .Bind(Segment.SelectedItemProperty, nameof(ClaimViewModel.FilterValue), BindingMode.TwoWay),
+                new RefreshView {
+                    Content = new CollectionView() { SelectionMode = SelectionMode.None }
                         .EmptyViewTemplate(new DataTemplate(() => new Label().Text("The Collection is Empty")))
                         .Bind(ItemsView.ItemsSourceProperty, nameof(ClaimViewModel.Items))
                         .Bind(SelectableItemsView.SelectedItemProperty, nameof(ClaimViewModel.Selected))
@@ -102,8 +104,11 @@ public class ClaimView : BaseView<ClaimViewModel> {
                                     .Row(SectionLevel.Fourth)
                                     .ColumnSpan(3)
                             }
-                        }.Paddings(4, 8, 4, 4)))
-                }.FillVertical()
+                        }))
+                }.Row(SectionLevel.Third)
+                .Paddings(4, 8, 4, 4)
+                .Bind(RefreshView.CommandProperty, nameof(ClaimViewModel.RefreshItemsCommand))
+                .Bind(RefreshView.IsRefreshingProperty, nameof(ClaimViewModel.IsRefreshing))
             }
         };
     }
@@ -115,25 +120,35 @@ public class ClaimView : BaseView<ClaimViewModel> {
 }
 
 public partial class ClaimViewModel : BaseViewModel {
-    [ObservableProperty] private string[] _statusItems;
+    [ObservableProperty] private bool _isRefreshing;
 
-    [ObservableProperty] private string _statusValue;
+    [ObservableProperty] private string[] _filterItems;
+
+    [ObservableProperty] private string _filterValue;
 
     [ObservableProperty] private ObservableCollection<ClaimDto> _items;
 
     [ObservableProperty] private ObservableCollection<ClaimDto> _selected;
 
     public ClaimViewModel() {
-        StatusItems = Enum.GetNames(typeof(StatusOptions));
-        StatusValue = Enum.GetName(StatusOptions.Pending);
+        FilterItems = Enum.GetNames(typeof(FilterOptions));
+        FilterValue = Enum.GetName(FilterOptions.Pending);
     }
 
     [RelayCommand]
-    private void Load() {
+    private async Task Load() {
+        await Task.Delay(500);
         Items = new ObservableCollection<ClaimDto>() {
             new("Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4), "Checked documents already."),
             new("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Total filling station"),
             new("Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3), "20GB Packages")
         };
+    }
+
+    [RelayCommand]
+    private async Task RefreshItems() {
+        if (IsRefreshing!) IsRefreshing = true;
+        await Task.Delay(500);
+        IsRefreshing = false;
     }
 }
