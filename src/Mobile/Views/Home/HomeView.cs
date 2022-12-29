@@ -218,11 +218,11 @@ public class HomeView : BaseView<HomeViewModel> {
                     .Margins(8, 16, 8, 8)
                     .Row(PageRow.Third),
 
-                new Button().Text("New Request")
+                new Button() { Command = new Command(async () => await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(ClaimFormView)}") ) }
+                    .Text("New Request")
                     .DynamicResource(StyleProperty, "ButtonLargePrimary")
                     .CenterVertical()
                     .Margins(24, 16, 24, 24)
-                    .BindCommand(nameof(HomeViewModel.ToClaimFormCommand))
                     .Row(PageRow.Fourth)
             }
         };
@@ -252,10 +252,5 @@ public partial class HomeViewModel : ListViewModel {
             new("Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
         };
         IsLoading = false;
-    }
-
-    [RelayCommand]
-    private async void ToClaimForm() {
-        await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(ClaimFormView)}");
     }
 }

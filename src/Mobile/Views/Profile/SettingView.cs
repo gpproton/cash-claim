@@ -4,7 +4,7 @@ public class SettingView : BaseView<SettingViewModel> {
     public SettingView(SettingViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
-        Title = "Account Setting";
+        Title = "Profile Setting";
         Content = new VerticalStackLayout {
             Children = {
                 new Label {
