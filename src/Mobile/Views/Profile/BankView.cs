@@ -26,6 +26,8 @@ public class BankView : BaseView<BankViewModel> {
                         new TextField { Title = "Account Number", Keyboard = Keyboard.Numeric },
                         new PickerField { Title = "Bank", AllowClear = false }
                             .Bind(PickerField.ItemsSourceProperty, nameof(BankViewModel.Banks)),
+                        new PickerField { Title = "Type", AllowClear = false }
+                        .Bind(PickerField.ItemsSourceProperty, nameof(BankViewModel.Types)),
                         new Editor { Placeholder = "Description" }
                             .Height(120)
                     }
@@ -49,8 +51,11 @@ public class BankView : BaseView<BankViewModel> {
 public partial class BankViewModel : BaseViewModel {
     [ObservableProperty] private ObservableCollection<string> _banks;
 
+    [ObservableProperty] private ObservableCollection<string> _types;
+
     [RelayCommand]
     private void Load() {
         Banks = new ObservableCollection<string>() { "GT Bank", "Zenith", "Union Bank" };
+        Types = new ObservableCollection<string>() { "Savings", "Current", "Credit" };
     }
 }
