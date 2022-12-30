@@ -30,8 +30,9 @@ public class ClaimFormView : BaseView<ClaimFormViewModel> {
                     new TextField { Title = "Amount", Keyboard = Keyboard.Numeric },
                     new PickerField { Title = "Category", AllowClear = false }
                         .Bind(PickerField.ItemsSourceProperty, nameof(ClaimFormViewModel.Categories)),
-                    new PickerField { Title = "Account", AllowClear = false }
-                        .Bind(PickerField.ItemsSourceProperty, nameof(ClaimFormViewModel.Accounts)),
+                    // TODO: Display acount infoS
+                    //new PickerField { Title = "Account", AllowClear = false }
+                    //    .Bind(PickerField.ItemsSourceProperty, nameof(ClaimFormViewModel.Accounts)),
 
                     new Frame {
                         Padding = 10,
