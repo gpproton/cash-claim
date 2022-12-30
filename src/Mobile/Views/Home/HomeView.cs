@@ -257,9 +257,9 @@ public partial class HomeViewModel : ListViewModel {
         await Task.Delay(500);
         Status = new UserProfile("Saurav", "Argawal", UserPermission.Administrator, 0, 10000);
         RecentItems = new ObservableCollection<RecentActions> {
-            new("Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
-            new("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1)),
-            new("Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
+            new(Guid.NewGuid(), "Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
+            new(Guid.NewGuid(),"20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1)),
+            new(Guid.NewGuid(),"Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
         };
         IsLoading = false;
     }

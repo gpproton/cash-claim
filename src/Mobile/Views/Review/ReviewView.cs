@@ -150,7 +150,7 @@ public partial class ReviewViewModel : ListViewModel {
         EndDate = DateTime.Now;
         await Task.Delay(100);
         Items = new ObservableCollection<ReviewDto>() {
-            new("Travel expense calabar", "Saurav Argawal", 7000, DateTime.Now.AddHours(-4), "Reviwed")
+            new(Guid.NewGuid(), "Travel expense calabar", "Saurav Argawal", 7000, DateTime.Now.AddHours(-4), "Reviwed")
         };
     }
 }

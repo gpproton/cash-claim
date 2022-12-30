@@ -1,3 +1,3 @@
 ﻿namespace XClaim.Common.Dtos;
 
-public record RecentActions(string Name, string Category, decimal Amount, DateTime Time);
+public record RecentActions(Guid id, string Name, string Category, decimal Amount, DateTime Time);

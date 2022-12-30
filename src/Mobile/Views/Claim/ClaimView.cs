@@ -196,9 +196,9 @@ public partial class ClaimViewModel : ListViewModel {
     private async Task Load() {
         await Task.Delay(100);
         Items = new ObservableCollection<ClaimDto>() {
-            new("Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4), "Checked documents already."),
-            new("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Total filling station"),
-            new("Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3), "20GB Packages")
+            new(Guid.NewGuid(), "Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4), "Checked documents already."),
+            new(Guid.NewGuid(), "20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Total filling station"),
+            new(Guid.NewGuid(), "Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3), "20GB Packages")
         };
     }
 }

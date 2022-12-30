@@ -1,10 +1,9 @@
 using Microsoft.Maui.Controls.Shapes;
-using XClaim.Common.Dtos;
 using XClaim.Common.Enums;
 
 namespace XClaim.Mobile.Views.Home;
 
-public record AlertItem(string Title, string Description, DateTime Time, EventType Type = EventType.Claim);
+public record AlertItem(Guid Id, string Title, string Description, DateTime Time, EventType Type = EventType.Claim);
 
 public class NotificationView : BaseView<NotificationViewModel> {
     private enum SectionLevel {
@@ -108,8 +107,8 @@ public partial class NotificationViewModel : ListViewModel {
     private async Task Load() {
         await Task.Delay(100);
         Items = new ObservableCollection<AlertItem>() {
-            new("Sample Notification 1", "Test 0", DateTime.Now, EventType.Review),
-            new("Sample Notification 2", "Test 1", DateTime.Now, EventType.Review)
+            new(Guid.NewGuid(), "Sample Notification 1", "Test 0", DateTime.Now, EventType.Review),
+            new(Guid.NewGuid(), "Sample Notification 2", "Test 1", DateTime.Now, EventType.Review)
         };
     }
 }
