@@ -13,7 +13,8 @@ public class PaymentView : BaseView<PaymentViewModel> {
         ToolbarItems.Add(new ToolbarItem {
             IconImageSource = new FontImageSource {
                 FontFamily = "FASolid",
-                Glyph = FA.Solid.Sliders
+                Glyph = FA.Solid.Sliders,
+                Size = 22
             }.DynamicResource(FontImageSource.ColorProperty, "Primary")
         }.Bind(ToolbarItem.CommandProperty, nameof(PaymentViewModel.ToggleFilterCommand)));
         Build();
