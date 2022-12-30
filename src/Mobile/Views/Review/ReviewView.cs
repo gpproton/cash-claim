@@ -15,17 +15,25 @@ public class ReviewView : BaseView<ReviewViewModel> {
                 FontFamily = "FASolid",
                 Glyph = FA.Solid.Sliders
             }.DynamicResource(FontImageSource.ColorProperty, "Primary")
-        });
+        }.Bind(ToolbarItem.CommandProperty, nameof(ReviewViewModel.ToggleFilterCommand))
+        );
         Build();
     }
 
     protected override void Build() {
         Title = "Reviews";
         Content = new Grid {
+            Padding = 4,
             RowDefinitions = Rows.Define(
-                (SectionLevel.First, Star)
+                (SectionLevel.First, Auto),
+                (SectionLevel.Second, Star)
             ),
             Children = {
+                new FilterToolbarView()
+                    .Bind(FilterToolbarView.StartDateProperty, nameof(ReviewViewModel.StartDate), mode: BindingMode.TwoWay)
+                    .Bind(FilterToolbarView.EndDateProperty, nameof(ReviewViewModel.EndDate), mode: BindingMode.TwoWay)
+                    .Bind(IsVisibleProperty, nameof(ReviewViewModel.ShowFilter))
+                    .Row(SectionLevel.First),
                 new RefreshView {
                         Content = new CollectionView() {
                                 SelectionMode = SelectionMode.None,
@@ -96,9 +104,10 @@ public class ReviewView : BaseView<ReviewViewModel> {
                                         .Row(SectionLevel.Third)
                                         .ColumnSpan(3)
                                 }
-                            }.Paddings(4, 8, 4, 4)))
+                            }.Paddings(0, 4, 0, 0)))
                     }.Bind(RefreshView.CommandProperty, nameof(ReviewViewModel.RefreshItemsCommand))
                     .Bind(RefreshView.IsRefreshingProperty, nameof(ReviewViewModel.IsRefreshing))
+                    .Row (SectionLevel.Second)
             }
         };
     }
@@ -114,8 +123,19 @@ public partial class ReviewViewModel : ListViewModel {
 
     [ObservableProperty] private ObservableCollection<ReviewDto> _selected;
 
+    [ObservableProperty] private DateTime _startDate;
+
+    [ObservableProperty] private DateTime _endDate;
+
+    [ObservableProperty] private bool _showFilter;
+
+    [RelayCommand]
+    private void ToggleFilter() => ShowFilter = !ShowFilter;
+
     [RelayCommand]
     private async Task Load() {
+        StartDate = DateTime.Now.AddDays(-7);
+        EndDate = DateTime.Now;
         await Task.Delay(100);
         Items = new ObservableCollection<ReviewDto>() {
             new("Travel expense calabar", "Saurav Argawal", 7000, DateTime.Now.AddHours(-4), "Reviwed")

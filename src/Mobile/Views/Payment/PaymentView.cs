@@ -15,17 +15,24 @@ public class PaymentView : BaseView<PaymentViewModel> {
                 FontFamily = "FASolid",
                 Glyph = FA.Solid.Sliders
             }.DynamicResource(FontImageSource.ColorProperty, "Primary")
-        });
+        }.Bind(ToolbarItem.CommandProperty, nameof(PaymentViewModel.ToggleFilterCommand)));
         Build();
     }
 
     protected override void Build() {
         Title = "Payments";
         Content = new Grid {
+            Padding = 4,
             RowDefinitions = Rows.Define(
-                (SectionLevel.First, Star)
+                (SectionLevel.First, Auto),
+                (SectionLevel.Second, Star)
             ),
             Children = {
+                new FilterToolbarView()
+                    .Bind(FilterToolbarView.StartDateProperty, nameof(PaymentViewModel.StartDate), mode: BindingMode.TwoWay)
+                    .Bind(FilterToolbarView.EndDateProperty, nameof(PaymentViewModel.EndDate), mode: BindingMode.TwoWay)
+                    .Bind(IsVisibleProperty, nameof(PaymentViewModel.ShowFilter))
+                    .Row(SectionLevel.First),
                 new RefreshView {
                     Content = new CollectionView() { SelectionMode = SelectionMode.None }
                         .EmptyViewTemplate(new DataTemplate(() => new EmptyItemView().Margins(0, 56)))
@@ -96,8 +103,8 @@ public class PaymentView : BaseView<PaymentViewModel> {
                                     .Row(SectionLevel.Third)
                                     .ColumnSpan(3)
                             }
-                        }.Paddings(4, 8, 4, 4)))
-                }.Row(SectionLevel.First)
+                        }.Paddings(0, 4, 0, 0)))
+                }.Row(SectionLevel.Second)
                 .Bind(RefreshView.CommandProperty, nameof(PaymentViewModel.RefreshItemsCommand))
                 .Bind(RefreshView.IsRefreshingProperty, nameof(PaymentViewModel.IsRefreshing))
             }
@@ -115,8 +122,19 @@ public partial class PaymentViewModel : ListViewModel {
 
     [ObservableProperty] private ObservableCollection<PaymentDto> _selected;
 
+    [ObservableProperty] private DateTime _startDate;
+
+    [ObservableProperty] private DateTime _endDate;
+
+    [ObservableProperty] private bool _showFilter;
+
+    [RelayCommand]
+    private void ToggleFilter() => ShowFilter = !ShowFilter;
+
     [RelayCommand]
     private void Load() {
+        StartDate = DateTime.Now.AddDays(-7);
+        EndDate = DateTime.Now;
         Items = new ObservableCollection<PaymentDto>() {
             new("Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
             new("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Pending"),
