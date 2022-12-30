@@ -8,16 +8,16 @@ public partial class FilterToolbarView : Grid {
 
 #pragma warning disable IDE0051
 #pragma warning disable CS0169
-    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
+    [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]
     private string _search = string.Empty;
 
-    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
+    [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]
     private bool _showSearch = false;
 
-    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
+    [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]
     private DateTime _startDate = DateTime.Now.AddDays(-7);
 
-    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
+    [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]
     private DateTime _endDate = DateTime.Now;
 
     private enum FrameColumn {
@@ -26,7 +26,9 @@ public partial class FilterToolbarView : Grid {
         Third
     }
 
-    public FilterToolbarView() => Build();
+    public FilterToolbarView() {
+        Build();
+    }
 
     private void Build() {
         Margin = new Thickness { Top = 4, Left = 0, Right = 0, Bottom = 0 };
@@ -43,36 +45,36 @@ public partial class FilterToolbarView : Grid {
                     ),
                     Children = {
                         new Grid {
-                            ColumnDefinitions = Columns.Define(
-                                (FrameColumn.First, Auto),
-                                (FrameColumn.Second, Star),
-                                (FrameColumn.Third, Auto)
-                            ),
-                            Children = {
-                                new Label()
-                                    .DynamicResource(Label.TextColorProperty, "Primary")
-                                    .Bind(Label.TextProperty, nameof(StartDate),
-                                        source: this,
-                                        convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
-                                    ).CenterVertical()
-                                    .Column(FrameColumn.First),
-                                new Rectangle()
-                                    .DynamicResource(BackgroundColorProperty, "Primary")
-                                    .Size(12, 4)
-                                    .Center()
-                                    .Margins(4, 0, 4, 0)
-                                    .Column(FrameColumn.Second),
-                                new Label()
-                                    .Bind(Label.TextProperty,
-                                        nameof(EndDate),
-                                        source: this,
-                                        convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
-                                    ).CenterVertical()
-                                    .DynamicResource(Label.TextColorProperty, "Primary")
-                                    .Column(FrameColumn.Third)
-                            }
-                        }.CenterVertical()
-                        .Column(FrameColumn.First)
+                                ColumnDefinitions = Columns.Define(
+                                    (FrameColumn.First, Auto),
+                                    (FrameColumn.Second, Star),
+                                    (FrameColumn.Third, Auto)
+                                ),
+                                Children = {
+                                    new Label()
+                                        .DynamicResource(Label.TextColorProperty, "Primary")
+                                        .Bind(Label.TextProperty, nameof(StartDate),
+                                            source: this,
+                                            convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
+                                        ).CenterVertical()
+                                        .Column(FrameColumn.First),
+                                    new Rectangle()
+                                        .DynamicResource(BackgroundColorProperty, "Primary")
+                                        .Size(12, 4)
+                                        .Center()
+                                        .Margins(4, 0, 4, 0)
+                                        .Column(FrameColumn.Second),
+                                    new Label()
+                                        .Bind(Label.TextProperty,
+                                            nameof(EndDate),
+                                            source: this,
+                                            convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
+                                        ).CenterVertical()
+                                        .DynamicResource(Label.TextColorProperty, "Primary")
+                                        .Column(FrameColumn.Third)
+                                }
+                            }.CenterVertical()
+                            .Column(FrameColumn.First)
                     }
                 }
             }
@@ -84,13 +86,13 @@ public partial class FilterToolbarView : Grid {
             ));
 
         Children.Add(new Grid {
-            Children = {
-                new Border().DynamicResource(StyleProperty, "FieldControl"),
-                new SearchBar { Placeholder = "Search.." }
-                    .Bind(SearchBar.TextProperty, nameof(Search), source: this)
-                    .DynamicResource(StyleProperty, "SearchEntry")
+                Children = {
+                    new Border().DynamicResource(StyleProperty, "FieldControl"),
+                    new SearchBar { Placeholder = "Search.." }
+                        .Bind(SearchBar.TextProperty, nameof(Search), source: this)
+                        .DynamicResource(StyleProperty, "SearchEntry")
+                }
             }
-        }
-        .Bind(IsVisibleProperty, nameof(ShowSearch), source: this));
+            .Bind(IsVisibleProperty, nameof(ShowSearch), source: this));
     }
 }

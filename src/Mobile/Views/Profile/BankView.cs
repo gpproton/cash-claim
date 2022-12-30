@@ -1,14 +1,15 @@
 namespace XClaim.Mobile.Views.Profile;
 
 public class BankView : BaseView<BankViewModel> {
-
     private enum SectionLevel {
         First,
         Second,
         Third
     }
 
-    public BankView(BankViewModel vm) : base(vm) => Build();
+    public BankView(BankViewModel vm) : base(vm) {
+        Build();
+    }
 
     protected override void Build() {
         Title = "Bank Account";
@@ -20,21 +21,21 @@ public class BankView : BaseView<BankViewModel> {
             ),
             Children = {
                 new VerticalStackLayout {
-                    Spacing = 10,
-                    Children = {
-                        new TextField { Title = "Account Name" },
-                        new TextField { Title = "Account Number", Keyboard = Keyboard.Numeric },
-                        new PickerField { Title = "Bank", AllowClear = false }
-                            .Bind(PickerField.ItemsSourceProperty, nameof(BankViewModel.Banks)),
-                        new PickerField { Title = "Type", AllowClear = false }
-                        .Bind(PickerField.ItemsSourceProperty, nameof(BankViewModel.Types)),
-                        new Editor { Placeholder = "Description" }
-                            .Height(120)
-                    }
-                }.CenterHorizontal()
-                .FillHorizontal()
-                .Row(SectionLevel.First),
-                 new Button().Text("Save")
+                        Spacing = 10,
+                        Children = {
+                            new TextField { Title = "Account Name" },
+                            new TextField { Title = "Account Number", Keyboard = Keyboard.Numeric },
+                            new PickerField { Title = "Bank", AllowClear = false }
+                                .Bind(PickerField.ItemsSourceProperty, nameof(BankViewModel.Banks)),
+                            new PickerField { Title = "Type", AllowClear = false }
+                                .Bind(PickerField.ItemsSourceProperty, nameof(BankViewModel.Types)),
+                            new Editor { Placeholder = "Description" }
+                                .Height(120)
+                        }
+                    }.CenterHorizontal()
+                    .FillHorizontal()
+                    .Row(SectionLevel.First),
+                new Button().Text("Save")
                     .DynamicResource(StyleProperty, "ButtonLargePrimary")
                     .CenterVertical()
                     .Row(SectionLevel.Second)

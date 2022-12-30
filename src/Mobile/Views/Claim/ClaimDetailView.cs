@@ -3,7 +3,7 @@
 namespace XClaim.Mobile.Views.Claim;
 
 public class ClaimDetailView : BaseView<ClaimDetailViewModel> {
-    enum SectionLevel {
+    private enum SectionLevel {
         First,
         Second,
         Third,
@@ -33,62 +33,64 @@ public class ClaimDetailView : BaseView<ClaimDetailViewModel> {
             ),
             Children = {
                 new VerticalStackLayout {
-                    Spacing = 2,
-                    Children = {
-                        new Label().Bind(Label.TextProperty, "Item.Name")
-                            .Font(size: 18)
-                            .CenterHorizontal(),
-                        new Label().Text("Firstname Lastname")
-                            .Font(size: 14, family: "RobotoMedium")
-                            .CenterHorizontal()
-                    }
-                }.CenterHorizontal()
-                .Row(SectionLevel.First),
+                        Spacing = 2,
+                        Children = {
+                            new Label().Bind(Label.TextProperty, "Item.Name")
+                                .Font(size: 18)
+                                .CenterHorizontal(),
+                            new Label().Text("Firstname Lastname")
+                                .Font(size: 14, family: "RobotoMedium")
+                                .CenterHorizontal()
+                        }
+                    }.CenterHorizontal()
+                    .Row(SectionLevel.First),
 
                 new Image().Source("money_savings.svg")
-                .CenterHorizontal().MinHeight(256)
-                .Row(SectionLevel.Second),
+                    .CenterHorizontal().MinHeight(256)
+                    .Margins(24, 0, 24, 0)
+                    .Row(SectionLevel.Second),
 
                 new VerticalStackLayout {
-                    Spacing = 15,
-                    Children = {
-                        new VerticalStackLayout {
-                            new HorizontalStackLayout {
-                                new Label { Padding = 1, Margin = 2 }
-                                    .Font(size: 12)
-                                    .Bind(Label.TextProperty, "Item.Time",
-                                        convert: (DateTime value) => value.ToString("yy-MMM-dd HH:mm")),
-                                new Label { Padding = 1, Margin = 2 }
-                                    .Font(size: 12)
-                                    .Text("."),
-                                new Label { Padding = 1, Margin = 2 }
-                                        .Font(size: 12)
-                                        .Bind(Label.TextProperty, "Item.Category")
-                            },
-                            new Label().Bind(Label.TextProperty, "Item.Notes")
-                                .Font(size: 14)
+                        Spacing = 15,
+                        Children = {
+                            new VerticalStackLayout {
+                                    new HorizontalStackLayout {
+                                        new Label { Padding = 1, Margin = 2 }
+                                            .Font(size: 12)
+                                            .Bind(Label.TextProperty, "Item.Time",
+                                                convert: (DateTime value) => value.ToString("yy-MMM-dd HH:mm")),
+                                        new Label { Padding = 1, Margin = 2 }
+                                            .Font(size: 12)
+                                            .Text("."),
+                                        new Label { Padding = 1, Margin = 2 }
+                                            .Font(size: 12)
+                                            .Bind(Label.TextProperty, "Item.Category")
+                                    },
+                                    new Label().Bind(Label.TextProperty, "Item.Notes")
+                                        .Font(size: 14)
+                                        .CenterHorizontal()
+                                }.Margins(0, 0, 0, 24)
+                                .CenterHorizontal(),
+                            new Label().Bind(Label.TextProperty, "Item.Amount",
+                                    convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
+                                .Font(size: 32, family: "RobotoMedium")
                                 .CenterHorizontal()
-                        }.Margins(0, 0, 0, 24)
-                        .CenterHorizontal(),
-                        new Label().Bind(Label.TextProperty, "Item.Amount", convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
-                            .Font(size: 32, family: "RobotoMedium")
-                            .CenterHorizontal()
-                    }
-                }.Margins(0, 0, 0, 24)
-                .Row(SectionLevel.Third),
+                        }
+                    }.Margins(0, 0, 0, 24)
+                    .Row(SectionLevel.Third),
 
                 new VerticalStackLayout {
-                    new Button {  HeightRequest = 48 }
-                        .Text("Modify")
-                        .FillHorizontal()
-                        .BackgroundColor(Colors.DodgerBlue),
-                    new Button{ HeightRequest = 48, TextColor = Colors.Red }
-                        .Text("Delete")
-                        .FillHorizontal()
-                        .BackgroundColor(Colors.Transparent)
-                }
-                .FillHorizontal()
-                .Row(SectionLevel.Fourth)
+                        new Button { HeightRequest = 48 }
+                            .Text("Modify")
+                            .FillHorizontal()
+                            .BackgroundColor(Colors.DodgerBlue),
+                        new Button { HeightRequest = 48, TextColor = Colors.Red }
+                            .Text("Delete")
+                            .FillHorizontal()
+                            .BackgroundColor(Colors.Transparent)
+                    }
+                    .FillHorizontal()
+                    .Row(SectionLevel.Fourth)
             }
         };
     }

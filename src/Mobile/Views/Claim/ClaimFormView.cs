@@ -30,97 +30,97 @@ public class ClaimFormView : BaseView<ClaimFormViewModel> {
             ),
             Children = {
                 new VerticalStackLayout {
-                    Spacing = 10,
-                    Children = {
-                        new TextField { Title = "Description" },
-                        new TextField { Title = "Amount", Keyboard = Keyboard.Numeric },
-                        new PickerField { Title = "Category", AllowClear = false }
-                            .Bind(PickerField.ItemsSourceProperty, nameof(ClaimFormViewModel.Categories)),
-                        // TODO: Display acount infoS
-                        //new PickerField { Title = "Account", AllowClear = false }
-                        //    .Bind(PickerField.ItemsSourceProperty, nameof(ClaimFormViewModel.Accounts)),
-                        new Frame {
-                            Padding = 10,
-                            Content = new Grid {
-                                HeightRequest = 135,
-                                ColumnDefinitions = Columns.Define(
-                                    (SectionLevel.First, Star),
-                                    (SectionLevel.Second, Auto)
-                                ),
-                                RowDefinitions = Rows.Define(
-                                    (SectionLevel.First, Auto),
-                                    (SectionLevel.Second, Star),
-                                    (SectionLevel.Third, Auto)
-                                ),
-                                Children = {
-                                    new HorizontalStackLayout {
-                                        new Image().Source(new FontImageSource() {
-                                            FontFamily = "FASolid",
-                                            Glyph = FA.Solid.Paperclip,
-                                            Color = Colors.Gray
-                                        }).Size(18)
-                                        .Margins(0, 0, 8, 0),
-                                        new Label().Text("Attachements").Font(size: 14)
-                                    }.Row(SectionLevel.First),
-                                    new CollectionView {
-                                        Margin = 2,
-                                        ItemsLayout = LinearItemsLayout.Horizontal,
-                                        VerticalOptions = LayoutOptions.Fill,
-                                        HorizontalOptions = LayoutOptions.Fill,
-                                        MinimumHeightRequest = 72,
-                                    }.Bind(ItemsView.ItemsSourceProperty, nameof(ClaimFormViewModel.ImageFiles))
-                                    .ItemTemplate(new DataTemplate(() =>
-                                        new StackLayout {
-                                            new Frame {
-                                                CornerRadius = 8,
-                                                Padding = 0,
-                                                IsClippedToBounds = true,
-                                                Content = new Image().Center()
-                                                .Bind(Image.SourceProperty, ".").Size(128)
-                                            }.Size(72)
-                                        }.Padding(2)
-                                    ))
-                                    .Row(SectionLevel.Second),
-                                    new HorizontalStackLayout {
-                                        Spacing = 10,
-                                        HorizontalOptions = LayoutOptions.Center,
-                                        Children = {
-                                            new Button() {
-                                                CornerRadius = 8,
-                                                WidthRequest = 48,
-                                                HeightRequest = 32,
-                                                BackgroundColor = Colors.Gray,
-                                                ImageSource = new FontImageSource {
+                        Spacing = 10,
+                        Children = {
+                            new TextField { Title = "Description" },
+                            new TextField { Title = "Amount", Keyboard = Keyboard.Numeric },
+                            new PickerField { Title = "Category", AllowClear = false }
+                                .Bind(PickerField.ItemsSourceProperty, nameof(ClaimFormViewModel.Categories)),
+                            // TODO: Display acount infoS
+                            //new PickerField { Title = "Account", AllowClear = false }
+                            //    .Bind(PickerField.ItemsSourceProperty, nameof(ClaimFormViewModel.Accounts)),
+                            new Frame {
+                                Padding = 10,
+                                Content = new Grid {
+                                    HeightRequest = 135,
+                                    ColumnDefinitions = Columns.Define(
+                                        (SectionLevel.First, Star),
+                                        (SectionLevel.Second, Auto)
+                                    ),
+                                    RowDefinitions = Rows.Define(
+                                        (SectionLevel.First, Auto),
+                                        (SectionLevel.Second, Star),
+                                        (SectionLevel.Third, Auto)
+                                    ),
+                                    Children = {
+                                        new HorizontalStackLayout {
+                                            new Image().Source(new FontImageSource() {
                                                     FontFamily = "FASolid",
-                                                    Glyph = FA.Solid.Camera,
-                                                    Color = Colors.White,
-                                                    Size = 16
-                                                }
-                                            }.Invoke(i => i.Clicked += (sender, args) => TakePhoto()),
-                                            new Button() {
-                                                CornerRadius = 8,
-                                                WidthRequest = 48,
-                                                HeightRequest = 32,
-                                                BackgroundColor = Colors.DodgerBlue,
-                                                ImageSource = new FontImageSource {
-                                                    FontFamily = "FASolid",
-                                                    Glyph = FA.Solid.File,
-                                                    Color = Colors.White,
-                                                    Size = 16
-                                                }
-                                            }.Invoke(i => i.Clicked += (sender, args) => PickFiles())
-                                        }
-                                    }.Row(SectionLevel.Third)
+                                                    Glyph = FA.Solid.Paperclip,
+                                                    Color = Colors.Gray
+                                                }).Size(18)
+                                                .Margins(0, 0, 8, 0),
+                                            new Label().Text("Attachements").Font(size: 14)
+                                        }.Row(SectionLevel.First),
+                                        new CollectionView {
+                                                Margin = 2,
+                                                ItemsLayout = LinearItemsLayout.Horizontal,
+                                                VerticalOptions = LayoutOptions.Fill,
+                                                HorizontalOptions = LayoutOptions.Fill,
+                                                MinimumHeightRequest = 72
+                                            }.Bind(ItemsView.ItemsSourceProperty, nameof(ClaimFormViewModel.ImageFiles))
+                                            .ItemTemplate(new DataTemplate(() =>
+                                                new StackLayout {
+                                                    new Frame {
+                                                        CornerRadius = 8,
+                                                        Padding = 0,
+                                                        IsClippedToBounds = true,
+                                                        Content = new Image().Center()
+                                                            .Bind(Image.SourceProperty, ".").Size(128)
+                                                    }.Size(72)
+                                                }.Padding(2)
+                                            ))
+                                            .Row(SectionLevel.Second),
+                                        new HorizontalStackLayout {
+                                            Spacing = 10,
+                                            HorizontalOptions = LayoutOptions.Center,
+                                            Children = {
+                                                new Button() {
+                                                    CornerRadius = 8,
+                                                    WidthRequest = 48,
+                                                    HeightRequest = 32,
+                                                    BackgroundColor = Colors.Gray,
+                                                    ImageSource = new FontImageSource {
+                                                        FontFamily = "FASolid",
+                                                        Glyph = FA.Solid.Camera,
+                                                        Color = Colors.White,
+                                                        Size = 16
+                                                    }
+                                                }.Invoke(i => i.Clicked += (sender, args) => TakePhoto()),
+                                                new Button() {
+                                                    CornerRadius = 8,
+                                                    WidthRequest = 48,
+                                                    HeightRequest = 32,
+                                                    BackgroundColor = Colors.DodgerBlue,
+                                                    ImageSource = new FontImageSource {
+                                                        FontFamily = "FASolid",
+                                                        Glyph = FA.Solid.File,
+                                                        Color = Colors.White,
+                                                        Size = 16
+                                                    }
+                                                }.Invoke(i => i.Clicked += (sender, args) => PickFiles())
+                                            }
+                                        }.Row(SectionLevel.Third)
+                                    }
                                 }
-                            }
-                        },
-                        new Editor { Placeholder = "Notes" }
-                            .Height(120)
-                    }
-                }.CenterHorizontal()
-                .FillHorizontal()
-                .Row(SectionLevel.First),
-                 new Button().Text("Save")
+                            },
+                            new Editor { Placeholder = "Notes" }
+                                .Height(120)
+                        }
+                    }.CenterHorizontal()
+                    .FillHorizontal()
+                    .Row(SectionLevel.First),
+                new Button().Text("Save")
                     .DynamicResource(StyleProperty, "ButtonLargePrimary")
                     .CenterVertical()
                     .Row(SectionLevel.Second)
@@ -176,8 +176,10 @@ public class ClaimFormView : BaseView<ClaimFormViewModel> {
                     var stream = await result.OpenReadAsync();
                     var Image = ImageSource.FromStream(() => stream);
                     BindingContext.ImageFiles.Add(copyPath);
-                } else
+                }
+                else {
                     BindingContext.FilePaths.Add(copyPath);
+                }
 
                 using (var destination = File.Create(copyPath))
                 using (var source = await result.OpenReadAsync()) {

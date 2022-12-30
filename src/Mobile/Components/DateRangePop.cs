@@ -3,14 +3,15 @@
 namespace XClaim.Mobile.Components;
 
 public partial class DateRangePop : BasePopupPage {
-    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))] 
+    [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]
     private DateTime _startDate = DateTime.Now.AddDays(-7);
 
-    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))] 
+    [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]
     private DateTime _endDate = DateTime.Now;
+
     public DateRangePop() {
-        this.HorizontalOptions = LayoutOptions.Fill;
-        this.VerticalOptions = LayoutOptions.End;
+        HorizontalOptions = LayoutOptions.Fill;
+        VerticalOptions = LayoutOptions.End;
         Content = new VerticalStackLayout {
             Padding = 8,
             Spacing = 5,

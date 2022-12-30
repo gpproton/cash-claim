@@ -32,7 +32,9 @@ internal enum ListTitleColumn {
 }
 
 public class HomeView : BaseView<HomeViewModel> {
-    public HomeView(HomeViewModel vm) : base(vm) => Build();
+    public HomeView(HomeViewModel vm) : base(vm) {
+        Build();
+    }
 
     protected override void Build() {
         Content = new Grid() {
@@ -127,98 +129,105 @@ public class HomeView : BaseView<HomeViewModel> {
                     }
                     .Margins(24, 6, 24, 6)
                     .Row(PageRow.Second),
-                    new Grid() {
+                new Grid() {
                         RowDefinitions = Rows.Define(
                             (PageRow.First, Auto),
                             (PageRow.Second, Star)
                         ),
                         Children = {
-                        new Grid() {
-                            ColumnDefinitions = Columns.Define(
-                                (ListTitleColumn.First, Star),
-                                (ListTitleColumn.Second, Auto)
-                            ),
-                            Padding = 8,
-                            Children = {
-                                new Label()
-                                    .Text("Recents")
-                                    .Font(size: 16)
-                                    .Column(ListTitleColumn.First)
-                                    .DynamicResource(Label.TextColorProperty, "Gray300"),
-                                new Label()
-                                    .Text("See all")
-                                    .Font(size: 16)
-                                    .TapGesture(async () => await Shell.Current.GoToAsync($"//{nameof(ClaimView)}"))
-                                    .Column(ListTitleColumn.Second)
-                                    .DynamicResource(Label.TextColorProperty, "Primary")
-                            }
-                        }.Row(PageRow.First),
-                        new RefreshView {
-                                Content = new CollectionView() {
-                                    SelectionMode = SelectionMode.Single,
-                                    EmptyView = "No recent event"
+                            new Grid() {
+                                ColumnDefinitions = Columns.Define(
+                                    (ListTitleColumn.First, Star),
+                                    (ListTitleColumn.Second, Auto)
+                                ),
+                                Padding = 8,
+                                Children = {
+                                    new Label()
+                                        .Text("Recents")
+                                        .Font(size: 16)
+                                        .Column(ListTitleColumn.First)
+                                        .DynamicResource(Label.TextColorProperty, "Gray300"),
+                                    new Label()
+                                        .Text("See all")
+                                        .Font(size: 16)
+                                        .TapGesture(async () => await Shell.Current.GoToAsync($"//{nameof(ClaimView)}"))
+                                        .Column(ListTitleColumn.Second)
+                                        .DynamicResource(Label.TextColorProperty, "Primary")
                                 }
-                                .Bind(ItemsView.ItemsSourceProperty, nameof(HomeViewModel.RecentItems))
-                                .Bind(SelectableItemsView.SelectedItemProperty,
-                                    nameof(HomeViewModel.SelectedRecentItem))
-                                .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
-                                .ItemTemplate(new DataTemplate(() => new Grid {
-                                    ColumnDefinitions = Columns.Define(
-                                        (PageRow.First, Auto),
-                                        (PageRow.Second, Star),
-                                        (PageRow.Third, Auto)
-                                    ),
-                                    RowDefinitions = Rows.Define(
-                                        (PageRow.First, Auto),
-                                        (PageRow.Second, Auto),
-                                        (PageRow.Third, 1)
-                                    ),
-                                    Children = {
-                                        new Label { Padding = 1, Margin = 2, TextColor = Color.FromRgba("#7F7F7F") }
-                                            .Font(size: 16)
-                                            .Bind(Label.TextProperty, nameof(RecentActions.Name))
-                                            .Row(PageRow.First)
-                                            .Column(PageRow.First),
-                                        new HorizontalStackLayout {
-                                                Children = {
-                                                    new Label { Padding = 1, Margin = 2 }
-                                                        .Font(size: 11)
-                                                        .Bind(Label.TextProperty, nameof(RecentActions.Category)),
-                                                    new Label { Padding = 1, Margin = 2 }
-                                                        .Font(size: 11)
-                                                        .Text("."),
-                                                    new Label { Padding = 1, Margin = 2 }
-                                                        .Font(size: 11)
-                                                        .Bind(Label.TextProperty, nameof(RecentActions.Time),
-                                                            convert: (DateTime value) => value.TimeAgo())
-                                                }
-                                            }.Row(PageRow.Second)
-                                            .Column(PageRow.First),
-                                        new Label { TextColor = Colors.LightSeaGreen }
-                                            .Font(size: 22, family: "RobotoMedium")
-                                            .Bind(Label.TextProperty, nameof(RecentActions.Amount),
-                                                convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
-                                            .MinWidth(105)
-                                            .Row(PageRow.First)
-                                            .RowSpan(2)
-                                            .Column(PageRow.Third)
-                                            .CenterVertical()
-                                            .CenterHorizontal(),
-                                        new BoxView()
-                                            .DynamicResource(StyleProperty, "SeparatorLine")
-                                            .Row(PageRow.Third)
-                                            .ColumnSpan(3)
-                                    }
-                                }.Paddings(4, 2, 4, 4)))
-                        }.Row(PageRow.Second)
-                        .Bind(RefreshView.IsRefreshingProperty, nameof(HomeViewModel.IsRefreshing))
-                        .Bind(RefreshView.CommandProperty, nameof(HomeViewModel.RefreshItemsCommand))
-                    }
+                            }.Row(PageRow.First),
+                            new RefreshView {
+                                    Content = new CollectionView() {
+                                            SelectionMode = SelectionMode.Single,
+                                            EmptyView = "No recent event"
+                                        }
+                                        .Bind(ItemsView.ItemsSourceProperty, nameof(HomeViewModel.RecentItems))
+                                        .Bind(SelectableItemsView.SelectedItemProperty,
+                                            nameof(HomeViewModel.SelectedRecentItem))
+                                        .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
+                                        .ItemTemplate(new DataTemplate(() => new Grid {
+                                            ColumnDefinitions = Columns.Define(
+                                                (PageRow.First, Auto),
+                                                (PageRow.Second, Star),
+                                                (PageRow.Third, Auto)
+                                            ),
+                                            RowDefinitions = Rows.Define(
+                                                (PageRow.First, Auto),
+                                                (PageRow.Second, Auto),
+                                                (PageRow.Third, 1)
+                                            ),
+                                            Children = {
+                                                new Label {
+                                                        Padding = 1, Margin = 2, TextColor = Color.FromRgba("#7F7F7F")
+                                                    }
+                                                    .Font(size: 16)
+                                                    .Bind(Label.TextProperty, nameof(RecentActions.Name))
+                                                    .Row(PageRow.First)
+                                                    .Column(PageRow.First),
+                                                new HorizontalStackLayout {
+                                                        Children = {
+                                                            new Label { Padding = 1, Margin = 2 }
+                                                                .Font(size: 11)
+                                                                .Bind(Label.TextProperty,
+                                                                    nameof(RecentActions.Category)),
+                                                            new Label { Padding = 1, Margin = 2 }
+                                                                .Font(size: 11)
+                                                                .Text("."),
+                                                            new Label { Padding = 1, Margin = 2 }
+                                                                .Font(size: 11)
+                                                                .Bind(Label.TextProperty, nameof(RecentActions.Time),
+                                                                    convert: (DateTime value) => value.TimeAgo())
+                                                        }
+                                                    }.Row(PageRow.Second)
+                                                    .Column(PageRow.First),
+                                                new Label { TextColor = Colors.LightSeaGreen }
+                                                    .Font(size: 22, family: "RobotoMedium")
+                                                    .Bind(Label.TextProperty, nameof(RecentActions.Amount),
+                                                        convert: (decimal value) =>
+                                                            "₦" + string.Format("{0:N0}", value))
+                                                    .MinWidth(105)
+                                                    .Row(PageRow.First)
+                                                    .RowSpan(2)
+                                                    .Column(PageRow.Third)
+                                                    .CenterVertical()
+                                                    .CenterHorizontal(),
+                                                new BoxView()
+                                                    .DynamicResource(StyleProperty, "SeparatorLine")
+                                                    .Row(PageRow.Third)
+                                                    .ColumnSpan(3)
+                                            }
+                                        }.Paddings(4, 2, 4, 4)))
+                                }.Row(PageRow.Second)
+                                .Bind(RefreshView.IsRefreshingProperty, nameof(HomeViewModel.IsRefreshing))
+                                .Bind(RefreshView.CommandProperty, nameof(HomeViewModel.RefreshItemsCommand))
+                        }
                     }
                     .Margins(8, 16, 8, 8)
                     .Row(PageRow.Third),
 
-                new Button() { Command = new Command(async () => await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(ClaimFormView)}") ) }
+                new Button() {
+                        Command = new Command(async () =>
+                            await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(ClaimFormView)}"))
+                    }
                     .Text("New Claim")
                     .DynamicResource(StyleProperty, "ButtonLargePrimary")
                     .CenterVertical()
@@ -233,14 +242,13 @@ public class HomeView : BaseView<HomeViewModel> {
         BindingContext.LoadDefaultsCommand.Execute(null);
     }
 
-    async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
+    private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
         ArgumentNullException.ThrowIfNull(sender);
         var cx = (CollectionView)sender;
         cx.SelectedItem = null;
-        if (e.CurrentSelection.FirstOrDefault() is RecentActions item) {
+        if (e.CurrentSelection.FirstOrDefault() is RecentActions item)
             if (!string.IsNullOrEmpty(item.Name))
-               await MauiPopup.PopupAction.DisplayPopup(new HomeEventPop(item) );
-        }
+                await MauiPopup.PopupAction.DisplayPopup(new HomeEventPop(item));
     }
 }
 
@@ -258,8 +266,8 @@ public partial class HomeViewModel : ListViewModel {
         Status = new UserProfile("Saurav", "Argawal", UserPermission.Administrator, 0, 10000);
         RecentItems = new ObservableCollection<RecentActions> {
             new(Guid.NewGuid(), "Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
-            new(Guid.NewGuid(),"20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1)),
-            new(Guid.NewGuid(),"Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
+            new(Guid.NewGuid(), "20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1)),
+            new(Guid.NewGuid(), "Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
         };
         IsLoading = false;
     }

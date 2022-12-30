@@ -25,32 +25,32 @@
     </PropertyGroup>
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#4E549C" />
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#4E549C"/>
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#4E549C" BaseSize="128,128" />
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#4E549C" BaseSize="128,128"/>
         <!-- Images -->
-        <MauiImage Include="Resources\Images\*" />
-        <MauiImage Include="Resources\Images\microsoft_icon.svg" BaseSize="32,32" Resize="false" Color="#EBECF9" />
+        <MauiImage Include="Resources\Images\*"/>
+        <MauiImage Include="Resources\Images\microsoft_icon.svg" BaseSize="32,32" Resize="false" Color="#EBECF9"/>
         <!-- Custom Fonts -->
-        <MauiFont Include="Resources\Fonts\*" />
+        <MauiFont Include="Resources\Fonts\*"/>
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
     </ItemGroup>
     <ItemGroup>
-      <None Remove="Resources\Images\money_payments.svg" />
-      <None Remove="Resources\Images\money_savings.svg" />
+        <None Remove="Resources\Images\money_payments.svg"/>
+        <None Remove="Resources\Images\money_savings.svg"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="BindableProps" Version="1.2.0" />
-        <PackageReference Include="CommunityToolkit.Maui" Version="3.1.0" />
-        <PackageReference Include="CommunityToolkit.Maui.Markup" Version="2.1.0" />
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0-preview2" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-		<PackageReference Include="Plugin.Maui.Popup" Version="1.0.4" />
-        <PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.1.2" />
-        <PackageReference Include="UraniumUI.Material" Version="2.1.2" />
+        <PackageReference Include="BindableProps" Version="1.2.0"/>
+        <PackageReference Include="CommunityToolkit.Maui" Version="3.1.0"/>
+        <PackageReference Include="CommunityToolkit.Maui.Markup" Version="2.1.0"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0-preview2"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0"/>
+        <PackageReference Include="Plugin.Maui.Popup" Version="1.0.4"/>
+        <PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.1.2"/>
+        <PackageReference Include="UraniumUI.Material" Version="2.1.2"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Common\XClaim.Common.csproj" />
+        <ProjectReference Include="..\Common\XClaim.Common.csproj"/>
     </ItemGroup>
 </Project>

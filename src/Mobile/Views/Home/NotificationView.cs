@@ -14,12 +14,12 @@ public class NotificationView : BaseView<NotificationViewModel> {
 
     public NotificationView(NotificationViewModel vm) : base(vm) {
         ToolbarItems.Add(new ToolbarItem {
-            IconImageSource = new FontImageSource {
-                FontFamily = "FASolid",
-                Glyph = FA.Solid.Trash,
-                Size = 22
-            }.DynamicResource(FontImageSource.ColorProperty, "Primary")
-        }.Bind(ToolbarItem.CommandProperty, nameof(NotificationViewModel.ClearCommand))
+                IconImageSource = new FontImageSource {
+                    FontFamily = "FASolid",
+                    Glyph = FA.Solid.Trash,
+                    Size = 22
+                }.DynamicResource(FontImageSource.ColorProperty, "Primary")
+            }.Bind(MenuItem.CommandProperty, nameof(NotificationViewModel.ClearCommand))
         );
         Build();
     }
@@ -54,19 +54,19 @@ public class NotificationView : BaseView<NotificationViewModel> {
                                         .Row(SectionLevel.First)
                                         .Column(SectionLevel.First),
                                     new HorizontalStackLayout {
-                                        Spacing = 6,
-                                        Children = {
-                                            new Label()
-                                                .Font(size: 11)
-                                                .TextColor(Colors.DodgerBlue)
-                                                .Bind(Label.TextProperty, nameof(AlertItem.Type)),
-                                            new Rectangle()
-                                                .Size(4, 2)
-                                                .Center()
-                                                .BackgroundColor(Colors.Grey),
-                                            new Label { TextColor = Colors.Gray }
-                                                .Font(size: 11)
-                                                .Bind(Label.TextProperty, nameof(AlertItem.Description))
+                                            Spacing = 6,
+                                            Children = {
+                                                new Label()
+                                                    .Font(size: 11)
+                                                    .TextColor(Colors.DodgerBlue)
+                                                    .Bind(Label.TextProperty, nameof(AlertItem.Type)),
+                                                new Rectangle()
+                                                    .Size(4, 2)
+                                                    .Center()
+                                                    .BackgroundColor(Colors.Grey),
+                                                new Label { TextColor = Colors.Gray }
+                                                    .Font(size: 11)
+                                                    .Bind(Label.TextProperty, nameof(AlertItem.Description))
                                             }
                                         }
                                         .Row(SectionLevel.Second)
@@ -86,7 +86,7 @@ public class NotificationView : BaseView<NotificationViewModel> {
                             }.Padding(4)))
                     }.Bind(RefreshView.CommandProperty, nameof(NotificationViewModel.RefreshItemsCommand))
                     .Bind(RefreshView.IsRefreshingProperty, nameof(NotificationViewModel.IsRefreshing))
-                    .Row (SectionLevel.Second)
+                    .Row(SectionLevel.Second)
             }
         };
     }
@@ -101,7 +101,9 @@ public partial class NotificationViewModel : ListViewModel {
     [ObservableProperty] private ObservableCollection<AlertItem> _items;
 
     [RelayCommand]
-    private void Clear() => Items.Clear();
+    private void Clear() {
+        Items.Clear();
+    }
 
     [RelayCommand]
     private async Task Load() {

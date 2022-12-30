@@ -11,12 +11,12 @@ public class ReviewView : BaseView<ReviewViewModel> {
 
     public ReviewView(ReviewViewModel vm) : base(vm) {
         ToolbarItems.Add(new ToolbarItem {
-            IconImageSource = new FontImageSource {
-                FontFamily = "FASolid",
-                Glyph = FA.Solid.Sliders,
-                Size = 22
-            }.DynamicResource(FontImageSource.ColorProperty, "Primary")
-        }.Bind(ToolbarItem.CommandProperty, nameof(ReviewViewModel.ToggleFilterCommand))
+                IconImageSource = new FontImageSource {
+                    FontFamily = "FASolid",
+                    Glyph = FA.Solid.Sliders,
+                    Size = 22
+                }.DynamicResource(FontImageSource.ColorProperty, "Primary")
+            }.Bind(MenuItem.CommandProperty, nameof(ReviewViewModel.ToggleFilterCommand))
         );
         Build();
     }
@@ -31,8 +31,8 @@ public class ReviewView : BaseView<ReviewViewModel> {
             ),
             Children = {
                 new FilterToolbarView()
-                    .Bind(FilterToolbarView.StartDateProperty, nameof(ReviewViewModel.StartDate), mode: BindingMode.TwoWay)
-                    .Bind(FilterToolbarView.EndDateProperty, nameof(ReviewViewModel.EndDate), mode: BindingMode.TwoWay)
+                    .Bind(FilterToolbarView.StartDateProperty, nameof(ReviewViewModel.StartDate), BindingMode.TwoWay)
+                    .Bind(FilterToolbarView.EndDateProperty, nameof(ReviewViewModel.EndDate), BindingMode.TwoWay)
                     .Bind(IsVisibleProperty, nameof(ReviewViewModel.ShowFilter))
                     .Row(SectionLevel.First),
                 new RefreshView {
@@ -109,7 +109,7 @@ public class ReviewView : BaseView<ReviewViewModel> {
                             }.Paddings(0, 4, 0, 0)))
                     }.Bind(RefreshView.CommandProperty, nameof(ReviewViewModel.RefreshItemsCommand))
                     .Bind(RefreshView.IsRefreshingProperty, nameof(ReviewViewModel.IsRefreshing))
-                    .Row (SectionLevel.Second)
+                    .Row(SectionLevel.Second)
             }
         };
     }
@@ -119,17 +119,16 @@ public class ReviewView : BaseView<ReviewViewModel> {
         BindingContext.LoadCommand.Execute(null);
     }
 
-    async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
+    private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
         ArgumentNullException.ThrowIfNull(sender);
         var cx = (CollectionView)sender;
         cx.SelectedItem = null;
-        if (e.CurrentSelection.FirstOrDefault() is ReviewDto item) {
+        if (e.CurrentSelection.FirstOrDefault() is ReviewDto item)
             if (!string.IsNullOrEmpty(item.id.ToString()))
                 await Shell.Current.GoToAsync($"///{nameof(ReviewView)}/{nameof(ReviewActionView)}", true,
                     new Dictionary<string, object> {
-                        {"Item", item }
-                });
-        }
+                        { "Item", item }
+                    });
     }
 }
 
@@ -145,7 +144,9 @@ public partial class ReviewViewModel : ListViewModel {
     [ObservableProperty] private bool _showFilter;
 
     [RelayCommand]
-    private void ToggleFilter() => ShowFilter = !ShowFilter;
+    private void ToggleFilter() {
+        ShowFilter = !ShowFilter;
+    }
 
     [RelayCommand]
     private async Task Load() {
