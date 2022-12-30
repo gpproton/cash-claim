@@ -3,5 +3,6 @@
 public enum EventType {
     Claim,
     Payment,
-    Review
+    Review,
+    Comment
 }
