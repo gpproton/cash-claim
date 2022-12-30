@@ -69,11 +69,12 @@ public class ClaimView : BaseView<ClaimViewModel> {
                     .Bind(Segment.SelectedItemProperty, nameof(ClaimViewModel.FilterValue), BindingMode.TwoWay),
                 new RefreshView {
                     Content = new CollectionView() {
-                        SelectionMode = SelectionMode.None,
+                        SelectionMode = SelectionMode.Single,
                         EmptyView = "No item to display"
                     }
                         .Bind(ItemsView.ItemsSourceProperty, nameof(ClaimViewModel.Items))
                         .Bind(SelectableItemsView.SelectedItemProperty, nameof(ClaimViewModel.Selected))
+                        .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
                         .ItemTemplate(new DataTemplate(() => new Grid {
                             ColumnDefinitions = Columns.Define(
                                 (SectionLevel.First, Auto),
@@ -151,6 +152,16 @@ public class ClaimView : BaseView<ClaimViewModel> {
     protected override void OnAppearing() {
         base.OnAppearing();
         BindingContext.LoadCommand.Execute(null);
+    }
+
+    async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
+        ArgumentNullException.ThrowIfNull(sender);
+        var cx = (CollectionView)sender;
+        cx.SelectedItem = null;
+        if (e.CurrentSelection.FirstOrDefault() is ClaimDto item) {
+            if (!string.IsNullOrEmpty(item.Name))
+                await DisplayAlert("Sample", "Fix shell path", "OK");
+        }
     }
 }
 

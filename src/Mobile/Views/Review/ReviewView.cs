@@ -37,9 +37,10 @@ public class ReviewView : BaseView<ReviewViewModel> {
                     .Row(SectionLevel.First),
                 new RefreshView {
                         Content = new CollectionView() {
-                                SelectionMode = SelectionMode.None,
+                                SelectionMode = SelectionMode.Single,
                                 EmptyView = "No items to display"
                             }.Bind(ItemsView.ItemsSourceProperty, nameof(ReviewViewModel.Items))
+                            .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
                             .ItemTemplate(new DataTemplate(() => new Grid {
                                 ColumnDefinitions = Columns.Define(
                                     (SectionLevel.First, Auto),
@@ -116,6 +117,16 @@ public class ReviewView : BaseView<ReviewViewModel> {
     protected override void OnAppearing() {
         base.OnAppearing();
         BindingContext.LoadCommand.Execute(null);
+    }
+
+    async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
+        ArgumentNullException.ThrowIfNull(sender);
+        var cx = (CollectionView)sender;
+        cx.SelectedItem = null;
+        if (e.CurrentSelection.FirstOrDefault() is ReviewDto item) {
+            if (!string.IsNullOrEmpty(item.Name))
+                await DisplayAlert("Sample", "Fix shell path", "OK");
+        }
     }
 }
 

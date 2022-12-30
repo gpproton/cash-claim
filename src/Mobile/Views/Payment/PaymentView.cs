@@ -35,8 +35,9 @@ public class PaymentView : BaseView<PaymentViewModel> {
                     .Bind(IsVisibleProperty, nameof(PaymentViewModel.ShowFilter))
                     .Row(SectionLevel.First),
                 new RefreshView {
-                    Content = new CollectionView() { SelectionMode = SelectionMode.None }
+                    Content = new CollectionView() { SelectionMode = SelectionMode.Single }
                         .EmptyViewTemplate(new DataTemplate(() => new EmptyItemView().Margins(0, 56)))
+                        .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
                         .Bind(ItemsView.ItemsSourceProperty, nameof(PaymentViewModel.Items))
                         .Bind(SelectableItemsView.SelectedItemProperty, nameof(PaymentViewModel.Selected))
                         .ItemTemplate(new DataTemplate(() => new Grid {
@@ -115,6 +116,16 @@ public class PaymentView : BaseView<PaymentViewModel> {
     protected override void OnAppearing() {
         base.OnAppearing();
         BindingContext.LoadCommand.Execute(null);
+    }
+
+    async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
+        ArgumentNullException.ThrowIfNull(sender);
+        var cx = (CollectionView)sender;
+        cx.SelectedItem = null;
+        if (e.CurrentSelection.FirstOrDefault() is PaymentDto item) {
+            if (!string.IsNullOrEmpty(item.Name))
+                await DisplayAlert("Sample", "Fix shell path", "OK");
+        }
     }
 }
 
