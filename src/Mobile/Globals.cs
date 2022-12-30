@@ -10,6 +10,6 @@ global using BindableProps;
 global using XClaim.Mobile.Handlers;
 global using XClaim.Mobile.Models;
 global using XClaim.Mobile.Views;
-global using XClaim.Mobile.Extensions;
+global using XClaim.Common.Extensions;
 global using XClaim.Mobile.Extensions.Layouts;
 global using XClaim.Mobile.Components;

@@ -5,7 +5,6 @@ namespace XClaim.Mobile.Views.Claim;
 internal enum FilterOptions {
     Confirmed,
     Pending,
-    Completed
 }
 
 public class ClaimView : BaseView<ClaimViewModel> {
@@ -159,8 +158,11 @@ public class ClaimView : BaseView<ClaimViewModel> {
         var cx = (CollectionView)sender;
         cx.SelectedItem = null;
         if (e.CurrentSelection.FirstOrDefault() is ClaimDto item) {
-            if (!string.IsNullOrEmpty(item.Name))
-                await DisplayAlert("Sample", "Fix shell path", "OK");
+            if (!string.IsNullOrEmpty(item.id.ToString()))
+                await Shell.Current.GoToAsync($"///{nameof(ClaimView)}/{nameof(ClaimDetailView)}", true,
+                    new Dictionary<string, object> {
+                        {"Item", item }
+                });
         }
     }
 }

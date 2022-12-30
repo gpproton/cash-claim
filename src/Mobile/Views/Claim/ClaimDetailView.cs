@@ -1,8 +1,8 @@
-using XClaim.Common.Dtos;
+﻿using XClaim.Common.Dtos;
 
-namespace XClaim.Mobile.Views.Review;
+namespace XClaim.Mobile.Views.Claim;
 
-public class ReviewActionView : BaseView<ReviewActionViewModel> {
+public class ClaimDetailView : BaseView<ClaimDetailViewModel> {
     enum SectionLevel {
         First,
         Second,
@@ -10,11 +10,11 @@ public class ReviewActionView : BaseView<ReviewActionViewModel> {
         Fourth
     }
 
-    public ReviewActionView(ReviewActionViewModel vm) : base(vm) {
+    public ClaimDetailView(ClaimDetailViewModel vm) : base(vm) {
         ToolbarItems.Add(new ToolbarItem {
             IconImageSource = new FontImageSource {
                 FontFamily = "FASolid",
-                Glyph = FA.Solid.Download,
+                Glyph = FA.Solid.CommentDots,
                 Size = 24
             }.DynamicResource(FontImageSource.ColorProperty, "Primary")
         });
@@ -45,7 +45,8 @@ public class ReviewActionView : BaseView<ReviewActionViewModel> {
                 }.CenterHorizontal()
                 .Row(SectionLevel.First),
 
-                new Image().Source("money_payments.svg").CenterHorizontal().MinHeight(256)
+                new Image().Source("money_savings.svg")
+                .CenterHorizontal().MinHeight(256)
                 .Row(SectionLevel.Second),
 
                 new VerticalStackLayout {
@@ -78,11 +79,11 @@ public class ReviewActionView : BaseView<ReviewActionViewModel> {
 
                 new VerticalStackLayout {
                     new Button {  HeightRequest = 48 }
-                        .Text("Confirm")
+                        .Text("Modify")
                         .FillHorizontal()
-                        .BackgroundColor(Colors.ForestGreen),
+                        .BackgroundColor(Colors.DodgerBlue),
                     new Button{ HeightRequest = 48, TextColor = Colors.Red }
-                        .Text("Reject")
+                        .Text("Delete")
                         .FillHorizontal()
                         .BackgroundColor(Colors.Transparent)
                 }
@@ -94,6 +95,6 @@ public class ReviewActionView : BaseView<ReviewActionViewModel> {
 }
 
 [QueryProperty(nameof(Item), "Item")]
-public partial class ReviewActionViewModel : BaseViewModel {
-    [ObservableProperty] private ReviewDto _item;
+public partial class ClaimDetailViewModel : BaseViewModel {
+    [ObservableProperty] private ClaimDto _item;
 }

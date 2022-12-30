@@ -124,8 +124,11 @@ public class ReviewView : BaseView<ReviewViewModel> {
         var cx = (CollectionView)sender;
         cx.SelectedItem = null;
         if (e.CurrentSelection.FirstOrDefault() is ReviewDto item) {
-            if (!string.IsNullOrEmpty(item.Name))
-                await DisplayAlert("Sample", "Fix shell path", "OK");
+            if (!string.IsNullOrEmpty(item.id.ToString()))
+                await Shell.Current.GoToAsync($"///{nameof(ReviewView)}/{nameof(ReviewActionView)}", true,
+                    new Dictionary<string, object> {
+                        {"Item", item }
+                });
         }
     }
 }

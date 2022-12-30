@@ -61,9 +61,11 @@ public static class MauiProgram {
         s.AddTransientWithShellRoute<HelpView, HelpViewModel>($"{nameof(ProfileView)}/{nameof(HelpView)}");
         // Claim views
         s.AddTransientWithShellRoute<ClaimView, ClaimViewModel>(nameof(ClaimView));
+        s.AddTransientWithShellRoute<ClaimDetailView, ClaimDetailViewModel>($"{nameof(ClaimView)}/{nameof(ClaimDetailView)}");
         // Payment views
         s.AddTransientWithShellRoute<PaymentView, PaymentViewModel>(nameof(PaymentView));
         // Review views
         s.AddTransientWithShellRoute<ReviewView, ReviewViewModel>(nameof(ReviewView));
+        s.AddTransientWithShellRoute<ReviewActionView, ReviewActionViewModel>($"{nameof(ReviewView)}/{nameof(ReviewActionView)}");
     }
 }
