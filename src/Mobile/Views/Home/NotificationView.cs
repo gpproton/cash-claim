@@ -62,7 +62,7 @@ public class NotificationView : BaseView<NotificationViewModel> {
                                                 .TextColor(Colors.DodgerBlue)
                                                 .Bind(Label.TextProperty, nameof(AlertItem.Type)),
                                             new Rectangle()
-                                                .Size(6, 2)
+                                                .Size(4, 2)
                                                 .Center()
                                                 .BackgroundColor(Colors.Grey),
                                             new Label { TextColor = Colors.Gray }
