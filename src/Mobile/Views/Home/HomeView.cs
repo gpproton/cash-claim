@@ -219,7 +219,7 @@ public class HomeView : BaseView<HomeViewModel> {
                     .Row(PageRow.Third),
 
                 new Button() { Command = new Command(async () => await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(ClaimFormView)}") ) }
-                    .Text("New Request")
+                    .Text("New Claim")
                     .DynamicResource(StyleProperty, "ButtonLargePrimary")
                     .CenterVertical()
                     .Margins(24, 16, 24, 24)
