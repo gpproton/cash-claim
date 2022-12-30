@@ -55,7 +55,7 @@ public class NotificationView : BaseView<NotificationViewModel> {
                                         .Row(SectionLevel.First)
                                         .Column(SectionLevel.First),
                                     new HorizontalStackLayout {
-                                        Spacing = 10,
+                                        Spacing = 6,
                                         Children = {
                                             new Label()
                                                 .Font(size: 11)
