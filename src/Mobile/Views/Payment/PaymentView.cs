@@ -1,4 +1,5 @@
 using XClaim.Common.Dtos;
+using XClaim.Mobile.Views.Payment.Component;
 
 namespace XClaim.Mobile.Views.Payment;
 
@@ -124,7 +125,7 @@ public class PaymentView : BaseView<PaymentViewModel> {
         cx.SelectedItem = null;
         if (e.CurrentSelection.FirstOrDefault() is PaymentDto item) {
             if (!string.IsNullOrEmpty(item.Name))
-                await DisplayAlert("Sample", "Fix shell path", "OK");
+                await MauiPopup.PopupAction.DisplayPopup(new PaymentPop(item));
         }
     }
 }
@@ -148,9 +149,9 @@ public partial class PaymentViewModel : ListViewModel {
         StartDate = DateTime.Now.AddDays(-7);
         EndDate = DateTime.Now;
         Items = new ObservableCollection<PaymentDto>() {
-            new("Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
-            new("20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Pending"),
-            new("Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
+            new(Guid.NewGuid(), "Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
+            new(Guid.NewGuid(),"20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Pending"),
+            new(Guid.NewGuid(), "Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
         };
     }
 }

@@ -1,12 +1,9 @@
 ﻿using MauiPopup.Views;
 using XClaim.Common.Dtos;
 
-namespace XClaim.Mobile.Views.Home.Component;
+namespace XClaim.Mobile.Views.Payment.Component;
 
-public partial class HomeEventPop : BasePopupPage {
-    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
-    private RecentActions _item;
-
+public partial class PaymentPop : BasePopupPage {
     enum SectionLevel {
         First,
         Second,
@@ -14,8 +11,11 @@ public partial class HomeEventPop : BasePopupPage {
         Fourth
     }
 
-    public HomeEventPop(RecentActions recents) {
-        _item = recents;
+    [BindableProp(DefaultBindingMode = ((int)BindingMode.TwoWay))]
+    private PaymentDto _item;
+
+    public PaymentPop(PaymentDto item) {
+        this._item = item;
         this.HorizontalOptions = LayoutOptions.Fill;
         this.VerticalOptions = LayoutOptions.End;
         this.BackgroundColor = Colors.Transparent;
@@ -42,10 +42,11 @@ public partial class HomeEventPop : BasePopupPage {
                     .Font(size: 12),
                 }.CenterHorizontal().Margins(0, 2, 0, 8)
                 .Row(SectionLevel.Second),
+
                 new Image().Source(new FontImageSource() {
                     FontFamily = "FARegular",
-                    Glyph = FA.Regular.CircleCheck,
-                    Color = Colors.LightSeaGreen
+                    Glyph = FA.Regular.Clock,
+                    Color = Colors.DodgerBlue
                 }).CenterHorizontal().Size(72)
                 .Margins(0, 16, 0, 16)
                 .Row(SectionLevel.Third),
