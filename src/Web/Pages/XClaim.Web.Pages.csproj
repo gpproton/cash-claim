@@ -8,15 +8,15 @@
 
 
     <ItemGroup>
-        <SupportedPlatform Include="browser"/>
+        <SupportedPlatform Include="browser" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0-rc.2.22476.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Common\XClaim.Common.csproj"/>
+        <ProjectReference Include="..\..\Common\XClaim.Common.csproj" />
     </ItemGroup>
 
 </Project>
