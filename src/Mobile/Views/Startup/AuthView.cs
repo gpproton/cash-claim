@@ -8,9 +8,7 @@ public class AuthView : BaseView<AuthViewModel> {
         Second
     }
 
-    public AuthView(AuthViewModel vm) : base(vm) {
-        Build();
-    }
+    public AuthView(AuthViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
         Background = Gradients.AppGradient;

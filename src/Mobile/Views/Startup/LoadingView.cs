@@ -1,9 +1,7 @@
 namespace XClaim.Mobile.Views.Startup;
 
 public class LoadingView : BaseView<LoadingViewModel> {
-    public LoadingView(LoadingViewModel vm) : base(vm) {
-        Build();
-    }
+    public LoadingView(LoadingViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
         Background = Gradients.AppGradient;
