@@ -47,7 +47,7 @@ public class HomeView : BaseView<HomeViewModel> {
                                 .Column(SectionLevel.First),
                             new StackLayout {
                                     Children = {
-                                        new Label() { TextColor = AppColors.Secondary }.Text(AppConst.Greeting),
+                                        new Label() { TextColor = AppColors.Secondary }.Text(AppConst.HomeGreeting),
                                         new Label() { TextColor = AppColors.Gray500 }
                                             .Bind(Label.TextProperty, "Status.FirstName")
                                             .Font(size: 20, family: AppFonts.RobotoBold )

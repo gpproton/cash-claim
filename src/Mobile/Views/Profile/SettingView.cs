@@ -32,7 +32,7 @@ public class SettingView : BaseView<SettingViewModel> {
                     .FillHorizontal()
                     .Row(SectionLevel.First),
                 new Button().Text("Save")
-                    .DynamicResource(StyleProperty, "ButtonLargePrimary")
+                    .Style(ButtonStyle.LargePrimary)
                     .CenterVertical()
                     .Row(SectionLevel.Second)
             }

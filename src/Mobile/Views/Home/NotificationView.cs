@@ -79,7 +79,7 @@ public class NotificationView : BaseView<NotificationViewModel> {
                                         .Row(SectionLevel.First)
                                         .Column(SectionLevel.Second),
                                     new BoxView()
-                                        .DynamicResource(StyleProperty, "SeparatorLine")
+                                        .Style(SharedStyle.HorizontalLine)
                                         .Margin(1)
                                         .Row(SectionLevel.Third)
                                         .ColumnSpan(2)

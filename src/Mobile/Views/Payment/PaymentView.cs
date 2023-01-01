@@ -102,7 +102,7 @@ public class PaymentView : BaseView<PaymentViewModel> {
                                         .Row(SectionLevel.Second)
                                         .Column(SectionLevel.Third),
                                     new BoxView()
-                                        .DynamicResource(StyleProperty, "SeparatorLine")
+                                        .Style(SharedStyle.HorizontalLine)
                                         .Row(SectionLevel.Third)
                                         .ColumnSpan(3)
                                 }

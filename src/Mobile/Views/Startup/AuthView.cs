@@ -29,7 +29,7 @@ public class AuthView : BaseView<AuthViewModel> {
                 new VerticalStackLayout() {
                         Children = {
                             new Button().Text("Sign in with Microsoft")
-                                .DynamicResource(StyleProperty, "ButtonAuth")
+                                .Style(ButtonStyle.LargeOutline)
                                 .CenterVertical()
                                 .BindCommand(nameof(AuthViewModel.NavigateToHomeCommand))
                         }

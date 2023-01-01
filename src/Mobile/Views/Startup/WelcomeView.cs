@@ -29,8 +29,8 @@ public class WelcomeView : BaseView<WelcomeViewModel> {
                 new VerticalStackLayout() {
                         Children = {
                             new Button()
-                                .Text("Get Started")
-                                .DynamicResource(StyleProperty, "ButtonLargeLight")
+                                .Text(AppConst.WelcomeGreeting)
+                                .Style(ButtonStyle.LargeLight)
                                 .CenterVertical()
                                 .Invoke(l => l.Clicked += async (sender, args) =>
                                     await Shell.Current.GoToAsync($"//{nameof(AuthView)}")

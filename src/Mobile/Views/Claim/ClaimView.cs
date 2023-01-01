@@ -132,7 +132,7 @@ public class ClaimView : BaseView<ClaimViewModel> {
                                         .CenterVertical()
                                         .CenterHorizontal(),
                                     new BoxView()
-                                        .DynamicResource(StyleProperty, "SeparatorLine")
+                                        .Style(SharedStyle.HorizontalLine)
                                         .Row(SectionLevel.Fourth)
                                         .ColumnSpan(3)
                                 }

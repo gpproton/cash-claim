@@ -112,7 +112,7 @@ public class ProfileView : BaseView<ProfileViewModel> {
                                                 .Row(SectionLevel.First)
                                                 .Column(SectionLevel.Third),
                                             new BoxView()
-                                                .DynamicResource(StyleProperty, "SeparatorLine")
+                                                .Style(SharedStyle.HorizontalLine)
                                                 .Row(SectionLevel.Second)
                                                 .ColumnSpan(3)
                                                 .Margins(0, 8, 0, 0)
@@ -124,7 +124,7 @@ public class ProfileView : BaseView<ProfileViewModel> {
                     .FillVertical()
                     .Row(SectionLevel.Fourth),
                 new Button().Text("Sign Out")
-                    .DynamicResource(StyleProperty, "ButtonLargePrimary")
+                    .Style(ButtonStyle.LargePrimary)
                     .CenterVertical()
                     .Margins(16, 16, 16, 24)
                     .Row(SectionLevel.Fifth)
