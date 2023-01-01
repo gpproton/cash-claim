@@ -11,10 +11,9 @@ public class EmptyItemView : ContentView {
                 new Image().Source(Icons.EmptyBanner)
                     .Height(165)
                     .CenterHorizontal(),
-                new Label().Text("No data to display")
+                new Label { TextColor = AppColors.Primary }.Text("No data to display")
                     .Font(size: 18)
                     .Margins(0, 24)
-                    .DynamicResource(Label.TextColorProperty, "Primary")
                     .CenterHorizontal()
             }
         }.Padding(24);

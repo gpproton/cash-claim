@@ -51,8 +51,7 @@ public partial class FilterToolbarView : Grid {
                                     (FrameColumn.Third, Auto)
                                 ),
                                 Children = {
-                                    new Label()
-                                        .DynamicResource(Label.TextColorProperty, "Primary")
+                                    new Label { TextColor = AppColors.Primary }
                                         .Bind(Label.TextProperty, nameof(StartDate),
                                             source: this,
                                             convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
@@ -64,14 +63,13 @@ public partial class FilterToolbarView : Grid {
                                         .Center()
                                         .Margins(4, 0, 4, 0)
                                         .Column(FrameColumn.Second),
-                                    new Label()
+                                    new Label { TextColor = AppColors.Primary }
+                                        .CenterVertical()
                                         .Bind(Label.TextProperty,
                                             nameof(EndDate),
                                             source: this,
                                             convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
-                                        ).CenterVertical()
-                                        .DynamicResource(Label.TextColorProperty, "Primary")
-                                        .Column(FrameColumn.Third)
+                                        ).Column(FrameColumn.Third)
                                 }
                             }.CenterVertical()
                             .Column(FrameColumn.First)

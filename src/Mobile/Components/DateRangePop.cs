@@ -18,8 +18,7 @@ public partial class DateRangePop : BasePopupPage {
             MinimumHeightRequest = 150,
             HorizontalOptions = LayoutOptions.Fill,
             Children = {
-                new Label().Text("Select date range")
-                    .DynamicResource(Label.TextColorProperty, "Primary")
+                new Label { TextColor = AppColors.Primary }.Text("Select date range")
                     .Font(size: 18)
                     .CenterHorizontal()
                     .Margins(0, 4, 0, 4),
