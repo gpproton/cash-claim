@@ -77,8 +77,7 @@ public partial class FilterToolbarView : Grid {
                             .Column(FrameColumn.First)
                     }
                 }
-            }
-            .DynamicResource(StyleProperty, "FieldControl")
+            }.Style(SharedStyle.BoxFormField)
             .Bind(IsVisibleProperty, nameof(ShowSearch), source: this, convert: (bool value) => !value)
             .TapGesture(async () => await MauiPopup.PopupAction.DisplayPopup(new DateRangePop()
                 .Bind(DateRangePop.StartDateProperty, nameof(StartDate), source: this)
@@ -87,12 +86,11 @@ public partial class FilterToolbarView : Grid {
 
         Children.Add(new Grid {
                 Children = {
-                    new Border().DynamicResource(StyleProperty, "FieldControl"),
+                    new Border().Style(SharedStyle.BoxFormField),
                     new SearchBar { Placeholder = "Search.." }
                         .Bind(SearchBar.TextProperty, nameof(Search), source: this)
                         .DynamicResource(StyleProperty, "SearchEntry")
                 }
-            }
-            .Bind(IsVisibleProperty, nameof(ShowSearch), source: this));
+            }.Bind(IsVisibleProperty, nameof(ShowSearch), source: this));
     }
 }
