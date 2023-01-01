@@ -229,11 +229,11 @@ public class HomeView : BaseView<HomeViewModel> {
 }
 
 public partial class HomeViewModel : ListViewModel {
-    [ObservableProperty] private ObservableCollection<RecentActions> _recentItems;
+    [ObservableProperty] private ObservableCollection<RecentActions>? _recentItems;
 
-    [ObservableProperty] private RecentActions _selectedRecentItem;
+    [ObservableProperty] private RecentActions? _selectedRecentItem;
 
-    [ObservableProperty] private UserProfile _status;
+    [ObservableProperty] private UserProfile? _status;
 
     [RelayCommand]
     private async Task LoadDefaults() {

@@ -135,13 +135,13 @@ public class ReviewView : BaseView<ReviewViewModel> {
 }
 
 public partial class ReviewViewModel : ListViewModel {
-    [ObservableProperty] private ObservableCollection<ReviewDto> _items;
+    [ObservableProperty] private ObservableCollection<ReviewDto>? _items;
 
-    [ObservableProperty] private ObservableCollection<ReviewDto> _selected;
+    [ObservableProperty] private ObservableCollection<ReviewDto>? _selected;
 
-    [ObservableProperty] private DateTime _startDate;
+    [ObservableProperty] private DateTime? _startDate;
 
-    [ObservableProperty] private DateTime _endDate;
+    [ObservableProperty] private DateTime? _endDate;
 
     [ObservableProperty] private bool _showFilter;
 

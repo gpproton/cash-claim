@@ -131,13 +131,13 @@ public class PaymentView : BaseView<PaymentViewModel> {
 }
 
 public partial class PaymentViewModel : ListViewModel {
-    [ObservableProperty] private ObservableCollection<PaymentDto> _items;
+    [ObservableProperty] private ObservableCollection<PaymentDto>? _items;
 
-    [ObservableProperty] private ObservableCollection<PaymentDto> _selected;
+    [ObservableProperty] private ObservableCollection<PaymentDto>? _selected;
 
-    [ObservableProperty] private DateTime _startDate;
+    [ObservableProperty] private DateTime? _startDate;
 
-    [ObservableProperty] private DateTime _endDate;
+    [ObservableProperty] private DateTime? _endDate;
 
     [ObservableProperty] private bool _showFilter;
 

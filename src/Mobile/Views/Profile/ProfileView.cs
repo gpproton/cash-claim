@@ -132,6 +132,7 @@ public class ProfileView : BaseView<ProfileViewModel> {
         };
     }
 
+#nullable enable
     private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
         ArgumentNullException.ThrowIfNull(sender);
         var cx = (CollectionView)sender;
