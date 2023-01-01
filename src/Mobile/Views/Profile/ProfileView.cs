@@ -58,14 +58,14 @@ public class ProfileView : BaseView<ProfileViewModel> {
                     }
                     .CenterHorizontal()
                     .Row(SectionLevel.Second),
-                new Button() {
+                new Button {
+                        BackgroundColor = AppColors.Secondary,
                         Command = new Command(async () =>
                             await Shell.Current.GoToAsync($"///{nameof(ProfileView)}/{nameof(SettingView)}"))
                     }
                     .Text("Update Profile")
                     .Paddings(24, 8, 24, 8)
                     .Margins(0, 16, 0, 24)
-                    .DynamicResource(BackgroundColorProperty, "Secondary")
                     .CenterHorizontal()
                     .Row(SectionLevel.Third),
                 new StackLayout {

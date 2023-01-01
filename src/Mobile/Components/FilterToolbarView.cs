@@ -57,8 +57,7 @@ public partial class FilterToolbarView : Grid {
                                             convert: (DateTime time) => time.ToDateOnly().ToString("dd MMM yyyy")
                                         ).CenterVertical()
                                         .Column(FrameColumn.First),
-                                    new Rectangle()
-                                        .DynamicResource(BackgroundColorProperty, "Primary")
+                                    new Rectangle { BackgroundColor = AppColors.Primary }
                                         .Size(12, 4)
                                         .Center()
                                         .Margins(4, 0, 4, 0)

@@ -6,8 +6,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <Style x:Key="CustomEntry" TargetType="Entry">
-        <Setter Property="PlaceholderColor" Value="{DynamicResource Secondary}" />
-        <Setter Property="TextColor" Value="{DynamicResource Primary}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource Secondary}" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
         <Setter Property="Margin" Value="8, 0" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />

@@ -15,8 +15,9 @@ public class ClaimDetailView : BaseView<ClaimDetailViewModel> {
             IconImageSource = new FontImageSource {
                 FontFamily = "FASolid",
                 Glyph = FA.Solid.CommentDots,
+                Color = AppColors.Primary,
                 Size = 24
-            }.DynamicResource(FontImageSource.ColorProperty, "Primary")
+            }
         });
         Build();
     }

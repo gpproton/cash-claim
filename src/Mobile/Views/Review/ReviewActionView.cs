@@ -15,8 +15,9 @@ public class ReviewActionView : BaseView<ReviewActionViewModel> {
             IconImageSource = new FontImageSource {
                 FontFamily = "FASolid",
                 Glyph = FA.Solid.Download,
+                Color = AppColors.Primary,
                 Size = 24
-            }.DynamicResource(FontImageSource.ColorProperty, "Primary")
+            }
         });
         Build();
     }

@@ -14,8 +14,9 @@ public class ClaimFormView : BaseView<ClaimFormViewModel> {
             IconImageSource = new FontImageSource {
                 FontFamily = "FASolid",
                 Glyph = FA.Solid.EllipsisVertical,
+                Color = AppColors.Primary,
                 Size = 20
-            }.DynamicResource(FontImageSource.ColorProperty, "Primary")
+            }
         });
         Build();
     }

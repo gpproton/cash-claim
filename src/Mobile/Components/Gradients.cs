@@ -6,11 +6,13 @@ internal static class Gradients {
         EndPoint = new Point(1, 0),
         GradientStops = {
             new GradientStop {
-                Offset = 0.1F
-            }.DynamicResource(GradientStop.ColorProperty, "Primary"),
+                Offset = 0.1F,
+                Color = AppColors.Primary
+            },
             new GradientStop {
-                Offset = 1.0F
-            }.DynamicResource(GradientStop.ColorProperty, "Secondary")
+                Offset = 1.0F,
+                Color = AppColors.Secondary
+            }
         }
     };
 }

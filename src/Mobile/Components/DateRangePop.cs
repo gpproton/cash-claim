@@ -23,17 +23,13 @@ public partial class DateRangePop : BasePopupPage {
                     .CenterHorizontal()
                     .Margins(0, 4, 0, 4),
 
-                new DatePickerField
-                        { Title = "Start Date", Format = "yyyy-MMMM-dd", AllowClear = false }
+                new DatePickerField { TextColor = AppColors.Primary, Title = "Start Date", Format = "yyyy-MMMM-dd", AllowClear = false }
                     .Bind(DatePickerField.DateProperty, nameof(StartDate), source: this, mode: BindingMode.TwoWay)
-                    .DynamicResource(DatePickerField.TextColorProperty, "Primary")
                     .Margins(0, 8, 0, 0)
                     .FillHorizontal(),
 
-                new DatePickerField
-                        { Title = "End Date", Format = "yyyy-MMMM-dd", AllowClear = false }
+                new DatePickerField { TextColor = AppColors.Primary, Title = "End Date", Format = "yyyy-MMMM-dd", AllowClear = false }
                     .Bind(DatePickerField.DateProperty, nameof(EndDate), source: this, mode: BindingMode.TwoWay)
-                    .DynamicResource(DatePickerField.TextColorProperty, "Primary")
                     .Margins(0, 8, 0, 0)
                     .FillHorizontal()
             }

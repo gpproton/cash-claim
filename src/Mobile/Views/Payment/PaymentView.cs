@@ -15,8 +15,9 @@ public class PaymentView : BaseView<PaymentViewModel> {
             IconImageSource = new FontImageSource {
                 FontFamily = "FASolid",
                 Glyph = FA.Solid.Sliders,
+                Color = AppColors.Primary,
                 Size = 22
-            }.DynamicResource(FontImageSource.ColorProperty, "Primary")
+            }
         }.Bind(MenuItem.CommandProperty, nameof(PaymentViewModel.ToggleFilterCommand)));
         Build();
     }

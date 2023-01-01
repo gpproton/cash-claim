@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="XClaim.Mobile.Components.Segment"
              x:Name="this">
-    <Border Padding="3" StrokeThickness="0" BackgroundColor="{DynamicResource Tertiary}">
+    <Border Padding="3" StrokeThickness="0" BackgroundColor="{StaticResource Tertiary}">
         <Border.StrokeShape>
             <RoundRectangle>
                 <RoundRectangle.CornerRadius>
@@ -30,17 +30,17 @@
                                                         <VisualState.Setters>
                                                             <Setter TargetName="SegmentItem"
                                                                     Property="Button.TextColor"
-                                                                    Value="{DynamicResource White}" />
+                                                                    Value="{StaticResource White}" />
                                                             <Setter TargetName="SegmentItem"
                                                                     Property="Button.BackgroundColor"
-                                                                    Value="{DynamicResource Primary}" />
+                                                                    Value="{StaticResource Primary}" />
                                                         </VisualState.Setters>
                                                     </VisualState>
                                                     <VisualState x:Name="Unchecked">
                                                         <VisualState.Setters>
                                                             <Setter TargetName="SegmentItem"
                                                                     Property="Button.TextColor"
-                                                                    Value="{DynamicResource Primary}" />
+                                                                    Value="{StaticResource Primary}" />
                                                             <Setter TargetName="SegmentItem"
                                                                     Property="Button.BackgroundColor"
                                                                     Value="Transparent" />

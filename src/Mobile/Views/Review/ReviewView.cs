@@ -14,8 +14,9 @@ public class ReviewView : BaseView<ReviewViewModel> {
                 IconImageSource = new FontImageSource {
                     FontFamily = "FASolid",
                     Glyph = FA.Solid.Sliders,
+                    Color = AppColors.Primary,
                     Size = 22
-                }.DynamicResource(FontImageSource.ColorProperty, "Primary")
+                }
             }.Bind(MenuItem.CommandProperty, nameof(ReviewViewModel.ToggleFilterCommand))
         );
         Build();
