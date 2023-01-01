@@ -43,8 +43,8 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0-preview3" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
         <PackageReference Include="Plugin.Maui.Popup" Version="1.0.4" />
-        <PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.2.0-pre.3" />
-        <PackageReference Include="UraniumUI.Material" Version="2.2.0-pre.3" />
+        <PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.2.0" />
+        <PackageReference Include="UraniumUI.Material" Version="2.2.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Common\XClaim.Common.csproj" />

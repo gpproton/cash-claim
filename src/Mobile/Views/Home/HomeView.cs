@@ -217,6 +217,7 @@ public class HomeView : BaseView<HomeViewModel> {
         BindingContext.LoadDefaultsCommand.Execute(null);
     }
 
+#nullable enable
     private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
         ArgumentNullException.ThrowIfNull(sender);
         var cx = (CollectionView)sender;

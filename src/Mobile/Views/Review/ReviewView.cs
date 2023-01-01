@@ -120,6 +120,7 @@ public class ReviewView : BaseView<ReviewViewModel> {
         BindingContext.LoadCommand.Execute(null);
     }
 
+#nullable enable
     private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
         ArgumentNullException.ThrowIfNull(sender);
         var cx = (CollectionView)sender;

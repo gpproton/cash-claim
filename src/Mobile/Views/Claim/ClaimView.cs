@@ -68,7 +68,6 @@ public class ClaimView : BaseView<ClaimViewModel> {
                                 EmptyView = AppConst.EmptyListText
                             }
                             .Bind(ItemsView.ItemsSourceProperty, nameof(ClaimViewModel.Items))
-                            .Bind(SelectableItemsView.SelectedItemProperty, nameof(ClaimViewModel.Selected))
                             .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
                             .ItemTemplate(new DataTemplate(() => new Grid {
                                 ColumnDefinitions = Columns.Define(
@@ -149,6 +148,7 @@ public class ClaimView : BaseView<ClaimViewModel> {
         BindingContext.LoadCommand.Execute(null);
     }
 
+#nullable enable
     private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e) {
         ArgumentNullException.ThrowIfNull(sender);
         var cx = (CollectionView)sender;
@@ -163,25 +163,23 @@ public class ClaimView : BaseView<ClaimViewModel> {
 }
 
 public partial class ClaimViewModel : ListViewModel {
-    [ObservableProperty] private string[] _filterItems;
+    [ObservableProperty] private string[]? _filterItems;
 
-    [ObservableProperty] private string _filterValue;
+    [ObservableProperty] private string? _filterValue;
 
-    [ObservableProperty] private DateTime _startDate;
+    [ObservableProperty] private DateTime? _startDate;
 
-    [ObservableProperty] private DateTime _endDate;
+    [ObservableProperty] private DateTime? _endDate;
 
     [ObservableProperty] private bool _showSearch;
 
-    [ObservableProperty] private string _search;
+    [ObservableProperty] private string? _search;
 
-    [ObservableProperty] private ObservableCollection<ClaimDto> _items;
-
-    [ObservableProperty] private ObservableCollection<ClaimDto> _selected;
+    [ObservableProperty] private ObservableCollection<ClaimDto>? _items;
 
     public ClaimViewModel() {
         FilterItems = Enum.GetNames(typeof(FilterOptions));
-        FilterValue = Enum.GetName(FilterOptions.Pending);
+        FilterValue = FilterOptions.Pending.ToString();
         StartDate = DateTime.Now.AddDays(-7);
         EndDate = DateTime.Now;
     }
