@@ -87,9 +87,8 @@ public partial class FilterToolbarView : Grid {
         Children.Add(new Grid {
                 Children = {
                     new Border().Style(SharedStyle.BoxFormField),
-                    new SearchBar { Placeholder = "Search.." }
-                        .Bind(SearchBar.TextProperty, nameof(Search), source: this)
-                        .DynamicResource(StyleProperty, "SearchEntry")
+                    new TextField { Keyboard = Keyboard.Text, BorderColor = Colors.Transparent }
+                    .Bind(TextField.TextProperty, nameof(Search), source: this)
                 }
             }.Bind(IsVisibleProperty, nameof(ShowSearch), source: this));
     }

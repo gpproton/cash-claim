@@ -4,11 +4,6 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    
-    <Style x:Key="BlueLabel" TargetType="Label">
-        <Setter Property="BackgroundColor" Value="DodgerBlue" />
-        <Setter Property="TextColor" Value="White" />
-    </Style>
 
     <Style x:Key="CustomEntry" TargetType="Entry">
         <Setter Property="PlaceholderColor" Value="{DynamicResource Secondary}" />
@@ -17,19 +12,6 @@
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-    </Style>
-
-    <Style x:Key="SearchEntry" TargetType="SearchBar">
-        <Setter Property="PlaceholderColor" Value="{DynamicResource Secondary}" />
-        <Setter Property="TextColor" Value="{DynamicResource Primary}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-    </Style>
-
-    <Style TargetType="BoxView" x:Key="SeparatorLine">
-        <Setter Property="Color" Value="LightGray" />
-        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-        <Setter Property="HeightRequest" Value="1" />
-        <Setter Property="Margin" Value="8,0,8,0" />
     </Style>
 
 </ResourceDictionary>
