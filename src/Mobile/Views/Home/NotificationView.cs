@@ -17,8 +17,9 @@ public class NotificationView : BaseView<NotificationViewModel> {
                 IconImageSource = new FontImageSource {
                     FontFamily = "FASolid",
                     Glyph = FA.Solid.Trash,
+                    Color = AppColors.Primary,
                     Size = 22
-                }.DynamicResource(FontImageSource.ColorProperty, "Primary")
+                }
             }.Bind(MenuItem.CommandProperty, nameof(NotificationViewModel.ClearCommand))
         );
         Build();

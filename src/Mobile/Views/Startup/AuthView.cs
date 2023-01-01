@@ -28,11 +28,7 @@ public class AuthView : BaseView<AuthViewModel> {
                     .Row(PageRow.First),
                 new VerticalStackLayout() {
                         Children = {
-                            new Button() {
-                                    //ImageSource = new FileImageSource { File = Icons.Microsoft },
-                                    //ContentLayout = new ButtonContentLayout(ButtonContentLayout.ImagePosition.Left, 32)
-                                }
-                                .Text("Sign in with Microsoft")
+                            new Button().Text("Sign in with Microsoft")
                                 .DynamicResource(StyleProperty, "ButtonAuth")
                                 .CenterVertical()
                                 .BindCommand(nameof(AuthViewModel.NavigateToHomeCommand))

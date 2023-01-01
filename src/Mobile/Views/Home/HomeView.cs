@@ -3,53 +3,35 @@ using XClaim.Mobile.Views.Profile;
 using XClaim.Mobile.Views.Claim;
 using XClaim.Common.Enums;
 using XClaim.Common.Dtos;
-using XClaim.Common.Extensions;
 using XClaim.Mobile.Views.Home.Component;
 
 namespace XClaim.Mobile.Views.Home;
 
-internal enum PageRow {
-    First,
-    Second,
-    Third,
-    Fourth
-}
-
-internal enum HeaderRows {
-    First,
-    Second
-}
-
-internal enum HeaderColumns {
-    First,
-    Second,
-    Third
-}
-
-internal enum ListTitleColumn {
-    First,
-    Second
-}
-
 public class HomeView : BaseView<HomeViewModel> {
-    public HomeView(HomeViewModel vm) : base(vm) {
-        Build();
+
+    enum SectionLevel {
+        First,
+        Second,
+        Third,
+        Fourth
     }
+
+    public HomeView(HomeViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
         Content = new Grid() {
             RowDefinitions = Rows.Define(
-                (PageRow.First, 85),
-                (PageRow.Second, 115),
-                (PageRow.Third, Star),
-                (PageRow.Fourth, Auto)
+                (SectionLevel.First, 85),
+                (SectionLevel.Second, 115),
+                (SectionLevel.Third, Star),
+                (SectionLevel.Fourth, Auto)
             ),
             Children = {
                 new Grid() {
                         ColumnDefinitions = Columns.Define(
-                            (HeaderColumns.First, Auto),
-                            (HeaderColumns.Second, Star),
-                            (HeaderColumns.Third, Auto)
+                            (SectionLevel.First, Auto),
+                            (SectionLevel.Second, Star),
+                            (SectionLevel.Third, Auto)
                         ),
                         Children = {
                             new AvatarView() {
@@ -60,34 +42,33 @@ public class HomeView : BaseView<HomeViewModel> {
                                     }).Size(28)
                                 }.Size(54, 54)
                                 .CenterVertical()
-                                .DynamicResource(BackgroundColorProperty, "Gray300")
+                                .BackgroundColor(AppColors.Gray300)
                                 .TapGesture(async () => await Shell.Current.GoToAsync($"///{nameof(ProfileView)}"))
-                                .Column(HeaderColumns.First),
+                                .Column(SectionLevel.First),
                             new StackLayout {
                                     Children = {
-                                        new Label().Text("Hello")
-                                            .DynamicResource(Label.TextColorProperty, "Secondary"),
-                                        new Label()
+                                        new Label() { TextColor = AppColors.Secondary }.Text(AppConst.Greeting),
+                                        new Label() { TextColor = AppColors.Gray500 }
                                             .Bind(Label.TextProperty, "Status.FirstName")
-                                            .Font(size: 20, family: "RobotoBold")
+                                            .Font(size: 20, family: AppFonts.RobotoBold )
                                             .Margins(0, -5, 0, 0)
-                                            .DynamicResource(Label.TextColorProperty, "Gray500")
                                     }
                                 }.Margins(8, 16, 0, 0)
-                                .Column(HeaderColumns.Second),
+                                .Column(SectionLevel.Second),
                             new Image().Source(new FontImageSource() {
                                     FontFamily = "FASolid",
-                                    Glyph = FA.Solid.Bell
-                                }.DynamicResource(FontImageSource.ColorProperty, "Primary"))
+                                    Glyph = FA.Solid.Bell,
+                                    Color = AppColors.Primary
+                                })
                                 .Size(28)
                                 .CenterVertical()
                                 .TapGesture(async () =>
                                     await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(NotificationView)}"))
-                                .Column(HeaderColumns.Third)
+                                .Column(SectionLevel.Third)
                         }
                     }
                     .Paddings(24, 8, 24, 8)
-                    .Row(PageRow.First),
+                    .Row(SectionLevel.First),
                 new Border() {
                         Padding = 16,
                         StrokeThickness = 0F,
@@ -115,50 +96,48 @@ public class HomeView : BaseView<HomeViewModel> {
                         Content = new StackLayout() {
                             Children = {
                                 new Label()
-                                    .Text("Pending Claims")
+                                    .Text(AppConst.HomeCardText)
                                     .Font(size: 14)
                                     .TextColor(Colors.White)
                                     .Margins(0, 0, 0, 4),
                                 new Label()
                                     .TextColor(Colors.White)
-                                    .Font(size: 32, family: "RobotoBold")
+                                    .Font(size: 32, family: AppFonts.RobotoBold)
                                     .Bind(Label.TextProperty, "Status.Balance",
                                         convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
                             }
                         }
                     }
                     .Margins(24, 6, 24, 6)
-                    .Row(PageRow.Second),
+                    .Row(SectionLevel.Second),
                 new Grid() {
                         RowDefinitions = Rows.Define(
-                            (PageRow.First, Auto),
-                            (PageRow.Second, Star)
+                            (SectionLevel.First, Auto),
+                            (SectionLevel.Second, Star)
                         ),
                         Children = {
                             new Grid() {
                                 ColumnDefinitions = Columns.Define(
-                                    (ListTitleColumn.First, Star),
-                                    (ListTitleColumn.Second, Auto)
+                                    (SectionLevel.First, Star),
+                                    (SectionLevel.Second, Auto)
                                 ),
                                 Padding = 8,
                                 Children = {
-                                    new Label()
-                                        .Text("Recents")
+                                    new Label() { TextColor = AppColors.Gray300 }
+                                        .Text(AppConst.HomeRecentTitle)
                                         .Font(size: 16)
-                                        .Column(ListTitleColumn.First)
-                                        .DynamicResource(Label.TextColorProperty, "Gray300"),
-                                    new Label()
-                                        .Text("See all")
+                                        .Column(SectionLevel.First),
+                                    new Label() { TextColor = AppColors.Primary }
+                                        .Text(AppConst.HomeRecentLink)
                                         .Font(size: 16)
                                         .TapGesture(async () => await Shell.Current.GoToAsync($"//{nameof(ClaimView)}"))
-                                        .Column(ListTitleColumn.Second)
-                                        .DynamicResource(Label.TextColorProperty, "Primary")
+                                        .Column(SectionLevel.Second)
                                 }
-                            }.Row(PageRow.First),
+                            }.Row(SectionLevel.First),
                             new RefreshView {
                                     Content = new CollectionView() {
                                             SelectionMode = SelectionMode.Single,
-                                            EmptyView = "No recent event"
+                                            EmptyView = AppConst.EmptyListText
                                         }
                                         .Bind(ItemsView.ItemsSourceProperty, nameof(HomeViewModel.RecentItems))
                                         .Bind(SelectableItemsView.SelectedItemProperty,
@@ -166,23 +145,21 @@ public class HomeView : BaseView<HomeViewModel> {
                                         .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
                                         .ItemTemplate(new DataTemplate(() => new Grid {
                                             ColumnDefinitions = Columns.Define(
-                                                (PageRow.First, Auto),
-                                                (PageRow.Second, Star),
-                                                (PageRow.Third, Auto)
+                                                (SectionLevel.First, Auto),
+                                                (SectionLevel.Second, Star),
+                                                (SectionLevel.Third, Auto)
                                             ),
                                             RowDefinitions = Rows.Define(
-                                                (PageRow.First, Auto),
-                                                (PageRow.Second, Auto),
-                                                (PageRow.Third, 1)
+                                                (SectionLevel.First, Auto),
+                                                (SectionLevel.Second, Auto),
+                                                (SectionLevel.Third, 1)
                                             ),
                                             Children = {
-                                                new Label {
-                                                        Padding = 1, Margin = 2, TextColor = Color.FromRgba("#7F7F7F")
-                                                    }
+                                                new Label { Padding = 1, Margin = 2, TextColor = AppColors.Gray400 }
                                                     .Font(size: 16)
                                                     .Bind(Label.TextProperty, nameof(RecentActions.Name))
-                                                    .Row(PageRow.First)
-                                                    .Column(PageRow.First),
+                                                    .Row(SectionLevel.First)
+                                                    .Column(SectionLevel.First),
                                                 new HorizontalStackLayout {
                                                         Children = {
                                                             new Label { Padding = 1, Margin = 2 }
@@ -197,42 +174,40 @@ public class HomeView : BaseView<HomeViewModel> {
                                                                 .Bind(Label.TextProperty, nameof(RecentActions.Time),
                                                                     convert: (DateTime value) => value.TimeAgo())
                                                         }
-                                                    }.Row(PageRow.Second)
-                                                    .Column(PageRow.First),
+                                                    }.Row(SectionLevel.Second)
+                                                    .Column(SectionLevel.First),
                                                 new Label { TextColor = Colors.LightSeaGreen }
-                                                    .Font(size: 22, family: "RobotoMedium")
+                                                    .Font(size: 22, family: AppFonts.RobotoMedium)
                                                     .Bind(Label.TextProperty, nameof(RecentActions.Amount),
                                                         convert: (decimal value) =>
-                                                            "₦" + string.Format("{0:N0}", value))
+                                                           AppConst.Naira + string.Format("{0:N0}", value))
                                                     .MinWidth(105)
-                                                    .Row(PageRow.First)
+                                                    .Row(SectionLevel.First)
                                                     .RowSpan(2)
-                                                    .Column(PageRow.Third)
+                                                    .Column(SectionLevel.Third)
                                                     .CenterVertical()
                                                     .CenterHorizontal(),
-                                                new BoxView()
-                                                    .DynamicResource(StyleProperty, "SeparatorLine")
-                                                    .Row(PageRow.Third)
+                                                new BoxView().Style(SharedStyle.HorizontalLine)
+                                                    .Row(SectionLevel.Third)
                                                     .ColumnSpan(3)
                                             }
                                         }.Paddings(4, 2, 4, 4)))
-                                }.Row(PageRow.Second)
+                                }.Row(SectionLevel.Second)
                                 .Bind(RefreshView.IsRefreshingProperty, nameof(HomeViewModel.IsRefreshing))
                                 .Bind(RefreshView.CommandProperty, nameof(HomeViewModel.RefreshItemsCommand))
                         }
                     }
                     .Margins(8, 16, 8, 8)
-                    .Row(PageRow.Third),
+                    .Row(SectionLevel.Third),
 
-                new Button() {
-                        Command = new Command(async () =>
-                            await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(ClaimFormView)}"))
-                    }
-                    .Text("New Claim")
-                    .DynamicResource(StyleProperty, "ButtonLargePrimary")
+                new Button()
+                    .Style(ButtonStyle.LargePrimary)
+                    .Invoke(l => l.Command = new Command(async () =>
+                            await Shell.Current.GoToAsync($"///{nameof(HomeView)}/{nameof(ClaimFormView)}")))
+                    .Text(AppConst.HomeActionText)
                     .CenterVertical()
                     .Margins(24, 16, 24, 24)
-                    .Row(PageRow.Fourth)
+                    .Row(SectionLevel.Fourth)
             }
         };
     }
