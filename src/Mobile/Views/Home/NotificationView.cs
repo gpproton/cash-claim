@@ -36,7 +36,7 @@ public class NotificationView : BaseView<NotificationViewModel> {
                 new RefreshView {
                         Content = new CollectionView() {
                                 SelectionMode = SelectionMode.None,
-                                EmptyView = "No event to display"
+                                EmptyView = AppConst.EmptyListText
                             }.Bind(ItemsView.ItemsSourceProperty, nameof(NotificationViewModel.Items))
                             .ItemTemplate(new DataTemplate(() => new Grid {
                                 ColumnDefinitions = Columns.Define(

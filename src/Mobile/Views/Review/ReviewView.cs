@@ -39,7 +39,7 @@ public class ReviewView : BaseView<ReviewViewModel> {
                 new RefreshView {
                         Content = new CollectionView() {
                                 SelectionMode = SelectionMode.Single,
-                                EmptyView = "No items to display"
+                                EmptyView = AppConst.EmptyListText
                             }.Bind(ItemsView.ItemsSourceProperty, nameof(ReviewViewModel.Items))
                             .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
                             .ItemTemplate(new DataTemplate(() => new Grid {
@@ -91,7 +91,7 @@ public class ReviewView : BaseView<ReviewViewModel> {
                                     new Label { TextColor = Colors.Gray }
                                         .Font(size: 18)
                                         .Bind(Label.TextProperty, nameof(ReviewDto.Amount),
-                                            convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
+                                            convert: (decimal value) => AppConst.Naira + string.Format("{0:N0}", value))
                                         .MinWidth(95)
                                         .Row(SectionLevel.First)
                                         .Column(SectionLevel.Third)

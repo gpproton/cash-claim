@@ -104,7 +104,7 @@ public class HomeView : BaseView<HomeViewModel> {
                                     .TextColor(Colors.White)
                                     .Font(size: 32, family: AppFonts.RobotoBold)
                                     .Bind(Label.TextProperty, "Status.Balance",
-                                        convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
+                                        convert: (decimal value) => AppConst.Naira + string.Format("{0:N0}", value))
                             }
                         }
                     }

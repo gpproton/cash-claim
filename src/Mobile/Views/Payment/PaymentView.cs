@@ -37,8 +37,7 @@ public class PaymentView : BaseView<PaymentViewModel> {
                     .Bind(IsVisibleProperty, nameof(PaymentViewModel.ShowFilter))
                     .Row(SectionLevel.First),
                 new RefreshView {
-                        Content = new CollectionView() { SelectionMode = SelectionMode.Single }
-                            .EmptyViewTemplate(new DataTemplate(() => new EmptyItemView().Margins(0, 56)))
+                        Content = new CollectionView() { SelectionMode = SelectionMode.Single, EmptyView = AppConst.EmptyListText }
                             .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
                             .Bind(ItemsView.ItemsSourceProperty, nameof(PaymentViewModel.Items))
                             .Bind(SelectableItemsView.SelectedItemProperty, nameof(PaymentViewModel.Selected))
@@ -91,7 +90,7 @@ public class PaymentView : BaseView<PaymentViewModel> {
                                     new Label { TextColor = Colors.LightGreen }
                                         .Font(size: 18)
                                         .Bind(Label.TextProperty, nameof(PaymentDto.Amount),
-                                            convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
+                                            convert: (decimal value) => AppConst.Naira + string.Format("{0:N0}", value))
                                         .MinWidth(95)
                                         .Row(SectionLevel.First)
                                         .Column(SectionLevel.Third)

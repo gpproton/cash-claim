@@ -54,7 +54,7 @@ public partial class HomeEventPop : BasePopupPage {
                     Children = {
                         new Label().Text("Pending")
                             .CenterHorizontal(),
-                        new Label().Text("₦" + string.Format("{0:N0}", Item.Amount))
+                        new Label().Text(AppConst.Naira + string.Format("{0:N0}", Item.Amount))
                             .Font(size: 32, family: "RobotoMedium")
                             .CenterHorizontal()
                     }

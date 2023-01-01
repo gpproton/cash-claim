@@ -65,7 +65,7 @@ public class ClaimView : BaseView<ClaimViewModel> {
                 new RefreshView {
                         Content = new CollectionView() {
                                 SelectionMode = SelectionMode.Single,
-                                EmptyView = "No item to display"
+                                EmptyView = AppConst.EmptyListText
                             }
                             .Bind(ItemsView.ItemsSourceProperty, nameof(ClaimViewModel.Items))
                             .Bind(SelectableItemsView.SelectedItemProperty, nameof(ClaimViewModel.Selected))
@@ -124,7 +124,7 @@ public class ClaimView : BaseView<ClaimViewModel> {
                                     new Label { TextColor = Colors.Grey }
                                         .Font(size: 22)
                                         .Bind(Label.TextProperty, nameof(ClaimDto.Amount),
-                                            convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
+                                            convert: (decimal value) => AppConst.Naira + string.Format("{0:N0}", value))
                                         .MinWidth(105)
                                         .Row(SectionLevel.First)
                                         .RowSpan(3)

@@ -73,7 +73,7 @@ public class ClaimDetailView : BaseView<ClaimDetailViewModel> {
                                 }.Margins(0, 0, 0, 24)
                                 .CenterHorizontal(),
                             new Label().Bind(Label.TextProperty, "Item.Amount",
-                                    convert: (decimal value) => "₦" + string.Format("{0:N0}", value))
+                                    convert: (decimal value) => AppConst.Naira + string.Format("{0:N0}", value))
                                 .Font(size: 32, family: "RobotoMedium")
                                 .CenterHorizontal()
                         }
