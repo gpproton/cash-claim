@@ -149,7 +149,8 @@ public class ProfileView : BaseView<ProfileViewModel> {
 public partial class ProfileViewModel : BaseViewModel {
     private const string root = $"///{nameof(ProfileView)}";
 
-    [ObservableProperty] private ObservableCollection<ProfileLink> _items = new() {
+    [ObservableProperty]
+    private ObservableCollection<ProfileLink> _items = new() {
         new ProfileLink("Bank Account", FA.Solid.Wallet, $"{root}/{nameof(BankView)}"),
         new ProfileLink("Account History", FA.Solid.CalendarDay, $"{root}/{nameof(LogView)}"),
         new ProfileLink("Appearance", FA.Solid.Sun, $"{root}/{nameof(ThemeView)}"),

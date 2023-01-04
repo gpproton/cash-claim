@@ -7,9 +7,9 @@ public class LoadingView : BaseView<LoadingViewModel> {
         Background = Gradients.AppGradient;
         var layout = new ColumnLayout();
         var activity = new ActivityIndicator {
-                IsRunning = true,
-                Color = Colors.White
-            }
+            IsRunning = true,
+            Color = Colors.White
+        }
             .CenterHorizontal()
             .CenterVertical()
             .Size(72, 72);

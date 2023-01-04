@@ -14,13 +14,13 @@ public class NotificationView : BaseView<NotificationViewModel> {
 
     public NotificationView(NotificationViewModel vm) : base(vm) {
         ToolbarItems.Add(new ToolbarItem {
-                IconImageSource = new FontImageSource {
-                    FontFamily = "FASolid",
-                    Glyph = FA.Solid.Trash,
-                    Color = AppColors.Primary,
-                    Size = 22
-                }
-            }.Bind(MenuItem.CommandProperty, nameof(NotificationViewModel.ClearCommand))
+            IconImageSource = new FontImageSource {
+                FontFamily = "FASolid",
+                Glyph = FA.Solid.Trash,
+                Color = AppColors.Primary,
+                Size = 22
+            }
+        }.Bind(MenuItem.CommandProperty, nameof(NotificationViewModel.ClearCommand))
         );
         Build();
     }

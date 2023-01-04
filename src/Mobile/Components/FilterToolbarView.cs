@@ -38,12 +38,12 @@ public partial class FilterToolbarView : Grid {
         );
 
         Children.Add(new Border {
-                Content = new Grid {
-                    ColumnDefinitions = Columns.Define(
+            Content = new Grid {
+                ColumnDefinitions = Columns.Define(
                         (FrameColumn.First, Star),
                         (FrameColumn.Second, Auto)
                     ),
-                    Children = {
+                Children = {
                         new Grid {
                                 ColumnDefinitions = Columns.Define(
                                     (FrameColumn.First, Auto),
@@ -73,8 +73,8 @@ public partial class FilterToolbarView : Grid {
                             }.CenterVertical()
                             .Column(FrameColumn.First)
                     }
-                }
-            }.Style(SharedStyle.BoxFormField)
+            }
+        }.Style(SharedStyle.BoxFormField)
             .Bind(IsVisibleProperty, nameof(ShowSearch), source: this, convert: (bool value) => !value)
             .TapGesture(async () => await MauiPopup.PopupAction.DisplayPopup(new DateRangePop()
                 .Bind(DateRangePop.StartDateProperty, nameof(StartDate), source: this)
@@ -82,11 +82,11 @@ public partial class FilterToolbarView : Grid {
             ));
 
         Children.Add(new Grid {
-                Children = {
+            Children = {
                     new Border().Style(SharedStyle.BoxFormField),
                     new TextField { Keyboard = Keyboard.Text, BorderColor = Colors.Transparent }
                     .Bind(TextField.TextProperty, nameof(Search), source: this)
                 }
-            }.Bind(IsVisibleProperty, nameof(ShowSearch), source: this));
+        }.Bind(IsVisibleProperty, nameof(ShowSearch), source: this));
     }
 }

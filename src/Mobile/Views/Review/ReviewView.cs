@@ -11,13 +11,13 @@ public class ReviewView : BaseView<ReviewViewModel> {
 
     public ReviewView(ReviewViewModel vm) : base(vm) {
         ToolbarItems.Add(new ToolbarItem {
-                IconImageSource = new FontImageSource {
-                    FontFamily = "FASolid",
-                    Glyph = FA.Solid.Sliders,
-                    Color = AppColors.Primary,
-                    Size = 22
-                }
-            }.Bind(MenuItem.CommandProperty, nameof(ReviewViewModel.ToggleFilterCommand))
+            IconImageSource = new FontImageSource {
+                FontFamily = "FASolid",
+                Glyph = FA.Solid.Sliders,
+                Color = AppColors.Primary,
+                Size = 22
+            }
+        }.Bind(MenuItem.CommandProperty, nameof(ReviewViewModel.ToggleFilterCommand))
         );
         Build();
     }

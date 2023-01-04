@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Styles; 
+﻿namespace XClaim.Mobile.Styles;
 public static class AppFonts {
     public const string OpenSansRegular = "OpenSansRegular";
     public const string OpenSansSemibold = "OpenSansSemibold";
