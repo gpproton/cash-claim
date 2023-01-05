@@ -1,3 +1,20 @@
-﻿<MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-</MudNavMenu>
+﻿<MudDrawer @bind-Open="SideBarOpen" Elevation="1">
+    <MudDrawerHeader>
+        <MudAvatar Color="Color.Transparent" Size="Size.Large" Image="assets/logo.svg" />
+        <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-top:10px; margin-left:15px;">X-Claim</MudText>
+    </MudDrawerHeader>
+    <MudDivider Class="my-4" />
+    <MudNavMenu>
+        <MudNavLink Href="/app/overview" Icon="@Icons.Material.Filled.Dashboard">Overview</MudNavLink>
+        <MudNavLink Href="/app/transactions" Icon="@Icons.Material.Filled.SendTimeExtension">Transactions</MudNavLink>
+        <MudNavLink Href="/app/claims" Icon="@Icons.Material.Filled.Money">Claims</MudNavLink>
+        <MudNavLink Href="/app/payments" Icon="@Icons.Material.Filled.CreditCard">Payments</MudNavLink>
+    </MudNavMenu>
+</MudDrawer>
+
+@code {
+
+    [Parameter]
+    public bool SideBarOpen { get; set; } = true;
+
+}
