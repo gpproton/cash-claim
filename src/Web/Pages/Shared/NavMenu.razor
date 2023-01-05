@@ -14,7 +14,7 @@
     };
 
     private List<MenuLink> _secondary_links = new() {
-        new MenuLink("Settings", Icons.Material.Filled.Settings, "#",
+        new MenuLink("Settings", Icons.Material.Filled.Settings, "/app/settings/",
             new ()
             {
                 new MenuLink("Users", Icons.Material.Filled.People, "/app/settings/users"),
@@ -45,7 +45,7 @@
     <div class="nav_footer mt-16 pt-8">
         <MudDivider Class="my-2" />
         @foreach (var link in _secondary_links) {
-            <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
+            <MudNavMenu href="@link.Path" Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
                 @if (link.Child is not null) {
                     <MudNavGroup Class="nav_link" Title="@link.Title" Icon="@Icons.Material.Filled.Settings" Expanded="false">
                         @foreach (var subLink in link.Child) {
