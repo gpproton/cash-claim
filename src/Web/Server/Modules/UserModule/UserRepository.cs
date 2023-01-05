@@ -4,12 +4,7 @@ using XClaim.Web.Server.Data;
 
 namespace XClaim.Web.Server.Modules.UserModule;
 
-public interface IUserRepository {
-    public Task<List<UserEntity>> GetAll();
-    Task Create(UserEntity user);
-    Task<bool> Delete(Guid id);
-    Task<UserEntity?> GetById(Guid id);
-}
+
 public class UserRepository : IUserRepository {
     private readonly ServerContext _db;
     public UserRepository(ServerContext db) {

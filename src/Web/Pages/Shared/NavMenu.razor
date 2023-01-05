@@ -15,11 +15,11 @@
 
     private List<MenuLink> _secondary_links = new() {
         new MenuLink("Settings", Icons.Material.Filled.Settings, "/app/settings/",
-            new ()
-            {
+            new () {
                 new MenuLink("Users", Icons.Material.Filled.People, "/app/settings/users"),
                 new MenuLink("Invites", Icons.Material.Filled.PendingActions, "/app/settings/invites"),
-                new MenuLink("Teams", Icons.Material.Filled.People, "/app/settings/teams"),
+                new MenuLink("Teams", Icons.Material.Filled.Groups, "/app/settings/teams"),
+                new MenuLink("Category", Icons.Material.Filled.Category, "/app/settings/category"),
                 new MenuLink("Organizations", Icons.Material.Filled.PendingActions, "/app/settings/organizations"),
                 new MenuLink("Server", Icons.Material.Filled.SettingsApplications, "/app/settings/server"),
             }),
