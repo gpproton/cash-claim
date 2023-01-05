@@ -5,10 +5,10 @@
     </MudDrawerHeader>
     <MudDivider Class="my-4" />
     <MudNavMenu>
-        <MudNavLink Href="/app/overview" Icon="@Icons.Material.Filled.Dashboard">Overview</MudNavLink>
-        <MudNavLink Href="/app/transactions" Icon="@Icons.Material.Filled.SendTimeExtension">Transactions</MudNavLink>
-        <MudNavLink Href="/app/claims" Icon="@Icons.Material.Filled.Money">Claims</MudNavLink>
-        <MudNavLink Href="/app/payments" Icon="@Icons.Material.Filled.CreditCard">Payments</MudNavLink>
+        @foreach (var link in _links)
+        {
+            <MudNavLink Href="@link.Path" Icon="@link.Icon">@link.Title</MudNavLink>
+        }
     </MudNavMenu>
 </MudDrawer>
 
@@ -17,4 +17,12 @@
     [Parameter]
     public bool SideBarOpen { get; set; } = true;
 
+    record MenuLink(string Title, string Icon, string Path);
+
+    private List<MenuLink> _links = new() {
+        new MenuLink("Overview", Icons.Material.Filled.Dashboard, "/app/overview"),
+        new MenuLink("Transactions", Icons.Material.Filled.SendTimeExtension, "/app/transactions"),
+        new MenuLink("Claims", Icons.Material.Filled.Money, "/app/claims"),
+        new MenuLink("Payments", Icons.Material.Filled.CreditCard, "/app/payments")
+    };
 }
