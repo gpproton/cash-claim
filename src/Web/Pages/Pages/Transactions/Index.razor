@@ -1,18 +1,20 @@
 @using XClaim.Common.Dtos
-@inject HttpClient HttpClient
+@* @inject HttpClient HttpClient *@
 
 @page "/app/transactions"
 
 @code {
     private string _searchText = "";
+    private bool _filterTable = false;
     private HashSet<PaymentDto> _selectedItems = new HashSet<PaymentDto>();
     private IEnumerable<PaymentDto> _elements = new List<PaymentDto>();
     private bool _selectOnRowClick = true;
     private MudTable<PaymentDto>? _table;
     private string _selectedItemText = "No row clicked";
+    private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
 
     // protected override async Task OnInitializedAsync() {
-    //     _elements = await HttpClient.GetFromJsonAsync<List<PaymentDto>>("webapi/periodictable");
+    //     _elements = await HttpClient.GetFromJsonAsync<List<PaymentDto>>("api/source");
     // }
 
     void OnRowClick(TableRowClickEventArgs<PaymentDto> args) {
@@ -20,28 +22,43 @@
     }
 }
 
-<MudTable @ref="_table" T="PaymentDto" Items="@_elements" MultiSelection="true" @bind-SelectedItems="_selectedItems" Hover="true"
-          OnRowClick="@OnRowClick" @bind-SelectOnRowClick="@_selectOnRowClick" Height="500px">
+<MudDialog @bind-IsVisible="_filterTable">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+           Filter period
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <div class="pa-2">
+            <MudDateRangePicker Label="Range picker" DateFormat="dd-MMM-yyyy" TitleDateFormat="dddd, dd. MMMM" @bind-DateRange="_dateRange" />
+        </div>
+    </DialogContent>
+    @* <DialogActions> *@
+    @*     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Class="px-10">Close</MudButton> *@
+    @* </DialogActions> *@
+</MudDialog>
+
+<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="500px" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" @ref="_table" T="PaymentDto">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Pending Transactions</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="_searchText" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.FilterAlt" Color="Color.Primary" OnClick="() => _filterTable = !_filterTable" Class="px-10"></MudButton>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>Nr</MudTh>
-        <MudTh>Sign</MudTh>
-        <MudTh>Name</MudTh>
-        <MudTh>Position</MudTh>
-        <MudTh>Molar mass</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Amount</MudTh>
+        <MudTh>Category</MudTh>
+        <MudTh>Status</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Sign">@context.Name</MudTd>
-        <MudTd DataLabel="Name">@context.Amount</MudTd>
-        <MudTd DataLabel="Position">@context.Category</MudTd>
-        <MudTd DataLabel="Molar mass">@context.Status</MudTd>
+        <MudTd DataLabel="Description">@context.Name</MudTd>
+        <MudTd DataLabel="Amount">@context.Amount</MudTd>
+        <MudTd DataLabel="Category">@context.Category</MudTd>
+        <MudTd DataLabel="Status">@context.Status</MudTd>
     </RowTemplate>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new int[] { 50, 100 }"/>
+        <MudTablePager PageSizeOptions="new [] { 50, 100 }"/>
     </PagerContent>
     <FooterContent>
         <MudTd colspan="5">Select All</MudTd>

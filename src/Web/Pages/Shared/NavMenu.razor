@@ -3,13 +3,27 @@
     [Parameter]
     public bool SideBarOpen { get; set; } = true;
 
-    record MenuLink(string Title, string Icon, string Path);
+    record MenuLink(string Title, string Icon, string Path, List<MenuLink>? Child = null);
 
     private List<MenuLink> _links = new() {
         new MenuLink("Overview", Icons.Material.Filled.Dashboard, "/app/overview"),
         new MenuLink("Transactions", Icons.Material.Filled.SendTimeExtension, "/app/transactions"),
         new MenuLink("Claims", Icons.Material.Filled.Money, "/app/claims"),
-        new MenuLink("Payments", Icons.Material.Filled.CreditCard, "/app/payments")
+        new MenuLink("Payments", Icons.Material.Filled.CreditCard, "/app/payments"),
+        new MenuLink("Reviews", Icons.Material.Filled.Reviews, "/app/reviews")
+    };
+
+    private List<MenuLink> _secondary_links = new() {
+        new MenuLink("Settings", Icons.Material.Filled.Settings, "#",
+            new ()
+            {
+                new MenuLink("Users", Icons.Material.Filled.People, "/app/settings/users"),
+                new MenuLink("Invites", Icons.Material.Filled.PendingActions, "/app/settings/invites"),
+                new MenuLink("Teams", Icons.Material.Filled.People, "/app/settings/teams"),
+                new MenuLink("Organizations", Icons.Material.Filled.PendingActions, "/app/settings/organizations"),
+                new MenuLink("Server", Icons.Material.Filled.SettingsApplications, "/app/settings/server"),
+            }),
+        new MenuLink("Help", Icons.Material.Filled.Help, "/app/help")
     };
 }
 
@@ -28,12 +42,21 @@
         </MudNavMenu>
     </div>
     
-    <div class="nav_footer">
+    <div class="nav_footer mt-16 pt-8">
         <MudDivider Class="my-2" />
-        <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
-            <MudNavLink Href="/app/settings" Icon="@Icons.Material.Filled.Settings" Class="nav_link">Settings</MudNavLink>
-            <MudNavLink Href="/app/help" Icon="@Icons.Material.Filled.Help" Class="nav_link">Help</MudNavLink>
-        </MudNavMenu>
+        @foreach (var link in _secondary_links) {
+            <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
+                @if (link.Child is not null) {
+                    <MudNavGroup Class="nav_link" Title="@link.Title" Icon="@Icons.Material.Filled.Settings" Expanded="false">
+                        @foreach (var subLink in link.Child) {
+                            <MudNavLink Href="@subLink.Path" Icon="@subLink.Icon" Class="nav_link">@subLink.Title</MudNavLink>
+                        }
+                    </MudNavGroup>
+                } else {
+                    <MudNavLink Href="@link.Path" Icon="@link.Icon" Class="nav_link">@link.Title</MudNavLink>
+                }
+            </MudNavMenu>
+        }
     </div>
     
 </MudDrawer>
