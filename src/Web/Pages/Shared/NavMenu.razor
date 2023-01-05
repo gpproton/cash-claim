@@ -1,18 +1,4 @@
-﻿<MudDrawer @bind-Open="SideBarOpen" Elevation="1">
-    <MudDrawerHeader>
-        <MudAvatar Color="Color.Transparent" Size="Size.Large" Image="assets/logo.svg" />
-        <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-top:10px; margin-left:15px;">X-Claim</MudText>
-    </MudDrawerHeader>
-    <MudDivider Class="my-4" />
-    <MudNavMenu>
-        @foreach (var link in _links)
-        {
-            <MudNavLink Href="@link.Path" Icon="@link.Icon">@link.Title</MudNavLink>
-        }
-    </MudNavMenu>
-</MudDrawer>
-
-@code {
+﻿@code {
 
     [Parameter]
     public bool SideBarOpen { get; set; } = true;
@@ -26,3 +12,44 @@
         new MenuLink("Payments", Icons.Material.Filled.CreditCard, "/app/payments")
     };
 }
+
+<MudDrawer @bind-Open="SideBarOpen" Elevation="1">
+    <MudDrawerHeader>
+        <MudAvatar Color="Color.Transparent" Size="Size.Large" />
+        <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-top:10px; margin-left:15px;">X-Claim</MudText>
+    </MudDrawerHeader>
+    
+    <div>
+        <MudDivider Class="my-4" />
+        <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
+            @foreach (var link in _links) {
+                <MudNavLink Href="@link.Path" Icon="@link.Icon" Class="nav_link">@link.Title</MudNavLink>
+            }
+        </MudNavMenu>
+    </div>
+    
+    <div class="nav_footer">
+        <MudDivider Class="my-2" />
+        <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
+            <MudNavLink Href="/app/settings" Icon="@Icons.Material.Filled.Settings" Class="nav_link">Settings</MudNavLink>
+            <MudNavLink Href="/app/help" Icon="@Icons.Material.Filled.Help" Class="nav_link">Help</MudNavLink>
+        </MudNavMenu>
+    </div>
+    
+</MudDrawer>
+
+<style>
+.mud-nav-link-icon-default {
+    transform: scale(1.2);
+}
+.nav_link {
+    font-family: 'Roboto', serif;
+    font-size: 1.1rem;
+    font-weight: 300
+}
+
+.nav_footer {
+    position: sticky;
+    bottom: 0;
+}
+</style>

@@ -1,5 +1,12 @@
 ﻿@inherits LayoutComponentBase
 
+@code {
+    private MudTheme _currentTheme = new MudTheme();
+    private bool _sidebarOpen = true;
+    private void ToggleTheme(MudTheme changedTheme) => _currentTheme = changedTheme;
+    private void ToggleSidebar() => _sidebarOpen = !_sidebarOpen;
+}
+
 <MudThemeProvider Theme="_currentTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -14,9 +21,3 @@
     </MudMainContent>
 </MudLayout>
 
-@code {
-    private MudTheme _currentTheme = new MudTheme();
-    private bool _sidebarOpen = true;
-    private void ToggleTheme(MudTheme changedTheme) => _currentTheme = changedTheme;
-    private void ToggleSidebar() => _sidebarOpen = !_sidebarOpen;
-}

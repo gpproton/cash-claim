@@ -23,7 +23,7 @@ public static class ModuleExtensions {
     public static WebApplication RegisterApiEndpoints(this WebApplication app) {
         foreach (var module in RegisteredModules)
             module.MapEndpoints(app);
-        
+
         return app;
     }
 
