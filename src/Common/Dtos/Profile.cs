@@ -2,8 +2,8 @@
 
 namespace XClaim.Common.Dtos;
 
-public record ProfileDto {
-    public ProfileDto(string email, string? firstName, string? lastName, UserPermission? permission, decimal? balance, TeamDto? team) {
+public record Profile {
+    public Profile(string email, string? firstName, string? lastName, UserPermission? permission, decimal? balance, Team? team) {
         Email = email;
         FirstName = firstName;
         LastName = lastName;
@@ -19,5 +19,5 @@ public record ProfileDto {
     public string? LastName { get; set; } = string.Empty;
     public UserPermission? Permission { get; set; } = UserPermission.Standard;
     public decimal? Balance { get; set; }
-    public TeamDto? Team { get; set; }
+    public Team? Team { get; set; }
 }

@@ -1,8 +1,7 @@
 ﻿namespace XClaim.Common.Dtos;
 
-public record BankAccountDto {
-    public BankAccountDto(Guid? id string? fullName, BankDto? bank, UserDto? owner, string? number, string? description) {
-        Id = id;
+public record BankAccount {
+    public BankAccount(string? fullName, Bank? bank, User? owner, string? number, string? description) {
         FullName = fullName;
         Bank = bank;
         Owner = owner;
@@ -12,8 +11,8 @@ public record BankAccountDto {
 
     public Guid? Id { get; set; } = Guid.NewGuid();
     public string? FullName { get; set; } = string.Empty;
-    public BankDto? Bank { get; set; }
-    public UserDto? Owner { get; set; }
+    public Bank? Bank { get; set; }
+    public User? Owner { get; set; }
     public string? Number { get; set; }
     public string? Description { get; set; }
     public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;

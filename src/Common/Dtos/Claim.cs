@@ -2,8 +2,8 @@
 
 namespace XClaim.Common.Dtos;
 
-public record ClaimDto {
-    public ClaimDto(string description, string notes, decimal amount, CategoryDto? category, CompanyDto? company, ClaimStatus status, UserDto? owner, ICollection<FileDto>? files) {
+public record Claim {
+    public Claim(string description, string notes, decimal amount, Category? category, Company? company, ClaimStatus status, User? owner, ICollection<FileDto>? files) {
         Description = description;
         Notes = notes;
         Amount = amount;
@@ -19,9 +19,9 @@ public record ClaimDto {
     public string Description { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
     public decimal Amount { get; set; }
-    public CategoryDto? Category { get; set; }
-    public CompanyDto? Company { get; set; }
+    public Category? Category { get; set; }
+    public Company? Company { get; set; }
     public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
-    public UserDto? Owner { get; set; }
+    public User? Owner { get; set; }
     public ICollection<FileDto>? Files { get; set; }
 }

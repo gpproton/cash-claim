@@ -1,7 +1,7 @@
 ﻿namespace XClaim.Common.Dtos;
 
-public record CompanyDto {
-    public CompanyDto(string shortName, string? fullName, string? email, UserDto? manager) {
+public record Company {
+    public Company(string shortName, string? fullName, string? email, User? manager) {
         ShortName = shortName;
         FullName = fullName;
         Email = email;
@@ -13,5 +13,5 @@ public record CompanyDto {
     public string ShortName { get; set; } = String.Empty;
     public string? FullName { get; set; } = String.Empty;
     public string? Email { get; set; } = String.Empty;
-    public UserDto? Manager { get; set; }
+    public User? Manager { get; set; }
 }

@@ -1,7 +1,7 @@
 ﻿namespace XClaim.Common.Dtos;
 
-public record BankDto {
-    public BankDto(string name) {
+public record Bank {
+    public Bank(string name) {
         Name = name;
     }
 

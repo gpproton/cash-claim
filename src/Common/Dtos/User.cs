@@ -2,8 +2,8 @@
 
 namespace XClaim.Common.Dtos;
 
-public record UserDto {
-    public UserDto(string email, string? phone, string? firstName, string? lastName, decimal? balance, UserPermission permission, CompanyDto? company, CompanyDto? companyManaged, UserDto? manager, TeamDto? team, TeamDto? teamManaged, BankAccountDto? bankAccount, bool verified, string? token) {
+public record User {
+    public User(string email, string? phone, string? firstName, string? lastName, decimal? balance, UserPermission permission, Company? company, Company? companyManaged, User? manager, Team? team, Team? teamManaged, BankAccount? bankAccount, bool verified, string? token) {
         Email = email;
         Phone = phone;
         FirstName = firstName;
@@ -26,14 +26,15 @@ public record UserDto {
     public string? Phone { get; set; } = string.Empty;
     public string? FirstName { get; set; } = string.Empty;
     public string? LastName { get; set; } = string.Empty;
+    public string FullName { get { return $"{FirstName} {LastName}" } }
     public decimal? Balance { get; set; }
     public UserPermission Permission { get; set; } = UserPermission.Standard;
-    public CompanyDto? Company { get; set; }
-    public CompanyDto? CompanyManaged { get; set; }
-    public UserDto? Manager { get; set; }
-    public TeamDto? Team { get; set; }
-    public TeamDto? TeamManaged { get; set; }
-    public BankAccountDto? BankAccount { get; set; }
+    public Company? Company { get; set; }
+    public Company? CompanyManaged { get; set; }
+    public User? Manager { get; set; }
+    public Team? Team { get; set; }
+    public Team? TeamManaged { get; set; }
+    public BankAccount? BankAccount { get; set; }
     public bool Verified { get; set; }
     public string? Token { get; set; }
 }

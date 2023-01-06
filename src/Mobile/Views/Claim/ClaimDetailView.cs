@@ -99,5 +99,5 @@ public class ClaimDetailView : BaseView<ClaimDetailViewModel> {
 
 [QueryProperty(nameof(Item), "Item")]
 public partial class ClaimDetailViewModel : BaseViewModel {
-    [ObservableProperty] private ClaimDto _item;
+    [ObservableProperty] private Common.Dtos.Claim _item;
 }

@@ -1,7 +1,7 @@
 ﻿namespace XClaim.Common.Dtos;
 
-public record CommentDto {
-    public CommentDto( ClaimDto? claim, PaymentDto? payment, UserDto? owner, string? content) {
+public record Comment {
+    public Comment( Claim? claim, Payment? payment, User? owner, string? content) {
         Claim = claim;
         Payment = payment;
         Owner = owner;
@@ -10,8 +10,8 @@ public record CommentDto {
 
     public Guid? Id { get; set; } = Guid.NewGuid();
     public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-    public ClaimDto? Claim { get; set; }
-    public PaymentDto? Payment { get; set; }
-    public UserDto? Owner { get; set; }
+    public Claim? Claim { get; set; }
+    public Payment? Payment { get; set; }
+    public User? Owner { get; set; }
     public string? Content { get; set; }
 }
