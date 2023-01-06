@@ -1,10 +1,13 @@
-﻿using XClaim.Common.Base;
+﻿using System.ComponentModel.DataAnnotations;
+using XClaim.Common.Base;
 
 namespace XClaim.Common.Entities;
 
-public class FileEntity : BaseEntity {
+public sealed class FileEntity : BaseEntity {
     public string? Name { get; set; }
-    public string Path { get; set; }
+    [Required]
+    public string? Path { get; set; }
     public string? Extension { get; set; }
     public ClaimEntity? Claim { get; set; }
+    public Guid? ClaimId { get; set; }
 }

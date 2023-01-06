@@ -1,10 +1,16 @@
-﻿using XClaim.Common.Base;
+﻿using System.ComponentModel.DataAnnotations;
+using XClaim.Common.Base;
 
 namespace XClaim.Common.Entities;
 
-public class CommentEntity : BaseEntity {
+public sealed class CommentEntity : BaseEntity {
     public ClaimEntity? Claim { get; set; }
+    public Guid? ClaimId { get; set; }
     public PaymentEntity? Payment { get; set; }
-    public UserEntity User { get; set; }
-    public string Message { get; set; } = string.Empty;
+    public Guid? PaymentId { get; set; }
+    [Required]
+    public UserEntity? Owner { get; set; }
+    public Guid? OwnerId { get; set; }
+    [Required]
+    public string? Content { get; set; }
 }
