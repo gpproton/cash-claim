@@ -11,14 +11,12 @@ public sealed class UserEntity : BaseEntity {
     public string LastName { get; set; } = string.Empty;
     public decimal Balance { get; set; }
     public UserPermission Permission { get; set; } = UserPermission.Standard;
-    [Required]
     public CompanyEntity? Company { get; set; }
     public Guid? CompanyId { get; set; }
     public CompanyEntity? CompanyManaged { get; set; }
     public Guid? CompanyManagedId { get; set; }
     public UserEntity? Manager { get; set; }
     public Guid? ManagerId { get; set; }
-    [Required]
     public TeamEntity? Team { get; set; }
     public Guid? TeamId { get; set; }
     public TeamEntity? TeamManaged { get; set; }
