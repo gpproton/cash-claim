@@ -6,4 +6,5 @@ public interface IUserRepository {
     Task Create(UserEntity user);
     Task<bool> Delete(Guid id);
     Task<UserEntity?> GetById(Guid id);
+    // TODO: Get Account summary
 }
