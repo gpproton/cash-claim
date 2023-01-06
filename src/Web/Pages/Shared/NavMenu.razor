@@ -13,14 +13,14 @@
         new MenuLink("Reviews", Icons.Material.Filled.Reviews, "/app/reviews")
     };
 
-    private List<MenuLink> _secondary_links = new() {
+    private List<MenuLink> _secondaryLinks = new() {
         new MenuLink("Settings", Icons.Material.Filled.Settings, "/app/settings/",
             new () {
                 new MenuLink("Users", Icons.Material.Filled.People, "/app/settings/users"),
                 new MenuLink("Invites", Icons.Material.Filled.PendingActions, "/app/settings/invites"),
                 new MenuLink("Teams", Icons.Material.Filled.Groups, "/app/settings/teams"),
                 new MenuLink("Category", Icons.Material.Filled.Category, "/app/settings/category"),
-                new MenuLink("Organizations", Icons.Material.Filled.PendingActions, "/app/settings/organizations"),
+                new MenuLink("Companies", Icons.Material.Filled.PendingActions, "/app/settings/companies"),
                 new MenuLink("Server", Icons.Material.Filled.SettingsApplications, "/app/settings/server"),
             }),
         new MenuLink("Help", Icons.Material.Filled.Help, "/app/help")
@@ -44,7 +44,7 @@
     
     <div class="nav_footer mt-16 pt-8">
         <MudDivider Class="my-2" />
-        @foreach (var link in _secondary_links) {
+        @foreach (var link in _secondaryLinks) {
             <MudNavMenu href="@link.Path" Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
                 @if (link.Child is not null) {
                     <MudNavGroup Class="nav_link" Title="@link.Title" Icon="@Icons.Material.Filled.Settings" Expanded="false">
