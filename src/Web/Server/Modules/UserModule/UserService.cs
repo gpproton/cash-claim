@@ -9,7 +9,7 @@ public class UserService : IUserRepository {
     public UserService(ServerContext ctx) {
         _ctx = ctx;
     }
-    
+
     public async Task<List<UserEntity>> GetAll() {
         return await _ctx.Users.ToListAsync();
     }
@@ -30,14 +30,14 @@ public class UserService : IUserRepository {
     public async Task<UserEntity?> GetById(Guid id) {
         return await _ctx.Users.FirstOrDefaultAsync(x => x.Id == id);
     }
-    
+
     public async Task<UserEntity?> Delete(Guid id) {
         var item = await _ctx.Users.FindAsync(id);
         if (item == null) return null;
 
         _ctx.Users.Remove(item);
         await _ctx.SaveChangesAsync();
-        
+
         return item;
     }
 }

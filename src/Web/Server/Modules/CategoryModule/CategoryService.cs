@@ -19,7 +19,7 @@ public class CategoryService : ICategoryRepository {
         var items = await _ctx.Categories.ToListAsync();
         return _mapper.Map<List<Category>>(items);
     }
-    
+
     public async Task<Category?> GetById(Guid id) {
         var item = await _ctx.Categories.FindAsync(id);
         return _mapper.Map<Category>(item);
@@ -39,16 +39,16 @@ public class CategoryService : ICategoryRepository {
         _mapper.Map(category, item);
         _ctx.Update(item);
         await _ctx.SaveChangesAsync();
-        
+
         return _mapper.Map<Category>(item);
     }
-    
+
     public async Task<Category?> Delete(Guid id) {
         var item = await _ctx.Categories.FindAsync(id);
         if (item == null) return null;
         _ctx.Categories.Remove(item);
         await _ctx.SaveChangesAsync();
-        
+
         return _mapper.Map<Category>(item);
     }
 }

@@ -14,7 +14,7 @@ public record Claim : BaseResponse {
         Owner = owner;
         Files = files;
     }
-    
+
     public string Description { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
     public decimal Amount { get; set; }

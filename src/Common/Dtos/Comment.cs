@@ -9,7 +9,7 @@ public record Comment : BaseResponse {
         Owner = owner;
         Content = content;
     }
-    
+
     public Claim? Claim { get; set; }
     public Payment? Payment { get; set; }
     public User? Owner { get; set; }

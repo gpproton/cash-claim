@@ -12,7 +12,7 @@ public partial class ServerContext : DbContext {
         foreach (var entityType in mx.Model.GetEntityTypes())
             if (typeof(IBaseEntity).IsAssignableFrom(entityType.ClrType))
                 entityType.AddSoftDeleteQueryFilter();
-        
+
         // User - Company (Manager) One to One
         mx.Entity<CompanyEntity>()
             .HasOne(c => c.Manager)

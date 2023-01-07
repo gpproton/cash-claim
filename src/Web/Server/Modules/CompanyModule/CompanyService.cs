@@ -2,7 +2,7 @@ using XClaim.Common.Entities;
 
 namespace XClaim.Web.Server.Modules.CompanyModule;
 
-public class CompanyService : ICompanyRepository{
+public class CompanyService : ICompanyRepository {
     public Task<List<CompanyEntity>> GetAll() {
         throw new NotImplementedException();
     }

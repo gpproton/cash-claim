@@ -9,7 +9,7 @@ public record Company : BaseResponse {
         Email = email;
         Manager = manager;
     }
-    
+
     public string ShortName { get; set; } = String.Empty;
     public string? FullName { get; set; } = String.Empty;
     public string? Email { get; set; } = String.Empty;
