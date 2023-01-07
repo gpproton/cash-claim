@@ -26,7 +26,9 @@ public record User {
     public string? Phone { get; set; } = string.Empty;
     public string? FirstName { get; set; } = string.Empty;
     public string? LastName { get; set; } = string.Empty;
-    public string FullName { get { return $"{FirstName} {LastName}" } }
+    public string FullName {
+        get { return $"{FirstName} {LastName}"; }
+    }
     public decimal? Balance { get; set; }
     public UserPermission Permission { get; set; } = UserPermission.Standard;
     public Company? Company { get; set; }
