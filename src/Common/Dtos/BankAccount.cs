@@ -1,6 +1,8 @@
-﻿namespace XClaim.Common.Dtos;
+﻿using XClaim.Common.Base;
 
-public record BankAccount {
+namespace XClaim.Common.Dtos;
+
+public record BankAccount : BaseResponse {
     public BankAccount(string? fullName, Bank? bank, User? owner, string? number, string? description) {
         FullName = fullName;
         Bank = bank;
@@ -9,11 +11,9 @@ public record BankAccount {
         Description = description;
     }
 
-    public Guid? Id { get; set; }
     public string? FullName { get; set; } = string.Empty;
     public Bank? Bank { get; set; }
     public User? Owner { get; set; }
     public string? Number { get; set; }
     public string? Description { get; set; }
-    public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 }

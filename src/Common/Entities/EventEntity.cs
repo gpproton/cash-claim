@@ -1,4 +1,5 @@
-﻿using XClaim.Common.Base;
+﻿using System.ComponentModel.DataAnnotations;
+using XClaim.Common.Base;
 using XClaim.Common.Enums;
 
 namespace XClaim.Common.Entities;
@@ -9,5 +10,6 @@ public sealed class EventEntity : BaseEntity {
     public Guid? ClaimId { get; set; }
     public PaymentEntity? Payment { get; set; }
     public Guid? PaymentId { get; set; }
+    [MaxLength(512)]
     public string Description { get; set; } = string.Empty;
 }

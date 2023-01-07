@@ -11,6 +11,8 @@ public sealed class BankAccountEntity : BaseEntity {
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
     [Required]
+    [MaxLength(20)]
     public string? Number { get; set; }
+    [MaxLength(1024)]
     public string? Description { get; set; }
 }

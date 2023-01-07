@@ -4,6 +4,7 @@ using XClaim.Common.Base;
 namespace XClaim.Common.Entities;
 
 public sealed class PaymentEntity : BaseEntity {
+    [MaxLength(512)]
     public string? Notes { get; set; }
     public decimal Amount { get; set; }
     [Required]

@@ -1,15 +1,15 @@
-﻿namespace XClaim.Common.Dtos;
+﻿using XClaim.Common.Base;
 
-public record Category {
+namespace XClaim.Common.Dtos;
+
+public record Category : BaseResponse{
     public Category(string? name, Company? company, string? description, string? icon) {
         Name = name;
         Company = company;
         Description = description;
         Icon = icon;
     }
-
-    public Guid? Id { get; set; }
-    public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+    
     public string? Name { get; set; } = string.Empty;
     public Company? Company { get; set; }
     public string? Description { get; set; }

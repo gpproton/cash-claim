@@ -5,9 +5,13 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Entities;
 
 public sealed class UserEntity : BaseEntity {
+    [MaxLength(256)]
     public string Email { get; set; } = string.Empty;
+    [MaxLength(64)]
     public string Phone { get; set; } = string.Empty;
+    [MaxLength(128)]
     public string FirstName { get; set; } = string.Empty;
+    [MaxLength(128)]
     public string LastName { get; set; } = string.Empty;
     public decimal Balance { get; set; }
     public UserPermission Permission { get; set; } = UserPermission.Standard;
@@ -24,5 +28,6 @@ public sealed class UserEntity : BaseEntity {
     public BankAccountEntity? BankAccount { get; set; }
     public Guid? BankAccountId { get; set; }
     public bool Verified { get; set; }
+    [MaxLength(128)]
     public string? Token { get; set; }
 }

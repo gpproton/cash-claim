@@ -1,6 +1,8 @@
-﻿namespace XClaim.Common.Dtos;
+﻿using XClaim.Common.Base;
 
-public record Payment {
+namespace XClaim.Common.Dtos;
+
+public record Payment : BaseResponse {
     public Payment(decimal? amount, User? owner, DateTime? completedAt, ICollection<Claim>? claims) {
         Amount = amount;
         Owner = owner;
@@ -8,8 +10,6 @@ public record Payment {
         Claims = claims;
     }
 
-    public Guid? Id { get; set; }
-    public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
     public decimal? Amount { get; set; }
     public User? Owner { get; set; }
     public DateTime? CompletedAt { get; set; }

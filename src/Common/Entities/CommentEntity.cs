@@ -12,5 +12,6 @@ public sealed class CommentEntity : BaseEntity {
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
     [Required]
+    [MaxLength(1024)]
     public string? Content { get; set; }
 }

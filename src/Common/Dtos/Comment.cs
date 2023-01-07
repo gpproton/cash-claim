@@ -1,15 +1,15 @@
-﻿namespace XClaim.Common.Dtos;
+﻿using XClaim.Common.Base;
 
-public record Comment {
+namespace XClaim.Common.Dtos;
+
+public record Comment : BaseResponse {
     public Comment(Claim? claim, Payment? payment, User? owner, string? content) {
         Claim = claim;
         Payment = payment;
         Owner = owner;
         Content = content;
     }
-
-    public Guid? Id { get; set; }
-    public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+    
     public Claim? Claim { get; set; }
     public Payment? Payment { get; set; }
     public User? Owner { get; set; }

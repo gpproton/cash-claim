@@ -13,8 +13,8 @@ public class MapperProfile : AutoMapperProfile {
         CreateMap<ClaimEntity, Claim>();
         CreateMap<CommentEntity, Comment>();
         CreateMap<CompanyEntity, Company>();
-        CreateMap<EventEntity, EventDto>();
-        CreateMap<FileEntity, FileDto>();
+        CreateMap<EventEntity, EventResponse>();
+        CreateMap<FileEntity, FileResponse>();
         CreateMap<PaymentEntity, Payment>();
         CreateMap<TeamEntity, Team>();
         CreateMap<UserEntity, User>();

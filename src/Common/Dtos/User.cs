@@ -1,8 +1,9 @@
-﻿using XClaim.Common.Enums;
+﻿using XClaim.Common.Base;
+using XClaim.Common.Enums;
 
 namespace XClaim.Common.Dtos;
 
-public record User {
+public record User : BaseResponse {
     public User(string email, string? phone, string? firstName, string? lastName, decimal? balance, UserPermission permission, Company? company, Company? companyManaged, User? manager, Team? team, Team? teamManaged, BankAccount? bankAccount, bool verified, string? token) {
         Email = email;
         Phone = phone;
@@ -20,8 +21,6 @@ public record User {
         Token = token;
     }
 
-    public Guid? Id { get; set; }
-    public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
     public string Email { get; set; } = string.Empty;
     public string? Phone { get; set; } = string.Empty;
     public string? FirstName { get; set; } = string.Empty;
