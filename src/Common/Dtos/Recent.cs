@@ -7,7 +7,7 @@ public record Recent {
         Payment = payment;
     }
 
-    public Guid? Id { get; set; } = Guid.NewGuid();
+    public Guid? Id { get; set; }
     public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
     public EventDto? Alert { get; set; }
     public Claim? Claim { get; set; }

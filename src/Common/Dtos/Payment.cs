@@ -8,7 +8,7 @@ public record Payment {
         Claims = claims;
     }
 
-    public Guid? Id { get; set; } = Guid.NewGuid();
+    public Guid? Id { get; set; }
     public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
     public decimal? Amount { get; set; }
     public User? Owner { get; set; }

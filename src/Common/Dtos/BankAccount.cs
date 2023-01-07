@@ -9,7 +9,7 @@ public record BankAccount {
         Description = description;
     }
 
-    public Guid? Id { get; set; } = Guid.NewGuid();
+    public Guid? Id { get; set; }
     public string? FullName { get; set; } = string.Empty;
     public Bank? Bank { get; set; }
     public User? Owner { get; set; }

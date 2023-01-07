@@ -8,7 +8,7 @@ public record Category {
         Icon = icon;
     }
 
-    public Guid? Id { get; set; } = Guid.NewGuid();
+    public Guid? Id { get; set; }
     public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
     public string? Name { get; set; } = string.Empty;
     public Company? Company { get; set; }

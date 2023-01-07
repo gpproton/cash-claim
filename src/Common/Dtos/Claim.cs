@@ -14,7 +14,7 @@ public record Claim {
         Files = files;
     }
 
-    public Guid? Id { get; set; } = Guid.NewGuid();
+    public Guid? Id { get; set; }
     public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
     public string Description { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;

@@ -20,7 +20,7 @@ public record User {
         Token = token;
     }
 
-    public Guid? Id { get; set; } = Guid.NewGuid();
+    public Guid? Id { get; set; }
     public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
     public string Email { get; set; } = string.Empty;
     public string? Phone { get; set; } = string.Empty;

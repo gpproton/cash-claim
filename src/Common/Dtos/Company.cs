@@ -8,7 +8,7 @@ public record Company {
         Manager = manager;
     }
 
-    public Guid? Id { get; set; } = Guid.NewGuid();
+    public Guid? Id { get; set; }
     public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
     public string ShortName { get; set; } = String.Empty;
     public string? FullName { get; set; } = String.Empty;
