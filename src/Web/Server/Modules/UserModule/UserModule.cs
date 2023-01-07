@@ -26,15 +26,17 @@ public class UserModule : IModule {
             })
             .WithName("GetUserById").WithOpenApi();
 
-        group.MapPost("/", async (UserEntity  user, IUserRepository sv, IMapper mapper) => {
-                await sv.Create(user);
-                return TypedResults.Created($"/api/v1/user/{user.Id}", mapper.Map<User>(user));
+        group.MapPost("/", async (User user, IUserRepository sv, IMapper mapper) => {
+                var value = mapper.Map<UserEntity>(user);
+                await sv.Create(value);
+                return TypedResults.Created($"/api/v1/user/{value.Id}", user);
             })
             .WithName("CreateUser").WithOpenApi();
 
-        group.MapPut("/{id:guid}", async (Guid id, UserEntity  user, IUserRepository sv, IMapper mapper) => {
-            var result = await sv.Modify(id, user);
-            return result is null ? Results.NotFound() : TypedResults.Ok(mapper.Map<User>(result));
+        group.MapPut("/{id:guid}", async (Guid id, User user, IUserRepository sv, IMapper mapper) => {
+            var value = mapper.Map<UserEntity>(user);
+            var result = await sv.Modify(id, value);
+            return result is null ? Results.NotFound() : TypedResults.Ok(user);
         }).WithName("UpdateUser").WithOpenApi();
         
         group.MapDelete("/{id:guid}", async (Guid id, IUserRepository sv, IMapper mapper) => {

@@ -9,9 +9,9 @@ public record Category {
     }
 
     public Guid? Id { get; set; } = Guid.NewGuid();
+    public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
     public string? Name { get; set; } = string.Empty;
     public Company? Company { get; set; }
     public string? Description { get; set; }
     public string? Icon { get; set; }
-    public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 }

@@ -9,6 +9,7 @@ public class MapperProfile : AutoMapperProfile {
         CreateMap<BankEntity, Bank>();
         CreateMap<BankAccountEntity, BankAccount>();
         CreateMap<CategoryEntity, Category>();
+        CreateMap<Category, CategoryEntity>();
         CreateMap<ClaimEntity, Claim>();
         CreateMap<CommentEntity, Comment>();
         CreateMap<CompanyEntity, Company>();
@@ -17,5 +18,6 @@ public class MapperProfile : AutoMapperProfile {
         CreateMap<PaymentEntity, Payment>();
         CreateMap<TeamEntity, Team>();
         CreateMap<UserEntity, User>();
+        CreateMap<User, UserEntity>();
     }
 }
