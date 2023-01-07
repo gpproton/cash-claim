@@ -5,30 +5,39 @@ using XClaim.Web.Server.Data;
 namespace XClaim.Web.Server.Modules.UserModule;
 
 public class UserRepository : IUserRepository {
-    private readonly ServerContext _db;
-    public UserRepository(ServerContext db) {
-        _db = db;
+    private readonly ServerContext _ctx;
+    public UserRepository(ServerContext ctx) {
+        _ctx = ctx;
+    }
+    
+    public async Task<List<UserEntity>> GetAll() {
+        return await _ctx.Users.ToListAsync();
     }
 
     public async Task Create(UserEntity user) {
-        await _db.Users.AddAsync(user);
-        await _db.SaveChangesAsync();
+        await _ctx.Users.AddAsync(user);
+        await _ctx.SaveChangesAsync();
     }
 
-    public async Task<bool> Delete(Guid id) {
-        var student = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
-        if (student == null) return false;
-
-        _db.Users.Remove(student);
-        await _db.SaveChangesAsync();
-        return true;
-    }
-
-    public async Task<List<UserEntity>> GetAll() {
-        return await _db.Users.ToListAsync();
+    public async Task<UserEntity?> Modify(Guid id, UserEntity user) {
+        var item = await _ctx.Users.FindAsync(id);
+        if (item is null) return null;
+        _ctx.Update(user);
+        await _ctx.SaveChangesAsync();
+        return user;
     }
 
     public async Task<UserEntity?> GetById(Guid id) {
-        return await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
+        return await _ctx.Users.FirstOrDefaultAsync(x => x.Id == id);
+    }
+    
+    public async Task<UserEntity?> Delete(Guid id) {
+        var item = await _ctx.Users.FindAsync(id);
+        if (item == null) return null;
+
+        _ctx.Users.Remove(item);
+        await _ctx.SaveChangesAsync();
+        
+        return item;
     }
 }

@@ -22,7 +22,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.RegisterModules();
