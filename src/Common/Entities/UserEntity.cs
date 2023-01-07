@@ -1,14 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Base;
 using XClaim.Common.Enums;
 
 namespace XClaim.Common.Entities;
 
+[Index(nameof(Email), IsUnique = true)]
+[Index(nameof(Phone), IsUnique = true)]
+[Index(nameof(UserName), IsUnique = true)]
 public sealed class UserEntity : BaseEntity {
     [MaxLength(256)]
     public string Email { get; set; } = string.Empty;
     [MaxLength(64)]
     public string Phone { get; set; } = string.Empty;
+    [MaxLength(128)]
+    public string UserName { get; set; } = string.Empty;
     [MaxLength(128)]
     public string FirstName { get; set; } = string.Empty;
     [MaxLength(128)]
