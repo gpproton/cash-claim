@@ -12,7 +12,7 @@ public class UserModule : IModule {
     }
     
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        var group = endpoints.MapGroup("/api/v1/user").WithTags(nameof(User));
+        var group = endpoints.MapGroup($"{Constants.RootApi}/user").WithTags(nameof(User));
 
         group.MapGet("/", async (IUserRepository sv, IMapper mapper) => {
                 var result = await sv.GetAll();
