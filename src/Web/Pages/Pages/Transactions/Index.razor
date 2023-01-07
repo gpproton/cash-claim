@@ -6,10 +6,10 @@
 @code {
     private string _searchText = "";
     private bool _filterTable = false;
-    private HashSet<PaymentDto> _selectedItems = new HashSet<PaymentDto>();
-    private IEnumerable<PaymentDto> _elements = new List<PaymentDto>();
+    private HashSet<Payment> _selectedItems = new HashSet<Payment>();
+    private IEnumerable<Payment> _elements = new List<Payment>();
     private bool _selectOnRowClick = true;
-    private MudTable<PaymentDto>? _table;
+    // private MudTable<Payment>? _table;
     private string _selectedItemText = "No row clicked";
     private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
 
@@ -17,8 +17,8 @@
     //     _elements = await HttpClient.GetFromJsonAsync<List<PaymentDto>>("api/source");
     // }
 
-    void OnRowClick(TableRowClickEventArgs<PaymentDto> args) {
-        _selectedItemText = $"{args.Item.Name}";
+    void OnRowClick(TableRowClickEventArgs<Payment> args) {
+        _selectedItemText = $"{args.Item.Amount}";
     }
 }
 
@@ -38,7 +38,7 @@
     @* </DialogActions> *@
 </MudDialog>
 
-<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="500px" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" @ref="_table" T="PaymentDto">
+<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="500px" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="Payment">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Pending Transactions</MudText>
         <MudSpacer />
@@ -52,10 +52,10 @@
         <MudTh>Status</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Description">@context.Name</MudTd>
+        <MudTd DataLabel="Description">x</MudTd>
         <MudTd DataLabel="Amount">@context.Amount</MudTd>
-        <MudTd DataLabel="Category">@context.Category</MudTd>
-        <MudTd DataLabel="Status">@context.Status</MudTd>
+        <MudTd DataLabel="Category">x</MudTd>
+        <MudTd DataLabel="Status">x</MudTd>
     </RowTemplate>
     <PagerContent>
         <MudTablePager PageSizeOptions="new [] { 50, 100 }"/>
