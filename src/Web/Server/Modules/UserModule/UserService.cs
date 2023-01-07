@@ -4,9 +4,9 @@ using XClaim.Web.Server.Data;
 
 namespace XClaim.Web.Server.Modules.UserModule;
 
-public class UserRepository : IUserRepository {
+public class UserService : IUserRepository {
     private readonly ServerContext _ctx;
-    public UserRepository(ServerContext ctx) {
+    public UserService(ServerContext ctx) {
         _ctx = ctx;
     }
     

@@ -1,17 +1,17 @@
 using XClaim.Common.Entities;
 
-namespace XClaim.Web.Server.Modules.TeamModule;
+namespace XClaim.Web.Server.Modules.CompanyModule;
 
-public class TeamRepository : ITeamRepository {
-    public Task<List<TeamEntity>> GetAll() {
+public class CompanyService : ICompanyRepository{
+    public Task<List<CompanyEntity>> GetAll() {
         throw new NotImplementedException();
     }
 
-    public Task Create(TeamEntity team) {
+    public Task Create(CompanyEntity company) {
         throw new NotImplementedException();
     }
 
-    public Task Modify(TeamEntity team) {
+    public Task Modify(CompanyEntity company) {
         throw new NotImplementedException();
     }
 
@@ -19,7 +19,7 @@ public class TeamRepository : ITeamRepository {
         throw new NotImplementedException();
     }
 
-    public Task<TeamEntity?> GetById(Guid id) {
+    public Task<CompanyEntity?> GetById(Guid id) {
         throw new NotImplementedException();
     }
 }

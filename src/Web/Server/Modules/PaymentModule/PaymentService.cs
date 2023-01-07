@@ -2,7 +2,7 @@ using XClaim.Common.Entities;
 
 namespace XClaim.Web.Server.Modules.PaymentModule;
 
-public class PaymentRepository : IPaymentRepository {
+public class PaymentService : IPaymentRepository {
     public Task<List<PaymentEntity>> GetAll() {
         throw new NotImplementedException();
     }

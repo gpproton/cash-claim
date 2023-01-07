@@ -6,7 +6,7 @@ namespace XClaim.Web.Server.Modules.UserModule;
 
 public class UserModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserService>();
 
         return services;
     }

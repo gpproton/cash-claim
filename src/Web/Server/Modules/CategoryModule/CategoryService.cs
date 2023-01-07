@@ -4,10 +4,10 @@ using XClaim.Web.Server.Data;
 
 namespace XClaim.Web.Server.Modules.CategoryModule;
 
-public class CategoryRepository : ICategoryRepository {
+public class CategoryService : ICategoryRepository {
     private readonly ServerContext _ctx;
 
-    public CategoryRepository(ServerContext ctx) {
+    public CategoryService(ServerContext ctx) {
         _ctx = ctx;
     }
 

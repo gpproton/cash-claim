@@ -2,7 +2,7 @@ using XClaim.Common.Entities;
 
 namespace XClaim.Web.Server.Modules.EventModule;
 
-public class EventRepository : IEventRepository {
+public class EventService : IEventRepository {
     public Task<List<EventEntity>> GetRecent() {
         throw new NotImplementedException();
     }

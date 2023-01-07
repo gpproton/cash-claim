@@ -2,7 +2,7 @@ using XClaim.Common.Entities;
 
 namespace XClaim.Web.Server.Modules.ClaimModule;
 
-public class ClaimRepository : IClaimRepository {
+public class ClaimService : IClaimRepository {
     public Task<List<ClaimEntity>> GetAll() {
         throw new NotImplementedException();
     }

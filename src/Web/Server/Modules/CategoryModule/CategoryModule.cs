@@ -6,7 +6,7 @@ namespace XClaim.Web.Server.Modules.CategoryModule;
 
 public class CategoryModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICategoryRepository, CategoryService>();
 
         return services;
     }

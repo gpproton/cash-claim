@@ -2,7 +2,7 @@ using XClaim.Common.Entities;
 
 namespace XClaim.Web.Server.Modules.AnalysisModule;
 
-public class AnalysisRepository : IAnalysisRepository {
+public class AnalysisService : IAnalysisRepository {
     public Task<List<ClaimEntity>> GetClaimPayments() {
         throw new NotImplementedException();
     }
