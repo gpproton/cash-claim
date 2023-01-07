@@ -1,6 +1,4 @@
-using AutoMapper;
 using XClaim.Common.Dtos;
-using XClaim.Common.Entities;
 
 namespace XClaim.Web.Server.Modules.CategoryModule;
 
@@ -12,37 +10,32 @@ public class CategoryModule : IModule {
     }
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        var group = endpoints.MapGroup("/api/v1/category").WithTags("Category");
+        var group = endpoints.MapGroup($"{Constants.RootApi}/category").WithTags(nameof(Category));
         
-        group.MapGet("/", async (ICategoryRepository sv, IMapper mapper) => {
-                var result = await sv.GetAll();
-                return mapper.Map<List<Category>>(result);
-            })
+        group.MapGet("/", async (ICategoryRepository sv) => await sv.GetAll())
             .WithName("GetAllCategories")
             .WithOpenApi();
         
-        group.MapGet("/{id:guid}", async (Guid id, ICategoryRepository sv, IMapper mapper) => {
+        group.MapGet("/{id:guid}", async (Guid id, ICategoryRepository sv) => {
                 var result = await sv.GetById(id);
-                return result is null ? Results.NotFound() : TypedResults.Ok(mapper.Map<Category>(result));
+                return result is null ? Results.NotFound() : TypedResults.Ok(result);
             })
             .WithName("GetCategoryById").WithOpenApi();
 
-        group.MapPost("/", async (Category category, ICategoryRepository sv, IMapper mapper) => {
-                var value = mapper.Map<CategoryEntity>(category);
-                await sv.Create(value);
+        group.MapPost("/", async (Category category, ICategoryRepository sv) => {
+                await sv.Create(category);
                 return TypedResults.Created($"/api/v1/category/{category.Id}", category);
             })
             .WithName("CreateCategory").WithOpenApi();
 
-        group.MapPut("/{id:guid}", async (Guid id, Category category, ICategoryRepository sv, IMapper mapper) => {
-            var value = mapper.Map<CategoryEntity>(category);
-            var result = await sv.Modify(id, value);
+        group.MapPut("/", async (Category category, ICategoryRepository sv) => {
+            var result = await sv.Modify(category);
             return result is null ? Results.NotFound() : TypedResults.Ok(category);
         }).WithName("UpdateCategory").WithOpenApi();
         
-        group.MapDelete("/{id:guid}", async (Guid id, ICategoryRepository sv, IMapper mapper) => {
+        group.MapDelete("/{id:guid}", async (Guid id, ICategoryRepository sv) => {
             var item = await sv.Delete(id);
-            return item is null ? Results.NotFound() : TypedResults.Ok(mapper.Map<Category>(item));
+            return item is null ? Results.NotFound() : TypedResults.Ok(item);
         }).WithName("ArchiveCategory").WithOpenApi();
 
         return group;

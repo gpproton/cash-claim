@@ -1,11 +1,11 @@
-using XClaim.Common.Entities;
+using XClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Modules.CategoryModule;
 
 public interface ICategoryRepository {
-    public Task<List<CategoryEntity>> GetAll();
-    Task Create(CategoryEntity category);
-    Task<CategoryEntity?> Modify(Guid id, CategoryEntity category);
-    Task<CategoryEntity?> Delete(Guid id);
-    Task<CategoryEntity?> GetById(Guid id);
+    Task<List<Category>> GetAll();
+    Task<Category> Create(Category category);
+    Task<Category?> Modify(Category category);
+    Task<Category?> Delete(Guid id);
+    Task<Category?> GetById(Guid id);
 }
