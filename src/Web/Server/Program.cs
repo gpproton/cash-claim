@@ -26,8 +26,8 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt => {
-    opt.SwaggerDoc("v1", new OpenApiInfo { Title = $"XClaim", Version = "v1" });
     opt.UseAutoFiltererParameters();
+    opt.SwaggerDoc("v1", new OpenApiInfo { Title = $"X-Claim", Version = "v1" });
 });
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddControllersWithViews();
@@ -49,7 +49,11 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI(opt => {
         const string path = "/swagger/v1/swagger.json";
-        opt.SwaggerEndpoint(path, "XClaim V1");
+        opt.SwaggerEndpoint(path, "X-Claim V1 Docs");
+        opt.DefaultModelExpandDepth(3);
+        opt.EnableDeepLinking();
+        opt.DisplayRequestDuration();
+        opt.ShowExtensions();
     });
 }
 else

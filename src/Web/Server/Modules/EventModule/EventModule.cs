@@ -2,7 +2,7 @@ using XClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Modules.EventModule;
 
-public class EventModule : IModule{
+public class EventModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {
         services.AddScoped<EventService>();
         
@@ -14,7 +14,8 @@ public class EventModule : IModule{
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
             
-        group.MapGet("/", async (EventService sv) => await sv.GetAllAsync(null))
+        group.MapGet("/", async (EventService sv, [AsParameters] EventFilter filter) =>
+                await sv.GetAllAsync(filter))
             .WithName($"GetAll{name}")
             .WithOpenApi();
             

@@ -2,6 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
+[GenerateAutoFilter]
 public class Team : BaseResponse {
     public Team(string name, Company? company, User? manager) {
         Name = name;

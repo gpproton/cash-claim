@@ -1,6 +1,5 @@
 using XClaim.Common.Dtos;
 
-
 namespace XClaim.Web.Server.Modules.BankModule {
     
     public class BankModule : IModule {
@@ -15,7 +14,8 @@ namespace XClaim.Web.Server.Modules.BankModule {
             var url = $"{Constants.RootApi}/{name.ToLower()}";
             var group = endpoints.MapGroup(url).WithTags(name);
             
-            group.MapGet("/", async (BankService sv) => await sv.GetAllAsync(null))
+            group.MapGet("/", async (BankService sv, [AsParameters] GenericFilter filter) =>
+                    await sv.GetAllAsync(filter))
                 .WithName($"GetAll{name}")
                 .WithOpenApi();
             

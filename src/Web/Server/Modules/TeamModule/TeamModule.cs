@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using XClaim.Common.Base;
 using XClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Modules.TeamModule;
@@ -16,7 +14,8 @@ public class TeamModule : IModule {
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
             
-        group.MapGet("/", async (TeamService sv) => await sv.GetAllAsync(null))
+        group.MapGet("/", async (TeamService sv, [AsParameters] GenericFilter filter) =>
+                await sv.GetAllAsync(null))
             .WithName($"GetAll{name}")
             .WithOpenApi();
             

@@ -2,6 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
+[GenerateAutoFilter]
 public class Recent : BaseResponse {
     public Recent(EventResponse? alert, Claim? claim, Payment? payment) {
         Alert = alert;

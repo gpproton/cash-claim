@@ -2,6 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
+[GenerateAutoFilter]
 public class Payment : BaseResponse {
     public Payment(decimal? amount, User? owner, DateTime? completedAt, ICollection<Claim>? claims) {
         Amount = amount;

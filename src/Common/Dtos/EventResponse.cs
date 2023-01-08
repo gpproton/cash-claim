@@ -3,6 +3,7 @@ using XClaim.Common.Enums;
 
 namespace XClaim.Common.Dtos;
 
+[GenerateAutoFilter]
 public class EventResponse : BaseResponse {
     public EventResponse(Claim? claim, Payment? payment, string? description, EventType type = EventType.Claim) {
         Type = type;

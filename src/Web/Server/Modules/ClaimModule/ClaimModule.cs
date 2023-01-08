@@ -14,7 +14,8 @@ public class ClaimModule : IModule {
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
             
-        group.MapGet("/", async (ClaimService sv) => await sv.GetAllAsync(null))
+        group.MapGet("/", async (ClaimService sv, [AsParameters] ClaimFilter filter) =>
+                await sv.GetAllAsync(filter))
             .WithName($"GetAll{name}")
             .WithOpenApi();
             

@@ -2,6 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
+[GenerateAutoFilter]
 public class Comment : BaseResponse {
     public Comment(Claim? claim, Payment? payment, User? owner, string? content) {
         Claim = claim;

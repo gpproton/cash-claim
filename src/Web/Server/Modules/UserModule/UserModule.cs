@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using XClaim.Common.Dtos;
-using XClaim.Common.Entities;
+﻿using XClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Modules.UserModule;
 
@@ -16,7 +14,8 @@ public class UserModule : IModule {
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
             
-        group.MapGet("/", async (UserService sv) => await sv.GetAllAsync(null))
+        group.MapGet("/", async (UserService sv, [AsParameters] GenericFilter filter) =>
+                await sv.GetAllAsync(null))
             .WithName($"GetAll{name}")
             .WithOpenApi();
             

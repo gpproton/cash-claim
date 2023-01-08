@@ -11,7 +11,7 @@ public class GenericEndpoint {
         where TService : GenericService<DbContext, IBaseEntity, BaseResponse> {
         const string name = nameof(TResponse);
         
-        group.MapGet("/", async (TService sv, [FromBody]BaseFilter filter) => await sv.GetAllAsync(filter))
+        group.MapGet("/", async (TService sv, [FromBody]GenericFilter filter) => await sv.GetAllAsync(filter))
             .WithName($"GetAll{name}")
             .WithOpenApi();
         

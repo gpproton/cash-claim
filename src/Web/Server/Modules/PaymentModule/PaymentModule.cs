@@ -14,7 +14,8 @@ public class PaymentModule : IModule {
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
             
-        group.MapGet("/", async (PaymentService sv) => await sv.GetAllAsync(null))
+        group.MapGet("/", async (PaymentService sv, [AsParameters] PaymentFilter filter) =>
+                await sv.GetAllAsync(null))
             .WithName($"GetAll{name}")
             .WithOpenApi();
             

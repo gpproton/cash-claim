@@ -3,6 +3,7 @@ using XClaim.Common.Enums;
 
 namespace XClaim.Common.Dtos;
 
+[GenerateAutoFilter]
 public class Profile : BaseResponse {
     public Profile(string email, string? firstName, string? lastName, UserPermission? permission, decimal? balance, Team? team) {
         Email = email;

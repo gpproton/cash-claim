@@ -2,6 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
+[GenerateAutoFilter]
 public class BankAccount : BaseResponse {
     public BankAccount(string? fullName, Bank? bank, User? owner, string? number, string? description) {
         FullName = fullName;
