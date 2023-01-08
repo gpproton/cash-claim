@@ -19,7 +19,7 @@ public class SharedModule : IModule {
         endpoints.MapHealthChecksUI(setup =>
         {
             setup.UIPath = "/health";
-            setup.ApiPath = "/health-api";
+            setup.ApiPath = "/health/api";
         });
         
         return endpoints;
