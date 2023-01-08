@@ -3,8 +3,8 @@ using XClaim.Common.Enums;
 
 namespace XClaim.Common.Dtos;
 
-public record Claim : BaseResponse {
-    public Claim(string description, string notes, decimal amount, Category? category, Company? company, ClaimStatus status, User? owner, ICollection<FileResponse>? files) {
+public class Claim : BaseResponse {
+    public Claim(string description, string notes, decimal amount, Category? category, Company? company, User? owner, ICollection<FileResponse>? files, ClaimStatus status = ClaimStatus.Pending) {
         Description = description;
         Notes = notes;
         Amount = amount;
@@ -15,12 +15,12 @@ public record Claim : BaseResponse {
         Files = files;
     }
 
-    public string Description { get; set; } = string.Empty;
-    public string Notes { get; set; } = string.Empty;
+    public string Description { get; set; }
+    public string Notes { get; set; }
     public decimal Amount { get; set; }
     public Category? Category { get; set; }
     public Company? Company { get; set; }
-    public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
+    public ClaimStatus Status { get; set; }
     public User? Owner { get; set; }
     public User? ReviewedBy { get; set; }
     public DateTime? ReviewedAt { get; set; }

@@ -2,7 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
-public record FileResponse : BaseResponse {
+public class FileResponse : BaseResponse {
     public FileResponse(string? name, string? path, string? extension) {
         Name = name;
         Path = path;

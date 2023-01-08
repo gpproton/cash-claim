@@ -2,7 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
-public record Recent : BaseResponse {
+public class Recent : BaseResponse {
     public Recent(EventResponse? alert, Claim? claim, Payment? payment) {
         Alert = alert;
         Claim = claim;

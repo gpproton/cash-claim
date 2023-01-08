@@ -2,7 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
-public record BankAccount : BaseResponse {
+public class BankAccount : BaseResponse {
     public BankAccount(string? fullName, Bank? bank, User? owner, string? number, string? description) {
         FullName = fullName;
         Bank = bank;
@@ -11,7 +11,7 @@ public record BankAccount : BaseResponse {
         Description = description;
     }
 
-    public string? FullName { get; set; } = string.Empty;
+    public string? FullName { get; set; }
     public Bank? Bank { get; set; }
     public User? Owner { get; set; }
     public string? Number { get; set; }

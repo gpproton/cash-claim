@@ -2,7 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
-public record Category : BaseResponse {
+public class Category : BaseResponse {
     public Category(string? name, Company? company, string? description, string? icon) {
         Name = name;
         Company = company;
@@ -10,7 +10,7 @@ public record Category : BaseResponse {
         Icon = icon;
     }
 
-    public string? Name { get; set; } = string.Empty;
+    public string? Name { get; set; }
     public Company? Company { get; set; }
     public string? Description { get; set; }
     public string? Icon { get; set; }

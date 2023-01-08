@@ -2,7 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
-public record Payment : BaseResponse {
+public class Payment : BaseResponse {
     public Payment(decimal? amount, User? owner, DateTime? completedAt, ICollection<Claim>? claims) {
         Amount = amount;
         Owner = owner;

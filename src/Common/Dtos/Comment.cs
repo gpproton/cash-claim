@@ -2,7 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
-public record Comment : BaseResponse {
+public class Comment : BaseResponse {
     public Comment(Claim? claim, Payment? payment, User? owner, string? content) {
         Claim = claim;
         Payment = payment;
