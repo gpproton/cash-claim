@@ -14,7 +14,7 @@ public class UserModule : IModule {
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
             
-        group.MapGet("/", async (UserService sv, [AsParameters] GenericFilter filter) =>
+        group.MapGet("/", async (UserService sv, [AsParameters] UserFilter filter) =>
                 await sv.GetAllAsync(null))
             .WithName($"GetAll{name}")
             .WithOpenApi();

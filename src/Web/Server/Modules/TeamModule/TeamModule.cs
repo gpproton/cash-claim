@@ -14,7 +14,7 @@ public class TeamModule : IModule {
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
             
-        group.MapGet("/", async (TeamService sv, [AsParameters] GenericFilter filter) =>
+        group.MapGet("/", async (TeamService sv, [AsParameters] TeamFilter filter) =>
                 await sv.GetAllAsync(null))
             .WithName($"GetAll{name}")
             .WithOpenApi();
