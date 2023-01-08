@@ -1,21 +1,10 @@
+using AutoMapper;
+using XClaim.Common.Dtos;
 using XClaim.Common.Entities;
+using XClaim.Web.Server.Data;
 
 namespace XClaim.Web.Server.Modules.PaymentModule;
 
-public class PaymentService : IPaymentRepository {
-    public Task<List<PaymentEntity>> GetAll() {
-        throw new NotImplementedException();
-    }
-
-    public Task<PaymentEntity?> Update(Guid id) {
-        throw new NotImplementedException();
-    }
-
-    public Task Create(PaymentEntity claim) {
-        throw new NotImplementedException();
-    }
-
-    public Task Approve(PaymentEntity claim, UserEntity by) {
-        throw new NotImplementedException();
-    }
+public class PaymentService : GenericService<ServerContext, PaymentEntity, Payment> {
+    public PaymentService(ServerContext ctx, IMapper mapper) : base(ctx, mapper) { }
 }
