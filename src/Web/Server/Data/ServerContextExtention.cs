@@ -12,7 +12,7 @@ public partial class ServerContext {
 
     public override async Task<int> SaveChangesAsync(
        bool acceptAllChangesOnSuccess,
-       CancellationToken cancellationToken = default(CancellationToken)
+       CancellationToken cancellationToken = default
     ) {
         OnBeforeSaving();
         return (await base.SaveChangesAsync(acceptAllChangesOnSuccess,
@@ -26,19 +26,20 @@ public partial class ServerContext {
         foreach (var entry in entries) {
             if (entry.Entity is BaseEntity trackable) {
                 switch (entry.State) {
-                    case EntityState.Modified:
-                        trackable.ModifiedAt = utcNow;
-                        entry.Property("CreatedAt").IsModified = false;
-                        entry.Property("DeletedAt").IsModified = false;
-                        break;
                     case EntityState.Added:
+                        entry.Property("DeletedAt").IsModified = false;
                         trackable.CreatedAt = utcNow;
                         break;
+                    case EntityState.Modified:
+                        entry.Property("CreatedAt").IsModified = false;
+                        entry.Property("DeletedAt").IsModified = false;
+                        trackable.ModifiedAt = utcNow;
+                        break;
                     case EntityState.Deleted:
+                        entry.State = EntityState.Modified;
                         entry.Property("CreatedAt").IsModified = false;
                         entry.Property("ModifiedAt").IsModified = false;
-                        entry.Property("DeletedAt").CurrentValue = utcNow;
-                        entry.State = EntityState.Modified;
+                        trackable.DeletedAt = utcNow;
                         break;
                     case EntityState.Detached:
                     case EntityState.Unchanged:
