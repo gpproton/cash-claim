@@ -1,5 +1,5 @@
 namespace XClaim.Web.Server.Modules.BankModule {
-    public interface IBankRepository {
+    public interface IBankService {
 
     }
 }
