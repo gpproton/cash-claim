@@ -1,42 +1,44 @@
+using Microsoft.AspNetCore.Mvc;
+using XClaim.Common.Base;
 using XClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Modules.CategoryModule;
 
 public class CategoryModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {
-        services.AddScoped<ICategoryRepository, CategoryService>();
+        services.AddScoped<CategoryService>();
 
         return services;
     }
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        var group = endpoints.MapGroup($"{Constants.RootApi}/category").WithTags(nameof(Category));
-
-        group.MapGet("/", async (ICategoryRepository sv) => await sv.GetAll())
-            .WithName("GetAllCategories")
+        const string name = nameof(Category);
+        var url = $"{Constants.RootApi}/{name.ToLower()}";
+        var group = endpoints.MapGroup(url).WithTags(name);
+            
+        group.MapGet("/", async (CategoryService sv) => await sv.GetAllAsync(null))
+            .WithName($"GetAll{name}")
             .WithOpenApi();
-
-        group.MapGet("/{id:guid}", async (Guid id, ICategoryRepository sv) => {
-            var result = await sv.GetById(id);
-            return result is null ? Results.NotFound() : TypedResults.Ok(result);
-        })
-            .WithName("GetCategoryById").WithOpenApi();
-
-        group.MapPost("/", async (Category category, ICategoryRepository sv) => {
-            await sv.Create(category);
-            return TypedResults.Created($"/api/v1/category/{category.Id}", category);
-        })
-            .WithName("CreateCategory").WithOpenApi();
-
-        group.MapPut("/", async (Category category, ICategoryRepository sv) => {
-            var result = await sv.Modify(category);
-            return result is null ? Results.NotFound() : TypedResults.Ok(category);
-        }).WithName("UpdateCategory").WithOpenApi();
-
-        group.MapDelete("/{id:guid}", async (Guid id, ICategoryRepository sv) => {
-            var item = await sv.Delete(id);
+            
+        group.MapGet("/{id:guid}", async (Guid id, CategoryService sv) => {
+            var result = await sv.GetByIdAsync(id);
+            return TypedResults.Ok(result);
+        }).WithName($"Get{name}ById").WithOpenApi();
+            
+        group.MapPost("/", async (Category value, CategoryService sv) => {
+            await sv.CreateAsync(value);
+            return TypedResults.Created($"{url}/{value.Id}", value);
+        }).WithName($"Create{name}").WithOpenApi();
+            
+        group.MapPut("/", async (Category value, CategoryService sv) => {
+            var result = await sv.UpdateAsync(value);
+            return result is null ? Results.NotFound() : TypedResults.Ok(value);
+        }).WithName($"Update{name}").WithOpenApi();
+            
+        group.MapDelete("/{id:guid}", async (Guid id, CategoryService sv) => {
+            var item = await sv.DeleteAsync(id);
             return item is null ? Results.NotFound() : TypedResults.Ok(item);
-        }).WithName("ArchiveCategory").WithOpenApi();
+        }).WithName($"Archive{name}").WithOpenApi();
 
         return group;
     }
