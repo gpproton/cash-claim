@@ -1,4 +1,5 @@
 using AutoFilterer.Swagger;
+using HealthChecks.ApplicationStatus.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
@@ -8,13 +9,12 @@ using XClaim.Web.Server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ServerContext>(options => {
-    var connectionString = builder.Configuration.GetConnectionString("Default");
     options.UseSqlite(connectionString).UseSnakeCaseNamingConvention();
 });
 
-// Add services to the container.
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
     .EnableTokenAcquisitionToCallDownstreamApi()
@@ -33,6 +33,15 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.RegisterModules();
+
+var healthCheck = builder.Services.AddHealthChecks()
+    .AddApplicationStatus();
+builder.Services.AddHealthChecksUI()
+    .AddInMemoryStorage();
+
+if (connectionString != null) {
+    healthCheck.AddSqlite(connectionString);
+}
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment()) {
@@ -56,6 +65,5 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.Run();
