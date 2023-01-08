@@ -8,6 +8,8 @@ public partial class ServerContext : DbContext {
     public ServerContext(DbContextOptions<ServerContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder mx) {
+        // base.OnModelCreating(mx);
+        
         // Handle soft delete query filter
         foreach (var entityType in mx.Model.GetEntityTypes())
             if (typeof(IBaseEntity).IsAssignableFrom(entityType.ClrType))
@@ -29,6 +31,9 @@ public partial class ServerContext : DbContext {
             .HasOne(u => u.Owner)
             .WithOne(ba => ba.BankAccount)
             .HasForeignKey<BankAccountEntity>(u => u.OwnerId);
+        
+        // Initialize database seeding
+        new DbInitializer(mx).Seed();
     }
 
     public DbSet<UserEntity> Users { get; set; } = default!;
