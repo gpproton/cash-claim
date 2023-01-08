@@ -2,7 +2,7 @@ using XClaim.Common.Entities;
 
 namespace XClaim.Web.Server.Modules.ProfileModule;
 
-public class ProfileService : IProfileRepository {
+public class ProfileService : IProfileService {
     public Task<BankAccountEntity?> GetBankAccount(Guid userId) {
         throw new NotImplementedException();
     }
