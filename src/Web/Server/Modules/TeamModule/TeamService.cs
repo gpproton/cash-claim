@@ -1,25 +1,10 @@
+using AutoMapper;
+using XClaim.Common.Dtos;
 using XClaim.Common.Entities;
+using XClaim.Web.Server.Data;
 
 namespace XClaim.Web.Server.Modules.TeamModule;
 
-public class TeamService : ITeamRepository {
-    public Task<List<TeamEntity>> GetAll() {
-        throw new NotImplementedException();
-    }
-
-    public Task Create(TeamEntity team) {
-        throw new NotImplementedException();
-    }
-
-    public Task Modify(TeamEntity team) {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> Delete(Guid id) {
-        throw new NotImplementedException();
-    }
-
-    public Task<TeamEntity?> GetById(Guid id) {
-        throw new NotImplementedException();
-    }
+public class TeamService : GenericService<ServerContext, TeamEntity, Team> {
+    public TeamService(ServerContext ctx, IMapper mapper) : base(ctx, mapper) { }
 }
