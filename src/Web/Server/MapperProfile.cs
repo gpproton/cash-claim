@@ -6,18 +6,16 @@ namespace XClaim.Web.Server;
 
 public class MapperProfile : AutoMapperProfile {
     public MapperProfile() {
-        CreateMap<BankEntity, Bank>();
-        CreateMap<BankAccountEntity, BankAccount>();
-        CreateMap<CategoryEntity, Category>();
-        CreateMap<Category, CategoryEntity>();
-        CreateMap<ClaimEntity, Claim>();
-        CreateMap<CommentEntity, Comment>();
-        CreateMap<CompanyEntity, Company>();
-        CreateMap<EventEntity, EventResponse>();
-        CreateMap<FileEntity, FileResponse>();
-        CreateMap<PaymentEntity, Payment>();
-        CreateMap<TeamEntity, Team>();
-        CreateMap<UserEntity, User>();
-        CreateMap<User, UserEntity>();
+        CreateMap<BankEntity, Bank>().ReverseMap();
+        CreateMap<BankAccountEntity, BankAccount>().ReverseMap();
+        CreateMap<CategoryEntity, Category>().ReverseMap();
+        CreateMap<ClaimEntity, Claim>().ReverseMap();
+        CreateMap<CommentEntity, Comment>().ReverseMap();
+        CreateMap<CompanyEntity, Company>().ReverseMap();
+        CreateMap<EventEntity, EventResponse>().ReverseMap();
+        CreateMap<FileEntity, FileResponse>().ReverseMap();
+        CreateMap<PaymentEntity, Payment>().ReverseMap();
+        CreateMap<TeamEntity, Team>().ReverseMap();
+        CreateMap<UserEntity, User>().ReverseMap();
     }
 }
