@@ -5,6 +5,6 @@ using XClaim.Web.Server.Data;
 
 namespace XClaim.Web.Server.Modules.TeamModule;
 
-public class TeamService : GenericService<ServerContext, TeamEntity, Team> {
+public class TeamService : GenericService<ServerContext, TeamEntity, TeamResponse> {
     public TeamService(ServerContext ctx, IMapper mapper) : base(ctx, mapper) { }
 }

@@ -10,7 +10,7 @@ public class TeamModule : IModule {
     }
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        const string name = nameof(Team);
+        const string name = nameof(TeamResponse);
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
 
@@ -24,12 +24,12 @@ public class TeamModule : IModule {
             return TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
-        group.MapPost("/", async (Team value, TeamService sv) => {
+        group.MapPost("/", async (TeamResponse value, TeamService sv) => {
             await sv.CreateAsync(value);
             return TypedResults.Created($"{url}/{value.Id}", value);
         }).WithName($"Create{name}").WithOpenApi();
 
-        group.MapPut("/", async (Team value, TeamService sv) => {
+        group.MapPut("/", async (TeamResponse value, TeamService sv) => {
             var result = await sv.UpdateAsync(value);
             return result is null ? Results.NotFound() : TypedResults.Ok(value);
         }).WithName($"Update{name}").WithOpenApi();

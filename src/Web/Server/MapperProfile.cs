@@ -15,7 +15,7 @@ public class MapperProfile : AutoMapperProfile {
         CreateMap<EventEntity, EventResponse>().ReverseMap();
         CreateMap<FileEntity, FileResponse>().ReverseMap();
         CreateMap<PaymentEntity, PaymentResponse>().ReverseMap();
-        CreateMap<TeamEntity, Team>().ReverseMap();
+        CreateMap<TeamEntity, TeamResponse>().ReverseMap();
         CreateMap<UserEntity, User>().ReverseMap();
     }
 }
