@@ -4,8 +4,8 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
-public class Claim : BaseResponse {
-    public Claim(string description, string notes, decimal amount, CategoryResponse? category, Company? company, User? owner, ICollection<FileResponse>? files, ClaimStatus status = ClaimStatus.Pending) {
+public class ClaimResponse : BaseResponse {
+    public ClaimResponse(string description, string notes, decimal amount, CategoryResponse? category, Company? company, User? owner, ICollection<FileResponse>? files, ClaimStatus status = ClaimStatus.Pending) {
         Description = description;
         Notes = notes;
         Amount = amount;

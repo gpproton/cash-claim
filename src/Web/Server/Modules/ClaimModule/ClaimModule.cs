@@ -12,7 +12,7 @@ public class ClaimModule : IModule {
     }
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        const string name = nameof(Claim);
+        const string name = "Claim";
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
 
@@ -26,7 +26,7 @@ public class ClaimModule : IModule {
             return TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
-        group.MapPost("/", async (Claim value, ClaimService sv) => {
+        group.MapPost("/", async (ClaimResponse value, ClaimService sv) => {
             await sv.CreateAsync(value);
             return TypedResults.Created($"{url}/{value.Id}", value);
         }).WithName($"Create{name}").WithOpenApi();
@@ -40,7 +40,7 @@ public class ClaimModule : IModule {
             .Produces<List<FileResponse>>()
             .WithName($"Upload{name}Files").WithOpenApi();
 
-        group.MapPut("/", async (Claim value, ClaimService sv) => {
+        group.MapPut("/", async (ClaimResponse value, ClaimService sv) => {
             var result = await sv.UpdateAsync(value);
             return result is null ? Results.NotFound() : TypedResults.Ok(value);
         }).WithName($"Update{name}").WithOpenApi();

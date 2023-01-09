@@ -9,7 +9,7 @@ public class MapperProfile : AutoMapperProfile {
         CreateMap<BankEntity, BankResponse>().ReverseMap();
         CreateMap<BankAccountEntity, BankAccount>().ReverseMap();
         CreateMap<CategoryEntity, CategoryResponse>().ReverseMap();
-        CreateMap<ClaimEntity, Claim>().ReverseMap();
+        CreateMap<ClaimEntity, ClaimResponse>().ReverseMap();
         CreateMap<CommentEntity, Comment>().ReverseMap();
         CreateMap<CompanyEntity, Company>().ReverseMap();
         CreateMap<EventEntity, EventResponse>().ReverseMap();
