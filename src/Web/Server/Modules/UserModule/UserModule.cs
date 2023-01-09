@@ -10,7 +10,7 @@ public class UserModule : IModule {
     }
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        const string name = nameof(User);
+        const string name = "User";
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
 
@@ -24,12 +24,12 @@ public class UserModule : IModule {
             return TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
-        group.MapPost("/", async (User value, UserService sv) => {
+        group.MapPost("/", async (UserResponse value, UserService sv) => {
             await sv.CreateAsync(value);
             return TypedResults.Created($"{url}/{value.Id}", value);
         }).WithName($"Create{name}").WithOpenApi();
 
-        group.MapPut("/", async (User value, UserService sv) => {
+        group.MapPut("/", async (UserResponse value, UserService sv) => {
             var result = await sv.UpdateAsync(value);
             return result is null ? Results.NotFound() : TypedResults.Ok(value);
         }).WithName($"Update{name}").WithOpenApi();

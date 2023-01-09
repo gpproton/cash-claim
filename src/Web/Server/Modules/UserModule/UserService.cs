@@ -5,6 +5,6 @@ using XClaim.Web.Server.Data;
 
 namespace XClaim.Web.Server.Modules.UserModule;
 
-public class UserService : GenericService<ServerContext, UserEntity, User>, IUserService {
+public class UserService : GenericService<ServerContext, UserEntity, UserResponse>, IUserService {
     public UserService(ServerContext ctx, IMapper mapper) : base(ctx, mapper) { }
 }

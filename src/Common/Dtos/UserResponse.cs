@@ -4,8 +4,8 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
-public class User : BaseResponse {
-    public User(string email, string? phone, string? firstName, string? lastName, decimal? balance, UserPermission permission, CompanyResponse? company, CompanyResponse? companyManaged, User? manager, TeamResponse? team, TeamResponse? teamManaged, BankAccount? bankAccount, bool verified, string? token) {
+public class UserResponse : BaseResponse {
+    public UserResponse(string email, string? phone, string? firstName, string? lastName, decimal? balance, UserPermission permission, CompanyResponse? company, CompanyResponse? companyManaged, UserResponse? manager, TeamResponse? team, TeamResponse? teamManaged, BankAccount? bankAccount, bool verified, string? token) {
         Email = email;
         Phone = phone;
         FirstName = firstName;
@@ -33,7 +33,7 @@ public class User : BaseResponse {
     public UserPermission Permission { get; set; }
     public CompanyResponse? Company { get; set; }
     public CompanyResponse? CompanyManaged { get; set; }
-    public User? Manager { get; set; }
+    public UserResponse? Manager { get; set; }
     public TeamResponse? Team { get; set; }
     public TeamResponse? TeamManaged { get; set; }
     public BankAccount? BankAccount { get; set; }

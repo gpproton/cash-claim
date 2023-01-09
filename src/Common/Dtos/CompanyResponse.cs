@@ -4,7 +4,7 @@ namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
 public class CompanyResponse : BaseResponse {
-    public CompanyResponse(string shortName, string? fullName, string? email, User? manager) {
+    public CompanyResponse(string shortName, string? fullName, string? email, UserResponse? manager) {
         ShortName = shortName;
         FullName = fullName;
         Email = email;
@@ -14,5 +14,5 @@ public class CompanyResponse : BaseResponse {
     public string ShortName { get; set; }
     public string? FullName { get; set; }
     public string? Email { get; set; }
-    public User? Manager { get; set; }
+    public UserResponse? Manager { get; set; }
 }

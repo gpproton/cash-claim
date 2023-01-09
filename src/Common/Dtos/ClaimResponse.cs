@@ -5,7 +5,7 @@ namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
 public class ClaimResponse : BaseResponse {
-    public ClaimResponse(string description, string notes, decimal amount, CategoryResponse? category, CompanyResponse? company, User? owner, ICollection<FileResponse>? files, ClaimStatus status = ClaimStatus.Pending) {
+    public ClaimResponse(string description, string notes, decimal amount, CategoryResponse? category, CompanyResponse? company, UserResponse? owner, ICollection<FileResponse>? files, ClaimStatus status = ClaimStatus.Pending) {
         Description = description;
         Notes = notes;
         Amount = amount;
@@ -22,12 +22,12 @@ public class ClaimResponse : BaseResponse {
     public CategoryResponse? Category { get; set; }
     public CompanyResponse? Company { get; set; }
     public ClaimStatus Status { get; set; }
-    public User? Owner { get; set; }
-    public User? ReviewedBy { get; set; }
+    public UserResponse? Owner { get; set; }
+    public UserResponse? ReviewedBy { get; set; }
     public DateTime? ReviewedAt { get; set; }
-    public User? ConfirmedBy { get; set; }
+    public UserResponse? ConfirmedBy { get; set; }
     public DateTime? ConfirmedAt { get; set; }
-    public User? ApprovedBy { get; set; }
+    public UserResponse? ApprovedBy { get; set; }
     public DateTime? ApprovedAt { get; set; }
     public ICollection<FileResponse>? Files { get; set; }
 }
