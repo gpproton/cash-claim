@@ -44,6 +44,12 @@ public class ClaimModule : IModule {
             var result = await sv.UpdateAsync(value);
             return result is null ? Results.NotFound() : TypedResults.Ok(value);
         }).WithName($"Update{name}").WithOpenApi();
+        
+        group.MapPost("/review/{id:guid}", (ClaimService sv) => {
+            // TODO: new claim review serviuce
+            
+            Results.Ok();
+        }).WithName($"Review{name}").WithOpenApi();
 
         group.MapDelete("/{id:guid}", async (Guid id, ClaimService sv) => {
             var item = await sv.DeleteAsync(id);

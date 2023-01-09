@@ -24,15 +24,16 @@ public class PaymentModule : IModule {
             return TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
-        group.MapPost("/", async (Payment value, PaymentService sv) => {
-            await sv.CreateAsync(value);
-            return TypedResults.Created($"{url}/{value.Id}", value);
-        }).WithName($"Create{name}").WithOpenApi();
-
-        group.MapPut("/", async (Payment value, PaymentService sv) => {
+        group.MapPost("/confirmation", async (Payment value, PaymentService sv) => {
+            value.CompletedAt = DateTime.Now;
             var result = await sv.UpdateAsync(value);
             return result is null ? Results.NotFound() : TypedResults.Ok(value);
-        }).WithName($"Update{name}").WithOpenApi();
+        }).WithName($"Confirm{name}").WithOpenApi();
+        
+        group.MapPost("/cancel/{id:guid}", async (Guid id, PaymentService sv) => {
+            var item = await sv.DeleteAsync(id);
+            return item is null ? Results.NotFound() : TypedResults.Ok(item);
+        }).WithName($"Cancel{name}").WithOpenApi();
 
         return group;
     }
