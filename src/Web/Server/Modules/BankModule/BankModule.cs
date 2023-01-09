@@ -10,7 +10,7 @@ namespace XClaim.Web.Server.Modules.BankModule {
         }
 
         public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-            const string name = nameof(Bank);
+            const string name = "Bank";
             var url = $"{Constants.RootApi}/{name.ToLower()}";
             var group = endpoints.MapGroup(url).WithTags(name);
 
@@ -24,12 +24,12 @@ namespace XClaim.Web.Server.Modules.BankModule {
                 return TypedResults.Ok(result);
             }).WithName($"Get{name}ById").WithOpenApi();
 
-            group.MapPost("/", async (Bank value, BankService sv) => {
+            group.MapPost("/", async (BankResponse value, BankService sv) => {
                 await sv.CreateAsync(value);
                 return TypedResults.Created($"{url}/{value.Id}", value);
             }).WithName($"Create{name}").WithOpenApi();
 
-            group.MapPut("/", async (Bank value, BankService sv) => {
+            group.MapPut("/", async (BankResponse value, BankService sv) => {
                 var result = await sv.UpdateAsync(value);
                 return result is null ? Results.NotFound() : TypedResults.Ok(value);
             }).WithName($"Update{name}").WithOpenApi();

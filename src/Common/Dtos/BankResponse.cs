@@ -3,8 +3,8 @@
 namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
-public class Bank : BaseResponse {
-    public Bank(string name) {
+public class BankResponse : BaseResponse {
+    public BankResponse(string name) {
         Name = name;
     }
 
