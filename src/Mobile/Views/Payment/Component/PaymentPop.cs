@@ -1,5 +1,4 @@
 ﻿using MauiPopup.Views;
-using XClaim.Common.Dtos;
 
 namespace XClaim.Mobile.Views.Payment.Component;
 
@@ -12,9 +11,9 @@ public partial class PaymentPop : BasePopupPage {
     }
 
     [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]
-    private PaymentDto _item;
+    private PaymentResponse _item;
 
-    public PaymentPop(PaymentDto item) {
+    public PaymentPop(PaymentResponse item) {
         _item = item;
         HorizontalOptions = LayoutOptions.Fill;
         VerticalOptions = LayoutOptions.End;
@@ -30,15 +29,15 @@ public partial class PaymentPop : BasePopupPage {
                 (SectionLevel.Fourth, Auto)
             ),
             Children = {
-                new Label().Text(Item.Name).Font(size: 18)
+                new Label().Text(Item.Description).Font(size: 18)
                     .CenterHorizontal().Row(SectionLevel.First),
                 new HorizontalStackLayout {
-                        new Label().Text(Item.Time.ToString("yyyy-MMM-dd"))
+                        new Label().Text(Item.CreatedAt.ToString("yyyy-MMM-dd"))
                             .Font(size: 12),
                         new Label().Text(".")
                             .Margins(4, 0, 4, 0)
                             .Font(size: 12),
-                        new Label().Text(Item.Category)
+                        new Label().Text("Category")
                             .Font(size: 12)
                     }.CenterHorizontal().Margins(0, 2, 0, 8)
                     .Row(SectionLevel.Second),

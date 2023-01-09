@@ -96,14 +96,14 @@ public class ClaimView : BaseView<ClaimViewModel> {
                                         .RowSpan(3),
                                     new Label { TextColor = Color.FromRgba("#7F7F7F") }
                                         .Font(size: 14)
-                                        .Bind(Label.TextProperty, nameof(Claim.Name))
+                                        .Bind(Label.TextProperty, nameof(ClaimResponse.Description))
                                         .Row(SectionLevel.First)
                                         .Column(SectionLevel.Second),
                                     new HorizontalStackLayout {
                                             Children = {
                                                 new Label()
                                                     .Font(size: 11)
-                                                    .Bind(Label.TextProperty, nameof(Claim.Time),
+                                                    .Bind(Label.TextProperty, nameof(ClaimResponse.CreatedAt),
                                                         convert: (DateTime value) => value.ToString("dd-MMM-yyyy")),
                                                 new Label()
                                                     .Font(size: 11)
@@ -111,18 +111,19 @@ public class ClaimView : BaseView<ClaimViewModel> {
                                                     .Margins(3, 0, 3, 0),
                                                 new Label()
                                                     .Font(size: 11)
-                                                    .Bind(Label.TextProperty, nameof(Claim.Category))
+                                                    .Text("Category")
+                                                    //.Bind(Label.TextProperty, nameof(Claim.Category))
                                             }
                                         }.Row(SectionLevel.Second)
                                         .Column(SectionLevel.Second),
                                     new Label()
                                         .Font(size: 11)
-                                        .Bind(Label.TextProperty, nameof(Claim.Notes))
+                                        .Bind(Label.TextProperty, nameof(ClaimResponse.Notes))
                                         .Row(SectionLevel.Third)
                                         .Column(SectionLevel.Second),
                                     new Label { TextColor = Colors.Grey }
                                         .Font(size: 22)
-                                        .Bind(Label.TextProperty, nameof(Claim.Amount),
+                                        .Bind(Label.TextProperty, nameof(ClaimResponse.Amount),
                                             convert: (decimal value) => AppConst.Naira + string.Format("{0:N0}", value))
                                         .MinWidth(105)
                                         .Row(SectionLevel.First)
@@ -153,8 +154,8 @@ public class ClaimView : BaseView<ClaimViewModel> {
         ArgumentNullException.ThrowIfNull(sender);
         var cx = (CollectionView)sender;
         cx.SelectedItem = null;
-        if (e.CurrentSelection.FirstOrDefault<object>() is Common.Dtos.Claim item)
-            if (!string.IsNullOrEmpty(item.id.ToString()))
+        if (e.CurrentSelection.FirstOrDefault<object>() is ClaimResponse item)
+            if (!string.IsNullOrEmpty(item.Id.ToString()))
                 await Shell.Current.GoToAsync($"///{nameof(Claim.ClaimView)}/{nameof(Claim.ClaimDetailView)}", true,
                     new Dictionary<string, object> {
                         { "Item", item }
@@ -175,7 +176,7 @@ public partial class ClaimViewModel : ListViewModel {
 
     [ObservableProperty] private string? _search;
 
-    [ObservableProperty] private ObservableCollection<Common.Dtos.Claim>? _items;
+    [ObservableProperty] private ObservableCollection<ClaimResponse>? _items;
 
     public ClaimViewModel() {
         FilterItems = Enum.GetNames(typeof(FilterOptions));
@@ -192,11 +193,6 @@ public partial class ClaimViewModel : ListViewModel {
     [RelayCommand]
     private async Task Load() {
         await Task.Delay(100);
-        Items = new ObservableCollection<Common.Dtos.Claim>() {
-            new(Guid.NewGuid(), "Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4),
-                "Checked documents already."),
-            new(Guid.NewGuid(), "20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Total filling station"),
-            new(Guid.NewGuid(), "Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3), "20GB Packages")
-        };
+        Items = new ObservableCollection<ClaimResponse>() { };
     }
 }

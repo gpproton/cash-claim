@@ -67,7 +67,7 @@ public class PaymentView : BaseView<PaymentViewModel> {
                                         .RowSpan(2),
                                     new Label { TextColor = Color.FromRgba("#7F7F7F") }
                                         .Font(size: 14)
-                                        .Bind(Label.TextProperty, nameof(PaymentDto.Name))
+                                        .Bind(Label.TextProperty, nameof(PaymentResponse.Description))
                                         .Row(SectionLevel.First)
                                         .Column(SectionLevel.Second)
                                         .Margins(0, 8, 0, 0),
@@ -75,21 +75,21 @@ public class PaymentView : BaseView<PaymentViewModel> {
                                             Children = {
                                                 new Label()
                                                     .Font(size: 11)
-                                                    .Bind(Label.TextProperty, nameof(PaymentDto.Category)),
+                                                    .Bind(Label.TextProperty, nameof(PaymentResponse.Owner)),
                                                 new Label()
                                                     .Font(size: 11)
                                                     .Text(".")
                                                     .Margins(3, 0, 3, 0),
                                                 new Label()
                                                     .Font(size: 11)
-                                                    .Bind(Label.TextProperty, nameof(PaymentDto.Time),
+                                                    .Bind(Label.TextProperty, nameof(PaymentResponse.CreatedAt),
                                                         convert: (DateTime value) => value.ToString("dd-MMM-yyyy"))
                                             }
                                         }.Row(SectionLevel.Second)
                                         .Column(SectionLevel.Second),
                                     new Label { TextColor = Colors.LightGreen }
                                         .Font(size: 18)
-                                        .Bind(Label.TextProperty, nameof(PaymentDto.Amount),
+                                        .Bind(Label.TextProperty, nameof(PaymentResponse.Amount),
                                             convert: (decimal value) => AppConst.Naira + string.Format("{0:N0}", value))
                                         .MinWidth(95)
                                         .Row(SectionLevel.First)
@@ -98,7 +98,7 @@ public class PaymentView : BaseView<PaymentViewModel> {
                                         .CenterHorizontal(),
                                     new Label()
                                         .Font(size: 11)
-                                        .Bind(Label.TextProperty, nameof(PaymentDto.Status))
+                                        .Bind(Label.TextProperty, nameof(PaymentResponse.Completed))
                                         .Row(SectionLevel.Second)
                                         .Column(SectionLevel.Third),
                                     new BoxView()
@@ -124,16 +124,16 @@ public class PaymentView : BaseView<PaymentViewModel> {
         ArgumentNullException.ThrowIfNull(sender);
         var cx = (CollectionView)sender;
         cx.SelectedItem = null;
-        if (e.CurrentSelection.FirstOrDefault() is PaymentDto item)
-            if (!string.IsNullOrEmpty(item.Name))
+        if (e.CurrentSelection.FirstOrDefault<object>() is PaymentResponse item)
+            if (item is not null)
                 await MauiPopup.PopupAction.DisplayPopup(new PaymentPop(item));
     }
 }
 
 public partial class PaymentViewModel : ListViewModel {
-    [ObservableProperty] private ObservableCollection<PaymentDto>? _items;
+    [ObservableProperty] private ObservableCollection<PaymentResponse>? _items;
 
-    [ObservableProperty] private ObservableCollection<PaymentDto>? _selected;
+    [ObservableProperty] private ObservableCollection<PaymentResponse>? _selected;
 
     [ObservableProperty] private DateTime? _startDate;
 
@@ -150,10 +150,6 @@ public partial class PaymentViewModel : ListViewModel {
     private void Load() {
         StartDate = DateTime.Now.AddDays(-7);
         EndDate = DateTime.Now;
-        Items = new ObservableCollection<PaymentDto>() {
-            new(Guid.NewGuid(), "Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
-            new(Guid.NewGuid(), "20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1), "Pending"),
-            new(Guid.NewGuid(), "Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
-        };
+        Items = new ObservableCollection<PaymentResponse>() { };
     }
 }

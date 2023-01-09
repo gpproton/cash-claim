@@ -2,7 +2,6 @@ using Microsoft.Maui.Controls.Shapes;
 using XClaim.Mobile.Views.Profile;
 using XClaim.Mobile.Views.Claim;
 using XClaim.Common.Enums;
-using XClaim.Common.Dtos;
 using XClaim.Mobile.Views.Home.Component;
 
 namespace XClaim.Mobile.Views.Home;
@@ -140,8 +139,6 @@ public class HomeView : BaseView<HomeViewModel> {
                                             EmptyView = AppConst.EmptyListText
                                         }
                                         .Bind(ItemsView.ItemsSourceProperty, nameof(HomeViewModel.RecentItems))
-                                        .Bind(SelectableItemsView.SelectedItemProperty,
-                                            nameof(HomeViewModel.SelectedRecentItem))
                                         .Invoke(cx => cx.SelectionChanged += HandleSelectionChanged)
                                         .ItemTemplate(new DataTemplate(() => new Grid {
                                             ColumnDefinitions = Columns.Define(
@@ -157,7 +154,7 @@ public class HomeView : BaseView<HomeViewModel> {
                                             Children = {
                                                 new Label { Padding = 1, Margin = 2, TextColor = AppColors.Gray400 }
                                                     .Font(size: 16)
-                                                    .Bind(Label.TextProperty, nameof(RecentActions.Name))
+                                                    .Bind(Label.TextProperty, nameof(EventResponse.Description))
                                                     .Row(SectionLevel.First)
                                                     .Column(SectionLevel.First),
                                                 new HorizontalStackLayout {
@@ -165,20 +162,20 @@ public class HomeView : BaseView<HomeViewModel> {
                                                             new Label { Padding = 1, Margin = 2 }
                                                                 .Font(size: 11)
                                                                 .Bind(Label.TextProperty,
-                                                                    nameof(RecentActions.Category)),
+                                                                    nameof(EventResponse.Type)),
                                                             new Label { Padding = 1, Margin = 2 }
                                                                 .Font(size: 11)
                                                                 .Text("."),
                                                             new Label { Padding = 1, Margin = 2 }
                                                                 .Font(size: 11)
-                                                                .Bind(Label.TextProperty, nameof(RecentActions.Time),
+                                                                .Bind(Label.TextProperty, nameof(EventResponse.CreatedAt),
                                                                     convert: (DateTime value) => value.TimeAgo())
                                                         }
                                                     }.Row(SectionLevel.Second)
                                                     .Column(SectionLevel.First),
                                                 new Label { TextColor = Colors.LightSeaGreen }
                                                     .Font(size: 22, family: AppFonts.RobotoMedium)
-                                                    .Bind(Label.TextProperty, nameof(RecentActions.Amount),
+                                                    .Bind(Label.TextProperty, nameof(EventResponse.Claim.Amount),
                                                         convert: (decimal value) =>
                                                            AppConst.Naira + string.Format("{0:N0}", value))
                                                     .MinWidth(105)
@@ -222,29 +219,23 @@ public class HomeView : BaseView<HomeViewModel> {
         ArgumentNullException.ThrowIfNull(sender);
         var cx = (CollectionView)sender;
         cx.SelectedItem = null;
-        if (e.CurrentSelection.FirstOrDefault() is RecentActions item)
-            if (!string.IsNullOrEmpty(item.Name))
+        if (e.CurrentSelection.FirstOrDefault() is EventResponse item)
+            if (item is not null)
                 await MauiPopup.PopupAction.DisplayPopup(new HomeEventPop(item));
     }
 }
 
 public partial class HomeViewModel : ListViewModel {
-    [ObservableProperty] private ObservableCollection<RecentActions>? _recentItems;
+    [ObservableProperty] private ObservableCollection<EventResponse>? _recentItems;
 
-    [ObservableProperty] private RecentActions? _selectedRecentItem;
-
-    [ObservableProperty] private UserProfile? _status;
+    [ObservableProperty] private ProfileResponse? _status;
 
     [RelayCommand]
     private async Task LoadDefaults() {
         IsLoading = true;
         await Task.Delay(500);
-        Status = new UserProfile("Saurav", "Argawal", UserPermission.Administrator, 0, 10000);
-        RecentItems = new ObservableCollection<RecentActions> {
-            new(Guid.NewGuid(), "Travel expense calabar", "Transport", 7000, DateTime.Now.AddHours(-4)),
-            new(Guid.NewGuid(), "20 Litre Petrol", "Fuel", 1000, DateTime.Now.AddDays(-1)),
-            new(Guid.NewGuid(), "Spectranet 4G max", "Internet", 30000, DateTime.Now.AddDays(-3))
-        };
+        Status = new ProfileResponse("saurav#email.me", "Saurav", "Argawal", "+234", UserPermission.Administrator);
+        RecentItems = new ObservableCollection<EventResponse> { };
         IsLoading = false;
     }
 }

@@ -36,7 +36,7 @@ public class ReviewActionView : BaseView<ReviewActionViewModel> {
                 new VerticalStackLayout {
                         Spacing = 2,
                         Children = {
-                            new Label().Bind(Label.TextProperty, "Item.Name")
+                            new Label().Bind(Label.TextProperty, "Item.Description")
                                 .Font(size: 18)
                                 .CenterHorizontal(),
                             new Label().Text("Firstname Lastname")
@@ -58,14 +58,15 @@ public class ReviewActionView : BaseView<ReviewActionViewModel> {
                                     new HorizontalStackLayout {
                                         new Label { Padding = 1, Margin = 2 }
                                             .Font(size: 12)
-                                            .Bind(Label.TextProperty, "Item.Time",
+                                            .Bind(Label.TextProperty, "Item.CreatedAt",
                                                 convert: (DateTime value) => value.ToString("yy-MMM-dd HH:mm")),
                                         new Label { Padding = 1, Margin = 2 }
                                             .Font(size: 12)
                                             .Text("."),
                                         new Label { Padding = 1, Margin = 2 }
                                             .Font(size: 12)
-                                            .Bind(Label.TextProperty, "Item.Category")
+                                            .Text("Category")
+                                            //.Bind(Label.TextProperty, "Item.Category")
                                     },
                                     new Label().Bind(Label.TextProperty, "Item.Notes")
                                         .Font(size: 14)
@@ -99,5 +100,5 @@ public class ReviewActionView : BaseView<ReviewActionViewModel> {
 
 [QueryProperty(nameof(Item), "Item")]
 public partial class ReviewActionViewModel : BaseViewModel {
-    [ObservableProperty] private ReviewDto _item;
+    [ObservableProperty] private ClaimResponse _item;
 }

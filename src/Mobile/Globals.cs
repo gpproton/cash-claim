@@ -14,3 +14,4 @@ global using XClaim.Common.Extensions;
 global using XClaim.Mobile.Extensions.Layouts;
 global using XClaim.Mobile.Components;
 global using XClaim.Mobile.Styles;
+global using XClaim.Common.Dtos;

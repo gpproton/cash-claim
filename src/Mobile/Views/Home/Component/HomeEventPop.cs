@@ -1,11 +1,10 @@
 ﻿using MauiPopup.Views;
-using XClaim.Common.Dtos;
 
 namespace XClaim.Mobile.Views.Home.Component;
 
 public partial class HomeEventPop : BasePopupPage {
     [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]
-    private RecentActions _item;
+    private EventResponse _item;
 
     private enum SectionLevel {
         First,
@@ -14,7 +13,7 @@ public partial class HomeEventPop : BasePopupPage {
         Fourth
     }
 
-    public HomeEventPop(RecentActions recents) {
+    public HomeEventPop(EventResponse recents) {
         _item = recents;
         HorizontalOptions = LayoutOptions.Fill;
         VerticalOptions = LayoutOptions.End;
@@ -30,15 +29,15 @@ public partial class HomeEventPop : BasePopupPage {
                 (SectionLevel.Fourth, Auto)
             ),
             Children = {
-                new Label().Text(Item.Name).Font(size: 18)
+                new Label().Text(Item.Description).Font(size: 18)
                     .CenterHorizontal().Row(SectionLevel.First),
                 new HorizontalStackLayout {
-                        new Label().Text(Item.Time.ToString("yyyy-MMM-dd"))
+                        new Label().Text(Item.CreatedAt.ToString("yyyy-MMM-dd"))
                             .Font(size: 12),
                         new Label().Text(".")
                             .Margins(4, 0, 4, 0)
                             .Font(size: 12),
-                        new Label().Text(Item.Category)
+                        new Label().Text("Category")
                             .Font(size: 12)
                     }.CenterHorizontal().Margins(0, 2, 0, 8)
                     .Row(SectionLevel.Second),
@@ -54,7 +53,7 @@ public partial class HomeEventPop : BasePopupPage {
                     Children = {
                         new Label().Text("Pending")
                             .CenterHorizontal(),
-                        new Label().Text(AppConst.Naira + string.Format("{0:N0}", Item.Amount))
+                        new Label().Text(AppConst.Naira + string.Format("{0:N0}", 100000))
                             .Font(size: 32, family: "RobotoMedium")
                             .CenterHorizontal()
                     }
