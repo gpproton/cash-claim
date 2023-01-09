@@ -3,8 +3,8 @@
 namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
-public class Comment : BaseResponse {
-    public Comment(ClaimResponse? claim, Payment? payment, User? owner, string? content) {
+public class CommentResponse : BaseResponse {
+    public CommentResponse(ClaimResponse? claim, Payment? payment, User? owner, string? content) {
         Claim = claim;
         Payment = payment;
         Owner = owner;
