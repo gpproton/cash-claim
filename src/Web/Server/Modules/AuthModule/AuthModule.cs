@@ -17,6 +17,7 @@ public class AuthModule : IModule {
         var group = endpoints.MapGroup(url).WithTags(name);
 
         group.MapGet("/sign-in", ([FromQuery] string? redirect) => {
+            // TODO: use config or default host URL
             const string redirectConfig = "http://localhost:7001/api/v1/profile/account";
             var redirectValue = redirect.IsNullOrEmpty() ? redirectConfig : redirect;
             var props = new AuthenticationProperties {
