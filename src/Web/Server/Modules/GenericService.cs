@@ -10,7 +10,7 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
     where TContext : DbContext
     where TEntity : class, IBaseEntity
     where TResponse : BaseResponse {
-    
+
     private readonly TContext _ctx;
     private readonly IMapper _mapper;
 
@@ -18,7 +18,7 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
         _ctx = ctx;
         _mapper = mapper;
     }
-    
+
     public async Task<IList<TResponse>> GetAllAsync(FilterBase? filter) {
         var values = filter is null ?
             await _ctx.Set<TEntity>().ToListAsync() :

@@ -26,15 +26,15 @@ builder.Services.AddAuthentication("Cookies")
         opt.SlidingExpiration = true;
     })
     .AddMicrosoftAccount(opt => {
-    var clientId = builder.Configuration.GetValue<string>("Microsoft:ClientId") ?? "";
-    var clientSecret = builder.Configuration.GetValue<string>("Microsoft:ClientSecret") ?? "";
-    
-    opt.SignInScheme = "Cookies";
-    opt.ClientId = clientId;
-    opt.ClientSecret = clientSecret;
-    opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-});
-builder.Services.AddHttpContextAccessor();;
+        var clientId = builder.Configuration.GetValue<string>("Microsoft:ClientId") ?? "";
+        var clientSecret = builder.Configuration.GetValue<string>("Microsoft:ClientSecret") ?? "";
+
+        opt.SignInScheme = "Cookies";
+        opt.ClientId = clientId;
+        opt.ClientSecret = clientSecret;
+        opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    });
+builder.Services.AddHttpContextAccessor(); ;
 builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();

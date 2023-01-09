@@ -15,26 +15,26 @@ public class AuthModule : IModule {
         const string name = "Authentication";
         var url = $"{Constants.RootApi}/auth";
         var group = endpoints.MapGroup(url).WithTags(name);
-        
-        group.MapGet("/sign-in", ([FromQuery]string? redirect) => {
-                const string redirectConfig = "http://localhost:7001/api/v1/profile/account";
-                var redirectValue = redirect.IsNullOrEmpty() ? redirectConfig : redirect; 
+
+        group.MapGet("/sign-in", ([FromQuery] string? redirect) => {
+            const string redirectConfig = "http://localhost:7001/api/v1/profile/account";
+            var redirectValue = redirect.IsNullOrEmpty() ? redirectConfig : redirect;
             var props = new AuthenticationProperties {
                 IsPersistent = true,
                 RedirectUri = redirectValue
             };
-            
+
             return Results.Challenge(props, new[] { MicrosoftAccountDefaults.AuthenticationScheme });
         }).WithName("SignIn")
             .WithOpenApi();
-        
+
         group.MapGet("/sign-out", async context => {
             await context.SignOutAsync();
-            
+
             Results.Redirect("/");
         }).WithName("SignOut")
             .WithOpenApi();
-        
+
         return group;
     }
 }

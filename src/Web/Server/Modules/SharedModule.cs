@@ -6,7 +6,7 @@ namespace XClaim.Web.Server.Modules;
 
 public class SharedModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {
-        
+
         return services;
     }
 
@@ -15,12 +15,12 @@ public class SharedModule : IModule {
             Predicate = _ => true,
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
-    
+
         endpoints.MapHealthChecksUI(setup => {
             setup.UIPath = "/health";
             setup.ApiPath = "/health/api";
         });
-        
+
         return endpoints;
     }
 }
