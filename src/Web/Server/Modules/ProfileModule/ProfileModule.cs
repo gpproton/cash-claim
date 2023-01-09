@@ -5,7 +5,7 @@ using XClaim.Common.Dtos;
 namespace XClaim.Web.Server.Modules.ProfileModule;
 
 public class ProfileModule : IModule {
-    record ProfileResponse(bool Valid = false, string Message = "", Profile? Data = null);
+    record ProfileResponse(bool Valid = false, string Message = "", Common.Dtos.ProfileResponse? Data = null);
 
     public IServiceCollection RegisterApiModule(IServiceCollection services) {
 
@@ -32,7 +32,7 @@ public class ProfileModule : IModule {
                     new ProfileResponse(false, "Email address is invalid", null)
                     );
 
-            var profile = new Profile(email!, fullName!, phone!);
+            var profile = new Common.Dtos.ProfileResponse(email!, fullName!, phone!);
             // context.Response.StatusCode = 200;
             await context.Response.WriteAsJsonAsync(
                 new ProfileResponse(false, "Success", profile)
