@@ -6,9 +6,9 @@ namespace XClaim.Web.Server;
 
 public class MapperProfile : AutoMapperProfile {
     public MapperProfile() {
-        CreateMap<BankEntity, Bank>().ReverseMap();
+        CreateMap<BankEntity, BankResponse>().ReverseMap();
         CreateMap<BankAccountEntity, BankAccount>().ReverseMap();
-        CreateMap<CategoryEntity, Category>().ReverseMap();
+        CreateMap<CategoryEntity, CategoryResponse>().ReverseMap();
         CreateMap<ClaimEntity, Claim>().ReverseMap();
         CreateMap<CommentEntity, Comment>().ReverseMap();
         CreateMap<CompanyEntity, Company>().ReverseMap();
