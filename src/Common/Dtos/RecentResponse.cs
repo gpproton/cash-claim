@@ -3,8 +3,8 @@
 namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
-public class Recent : BaseResponse {
-    public Recent(EventResponse? alert, ClaimResponse? claim, PaymentResponse? payment) {
+public class RecentResponse : BaseResponse {
+    public RecentResponse(EventResponse? alert, ClaimResponse? claim, PaymentResponse? payment) {
         Alert = alert;
         Claim = claim;
         Payment = payment;
