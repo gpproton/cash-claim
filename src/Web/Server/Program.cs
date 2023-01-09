@@ -1,8 +1,7 @@
 using AutoFilterer.Swagger;
 using HealthChecks.ApplicationStatus.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using XClaim.Web.Server;
 using XClaim.Web.Server.Data;
@@ -14,14 +13,28 @@ builder.Services.AddDbContext<ServerContext>(options => {
     options.UseSqlite(connectionString).UseSnakeCaseNamingConvention();
 });
 
+builder.Services.Configure<CookiePolicyOptions>(options => {
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
-    .EnableTokenAcquisitionToCallDownstreamApi()
-    .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
-    .AddInMemoryTokenCaches()
-    .AddDownstreamWebApi("DownstreamApi", builder.Configuration.GetSection("DownstreamApi"))
-    .AddInMemoryTokenCaches();
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie(opt => {
+        opt.Cookie.Name = "AuthCookie";
+        opt.Cookie.IsEssential = true;
+        opt.ExpireTimeSpan = TimeSpan.FromDays(7);
+        opt.SlidingExpiration = true;
+    })
+    .AddMicrosoftAccount(opt => {
+    var clientId = builder.Configuration.GetValue<string>("Microsoft:ClientId") ?? "";
+    var clientSecret = builder.Configuration.GetValue<string>("Microsoft:ClientSecret") ?? "";
+    
+    opt.SignInScheme = "Cookies";
+    opt.ClientId = clientId;
+    opt.ClientSecret = clientSecret;
+    opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+});
+builder.Services.AddHttpContextAccessor();;
 builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -59,6 +72,10 @@ if (app.Environment.IsDevelopment()) {
 else
     app.UseExceptionHandler("/Error");
 
+
+app.UseCookiePolicy(new CookiePolicyOptions {
+    MinimumSameSitePolicy = SameSiteMode.Lax
+});
 app.RegisterApiEndpoints();
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();

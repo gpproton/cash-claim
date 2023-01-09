@@ -16,8 +16,7 @@ public class SharedModule : IModule {
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
     
-        endpoints.MapHealthChecksUI(setup =>
-        {
+        endpoints.MapHealthChecksUI(setup => {
             setup.UIPath = "/health";
             setup.ApiPath = "/health/api";
         });
