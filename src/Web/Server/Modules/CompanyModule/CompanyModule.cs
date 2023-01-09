@@ -12,7 +12,7 @@ public class CompanyModule : IModule {
     }
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        const string name = nameof(Company);
+        const string name = nameof(CompanyResponse);
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
 
@@ -26,12 +26,12 @@ public class CompanyModule : IModule {
             return TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
-        group.MapPost("/", async (Company value, CompanyService sv) => {
+        group.MapPost("/", async (CompanyResponse value, CompanyService sv) => {
             await sv.CreateAsync(value);
             return TypedResults.Created($"{url}/{value.Id}", value);
         }).WithName($"Create{name}").WithOpenApi();
 
-        group.MapPut("/", async (Company value, CompanyService sv) => {
+        group.MapPut("/", async (CompanyResponse value, CompanyService sv) => {
             var result = await sv.UpdateAsync(value);
             return result is null ? Results.NotFound() : TypedResults.Ok(value);
         }).WithName($"Update{name}").WithOpenApi();

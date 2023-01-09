@@ -5,7 +5,7 @@ namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
 public class User : BaseResponse {
-    public User(string email, string? phone, string? firstName, string? lastName, decimal? balance, UserPermission permission, Company? company, Company? companyManaged, User? manager, Team? team, Team? teamManaged, BankAccount? bankAccount, bool verified, string? token) {
+    public User(string email, string? phone, string? firstName, string? lastName, decimal? balance, UserPermission permission, CompanyResponse? company, CompanyResponse? companyManaged, User? manager, Team? team, Team? teamManaged, BankAccount? bankAccount, bool verified, string? token) {
         Email = email;
         Phone = phone;
         FirstName = firstName;
@@ -31,8 +31,8 @@ public class User : BaseResponse {
     }
     public decimal? Balance { get; set; }
     public UserPermission Permission { get; set; }
-    public Company? Company { get; set; }
-    public Company? CompanyManaged { get; set; }
+    public CompanyResponse? Company { get; set; }
+    public CompanyResponse? CompanyManaged { get; set; }
     public User? Manager { get; set; }
     public Team? Team { get; set; }
     public Team? TeamManaged { get; set; }
