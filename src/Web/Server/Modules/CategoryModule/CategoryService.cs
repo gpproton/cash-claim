@@ -6,6 +6,6 @@ using XClaim.Web.Server.Data;
 
 namespace XClaim.Web.Server.Modules.CategoryModule;
 
-public class CategoryService : GenericService<ServerContext, CategoryEntity, Category> {
+public class CategoryService : GenericService<ServerContext, CategoryEntity, CategoryResponse> {
     public CategoryService(ServerContext ctx, IMapper mapper) : base(ctx, mapper) { }
 }

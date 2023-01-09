@@ -12,7 +12,7 @@ public class CategoryModule : IModule {
     }
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        const string name = nameof(Category);
+        const string name = "Category";
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
 
@@ -26,12 +26,12 @@ public class CategoryModule : IModule {
             return TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
-        group.MapPost("/", async (Category value, CategoryService sv) => {
+        group.MapPost("/", async (CategoryResponse value, CategoryService sv) => {
             await sv.CreateAsync(value);
             return TypedResults.Created($"{url}/{value.Id}", value);
         }).WithName($"Create{name}").WithOpenApi();
 
-        group.MapPut("/", async (Category value, CategoryService sv) => {
+        group.MapPut("/", async (CategoryResponse value, CategoryService sv) => {
             var result = await sv.UpdateAsync(value);
             return result is null ? Results.NotFound() : TypedResults.Ok(value);
         }).WithName($"Update{name}").WithOpenApi();

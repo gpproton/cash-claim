@@ -3,8 +3,8 @@
 namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
-public class Category : BaseResponse {
-    public Category(string? name, Company? company, string? description, string? icon) {
+public class CategoryResponse : BaseResponse {
+    public CategoryResponse(string? name, Company? company, string? description, string? icon) {
         Name = name;
         Company = company;
         Description = description;
