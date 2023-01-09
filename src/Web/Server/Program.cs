@@ -1,10 +1,14 @@
+using System.Net;
 using AutoFilterer.Swagger;
 using HealthChecks.ApplicationStatus.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using XClaim.Web.Server;
 using XClaim.Web.Server.Data;
+using XClaim.Web.Server.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,7 @@ var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ServerContext>(options => {
     options.UseSqlite(connectionString).UseSnakeCaseNamingConvention();
 });
+builder.Services.AddTransient<FileUploadService>();
 
 builder.Services.Configure<CookiePolicyOptions>(options => {
     options.CheckConsentNeeded = context => true;
@@ -86,5 +91,29 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.UseAuthentication();
 app.UseAuthorization();
+
+var uploadService = app.Services.GetService<FileUploadService>();
+if (uploadService != null) {
+    var fullUploadPath = uploadService.GetUploadRootPath();
+    app.UseStaticFiles();
+
+    void OnPrepareResponse(StaticFileResponseContext ctx) {
+        if (!ctx.Context.Request.Path.StartsWithSegments("/static")) return;
+
+        ctx.Context.Response.Headers.Add("Cache-Control", "no-store");
+        if (ctx.Context.User.Identity == null || ctx.Context.User.Identity.IsAuthenticated) return;
+
+        ctx.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+        ctx.Context.Response.ContentLength = 0;
+        ctx.Context.Response.Body = Stream.Null;
+        // JsonSerializer.Serialize(new { Status = 401, Message = "UnAuthorized file access" });
+    }
+
+    app.UseStaticFiles(new StaticFileOptions {
+        FileProvider = new PhysicalFileProvider(fullUploadPath),
+        RequestPath = new PathString("/static"),
+        OnPrepareResponse = OnPrepareResponse
+    });
+}
 
 app.Run();

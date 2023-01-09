@@ -1,4 +1,6 @@
+using IdentityModel;
 using XClaim.Common.Dtos;
+using XClaim.Web.Server.Helpers;
 
 namespace XClaim.Web.Server.Modules.ClaimModule;
 
@@ -28,6 +30,15 @@ public class ClaimModule : IModule {
             await sv.CreateAsync(value);
             return TypedResults.Created($"{url}/{value.Id}", value);
         }).WithName($"Create{name}").WithOpenApi();
+        
+        group.MapPost("/upload/{Id:guid}", async (Guid? Id, ClaimService sv, IFormFileCollection files, FileUploadService upload) => {
+                var uploads = await upload.UploadFiles(files);
+                // TODO: Get claim and save in upload service
+                return TypedResults.Ok(uploads);
+            })
+            .Accepts<IFormFileCollection>("multipart/form-data")
+            .Produces<List<FileResponse>>()
+            .WithName($"Upload{name}Files").WithOpenApi();
 
         group.MapPut("/", async (Claim value, ClaimService sv) => {
             var result = await sv.UpdateAsync(value);
