@@ -478,4 +478,5 @@ $RECYCLE.BIN/
 .idea
 .config
 .fleet
-*.sqlite3
+*.sqlite3*
+StaticFiles
