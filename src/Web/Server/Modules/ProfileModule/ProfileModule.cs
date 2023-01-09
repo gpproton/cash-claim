@@ -1,5 +1,7 @@
+using System.Net;
 using System.Security.Claims;
 using Newtonsoft.Json;
+using Nextended.Core.Extensions;
 using XClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Modules.ProfileModule;
@@ -19,21 +21,28 @@ public class ProfileModule : IModule {
 
         group.MapGet("/account", async (context) => {
             bool isAuth = context.User.Identity?.IsAuthenticated ?? false;
-            if (!isAuth) await context.Response.WriteAsJsonAsync(
-                new ProfileResponse(false, "Not Authenticated", null)
+            if (!isAuth) {
+                await context.Response.WriteAsJsonAsync(
+                    new ProfileResponse(false, "Not Authenticated", null)
                 );
+                return;
+            }
 
             var email = context.User.FindFirst(ClaimTypes.Email)?.Value;
             var fullName = context.User.FindFirst(ClaimTypes.Name)?.Value;
             var phone = context.User.FindFirst(ClaimTypes.MobilePhone)?.Value;
 
-            if (email is null)
+            if (email.IsNullOrEmpty() || fullName is null) {
                 await context.Response.WriteAsJsonAsync(
                     new ProfileResponse(false, "Email address is invalid", null)
-                    );
-
-            var profile = new Common.Dtos.ProfileResponse(email!, fullName!, phone!);
-            // context.Response.StatusCode = 200;
+                );
+                return;
+            }
+            
+            var names = fullName.Split(" ");
+            var profile = new Common.Dtos.ProfileResponse(email!, names[0], names[^1], phone!);
+            
+            context.Response.StatusCode = (int)HttpStatusCode.OK;
             await context.Response.WriteAsJsonAsync(
                 new ProfileResponse(false, "Success", profile)
                 );
