@@ -3,7 +3,6 @@ using XClaim.Common.Enums;
 
 namespace XClaim.Common.Dtos;
 
-[GenerateAutoFilter]
 public class ClaimResponse : BaseResponse {
     public ClaimResponse(string description, string notes, decimal amount, CategoryResponse? category, CompanyResponse? company, UserResponse? owner, ICollection<FileResponse>? files, ClaimStatus status = ClaimStatus.Pending) {
         Description = description;

@@ -2,7 +2,6 @@
 
 namespace XClaim.Common.Dtos;
 
-[GenerateAutoFilter]
 public class CompanyResponse : BaseResponse {
     public CompanyResponse(string shortName, string? fullName, string? email, UserResponse? manager) {
         ShortName = shortName;

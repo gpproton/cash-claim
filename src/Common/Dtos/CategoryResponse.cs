@@ -2,7 +2,6 @@
 
 namespace XClaim.Common.Dtos;
 
-[GenerateAutoFilter]
 public class CategoryResponse : BaseResponse {
     public CategoryResponse(string? name, CompanyResponse? company, string? description, string? icon) {
         Name = name;

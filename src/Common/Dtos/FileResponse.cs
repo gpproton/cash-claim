@@ -2,7 +2,6 @@
 
 namespace XClaim.Common.Dtos;
 
-[GenerateAutoFilter]
 public class FileResponse : BaseResponse {
     public FileResponse(string? name, string? path, string? extension) {
         Name = name;
