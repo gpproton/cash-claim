@@ -5,7 +5,7 @@ namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
 public class EventResponse : BaseResponse {
-    public EventResponse(ClaimResponse? claim, Payment? payment, string? description, EventType type = EventType.Claim) {
+    public EventResponse(ClaimResponse? claim, PaymentResponse? payment, string? description, EventType type = EventType.Claim) {
         Type = type;
         Claim = claim;
         Payment = payment;
@@ -14,6 +14,6 @@ public class EventResponse : BaseResponse {
 
     public EventType Type { get; set; }
     public ClaimResponse? Claim { get; set; }
-    public Payment? Payment { get; set; }
+    public PaymentResponse? Payment { get; set; }
     public string? Description { get; set; }
 }

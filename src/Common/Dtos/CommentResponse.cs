@@ -4,7 +4,7 @@ namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
 public class CommentResponse : BaseResponse {
-    public CommentResponse(ClaimResponse? claim, Payment? payment, User? owner, string? content) {
+    public CommentResponse(ClaimResponse? claim, PaymentResponse? payment, User? owner, string? content) {
         Claim = claim;
         Payment = payment;
         Owner = owner;
@@ -12,7 +12,7 @@ public class CommentResponse : BaseResponse {
     }
 
     public ClaimResponse? Claim { get; set; }
-    public Payment? Payment { get; set; }
+    public PaymentResponse? Payment { get; set; }
     public User? Owner { get; set; }
     public string? Content { get; set; }
 }

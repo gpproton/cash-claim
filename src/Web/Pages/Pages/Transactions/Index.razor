@@ -6,10 +6,10 @@
 @code {
     private string _searchText = "";
     private bool _filterTable = false;
-    private HashSet<Payment> _selectedItems = new HashSet<Payment>();
-    private IEnumerable<Payment> _elements = new List<Payment>();
+    private HashSet<PaymentResponse> _selectedItems = new HashSet<PaymentResponse>();
+    private IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
     private bool _selectOnRowClick = true;
-    // private MudTable<Payment>? _table;
+    // private MudTable<PaymentResponse>? _table;
     private string _selectedItemText = "No row clicked";
     private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
 
@@ -17,7 +17,7 @@
     //     _elements = await HttpClient.GetFromJsonAsync<List<PaymentDto>>("api/source");
     // }
 
-    void OnRowClick(TableRowClickEventArgs<Payment> args) {
+    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) {
         _selectedItemText = $"{args.Item.Amount}";
     }
 }
@@ -38,7 +38,7 @@
     @* </DialogActions> *@
 </MudDialog>
 
-<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="500px" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="Payment">
+<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="500px" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="PaymentResponse">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Pending Transactions</MudText>
         <MudSpacer />

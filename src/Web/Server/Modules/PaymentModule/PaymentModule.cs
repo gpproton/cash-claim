@@ -10,7 +10,7 @@ public class PaymentModule : IModule {
     }
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        const string name = nameof(Payment);
+        const string name = "PaymentResponse";
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
 
@@ -24,7 +24,7 @@ public class PaymentModule : IModule {
             return TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
-        group.MapPost("/confirmation", async (Payment value, PaymentService sv) => {
+        group.MapPost("/confirmation", async (PaymentResponse value, PaymentService sv) => {
             value.CompletedAt = DateTime.Now;
             var result = await sv.UpdateAsync(value);
             return result is null ? Results.NotFound() : TypedResults.Ok(value);

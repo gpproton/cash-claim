@@ -3,8 +3,8 @@
 namespace XClaim.Common.Dtos;
 
 [GenerateAutoFilter]
-public class Payment : BaseResponse {
-    public Payment(decimal? amount, User? owner, DateTime? completedAt, ICollection<ClaimResponse>? claims) {
+public class PaymentResponse : BaseResponse {
+    public PaymentResponse(decimal? amount, User? owner, DateTime? completedAt, ICollection<ClaimResponse>? claims) {
         Amount = amount;
         Owner = owner;
         CompletedAt = completedAt;
