@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Common", "src\Common\XClaim.Common.csproj", "{7296F081-81BD-4E64-A5BF-658B989D8907}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{8F52511B-55D5-45AA-98E1-EE148BEEDA42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Shared", "src\Web\Shared\XClaim.Web.Shared.csproj", "{174C84F6-D887-42BB-9112-6BAE0450FEFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Server", "src\Web\Server\XClaim.Web.Server.csproj", "{99DEBF10-65B6-46CB-9C96-2EAD48EA1A8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Pages", "src\Web\Pages\XClaim.Web.Pages.csproj", "{0690CD4D-1E60-47CF-A386-E9CC8F6970F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Client", "src\Web\Client\XClaim.Web.Client.csproj", "{9B7D4199-1098-4A91-9642-655510A60BE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{59BBFC86-EAA2-4342-9EE0-EDAC2582E8E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Mobile", "src\Mobile\XClaim.Mobile.csproj", "{AB4EEFBB-A355-4777-B9F5-C95D024FA35C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7296F081-81BD-4E64-A5BF-658B989D8907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7296F081-81BD-4E64-A5BF-658B989D8907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7296F081-81BD-4E64-A5BF-658B989D8907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7296F081-81BD-4E64-A5BF-658B989D8907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{174C84F6-D887-42BB-9112-6BAE0450FEFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{174C84F6-D887-42BB-9112-6BAE0450FEFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{174C84F6-D887-42BB-9112-6BAE0450FEFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{174C84F6-D887-42BB-9112-6BAE0450FEFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99DEBF10-65B6-46CB-9C96-2EAD48EA1A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99DEBF10-65B6-46CB-9C96-2EAD48EA1A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99DEBF10-65B6-46CB-9C96-2EAD48EA1A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99DEBF10-65B6-46CB-9C96-2EAD48EA1A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0690CD4D-1E60-47CF-A386-E9CC8F6970F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0690CD4D-1E60-47CF-A386-E9CC8F6970F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0690CD4D-1E60-47CF-A386-E9CC8F6970F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0690CD4D-1E60-47CF-A386-E9CC8F6970F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B7D4199-1098-4A91-9642-655510A60BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B7D4199-1098-4A91-9642-655510A60BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B7D4199-1098-4A91-9642-655510A60BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B7D4199-1098-4A91-9642-655510A60BE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB4EEFBB-A355-4777-B9F5-C95D024FA35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB4EEFBB-A355-4777-B9F5-C95D024FA35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB4EEFBB-A355-4777-B9F5-C95D024FA35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB4EEFBB-A355-4777-B9F5-C95D024FA35C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0DEB82D-06A1-4B32-A4D8-97C75F7E10E5}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{174C84F6-D887-42BB-9112-6BAE0450FEFA} = {8F52511B-55D5-45AA-98E1-EE148BEEDA42}
+		{99DEBF10-65B6-46CB-9C96-2EAD48EA1A8E} = {8F52511B-55D5-45AA-98E1-EE148BEEDA42}
+		{0690CD4D-1E60-47CF-A386-E9CC8F6970F4} = {8F52511B-55D5-45AA-98E1-EE148BEEDA42}
+		{9B7D4199-1098-4A91-9642-655510A60BE4} = {8F52511B-55D5-45AA-98E1-EE148BEEDA42}
+		{AB4EEFBB-A355-4777-B9F5-C95D024FA35C} = {59BBFC86-EAA2-4342-9EE0-EDAC2582E8E0}
+	EndGlobalSection
+EndGlobal
