@@ -1,5 +1,16 @@
-﻿@page "/"
+﻿@inject NavigationManager Nav
+@layout RootLayout
+@page "/"
 
-<PageTitle>Index</PageTitle>
+@functions{
 
-<MudText Class="mb-8">Powered by MudBlazor!</MudText>
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        Nav.NavigateTo("/app/auth");
+    }
+
+}
+
+<Title>Bootstraping App</Title>
+
+<MudText Class="mb-8">Bootstraping...!</MudText>
