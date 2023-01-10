@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,39 @@ public class AuthModule : IModule {
             return Results.Challenge(props, new[] { MicrosoftAccountDefaults.AuthenticationScheme });
         }).WithName("SignIn")
             .WithOpenApi();
+
+        group.MapGet("/sign-in/mobile/", async (HttpRequest request, [FromQuery] string redirect, [FromQuery] string? scheme) => {
+                var schemeValue = scheme.IsNullOrEmpty() ? "Microsoft" : scheme;
+                var auth = await request.HttpContext.AuthenticateAsync(schemeValue);
+            const string callbackScheme = "xclaim";
+            
+            if (!auth.Succeeded
+                || auth?.Principal == null
+                || !auth.Principal.Identities.Any(id => id.IsAuthenticated)
+                || string.IsNullOrEmpty(auth.Properties.GetTokenValue("access_token"))) {
+                await request.HttpContext.ChallengeAsync(schemeValue);
+            } else {
+                var claims = auth.Principal.Identities.FirstOrDefault()?.Claims;
+                string? address = claims?.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
+                if (address != null) {
+                    string? emailAddress = address;
+                    var qs = new Dictionary<string, string?> {
+                        { "access_token", auth.Properties.GetTokenValue("access_token") },
+                        { "refresh_token", auth.Properties.GetTokenValue("refresh_token") ?? string.Empty },
+                        { "expires_in", (auth.Properties.ExpiresUtc?.ToUnixTimeSeconds() ?? -1).ToString() },
+                        { "email", emailAddress }
+                    };
+
+                    var redirectUrl = callbackScheme + "://#" + string.Join(
+                        "&",
+                        qs.Where(kvp => !string.IsNullOrEmpty(kvp.Value) && kvp.Value != "-1")
+                            .Select(kvp => $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}"));
+
+                    request.HttpContext.Response.Redirect(redirectUrl);
+                }
+            }
+        }).WithName("MobileSignIn")
+        .WithOpenApi();
 
         group.MapGet("/sign-out", async context => {
             await context.SignOutAsync();
