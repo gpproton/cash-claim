@@ -1,0 +1,14 @@
+@inherits LayoutComponentBase
+
+@code {
+
+    [Parameter]
+    public MudTheme CurrentTheme { get; set;  } = new MudTheme();
+
+}
+
+<MudThemeProvider Theme="CurrentTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>@Body</MudLayout>

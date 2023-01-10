@@ -1,5 +1,4 @@
 ﻿@code {
-
     [Parameter]
     public bool SideBarOpen { get; set; } = true;
 
@@ -17,7 +16,6 @@
         new MenuLink("Settings", Icons.Material.Filled.Settings, "/app/settings/",
             new () {
                 new MenuLink("Users", Icons.Material.Filled.People, "/app/settings/users"),
-                new MenuLink("Invites", Icons.Material.Filled.PendingActions, "/app/settings/invites"),
                 new MenuLink("Teams", Icons.Material.Filled.Groups, "/app/settings/teams"),
                 new MenuLink("Category", Icons.Material.Filled.Category, "/app/settings/category"),
                 new MenuLink("Companies", Icons.Material.Filled.PendingActions, "/app/settings/companies"),
@@ -29,8 +27,8 @@
 
 <MudDrawer @bind-Open="SideBarOpen" Elevation="1">
     <MudDrawerHeader>
-        <MudAvatar Color="Color.Transparent" Size="Size.Large" />
-        <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-top:10px; margin-left:15px;">X-Claim</MudText>
+        <MudAvatar Rounded="true" Color="Color.Transparent" Size="Size.Medium">X</MudAvatar>
+        <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-top:4px; margin-left:15px;">X-Claim</MudText>
     </MudDrawerHeader>
     
     <div>

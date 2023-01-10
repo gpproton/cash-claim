@@ -43,4 +43,17 @@
     {
         <MudIconButton Icon="@Icons.Material.Filled.Brightness5" Color="Color.Inherit" OnClick="ToggleTheme" />
     }
+    
+    <MudMenu FullWidth="true">
+        <ActivatorContent>
+            <MudBadge Color="Color.Success" Class="mx-2" Overlap="true" Bordered="true">
+                <MudAvatar>SA</MudAvatar>
+            </MudBadge>
+        </ActivatorContent>
+        <ChildContent>
+            <MudMenuItem>Profile</MudMenuItem>
+            <MudMenuItem>Bank</MudMenuItem>
+            <MudMenuItem>Sign Out</MudMenuItem>
+        </ChildContent>
+    </MudMenu>
 </MudAppBar>
