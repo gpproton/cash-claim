@@ -30,6 +30,12 @@ public static class MauiProgram {
                 fonts.AddFontAwesomeIconFonts();
             })
             .ConfigureMauiHandlers(handlers => { handlers.AddUraniumUIHandlers(); });
+        builder.Services.AddSingleton<HttpsClientHandlerService>()
+        .AddSingleton<HttpClient>(provider => {
+            var handler = provider.GetService<HttpsClientHandlerService>();
+            if (handler != null) return new HttpClient();
+            else return new HttpClient(handler.GetPlatformMessageHandler());
+        });
 
         RegisterServices(builder.Services);
 #if DEBUG
