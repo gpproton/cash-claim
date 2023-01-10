@@ -19,7 +19,7 @@ public class AuthModule : IModule {
 
         group.MapGet("/sign-in", ([FromQuery] string? redirect) => {
             // TODO: use config or default host URL
-            const string redirectConfig = "http://localhost:7001/api/v1/profile/account";
+            const string redirectConfig = "https://localhost:7001";
             var redirectValue = redirect.IsNullOrEmpty() ? redirectConfig : redirect;
             var props = new AuthenticationProperties {
                 IsPersistent = true,
@@ -30,7 +30,7 @@ public class AuthModule : IModule {
         }).WithName("SignIn")
             .WithOpenApi();
 
-        group.MapGet("/sign-in/mobile/", async (HttpRequest request, [FromQuery] string redirect, [FromQuery] string? scheme) => {
+        group.MapGet("/sign-in/mobile/", async (HttpRequest request, [FromQuery] string? scheme) => {
                 var schemeValue = scheme.IsNullOrEmpty() ? "Microsoft" : scheme;
                 var auth = await request.HttpContext.AuthenticateAsync(schemeValue);
             const string callbackScheme = "xclaim";
