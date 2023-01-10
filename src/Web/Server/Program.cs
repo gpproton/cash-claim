@@ -38,6 +38,7 @@ builder.Services.AddAuthentication("Cookies")
         opt.ClientId = clientId;
         opt.ClientSecret = clientSecret;
         opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        opt.SaveTokens = true;
     });
 builder.Services.AddHttpContextAccessor(); ;
 builder.Services.AddAuthorization();
@@ -82,7 +83,6 @@ app.UseCookiePolicy(new CookiePolicyOptions {
     MinimumSameSitePolicy = SameSiteMode.Lax
 });
 app.RegisterApiEndpoints();
-app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
@@ -91,6 +91,8 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.UseAuthentication();
 app.UseAuthorization();
+// INFO: Disabled due to mobile self signed certificate
+// app.UseHttpsRedirection();
 
 var uploadService = app.Services.GetService<FileUploadService>();
 if (uploadService != null) {
@@ -99,13 +101,13 @@ if (uploadService != null) {
 
     void OnPrepareResponse(StaticFileResponseContext ctx) {
         if (!ctx.Context.Request.Path.StartsWithSegments("/static")) return;
-
+        
         ctx.Context.Response.Headers.Add("Cache-Control", "no-store");
         if (ctx.Context.User.Identity == null || ctx.Context.User.Identity.IsAuthenticated) return;
-
         ctx.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
         ctx.Context.Response.ContentLength = 0;
         ctx.Context.Response.Body = Stream.Null;
+        // TODO: Use better response
         // JsonSerializer.Serialize(new { Status = 401, Message = "UnAuthorized file access" });
     }
 
