@@ -25,7 +25,7 @@ public class LoadingViewModel : BaseViewModel {
     }
 
     private async void VerifyAuth() {
-        await Task.Delay(2500);
+        await Task.Delay(1500);
         await Shell.Current.GoToAsync($"//{nameof(AuthView)}");
     }
 }

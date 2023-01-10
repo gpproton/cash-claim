@@ -48,6 +48,17 @@ public class AuthView : BaseView<AuthViewModel> {
 public partial class AuthViewModel : BaseViewModel {
     [RelayCommand]
     private async void NavigateToHome() {
-        await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
+        var redirect = $"{AppConst.AppId}://auth";
+        try {
+            WebAuthenticatorResult result = await WebAuthenticator.Default.AuthenticateAsync(
+                new Uri($"{AppConst.AuthUri}?redirect={redirect}"),
+                new Uri(redirect)
+                );
+            
+            Console.WriteLine(result);
+            await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
+        } catch (TaskCanceledException e) {
+            Console.WriteLine(e);
+        }
     }
 }
