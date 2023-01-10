@@ -17,6 +17,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Common\XClaim.Common.csproj" />
         <ProjectReference Include="..\Pages\XClaim.Web.Pages.csproj" />
+        <ProjectReference Include="..\Shared\XClaim.Web.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>
