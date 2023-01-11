@@ -8,13 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.1" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.2" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\Common\XClaim.Common.csproj" />
-        <ProjectReference Include="..\Pages\XClaim.Web.Pages.csproj" />
+        <ProjectReference Include="..\Pages\XClaim.Web.Components.csproj" />
         <ProjectReference Include="..\Shared\XClaim.Web.Shared.csproj" />
     </ItemGroup>
 
