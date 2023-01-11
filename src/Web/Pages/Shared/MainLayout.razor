@@ -2,17 +2,18 @@
 @layout RootLayout
 
 @code {
-    private MudTheme _currentTheme = new MudTheme();
+
     [CascadingParameter]
-    public RootLayout Layout { get; set; }
+    RootLayout Layout { get; set; } = default!;
     private bool _sidebarOpen = true;
-    private void ToggleTheme(MudTheme changedTheme) => _currentTheme = changedTheme;
+
+    private async Task ToggleTheme(MudTheme changedTheme) => await Layout.SetTheme(changedTheme);
     private void ToggleSidebar() => _sidebarOpen = !_sidebarOpen;
 }
 
 <AppBar OnSidebarToggled="ToggleSidebar" OnThemeToggled="ToggleTheme" />
 <NavMenu SideBarOpen="_sidebarOpen" />
-<MudMainContent Class="pt-16 px-16">
+<MudMainContent Class="pt-16 px-12">
     <MudContainer Class="mt-6">
         @Body
     </MudContainer>

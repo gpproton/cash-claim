@@ -1,14 +1,15 @@
 @inherits LayoutComponentBase
 
 @code {
+    MudTheme _currentTheme = new();
 
-    [Parameter]
-    public MudTheme CurrentTheme { get; set;  } = new MudTheme();
-
+    public async Task SetTheme(MudTheme themeValue) => await Task.FromResult(_currentTheme = themeValue);
 }
 
-<MudThemeProvider Theme="CurrentTheme" />
+<MudThemeProvider Theme="_currentTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
+<CascadingValue Value="this">
 <MudLayout>@Body</MudLayout>
+</CascadingValue>
