@@ -7,8 +7,6 @@ using XClaim.Common.Dtos;
 namespace XClaim.Web.Server.Modules.ProfileModule;
 
 public class ProfileModule : IModule {
-    record ProfileResponse(bool Valid = false, string Message = "", Common.Dtos.ProfileResponse? Data = null);
-
     public IServiceCollection RegisterApiModule(IServiceCollection services) {
 
         return services;
@@ -21,30 +19,24 @@ public class ProfileModule : IModule {
 
         group.MapGet("/account", async (context) => {
             bool isAuth = context.User.Identity?.IsAuthenticated ?? false;
-            if (!isAuth) {
-                await context.Response.WriteAsJsonAsync(
-                    new ProfileResponse(false, "Not Authenticated", null)
-                );
-                return;
-            }
-
             var email = context.User.FindFirst(ClaimTypes.Email)?.Value;
-            var fullName = context.User.FindFirst(ClaimTypes.Name)?.Value;
-            var phone = context.User.FindFirst(ClaimTypes.MobilePhone)?.Value;
-
-            if (email.IsNullOrEmpty() || fullName is null) {
+            if (!isAuth || email.IsNullOrEmpty()) {
                 await context.Response.WriteAsJsonAsync(
-                    new ProfileResponse(false, "Email address is invalid", null)
+                    new AuthResponse(false, null, 0)
                 );
                 return;
             }
+
+            var fullName = context.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
+            var phone = context.User.FindFirst(ClaimTypes.MobilePhone)?.Value ?? "";
             
             var names = fullName.Split(" ");
-            var profile = new Common.Dtos.ProfileResponse(email!, names[0], names[^1], phone!);
+            var profile = new Common.Dtos.ProfileResponse(email!, names[0], names[^1], phone);
             
             context.Response.StatusCode = (int)HttpStatusCode.OK;
+            var expiry = DateTime.Now.AddHours(24);
             await context.Response.WriteAsJsonAsync(
-                new ProfileResponse(false, "Success", profile)
+                new AuthResponse(false, expiry, 0, null,  "Success", Data: profile)
                 );
         }).WithName("AccountProfile").WithOpenApi();
 

@@ -14,7 +14,7 @@ public class AuthModule : IModule {
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
         const string name = "Authentication";
-        var url = $"{Constants.RootApi}/auth";
+        var url = $"/auth";
         var group = endpoints.MapGroup(url).WithTags(name);
 
         group.MapGet("/sign-in", ([FromQuery] string? redirect) => {
