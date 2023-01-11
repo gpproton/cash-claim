@@ -6,4 +6,5 @@ public enum UserPermission {
     Lead,
     Finance,
     Administrator,
+    System
 }

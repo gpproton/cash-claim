@@ -11,6 +11,7 @@ namespace XClaim.Common.Entities;
 public sealed class UserEntity : BaseEntity {
     [MaxLength(256)]
     public string Email { get; set; } = string.Empty;
+    public FileEntity? ProfileImage { get; set; }
     [MaxLength(64)]
     public string Phone { get; set; } = string.Empty;
     [MaxLength(128)]
