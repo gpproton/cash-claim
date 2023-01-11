@@ -1,5 +1,5 @@
+@inject AppState State;
 @code{
-
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -7,13 +7,16 @@
     public RenderFragment? Content { get; set; }
 
     [Parameter]
-    public string AppTitle { get; set; } = "Proton.Frequency";
+    public string AppTitle { get; set; } = "X-Claim";
 
     protected override void OnParametersSet() {
         base.OnParametersSet();
         Content = ChildContent ?? Content;
+        State.LayoutTitle = Content;
+        State.StateChanged += StateHasChanged;
     }
+    public void Dispose() => State.StateChanged += StateHasChanged;
 
 }
 
-<PageTitle>@Content :: @AppTitle</PageTitle>
+<PageTitle>@State.LayoutTitle :: @AppTitle</PageTitle>

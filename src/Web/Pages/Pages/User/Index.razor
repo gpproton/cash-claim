@@ -14,14 +14,12 @@
     private string _selectedItemText = "No row clicked";
     private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
 
-    // protected override async Task OnInitializedAsync() {
-    //     _elements = await HttpClient.GetFromJsonAsync<List<PaymentDto>>("api/source");
-    // }
-
     void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) {
         _selectedItemText = $"{args.Item.Amount}";
     }
 }
+
+<Title>Users Management</Title>
 
 <MudDialog @bind-IsVisible="_filterTable">
     <TitleContent>
