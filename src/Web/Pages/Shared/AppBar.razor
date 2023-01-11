@@ -35,7 +35,7 @@
 <MudAppBar Elevation="3">
     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" 
                    OnClick="async () => await OnSidebarToggled.InvokeAsync()" />
-    <MudText Class="text-white px-2" Typo="Typo.h5">@State.LayoutTitle</MudText>
+    <MudText Class="text-white" Typo="Typo.h5" Inline="true">@State.LayoutTitle</MudText>
     <MudSpacer />
     @if (_isLightMode)
     {
