@@ -13,5 +13,6 @@ public sealed class CompanyEntity : BaseEntity {
     public string? Email { get; set; }
     public UserEntity? Manager { get; set; }
     public Guid? ManagerId { get; set; }
+    public ICollection<DomainEntity>? Domains { get; set; }
     public ICollection<UserEntity>? Members { get; set; }
 }
