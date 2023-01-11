@@ -7,5 +7,7 @@
     <MudButton Variant="Variant.Outlined" Style="@($"color:{Colors.Shades.White};")" Size="Size.Large" Href="/api/v1/auth/sign-in">Sign In</MudButton>
 </MudAppBar>
 <MudMainContent>
-    @Body
+    <MudContainer>
+        @Body
+    </MudContainer>
 </MudMainContent>
