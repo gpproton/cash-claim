@@ -11,7 +11,6 @@
     // private MudTable<PaymentResponse>? _table;
     private string _selectedItemText = "No row clicked";
     private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-
     // protected override async Task OnInitializedAsync() {
     //     _elements = await HttpClient.GetFromJsonAsync<List<PaymentDto>>("api/source");
     // }
@@ -36,10 +35,10 @@
 
 <MudTable @bind-SelectOnRowClick="@_selectOnRowClick" Height="500px" Hover="true" Items="@_elements" OnRowClick="@OnRowClick" T="PaymentResponse">
     <ToolBarContent>
-        <MudText Typo="Typo.h6">Personal Claims</MudText>
+        <MudTextField @bind-Value="_searchText" Style="'width: 235'" Variant="Variant.Outlined" DisableUnderLine="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         <MudSpacer />
-        <MudTextField @bind-Value="_searchText" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.FilterAlt" Color="Color.Primary" OnClick="() => _filterTable = !_filterTable" Class="px-10"></MudButton>
+        <MudIconButton Class="px-3 py-2 mr-2" Icon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" />
+        <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.FilterAlt" Variant="Variant.Filled" Color="Color.Primary" OnClick="() => _filterTable = !_filterTable"  Size="Size.Large" />
     </ToolBarContent>
     <HeaderContent>
         <MudTh>Description</MudTh>
