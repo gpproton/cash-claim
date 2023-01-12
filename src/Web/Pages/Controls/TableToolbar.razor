@@ -41,6 +41,9 @@
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
+    public string DialogTitle { get; set; } = "Filter";
+
+    [Parameter]
     public DialogParameters DialogParameters { get; set; } = new() { };
 
     [Parameter]
@@ -48,7 +51,7 @@
     
     async Task TriggerFilter()
     {
-        var dialog = await DialogService.ShowAsync<TDialog>("Filter", DialogParameters, DialogOptions);
+        var dialog = await DialogService.ShowAsync<TDialog>(DialogTitle, DialogParameters, DialogOptions);
         var result = await dialog.Result;
         if (result.Canceled) Value = result.Data.As<TValue>();
     }
