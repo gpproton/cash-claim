@@ -101,7 +101,7 @@ if (uploadService != null) {
 
     void OnPrepareResponse(StaticFileResponseContext ctx) {
         if (!ctx.Context.Request.Path.StartsWithSegments("/static")) return;
-        
+
         ctx.Context.Response.Headers.Add("Cache-Control", "no-store");
         if (ctx.Context.User.Identity == null || ctx.Context.User.Identity.IsAuthenticated) return;
         ctx.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;

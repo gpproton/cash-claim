@@ -29,14 +29,14 @@ public class ProfileModule : IModule {
 
             var fullName = context.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
             var phone = context.User.FindFirst(ClaimTypes.MobilePhone)?.Value ?? "";
-            
+
             var names = fullName.Split(" ");
             var profile = new Common.Dtos.ProfileResponse(email!, names[0], names[^1], phone);
-            
+
             context.Response.StatusCode = (int)HttpStatusCode.OK;
             var expiry = DateTime.Now.AddHours(24);
             await context.Response.WriteAsJsonAsync(
-                new AuthResponse(false, expiry, 0, null,  "Success", Data: profile)
+                new AuthResponse(false, expiry, 0, null, "Success", Data: profile)
                 );
         }).WithName("AccountProfile").WithOpenApi();
 

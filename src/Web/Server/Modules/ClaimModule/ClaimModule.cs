@@ -30,12 +30,12 @@ public class ClaimModule : IModule {
             await sv.CreateAsync(value);
             return TypedResults.Created($"{url}/{value.Id}", value);
         }).WithName($"Create{name}").WithOpenApi();
-        
+
         group.MapPost("/upload/{Id:guid}", async (Guid? Id, ClaimService sv, IFormFileCollection files, FileUploadService upload) => {
-                var uploads = await upload.UploadFiles(files);
-                // TODO: Get claim and save in upload service
-                return TypedResults.Ok(uploads);
-            })
+            var uploads = await upload.UploadFiles(files);
+            // TODO: Get claim and save in upload service
+            return TypedResults.Ok(uploads);
+        })
             .Accepts<IFormFileCollection>("multipart/form-data")
             .Produces<List<FileResponse>>()
             .WithName($"Upload{name}Files").WithOpenApi();
@@ -44,10 +44,10 @@ public class ClaimModule : IModule {
             var result = await sv.UpdateAsync(value);
             return result is null ? Results.NotFound() : TypedResults.Ok(value);
         }).WithName($"Update{name}").WithOpenApi();
-        
+
         group.MapPost("/review/{id:guid}", (ClaimService sv) => {
             // TODO: new claim review serviuce
-            
+
             Results.Ok();
         }).WithName($"Review{name}").WithOpenApi();
 

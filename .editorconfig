@@ -67,7 +67,7 @@ cpp_space_pointer_reference_alignment = left
 cpp_space_around_ternary_operator = insert
 cpp_wrap_preserve_blocks = one_liners
 
-[*.{cs,vb}]
+[*.{cs,vb,razor}]
 #### Naming styles ####
 
 # Naming rules
@@ -150,7 +150,7 @@ dotnet_style_qualification_for_method = false:silent
 dotnet_style_qualification_for_event = false:silent
 insert_final_newline = false
 
-[*.cs]
+[*.{cs,razor}]
 csharp_indent_labels = one_less_than_current
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion

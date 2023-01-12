@@ -54,10 +54,11 @@ public partial class AuthViewModel : BaseViewModel {
                 new Uri($"{AppConst.AuthUri}"),
                 new Uri(redirect)
                 );
-            
+
             Console.WriteLine(result);
             await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
-        } catch (TaskCanceledException e) {
+        }
+        catch (TaskCanceledException e) {
             Console.WriteLine(e);
         }
     }

@@ -22,24 +22,24 @@ public class FileUploadService {
             var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim().ToString();
             var saveName = Guid.NewGuid() + extension;
             var filePath = Path.Combine(GetDatePath(), saveName);
-                    
+
             if (!Directory.Exists(storePath)) Directory.CreateDirectory(storePath);
             var savePath = Path.Combine(storePath, saveName);
             await using var stream = File.Create(savePath);
             await file.CopyToAsync(stream);
             uploads.Add(new FileResponse(fileName, filePath, extension));
         }
-        
+
         return uploads;
     }
-    
+
     private static string GetDatePath() => Path.Combine(DateTime.UtcNow.ToString("yyyy"), DateTime.UtcNow.ToString("MMMM"), DateTime.UtcNow.ToString("dd"));
 
     public string GetUploadFullPath() => Path.Combine(GetUploadRootPath(), GetDatePath());
 
     public string GetUploadRootPath() {
         var filesUploadPath = _config.GetValue<string>("UploadPath");
-        
+
         return filesUploadPath ?? Path.Combine(Directory.GetCurrentDirectory(), StaticFolderName);
     }
 }

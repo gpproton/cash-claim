@@ -11,6 +11,6 @@ public class AppState {
         LayoutTitle = value;
         NotifyStateChanged();
     }
-    
+
     private void NotifyStateChanged() => StateChanged?.Invoke();
 }

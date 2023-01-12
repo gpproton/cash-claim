@@ -31,16 +31,17 @@ public class AuthModule : IModule {
             .WithOpenApi();
 
         group.MapGet("/sign-in/mobile/", async (HttpRequest request, [FromQuery] string? scheme) => {
-                var schemeValue = scheme.IsNullOrEmpty() ? "Microsoft" : scheme;
-                var auth = await request.HttpContext.AuthenticateAsync(schemeValue);
+            var schemeValue = scheme.IsNullOrEmpty() ? "Microsoft" : scheme;
+            var auth = await request.HttpContext.AuthenticateAsync(schemeValue);
             const string callbackScheme = "xclaim";
-            
+
             if (!auth.Succeeded
                 || auth?.Principal == null
                 || !auth.Principal.Identities.Any(id => id.IsAuthenticated)
                 || string.IsNullOrEmpty(auth.Properties.GetTokenValue("access_token"))) {
                 await request.HttpContext.ChallengeAsync(schemeValue);
-            } else {
+            }
+            else {
                 var claims = auth.Principal.Identities.FirstOrDefault()?.Claims;
                 string? address = claims?.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
                 if (address != null) {

@@ -29,7 +29,7 @@ public class PaymentModule : IModule {
             var result = await sv.UpdateAsync(value);
             return result is null ? Results.NotFound() : TypedResults.Ok(value);
         }).WithName($"Confirm{name}").WithOpenApi();
-        
+
         group.MapPost("/cancel/{id:guid}", async (Guid id, PaymentService sv) => {
             var item = await sv.DeleteAsync(id);
             return item is null ? Results.NotFound() : TypedResults.Ok(item);
