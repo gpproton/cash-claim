@@ -1,4 +1,7 @@
-@inject AppState State;
+@using XClaim.Web.Shared.States
+@implements IDisposable
+@inject AppState AppState;
+
 @code{
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -11,12 +14,11 @@
 
     protected override void OnParametersSet() {
         base.OnParametersSet();
-        Content = ChildContent ?? Content;
-        State.LayoutTitle = Content;
-        State.StateChanged += StateHasChanged;
+        AppState.SetLayoutTitle(Content = ChildContent ?? Content);
+        AppState.OnChange += StateHasChanged;
     }
-    public void Dispose() => State.StateChanged += StateHasChanged;
-
+    
+    public void Dispose() => AppState.OnChange -= StateHasChanged;
 }
 
-<PageTitle>@State.LayoutTitle :: @AppTitle</PageTitle>
+<PageTitle>@AppState.LayoutTitle :: @AppTitle</PageTitle>

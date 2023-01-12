@@ -1,18 +1,22 @@
 ﻿@inherits LayoutComponentBase
-@layout RootLayout
+@implements IDisposable
+@inject AppState AppState
 
 @code {
-
     [CascadingParameter]
     RootLayout Layout { get; set; } = default!;
-    private bool _sidebarOpen = true;
-
-    private async Task ToggleTheme(MudTheme changedTheme) => await Layout.SetTheme(changedTheme);
-    private void ToggleSidebar() => _sidebarOpen = !_sidebarOpen;
+    
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        AppState.OnChange += StateHasChanged;
+    }
+    
+    public void Dispose() => AppState.OnChange -= StateHasChanged;
+    
 }
 
-<AppBar OnSidebarToggled="ToggleSidebar" OnThemeToggled="ToggleTheme" />
-<NavMenu SideBarOpen="_sidebarOpen" />
+<AppBar />
+<NavMenu SideBarOpen="AppState.IsSidebarOpen" />
 <MudMainContent Class="pt-16 px-sm-0 px-md-12">
     <MudContainer Class="mt-6">
         @Body

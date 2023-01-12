@@ -1,15 +1,25 @@
 @inherits LayoutComponentBase
+@implements IDisposable
+@inject ThemeState ThemeState
 
 @code {
-    MudTheme _currentTheme = new();
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        ThemeState.OnChange += StateHasChanged;
+    }
 
-    public async Task SetTheme(MudTheme themeValue) => await Task.FromResult(_currentTheme = themeValue);
+    public void Dispose() => ThemeState.OnChange -= StateHasChanged;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
 }
 
-<MudThemeProvider Theme="_currentTheme" />
+<MudThemeProvider Theme="ThemeState.CurrentTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <CascadingValue Value="this">
-<MudLayout>@Body</MudLayout>
+    <MudLayout>
+        @ChildContent
+    </MudLayout>
 </CascadingValue>
