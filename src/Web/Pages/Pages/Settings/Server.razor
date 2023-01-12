@@ -2,8 +2,23 @@
 
 <Title>Server options</Title>
 
-<h3>Index</h3>
+<MudGrid Justify="Justify.Center" Class="mt-6">
+    <MudItem xs="12" md="6">
+        <MudGrid>
+            <MudItem xs="6">
+                <MudTextField T="string" Label="Field 1"/>
+            </MudItem>
+            <MudItem xs="6">
+                <MudTextField T="string" Label="Field 2"/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField T="string" Label="Field 3"/>
+            </MudItem>
+            <MudItem xs="12" Class="d-flex justify-center">
+                <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large" Class="mt-8 px-12 py-3">Save</MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+</MudGrid>
 
-@code {
-    
-}
+@code { }

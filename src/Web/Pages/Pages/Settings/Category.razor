@@ -1,45 +1,21 @@
+@using XClaim.Common.Dtos
+
 @page "/app/settings/category"
 
-@using XClaim.Common.Dtos
-@* @inject HttpClient HttpClient *@
-
-
 @code {
-    private string _searchText = "";
-    private bool _filterTable = false;
-    private HashSet<PaymentResponse> _selectedItems = new HashSet<PaymentResponse>();
-    private IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
+    private string _search = string.Empty;
+    private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
+    private HashSet<PaymentResponse> _selectedItems = new ();
+    private readonly IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
     private bool _selectOnRowClick = true;
-    // private MudTable<PaymentResponse>? _table;
-    private string _selectedItemText = "No row clicked";
-    private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-
-    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) {
-        _selectedItemText = $"{args.Item.Amount}";
-    }
+    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
 }
 
 <Title>Claim categories</Title>
 
-<MudDialog @bind-IsVisible="_filterTable">
-    <TitleContent>
-        <MudText Typo="Typo.h6">
-           Filter period
-        </MudText>
-    </TitleContent>
-    <DialogContent>
-        <div class="pa-2">
-            <MudDateRangePicker Label="Range picker" DateFormat="dd-MMM-yyyy" TitleDateFormat="dddd, dd. MMMM" @bind-DateRange="_dateRange" />
-        </div>
-    </DialogContent>
-</MudDialog>
-
-<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="500px" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="PaymentResponse">
+<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="PaymentResponse">
     <ToolBarContent>
-        <MudText Typo="Typo.h6">Users Management</MudText>
-        <MudSpacer />
-        <MudTextField @bind-Value="_searchText" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.FilterAlt" Color="Color.Primary" OnClick="() => _filterTable = !_filterTable" Class="px-10"></MudButton>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
     </ToolBarContent>
     <HeaderContent>
         <MudTh>Name</MudTh>

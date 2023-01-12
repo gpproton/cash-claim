@@ -5,7 +5,7 @@
 @code {
     private string _search = string.Empty;
     private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-    private IEnumerable<PaymentResponse> _content = new List<PaymentResponse>();
+    private readonly IEnumerable<PaymentResponse> _content = new List<PaymentResponse>();
     private bool _selectOnRowClick = true;
     void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
 }
