@@ -19,6 +19,4 @@ public class ClaimFilter : GenericFilter {
     [CompareTo("CreatedAt")]
     [OperatorComparison(OperatorType.LessThanOrEqual)]
     public DateTime? EndDate { get; set; }
-
-
 }
