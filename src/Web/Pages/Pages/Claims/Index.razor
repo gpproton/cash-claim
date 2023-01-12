@@ -22,7 +22,7 @@
 
 <MudTable @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_content" OnRowClick="@OnRowClick" T="PaymentResponse">
     <ToolBarContent>
-        <TableToolbar TDialog="DateFilterDialog" TValue="DateRange" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
     </ToolBarContent>
     <HeaderContent>
         <MudTh>Description</MudTh>

@@ -1,19 +1,22 @@
 @page "/app/registration"
 
+@code {
+    
+}
+
 <Title>Registration</Title>
 
 <MudContainer Class="mt-16" MaxWidth="MaxWidth.Medium">
     <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Verify Account</MudText>
     <MudGrid Justify="Justify.Center" Class="mt-8">
-        <MudItem xs="6">
+        <MudItem xs="12" sm="6">
             <MudGrid>
                 <MudItem  xs="12" Class="d-flex justify-center">
                     <MudSelect T="string" Label="Company" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary">
                         <MudSelectItem Value="@("foo")">Foo</MudSelectItem>
                         <MudSelectItem Value="@("bar")">Bar</MudSelectItem>
                     </MudSelect>
-                    </MudItem>
-                
+                </MudItem>
                 <MudItem xs="6">
                     <MudTextField T="string" Label="First name"/>
                 </MudItem>
@@ -29,14 +32,10 @@
                 <MudItem xs="12">
                     <MudTextField T="string" Label="Address"/>
                 </MudItem>
-            <MudItem xs="12" Class="d-flex justify-center">
-                                <MudButton Variant="Variant.Filled" Href="/app/claims" DisableElevation="true" Color="Color.Primary" Size="Size.Large" Class="mt-8">Continue</MudButton>
-                            </MudItem>
+                <MudItem xs="12" Class="d-flex justify-center">
+                    <MudButton Variant="Variant.Filled" Href="/app/claims" DisableElevation="true" Color="Color.Primary" Size="Size.Large" Class="mt-8">Continue</MudButton>
+                </MudItem>
             </MudGrid>
         </MudItem>
     </MudGrid>
 </MudContainer>
-
-@code {
-    
-}

@@ -1,11 +1,8 @@
 @code {
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; } = default!;
-    
-    [Parameter]
-    public int DefaultValue { get; set; } = -1;
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(DefaultValue));
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
 }
 
 <MudDialog>
@@ -13,9 +10,25 @@
         <MudText Align="Align.Center" Typo="Typo.h5">@MudDialog.Title</MudText>
     </TitleContent>
     <DialogContent>
-        <div class="pa-2"></div>
+        <MudContainer Class="my-4" MaxWidth="MaxWidth.Small">
+        <MudGrid Justify="Justify.Center">
+            <MudItem xs="12">
+                <MudGrid>
+                    <MudItem xs="6">
+                        <MudTextField T="string" Label="Field 1"/>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudTextField T="string" Label="Field 2"/>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTextField T="string" Label="Field 3"/>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+        </MudGrid>
+        </MudContainer>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Size="Size.Large" Class="px-10">Submit</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Size="Size.Large" Class="px-12 py-4">Save</MudButton>
     </DialogActions>
 </MudDialog>

@@ -1,5 +1,6 @@
 @inject IDialogService DialogService
-@typeparam TDialog where TDialog : ComponentBase
+@typeparam TFilter where TFilter : ComponentBase
+@typeparam TCreate where TCreate : ComponentBase
 @typeparam TValue
 
 @code {
@@ -34,14 +35,17 @@
     
     // Create click event callback
     [Parameter]
-    public EventCallback OnCreateClicked { get; set; }
+    public EventCallback<bool> OnCreateClicked { get; set; }
 
     // Extra content
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
-    public string DialogTitle { get; set; } = "Filter";
+    public string FilterTitle { get; set; } = "Filter";
+    
+    [Parameter]
+    public string CreateTitle { get; set; } = "Create";
 
     [Parameter]
     public DialogParameters DialogParameters { get; set; } = new() { };
@@ -49,11 +53,25 @@
     [Parameter]
     public DialogOptions DialogOptions { get; set; } = new () { CloseButton = false, MaxWidth = MaxWidth.ExtraSmall };
     
+    [Parameter]
+    public DialogOptions CreateDialogOptions { get; set; } = new () { CloseButton = false, MaxWidth = MaxWidth.Medium };
+    
     async Task TriggerFilter()
     {
-        var dialog = await DialogService.ShowAsync<TDialog>(DialogTitle, DialogParameters, DialogOptions);
+        var dialog = await DialogService.ShowAsync<TFilter>(FilterTitle, DialogParameters, DialogOptions);
         var result = await dialog.Result;
-        if (result.Canceled) Value = result.Data.As<TValue>();
+        if (!result.Canceled) Value = result.Data.As<TValue>();
+    }
+
+    async Task TriggerCreate()
+    {
+        var dialog = await DialogService.ShowAsync<TCreate>(CreateTitle, DialogParameters, CreateDialogOptions);
+        var result = await dialog.Result;
+        if (!result.Canceled)
+        {
+            result.Data.As<bool>();
+            await OnCreateClicked.InvokeAsync(true);
+        }
     }
 }
 
@@ -62,6 +80,6 @@
 @ChildContent
 @if (IsFilterActive)
 {
-    <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Tune" Variant="Variant.Filled" OnClick="@TriggerFilter" Color="Color.Primary" Size="Size.Large" />
+    <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Tune" Variant="Variant.Filled" OnClick="TriggerFilter" Color="Color.Primary" Size="Size.Large" />
 }
-<MudIconButton Class="px-3 py-2 mx-2" Icon="@Icons.Material.Filled.Add" OnClick="() => OnCreateClicked.InvokeAsync()" Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" />
+<MudIconButton Class="px-3 py-2 mx-2" Icon="@Icons.Material.Filled.Add" OnClick="TriggerCreate" Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" />
