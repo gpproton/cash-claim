@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using MudBlazor.Services;
 using XClaim.Web.Client;
+using XClaim.Web.Components.Extensions;
 using XClaim.Web.Shared;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -11,7 +11,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient {
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 });
-builder.Services.AddScoped<AppState>();
-builder.Services.AddMudServices();
+
+builder.Services.UseSharedExtensions();
+builder.Services.UseComponentsExtensions();
 
 await builder.Build().RunAsync();
