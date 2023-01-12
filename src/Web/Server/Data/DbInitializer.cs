@@ -17,6 +17,14 @@ public class DbInitializer {
             new () { Id = Guid.NewGuid(), Name = "First Bank"}
         };
 
+        var currencies = new List<CurrencyEntity>() { };
+
+        var companies = new List<CompanyEntity>() { };
+
+        var categories = new List<CategoryEntity>() { };
+
+        var users = new List<UserEntity>() { };
+
         _modelBuilder.Entity<BankEntity>().HasData(banks);
     }
 }
