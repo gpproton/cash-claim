@@ -1,20 +1,12 @@
 @using XClaim.Common.Dtos
 
 @page "/app/claims"
-@* @inject HttpClient HttpClient *@
-
 
 @code {
     private string _search = string.Empty;
     private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-    
     private IEnumerable<PaymentResponse> _content = new List<PaymentResponse>();
     private bool _selectOnRowClick = true;
-    // private MudTable<PaymentResponse>? _table;
-    // protected override async Task OnInitializedAsync() {
-    //     _content = await HttpClient.GetFromJsonAsync<List<PaymentDto>>("api/source");
-    // }
-
     void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
 }
 
