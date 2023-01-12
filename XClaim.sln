@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Shared", "src\We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Server", "src\Web\Server\XClaim.Web.Server.csproj", "{99DEBF10-65B6-46CB-9C96-2EAD48EA1A8E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Components", "src\Web\Pages\XClaim.Web.Components.csproj", "{0690CD4D-1E60-47CF-A386-E9CC8F6970F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Components", "src\Web\Components\XClaim.Web.Components.csproj", "{0690CD4D-1E60-47CF-A386-E9CC8F6970F4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Client", "src\Web\Client\XClaim.Web.Client.csproj", "{9B7D4199-1098-4A91-9642-655510A60BE4}"
 EndProject
