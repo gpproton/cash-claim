@@ -18,15 +18,13 @@ public class AuthProvider : AuthenticationStateProvider {
             var userSession = await _sessionStorage.GetAsync<AuthResponse>("UserSession");
             if (userSession == null)
                 return await Task.FromResult(new AuthenticationState(_anonymous));
-            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
-            {
-                    new Claim(ClaimTypes.Name, userSession.UserName),
-                    new Claim(ClaimTypes.Role, userSession.Role)
-                }, "JwtAuth"));
+            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> {
+                new(ClaimTypes.Name, userSession.UserName),
+                new(ClaimTypes.Role, userSession.Role)
+            }, "SessionAuth"));
 
             return await Task.FromResult(new AuthenticationState(claimsPrincipal));
-        }
-        catch {
+        } catch {
             return await Task.FromResult(new AuthenticationState(_anonymous));
         }
     }

@@ -23,6 +23,11 @@ public class UserModule : IModule {
             var result = await sv.GetByIdAsync(id);
             return TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
+        
+        group.MapGet("/{email}", async (string email, UserService sv) => {
+            var result = await sv.GetByEmailAsync(email);
+            return result is null ? Results.NotFound() : TypedResults.Ok(result);
+        }).WithName($"Get{name}ByEmail").WithOpenApi();
 
         group.MapPost("/", async (UserResponse value, UserService sv) => {
             await sv.CreateAsync(value);

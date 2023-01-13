@@ -11,8 +11,8 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
     where TEntity : class, IBaseEntity
     where TResponse : BaseResponse {
 
-    private readonly TContext _ctx;
-    private readonly IMapper _mapper;
+    protected readonly TContext _ctx;
+    protected readonly IMapper _mapper;
 
     protected GenericService(TContext ctx, IMapper mapper) {
         _ctx = ctx;

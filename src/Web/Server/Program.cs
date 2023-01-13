@@ -19,7 +19,7 @@ builder.Services.AddDbContext<ServerContext>(options => {
 builder.Services.AddTransient<FileUploadService>();
 
 builder.Services.Configure<CookiePolicyOptions>(options => {
-    options.CheckConsentNeeded = context => true;
+    options.CheckConsentNeeded = _ => true;
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
 

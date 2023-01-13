@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Mvc;
 using Nextended.Core.Extensions;
+using XClaim.Web.Shared;
 
 namespace XClaim.Web.Server.Modules.AuthModule;
 
@@ -18,9 +19,7 @@ public class AuthModule : IModule {
         var group = endpoints.MapGroup(url).WithTags(name);
 
         group.MapGet("/sign-in", ([FromQuery] string? redirect) => {
-            // TODO: use config or default host URL
-            const string redirectConfig = "https://localhost:7001";
-            var redirectValue = redirect.IsNullOrEmpty() ? redirectConfig : redirect;
+            var redirectValue = redirect.IsNullOrEmpty() ? WebConst.RootUri : redirect;
             var props = new AuthenticationProperties {
                 IsPersistent = true,
                 RedirectUri = redirectValue
@@ -64,10 +63,10 @@ public class AuthModule : IModule {
         }).WithName("MobileSignIn")
         .WithOpenApi();
 
-        group.MapGet("/sign-out", async context => {
-            await context.SignOutAsync();
+        group.MapPost("/sign-out", async (HttpRequest request) => {
+             await request.HttpContext.SignOutAsync();
 
-            Results.Redirect("/");
+            return Results.Ok(true);
         }).WithName("SignOut")
             .WithOpenApi();
 
