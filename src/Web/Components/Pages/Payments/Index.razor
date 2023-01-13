@@ -1,6 +1,7 @@
 @using XClaim.Common.Dtos
 
 @page "/app/payments"
+@attribute [Authorize]
 
 @code {
     private string _search = string.Empty;

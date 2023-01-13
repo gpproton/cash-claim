@@ -1,7 +1,12 @@
-@using XClaim.Web.Shared.States
+@using Blazored.SessionStorage
+@using XClaim.Common.Dtos
 @implements IDisposable
 @inject AppState AppState
 @inject ThemeState ThemeState
+@inject NavigationManager Nav
+@inject IProfileService UserService
+@inject ISessionStorageService SessionStorage
+@inject AuthenticationStateProvider AuthProvider
 
 @code {
     protected override void OnInitialized() {
@@ -13,6 +18,13 @@
     public void Dispose() {
         AppState.OnChange -= StateHasChanged;
         ThemeState.OnChange -= StateHasChanged;
+    }
+
+    async Task SignOut() {
+        var auth = (AuthProvider)AuthProvider;
+        await UserService.SignOutAsync();
+        await auth.UpdateAuthenticationState(null);
+        Nav.NavigateTo(WebConst.AppAuth, true);
     }
 }
 
@@ -26,16 +38,18 @@
         <MudIconButton Icon="@Icons.Material.Filled.Brightness5" Color="Color.Inherit" OnClick="ThemeState.ToggleTheme" />
     }
     
-    <MudMenu FullWidth="true">
+    <MudMenu FullWidth="true" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter" Variant="Variant.Filled">
         <ActivatorContent>
-            <MudBadge Color="Color.Success" Class="mx-2" Overlap="true" Bordered="true">
-                <MudAvatar>SA</MudAvatar>
-            </MudBadge>
+            <div class="pl-md-8 pr-md-6">
+                <MudBadge Color="Color.Success" Class="mx-2" Overlap="true" Bordered="true">
+                    <MudAvatar>SA</MudAvatar>
+                </MudBadge>
+            </div>
         </ActivatorContent>
         <ChildContent>
-            <MudMenuItem>Profile</MudMenuItem>
-            <MudMenuItem>Bank</MudMenuItem>
-            <MudMenuItem>Sign Out</MudMenuItem>
+            <MudMenuItem Href="app/user/profile">Profile</MudMenuItem>
+            <MudMenuItem Href="/app/user/bank-account">Bank Act</MudMenuItem>
+            <MudMenuItem OnClick="SignOut">Sign Out</MudMenuItem>
         </ChildContent>
     </MudMenu>
 </MudAppBar>
