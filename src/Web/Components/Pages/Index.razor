@@ -1,16 +1,14 @@
-﻿@inject NavigationManager Nav
-@layout RootLayout
-@page "/"
+﻿@page "/"
+@inject AuthenticationHandler _auth
 
-@functions{
+@code {
 
-    protected override void OnInitialized() {
-        base.OnInitialized();
-        Nav.NavigateTo("/app/auth");
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        await _auth.BootstrapAuth();
     }
-
 }
 
-<Title>Bootstraping App</Title>
+<Title>Bootstrapping...</Title>
 
-<MudText Class="mb-8">Bootstraping...!</MudText>
+<MudProgressCircular Color="Color.Primary" Style="height:128px;width:128px;" Indeterminate="true" />

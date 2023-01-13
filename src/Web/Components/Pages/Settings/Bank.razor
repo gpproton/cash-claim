@@ -1,6 +1,6 @@
-@page "/app/users"
-
 @using XClaim.Common.Dtos
+
+@page "/app/settings/banks"
 
 @code {
     private string _search = string.Empty;
@@ -11,24 +11,20 @@
     void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
 }
 
-<Title>Users management</Title>
+<Title>Banks</Title>
 
 <MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="PaymentResponse">
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>First name</MudTh>
-        <MudTh>Last name</MudTh>
-        <MudTh>Email</MudTh>
-        <MudTh>Company</MudTh>
-        <MudTh>Permission</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Active</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Description">x</MudTd>
         <MudTd DataLabel="Amount">@context.Amount</MudTd>
         <MudTd DataLabel="Category">x</MudTd>
-        <MudTd DataLabel="Status">x</MudTd>
         <MudTd DataLabel="Status">x</MudTd>
     </RowTemplate>
     <PagerContent>
