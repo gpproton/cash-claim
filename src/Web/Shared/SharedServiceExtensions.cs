@@ -13,9 +13,9 @@ public static class SharedServiceExtensions {
         services.AddBlazoredSessionStorage();
         services.AddSingleton<AppState>();
         services.AddSingleton<ThemeState>();
+        services.AddScoped<AuthState>();
         services.AddScoped<AuthenticationStateProvider, AuthProvider>();
         services.AddAuthorizationCore();
-        services.AddScoped<AuthenticationHandler>();
 
         // HTTP Services
         services.AddScoped<IProfileService, ProfileService>();

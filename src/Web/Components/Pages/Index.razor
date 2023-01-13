@@ -1,11 +1,11 @@
 ﻿@page "/"
-@inject AuthenticationHandler _auth
+@inject AuthState Auth
 
 @code {
 
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
-        await _auth.BootstrapAuth();
+        await Auth.BootstrapAuth();
     }
 }
 
