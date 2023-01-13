@@ -1,9 +1,15 @@
 @inherits LayoutComponentBase
+@inject NavigationManager Nav
+
+@code {
+    void SignIn() => Nav.NavigateTo($"{Nav.BaseUri}{WebConst.ApiAuth}", true);
+
+}
 
 <MudAppBar Elevation="1">
     <MudText Typo="Typo.h5" Class="ml-3">X-Claim</MudText>
     <MudSpacer />
-    <MudButton Variant="Variant.Outlined" Style="@($"color:{Colors.Shades.White};")" Size="Size.Large" Href="/auth/sign-in">Sign In</MudButton>
+    <MudButton Variant="Variant.Outlined" Class="px-12 px-4 white text-indigo" Size="Size.Large" OnClick="SignIn">Sign In</MudButton>
 </MudAppBar>
 <MudMainContent>
     <MudContainer>
