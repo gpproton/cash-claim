@@ -17,6 +17,8 @@ public class DbInitializer {
             new () { Id = Guid.NewGuid(), Name = "First Bank"}
         };
 
+        var address = new List<DomainEntity>() { };
+
         var currencies = new List<CurrencyEntity>() { };
 
         var companies = new List<CompanyEntity>() { };
