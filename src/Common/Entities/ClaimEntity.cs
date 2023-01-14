@@ -31,6 +31,6 @@ public sealed class ClaimEntity : BaseEntity {
     public UserEntity? ApprovedBy { get; set; }
     public Guid? ApprovedById { get; set; }
     public DateTime? ApprovedAt { get; set; }
-    public ICollection<FileEntity>? Files { get; set; }
-    public ICollection<CommentEntity>? Comments { get; set; }
+    public ICollection<FileEntity> Files { get; set; } = default!;
+    public ICollection<CommentEntity> Comments { get; set; } = default!;
 }

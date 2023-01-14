@@ -20,5 +20,6 @@ public sealed class PaymentEntity : BaseEntity {
         }
     }
     public Guid? CompletedById { get; set; }
-    public ICollection<ClaimEntity>? Claims { get; set; }
+    public ICollection<FileEntity> Files { get; set; } = default!;
+    public ICollection<CommentEntity> Comments { get; set; } = default!;
 }

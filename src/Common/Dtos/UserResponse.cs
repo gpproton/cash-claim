@@ -18,7 +18,8 @@ public class UserResponse : BaseResponse {
     public UserResponse? Manager { get; set; }
     public TeamResponse? Team { get; set; }
     public TeamResponse? TeamManaged { get; set; }
-    public BankAccount? BankAccount { get; set; }
+    public BankAccountResponse? BankAccount { get; set; }
     public bool Verified { get; set; }
     public string Token { get; set; } = String.Empty;
+    public string? Image { get; set; }
 }

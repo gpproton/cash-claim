@@ -17,5 +17,5 @@ public class ClaimResponse : BaseResponse {
     public DateTime? ConfirmedAt { get; set; }
     public UserResponse? ApprovedBy { get; set; }
     public DateTime? ApprovedAt { get; set; }
-    public ICollection<FileResponse>? Files { get; set; }
+    public ICollection<FileResponse> Files { get; set; } = default!;
 }

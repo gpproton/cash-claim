@@ -37,4 +37,5 @@ public sealed class UserEntity : BaseEntity {
     public bool Verified { get; set; }
     [MaxLength(128)]
     public string? Token { get; set; }
+    public string? Image { get; set; }
 }

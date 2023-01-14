@@ -5,12 +5,11 @@ namespace XClaim.Common.Entities;
 
 public sealed class FileEntity : BaseEntity {
     [MaxLength(256)]
-    public string? Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     [Required]
     [MaxLength(1024)]
     public string? Path { get; set; }
     [MaxLength(8)]
     public string? Extension { get; set; }
-    public ClaimEntity? Claim { get; set; }
-    public Guid? ClaimId { get; set; }
+    public UserEntity? Owner { get; set; }
 }

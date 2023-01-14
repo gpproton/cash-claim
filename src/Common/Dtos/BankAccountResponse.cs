@@ -2,7 +2,7 @@
 
 namespace XClaim.Common.Dtos;
 
-public class BankAccount : BaseResponse {
+public class BankAccountResponse : BaseResponse {
     public string FullName { get; set; } = string.Empty;
     public BankResponse? Bank { get; set; }
     public UserResponse? Owner { get; set; }

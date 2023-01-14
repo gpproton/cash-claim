@@ -10,5 +10,5 @@ public sealed class TeamEntity : BaseEntity {
     public Guid? CompanyId { get; set; }
     public UserEntity? Manager { get; set; }
     public Guid? ManagerId { get; set; }
-    public ICollection<UserEntity>? Members { get; set; }
+    public ICollection<UserEntity>? Members { get; set; } = default!;
 }
