@@ -27,7 +27,12 @@ public class FileUploadService {
             var savePath = Path.Combine(storePath, saveName);
             await using var stream = File.Create(savePath);
             await file.CopyToAsync(stream);
-            uploads.Add(new FileResponse(fileName, filePath, extension));
+            var response = new FileResponse {
+                Name = fileName,
+                Path = filePath,
+                Extension = extension
+            };
+            uploads.Add(response);
         }
 
         return uploads;
