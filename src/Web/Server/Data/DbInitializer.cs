@@ -11,22 +11,62 @@ public class DbInitializer {
     }
 
     public void Seed() {
+        var time = DateTime.Now;
         var banks = new List<BankEntity> {
-            new () { Id = Guid.NewGuid(), Name = "GT Bank"},
-            new () { Id = Guid.NewGuid(), Name = "Zenith Bank"},
-            new () { Id = Guid.NewGuid(), Name = "First Bank"}
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "GT Bank" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Zenith Bank" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "First Bank" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Access Bank" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Fidelity Bank" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "First City Monument Bank" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Union Bank of Nigeria" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "United Bank for Africa" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Sterling Bank" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Wema Bank" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Stanbic IBTC Bank" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Polaris Bank Limited" },
+            new BankEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Keystone Bank Limited"}
         };
 
-        var address = new List<DomainEntity>() { };
+        var domains = new List<DomainEntity> {
+            new DomainEntity { Id = Guid.NewGuid(), CreatedAt = time, Address = "tolaram.com" },
+            new DomainEntity { Id = Guid.NewGuid(), CreatedAt = time, Address = "dufil.com" },
+            new DomainEntity { Id = Guid.NewGuid(), CreatedAt = time, Address = "agboolas@outlook.com"}
+        };
 
-        var currencies = new List<CurrencyEntity>() { };
+        var currencies = new List<CurrencyEntity> {
+            new CurrencyEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Naira", Symbol = "₦" },
+            new CurrencyEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Dollar", Symbol = "$" }
+        };
 
-        var companies = new List<CompanyEntity>() { };
+        var companies = new List<CompanyEntity> {
+            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "BHN LTD", FullName = "MCPL LTD - BHN Division" },
+            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "MCPL LTD", FullName = "Multi Consumer Product LTD" }
+        };
 
-        var categories = new List<CategoryEntity>() { };
+        var categories = new List<CategoryEntity> {
+            new CategoryEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "General Fuelling" },
+            new CategoryEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Internet Service" },
+            new CategoryEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "BHN - Weekly meeting expense", CompanyId = companies[0].Id },
+            new CategoryEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "MCPL - Monthly training expense", CompanyId = companies[1].Id  }
+        };
 
-        var users = new List<UserEntity>() { };
+        var users = new List<UserEntity> {
+            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "John", LastName = "Doe", UserName = "john_doe", Email = "john.doe@test.com", Phone = "+23401", CompanyId = companies[0].Id },
+            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", UserName = "jane_doe", Email = "jane.doe@test.com", Phone = "+23402", CompanyId = companies[1].Id },
+        };
+
+        var teams = new List<TeamEntity> {
+            new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Accounts Department", ManagerId = users[0].Id },
+            new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Logistics Department", ManagerId = users[1].Id }
+        };
 
         _modelBuilder.Entity<BankEntity>().HasData(banks);
+        _modelBuilder.Entity<DomainEntity>().HasData(domains);
+        _modelBuilder.Entity<CurrencyEntity>().HasData(currencies);
+        _modelBuilder.Entity<CompanyEntity>().HasData(companies);
+        _modelBuilder.Entity<CategoryEntity>().HasData(categories);
+        _modelBuilder.Entity<UserEntity>().HasData(users);
+        _modelBuilder.Entity<TeamEntity>().HasData(teams);
     }
 }
