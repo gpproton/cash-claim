@@ -3,13 +3,7 @@
 namespace XClaim.Common.Dtos;
 
 public class TeamResponse : BaseResponse {
-    public TeamResponse(string name, CompanyResponse? company, UserResponse? manager) {
-        Name = name;
-        Company = company;
-        Manager = manager;
-    }
-
-    public string Name { get; set; }
+    public string Name { get; set; }  = string.Empty;
     public CompanyResponse? Company { get; set; }
     public UserResponse? Manager { get; set; }
 }

@@ -3,17 +3,9 @@
 namespace XClaim.Common.Dtos;
 
 public class BankAccount : BaseResponse {
-    public BankAccount(string? fullName, BankResponse? bank, UserResponse? owner, string? number, string? description) {
-        FullName = fullName;
-        Bank = bank;
-        Owner = owner;
-        Number = number;
-        Description = description;
-    }
-
-    public string? FullName { get; set; }
+    public string FullName { get; set; } = string.Empty;
     public BankResponse? Bank { get; set; }
     public UserResponse? Owner { get; set; }
-    public string? Number { get; set; }
-    public string? Description { get; set; }
+    public string Number { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 }

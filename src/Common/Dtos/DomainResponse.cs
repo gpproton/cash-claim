@@ -1,7 +1,7 @@
 using XClaim.Common.Base;
 
-namespace XClaim.Common.Entities;
+namespace XClaim.Common.Dtos;
 
-public class DomainEntity : BaseEntity {
+public class DomainResponse : BaseResponse {
     public string Address { get; set; } = string.Empty;
 }

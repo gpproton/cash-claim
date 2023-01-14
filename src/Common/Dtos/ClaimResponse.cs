@@ -4,19 +4,8 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Dtos;
 
 public class ClaimResponse : BaseResponse {
-    public ClaimResponse(string description, string notes, decimal amount, CategoryResponse? category, CompanyResponse? company, UserResponse? owner, ICollection<FileResponse>? files, ClaimStatus status = ClaimStatus.Pending) {
-        Description = description;
-        Notes = notes;
-        Amount = amount;
-        Category = category;
-        Company = company;
-        Status = status;
-        Owner = owner;
-        Files = files;
-    }
-
-    public string Description { get; set; }
-    public string Notes { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public string Notes { get; set; } = string.Empty;
     public decimal Amount { get; set; }
     public CategoryResponse? Category { get; set; }
     public CompanyResponse? Company { get; set; }

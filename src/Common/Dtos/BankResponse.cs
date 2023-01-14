@@ -3,9 +3,5 @@
 namespace XClaim.Common.Dtos;
 
 public class BankResponse : BaseResponse {
-    public BankResponse(string name) {
-        Name = name;
-    }
-
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 }
