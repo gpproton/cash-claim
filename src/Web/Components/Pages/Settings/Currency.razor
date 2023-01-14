@@ -1,0 +1,36 @@
+@using XClaim.Common.Dtos
+
+@page "/app/settings/currency"
+
+@code {
+    private string _search = string.Empty;
+    private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
+    private HashSet<PaymentResponse> _selectedItems = new ();
+    private readonly IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
+    private bool _selectOnRowClick = true;
+    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
+}
+
+<Title>Currency</Title>
+
+<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="PaymentResponse">
+    <ToolBarContent>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Active</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Amount">@context.Amount</MudTd>
+        <MudTd DataLabel="Category">x</MudTd>
+        <MudTd DataLabel="Status">x</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new [] { 50, 100 }"/>
+    </PagerContent>
+    <FooterContent>
+        <MudTd colspan="5">Select All</MudTd>
+    </FooterContent>
+</MudTable>

@@ -20,7 +20,8 @@
                 new MenuLink("Companies", Icons.Material.Filled.PendingActions, "/app/settings/companies"),
                 new MenuLink("Banks", Icons.Material.Filled.Money, "/app/settings/banks"),
                 new MenuLink("Domains", Icons.Material.Filled.Computer, "/app/settings/domains"),
-                new MenuLink("Server", Icons.Material.Filled.SettingsApplications, "/app/settings/server"),
+                new MenuLink("Currency", Icons.Material.Filled.CurrencyExchange, "/app/settings/currency"),
+                new MenuLink("Server", Icons.Material.Filled.SettingsApplications, "/app/settings/server")
             }),
         new MenuLink("Users", Icons.Material.Filled.People, "/app/users"),
         new MenuLink("Help", Icons.Material.Filled.Help, "/app/help")
@@ -32,17 +33,14 @@
         <MudAvatar Rounded="true" Color="Color.Transparent" Size="Size.Medium">X</MudAvatar>
         <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-top:4px; margin-left:15px;">X-Claim</MudText>
     </MudDrawerHeader>
-    
-    <div>
-        <MudDivider Class="my-4" />
-        <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
-            @foreach (var link in _links) {
-                <MudNavLink Href="@link.Path" Icon="@link.Icon" Class="nav_link">@link.Title</MudNavLink>
-            }
-        </MudNavMenu>
-    </div>
-    
-    <div class="nav_footer mt-16 pt-8">
+    <MudDivider Class="my-4" />
+    <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
+        @foreach (var link in _links) {
+            <MudNavLink Href="@link.Path" Icon="@link.Icon" Class="nav_link">@link.Title</MudNavLink>
+        }
+    </MudNavMenu>
+
+    <div class="nav_footer mt-16 pt-6">
         <MudDivider Class="my-2" />
         @foreach (var link in _secondaryLinks) {
             <MudNavMenu href="@link.Path" Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
@@ -72,7 +70,7 @@
 }
 
 .nav_footer {
-    position: sticky;
-    bottom: 0;
+    /*position: sticky;*/
+    /*bottom: 0;*/
 }
 </style>
