@@ -97,6 +97,10 @@ app.UseAuthorization();
 var uploadService = app.Services.GetService<FileUploadService>();
 if (uploadService != null) {
     var fullUploadPath = uploadService.GetUploadRootPath();
+    if (!Directory.Exists(fullUploadPath)) {
+        Console.WriteLine("Creating static files directory");
+        Directory.CreateDirectory(fullUploadPath);
+    }
     app.UseStaticFiles();
 
     void OnPrepareResponse(StaticFileResponseContext ctx) {

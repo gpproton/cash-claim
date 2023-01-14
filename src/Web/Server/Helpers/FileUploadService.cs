@@ -10,10 +10,10 @@ public class FileUploadService {
         _config = config;
     }
 
-    public static string StaticFolderName { get; set; } = "StaticFiles";
+    private static string StaticFolderName { get; set; } = "StaticFiles";
 
     public async Task<List<FileResponse>> UploadFiles(IFormFileCollection files) {
-        List<FileResponse> uploads = new();
+        List<FileResponse> uploads = new List<FileResponse>();
 
         var storePath = GetUploadFullPath();
         foreach (var file in files) {
@@ -35,7 +35,7 @@ public class FileUploadService {
 
     private static string GetDatePath() => Path.Combine(DateTime.UtcNow.ToString("yyyy"), DateTime.UtcNow.ToString("MMMM"), DateTime.UtcNow.ToString("dd"));
 
-    public string GetUploadFullPath() => Path.Combine(GetUploadRootPath(), GetDatePath());
+    private string GetUploadFullPath() => Path.Combine(GetUploadRootPath(), GetDatePath());
 
     public string GetUploadRootPath() {
         var filesUploadPath = _config.GetValue<string>("UploadPath");
