@@ -10,9 +10,9 @@ public sealed class CompanyEntity : BaseEntity {
     public string FullName { get; set; } = String.Empty;
     [Required]
     [MaxLength(256)]
-    public string? Email { get; set; }
+    public string AdminEmail { get; set; } = String.Empty;
     public UserEntity? Manager { get; set; }
     public Guid? ManagerId { get; set; }
-    public ICollection<DomainEntity>? Domains { get; set; }
-    public ICollection<UserEntity>? Members { get; set; }
+    public ICollection<DomainEntity> Domains { get; set; } = default!;
+    public ICollection<UserEntity> Members { get; set; } = default!;
 }
