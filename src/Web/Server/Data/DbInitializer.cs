@@ -64,7 +64,7 @@ public class DbInitializer {
             new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", UserName = "jane_doe", Email = "jane.doe@test.com", Phone = "+23402", TeamId = teams[1].Id, CompanyId = companies[1].Id },
             new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Johnny ", LastName = "Test", UserName = "johnny_test", Email = "johnny.test@test.com", Phone = "+23403", TeamId = teams[2].Id, CompanyId = companies[2].Id },
         };
-
+        
         _modelBuilder.Entity<BankEntity>().HasData(banks);
         _modelBuilder.Entity<DomainEntity>().HasData(domains);
         _modelBuilder.Entity<CurrencyEntity>().HasData(currencies);

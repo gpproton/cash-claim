@@ -7,4 +7,5 @@ public class CompanyResponse : BaseResponse {
     public string FullName { get; set; } = string.Empty;
     public string AdminEmail { get; set; } = string.Empty;
     public UserResponse? Manager { get; set; }
+    public bool Active { get; set; }
 }
