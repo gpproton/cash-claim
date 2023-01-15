@@ -1,36 +1,57 @@
 @using XClaim.Common.Dtos
-
+@inject IDomainService Http
 @page "/app/settings/domains"
+@attribute [Authorize]
 
 @code {
-    private string _search = string.Empty;
-    private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-    private HashSet<PaymentResponse> _selectedItems = new ();
-    private readonly IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
-    private bool _selectOnRowClick = true;
-    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private DateRange _dateRange = WebConst.AppDateRange;
+    private IEnumerable<DomainResponse> _elements = new List<DomainResponse>();
+    private HashSet<DomainResponse> SelectedItems { get; set; } = new HashSet<DomainResponse>();
+    private int CurrentPage { get; set; } = 1;
+    
+    protected override async Task OnInitializedAsync() => await LoadItems();
+
+    private async Task LoadItems() {
+        this.Loading = true;
+        _elements = await Http.GetAllAsync();
+        this.Loading = false;
+    }
+
+    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
+    
+    private Func<DomainResponse, bool> Filter => x =>
+    string.IsNullOrWhiteSpace(Search)
+    || x.Address.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.Address.Contains(Search, StringComparison.OrdinalIgnoreCase);
 }
 
-<Title>Domain management</Title>
+<Title>Domain & address management</Title>
 
-<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="PaymentResponse">
+<MudDataGrid T="DomainResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="false" @bind-Value="_dateRange" @bind-Search="Search">
+            <DeleteConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></DeleteConfirmation>
+        </TableToolbar>
     </ToolBarContent>
-    <HeaderContent>
-        <MudTh>Domain</MudTh>
-        <MudTh>Company</MudTh>
-        <MudTh>Active</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Amount">@context.Amount</MudTd>
-        <MudTd DataLabel="Category">x</MudTd>
-        <MudTd DataLabel="Status">x</MudTd>
-    </RowTemplate>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <SelectColumn T="DomainResponse" ShowInFooter="false" ShowInHeader="false" />
+        <Column T="DomainResponse" Field="Address" />
+        <Column T="DomainResponse" Field="Active" />
+        <Column T="DomainResponse" Field="Description" />
+        <Column T="DomainResponse">
+            <CellTemplate>
+                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
+                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+            </CellTemplate>
+        </Column>
+    </Columns>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new [] { 50, 100 }"/>
+         <MudDataGridPager T="DomainResponse" PageSizeOptions="WebConst.AppPaged" />
     </PagerContent>
-    <FooterContent>
-        <MudTd colspan="5">Select All</MudTd>
-    </FooterContent>
-</MudTable>
+</MudDataGrid>
