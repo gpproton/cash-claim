@@ -27,7 +27,7 @@ public class AuthState : RootState {
         var isAuth = user.Identity?.IsAuthenticated ?? false;
         
         if (!isAuth) {
-            var profile = await UserService.GetProfileAsync()!;
+            var profile = await UserService.GetAsync()!;
             if (profile is not null) {
                 await auth.UpdateAuthenticationState(profile);
                 if (!profile.Confirmed) Register = true;
