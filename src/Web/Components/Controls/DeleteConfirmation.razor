@@ -1,0 +1,19 @@
+@inject IDialogService DialogService
+
+@code {
+    [Parameter]
+    public EventCallback<bool> OnDeleted { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = "Confirm delete";
+
+    async Task DeleteRequest() {
+        var result = await (await DialogService.ShowAsync<DeleteDialog>(Title)).Result;
+        if (!result.Canceled) {
+            var value = result.Data.As<bool>();
+            await OnDeleted.InvokeAsync(value);
+        }
+    }
+}
+
+<MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" OnClick="DeleteRequest" Color="Color.Error" Size="Size.Large" />

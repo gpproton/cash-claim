@@ -14,13 +14,20 @@
     protected override async Task OnInitializedAsync() {
         _elements = await Http.GetBanksAsync();
     }
+
+    private void CheckDeleted(bool result) {
+        Console.WriteLine(result);
+    }
 }
 
 <Title>Banks</Title>
 
 <MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="BankResponse">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search">
+            @* <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Error" Size="Size.Large" /> *@
+            <DeleteConfirmation OnDeleted="CheckDeleted"></DeleteConfirmation>
+        </TableToolbar>
     </ToolBarContent>
     <HeaderContent>
         <MudTh>Name</MudTh>
@@ -33,8 +40,8 @@
         <MudTd DataLabel="Description">@context.Description</MudTd>
         <MudTd DataLabel="Active">@context.Active</MudTd>
         <MudTd DataLabel="Active">
-            <MudIconButton Class="px-2 py-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
-            <MudIconButton Class="px-2 py-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+            <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
+            <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
         </MudTd>
     </RowTemplate>
     <PagerContent>
