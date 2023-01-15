@@ -1,19 +1,24 @@
 @using XClaim.Common.Dtos
+@inject IBankService Http
 
 @page "/app/settings/banks"
 
 @code {
     private string _search = string.Empty;
-    private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-    private HashSet<PaymentResponse> _selectedItems = new ();
-    private readonly IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
+    private DateRange _dateRange = WebConst.AppDateRange;
+    private HashSet<BankResponse> _selectedItems = new HashSet<BankResponse>();
+    private IEnumerable<BankResponse> _elements = new List<BankResponse>();
     private bool _selectOnRowClick = true;
-    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
+    void OnRowClick(TableRowClickEventArgs<BankResponse> args) { }
+    
+    protected override async Task OnInitializedAsync() {
+        _elements = await Http.GetBanksAsync();
+    }
 }
 
 <Title>Banks</Title>
 
-<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="PaymentResponse">
+<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="BankResponse">
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
     </ToolBarContent>
@@ -21,16 +26,21 @@
         <MudTh>Name</MudTh>
         <MudTh>Description</MudTh>
         <MudTh>Active</MudTh>
+        <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Amount">@context.Amount</MudTd>
-        <MudTd DataLabel="Category">x</MudTd>
-        <MudTd DataLabel="Status">x</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd DataLabel="Active">@context.Active</MudTd>
+        <MudTd DataLabel="Active">
+            <MudIconButton Class="px-2 py-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
+            <MudIconButton Class="px-2 py-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+        </MudTd>
     </RowTemplate>
     <PagerContent>
         <MudTablePager PageSizeOptions="new [] { 50, 100 }"/>
     </PagerContent>
-    <FooterContent>
-        <MudTd colspan="5">Select All</MudTd>
-    </FooterContent>
+    @* <FooterContent> *@
+    @*     <MudTd colspan="5">Select All</MudTd> *@
+    @* </FooterContent> *@
 </MudTable>

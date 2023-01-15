@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using XClaim.Common.HTTP;
 using XClaim.Web.Client;
 using XClaim.Web.Components.Extensions;
 using XClaim.Web.Shared;
@@ -14,5 +15,6 @@ builder.Services.AddScoped(sp => new HttpClient {
 
 builder.Services.UseSharedExtensions();
 builder.Services.UseComponentsExtensions();
+builder.Services.UseHttpServices();
 
 await builder.Build().RunAsync();

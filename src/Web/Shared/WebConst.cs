@@ -1,3 +1,5 @@
+using MudBlazor;
+
 namespace XClaim.Web.Shared;
 
 public static class WebConst {
@@ -7,4 +9,5 @@ public static class WebConst {
     public const string AppHome = "app/overview";
     public const string AppAuth = "app/auth";
     public const string AppRegister = "app/registration";
+    public static readonly DateRange AppDateRange = new DateRange(DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
 }
