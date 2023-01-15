@@ -41,7 +41,8 @@ public class DbInitializer {
 
         var companies = new List<CompanyEntity> {
             new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "BHN LTD", FullName = "MCPL LTD - BHN Division" },
-            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "MCPL LTD", FullName = "Multi Consumer Product LTD" }
+            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "MCPL LTD", FullName = "Multi Consumer Product LTD" },
+            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "Dufil", FullName = "Dufil Prima Foods Plc" }
         };
 
         var categories = new List<CategoryEntity> {
@@ -54,11 +55,13 @@ public class DbInitializer {
         var users = new List<UserEntity> {
             new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "John", LastName = "Doe", UserName = "john_doe", Email = "john.doe@test.com", Phone = "+23401", CompanyId = companies[0].Id },
             new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", UserName = "jane_doe", Email = "jane.doe@test.com", Phone = "+23402", CompanyId = companies[1].Id },
+            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Johnny ", LastName = "Test", UserName = "johnny_test", Email = "johnny.test@test.com", Phone = "+23403", CompanyId = companies[2].Id },
         };
 
         var teams = new List<TeamEntity> {
-            new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Accounts Department", ManagerId = users[0].Id },
-            new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Logistics Department", ManagerId = users[1].Id }
+            new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Accounts Department", ManagerId = users[0].Id, CompanyId = companies[0].Id },
+            new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Logistics Department", ManagerId = users[1].Id, CompanyId = companies[1].Id  },
+            new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "QA Department", ManagerId = users[2].Id, CompanyId = companies[2].Id  }
         };
 
         _modelBuilder.Entity<BankEntity>().HasData(banks);
