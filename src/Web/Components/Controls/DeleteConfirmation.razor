@@ -5,7 +5,7 @@
     public EventCallback<bool> OnDeleted { get; set; }
 
     [Parameter]
-    public string Title { get; set; } = "Confirm delete";
+    public string Title { get; set; } = "Confirm Archiving";
 
     async Task DeleteRequest() {
         var result = await (await DialogService.ShowAsync<DeleteDialog>(Title)).Result;
@@ -16,4 +16,4 @@
     }
 }
 
-<MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" OnClick="DeleteRequest" Color="Color.Error" Size="Size.Large" />
+<MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Archive" Variant="Variant.Outlined" OnClick="DeleteRequest" Color="Color.Info" Size="Size.Large" />

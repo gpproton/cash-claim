@@ -80,7 +80,7 @@
     }
 }
 
-<MudTextField @bind-Value="_search" Style="max-width: 300px" Variant="Variant.Outlined" DisableUnderLine="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+<MudTextField @bind-Value="Search" Style="max-width: 300px" Variant="Variant.Outlined" DisableUnderLine="true" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
 <MudSpacer />
 @ChildContent
 @if (IsFilterActive)

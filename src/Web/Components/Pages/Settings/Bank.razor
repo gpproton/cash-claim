@@ -4,50 +4,63 @@
 @page "/app/settings/banks"
 
 @code {
-    private string _search = string.Empty;
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
     private DateRange _dateRange = WebConst.AppDateRange;
-    private HashSet<BankResponse> _selectedItems = new HashSet<BankResponse>();
     private IEnumerable<BankResponse> _elements = new List<BankResponse>();
-    private bool _selectOnRowClick = true;
-    void OnRowClick(TableRowClickEventArgs<BankResponse> args) { }
     
     protected override async Task OnInitializedAsync() {
+        await LoadItems();
+    }
+
+    private async Task LoadItems() {
+        this.Loading = true;
         _elements = await Http.GetBanksAsync();
+        this.Loading = false;
     }
 
     private void CheckDeleted(bool result) {
         Console.WriteLine(result);
     }
+    
+    private Func<BankResponse, bool> Filter => x => {
+        if (string.IsNullOrWhiteSpace(Search))
+            return true;
+        if (x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    };
+    
+    void RowClicked(DataGridRowClickEventArgs<BankResponse> args) { }
+
 }
 
 <Title>Banks</Title>
 
-<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="BankResponse">
+<MudDataGrid T="BankResponse" MultiSelection="true" Loading="Loading" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter"
+             Hideable="true" RowClick="@RowClicked">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search">
-            @* <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Error" Size="Size.Large" /> *@
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
             <DeleteConfirmation OnDeleted="CheckDeleted"></DeleteConfirmation>
         </TableToolbar>
     </ToolBarContent>
-    <HeaderContent>
-        <MudTh>Name</MudTh>
-        <MudTh>Description</MudTh>
-        <MudTh>Active</MudTh>
-        <MudTh></MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Name">@context.Name</MudTd>
-        <MudTd DataLabel="Description">@context.Description</MudTd>
-        <MudTd DataLabel="Active">@context.Active</MudTd>
-        <MudTd DataLabel="Active">
-            <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
-            <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
-        </MudTd>
-    </RowTemplate>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <SelectColumn T="BankResponse" />
+        <Column T="BankResponse" Field="Name" />
+        <Column T="BankResponse" Field="Description" />
+        <Column T="BankResponse" Field="Active" />
+        <Column T="BankResponse">
+            <CellTemplate>
+                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
+                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+            </CellTemplate>
+        </Column>
+    </Columns>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new [] { 50, 100 }"/>
+         <MudDataGridPager T="BankResponse" PageSizeOptions="WebConst.AppPaged" />
     </PagerContent>
-    @* <FooterContent> *@
-    @*     <MudTd colspan="5">Select All</MudTd> *@
-    @* </FooterContent> *@
-</MudTable>
+</MudDataGrid>

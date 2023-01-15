@@ -10,4 +10,5 @@ public static class WebConst {
     public const string AppAuth = "app/auth";
     public const string AppRegister = "app/registration";
     public static readonly DateRange AppDateRange = new DateRange(DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
+    public static readonly int[] AppPaged = new [] { 25, 100, 250, 2000 };
 }
