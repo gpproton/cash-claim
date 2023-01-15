@@ -10,6 +10,7 @@ public sealed class CategoryEntity : BaseEntity {
     public Guid? CompanyId { get; set; }
     [MaxLength(1024)]
     public string? Description { get; set; } = string.Empty;
+    public bool Active { get; set; }
     [MaxLength(64)]
     public string? Icon { get; set; } = string.Empty;
 }
