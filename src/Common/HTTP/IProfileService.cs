@@ -1,6 +1,6 @@
 using XClaim.Common.Dtos;
 
-namespace XClaim.Common.Service;
+namespace XClaim.Common.HTTP;
 
 public interface IProfileService {
     Task<AuthResponse?> GetProfileAsync();

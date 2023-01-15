@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using XClaim.Common.Dtos;
 
-namespace XClaim.Common.Service;
+namespace XClaim.Common.HTTP;
 
 public class ProfileService : IProfileService {
     private readonly HttpClient _client;
