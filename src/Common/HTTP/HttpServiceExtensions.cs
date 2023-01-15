@@ -6,6 +6,7 @@ public static class HttpServiceExtensions {
     public static IServiceCollection UseHttpServices(this IServiceCollection services) {
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<IBankService, BankService>();
+        services.AddScoped<IUserService, UserService>();
         
         return services;
     }

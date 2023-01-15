@@ -9,7 +9,7 @@ public class BankService : IBankService {
     public BankService(IHttpService http) {
         _http = http;
     }
-    public async Task<List<BankResponse>> GetBanksAsync() {
+    public async Task<List<BankResponse>> GetAllAsync() {
         return await _http.Get<List<BankResponse>>("api/v1/bank" + "?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
     }
 }
