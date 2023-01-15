@@ -1,36 +1,59 @@
 @using XClaim.Common.Dtos
-
+@inject ICategoryService Http
 @page "/app/settings/category"
+@attribute [Authorize]
 
 @code {
-    private string _search = string.Empty;
-    private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-    private HashSet<PaymentResponse> _selectedItems = new ();
-    private readonly IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
-    private bool _selectOnRowClick = true;
-    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private DateRange _dateRange = WebConst.AppDateRange;
+    private IEnumerable<CategoryResponse> _elements = new List<CategoryResponse>();
+    private HashSet<CategoryResponse> SelectedItems { get; set; } = new HashSet<CategoryResponse>();
+    private int CurrentPage { get; set; } = 1;
+    
+    protected override async Task OnInitializedAsync() => await LoadItems();
+
+    private async Task LoadItems() {
+        this.Loading = true;
+        _elements = await Http.GetAllAsync();
+        this.Loading = false;
+    }
+
+    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
+    
+    private Func<CategoryResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
 }
 
 <Title>Claim categories</Title>
 
-<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="PaymentResponse">
+<MudDataGrid T="CategoryResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
+            <DeleteConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></DeleteConfirmation>
+        </TableToolbar>
     </ToolBarContent>
-    <HeaderContent>
-        <MudTh>Name</MudTh>
-        <MudTh>Company</MudTh>
-        <MudTh>Description</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Description">x</MudTd>
-        <MudTd DataLabel="Amount">@context.Amount</MudTd>
-        <MudTd DataLabel="Category">x</MudTd>
-    </RowTemplate>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <SelectColumn T="CategoryResponse" ShowInFooter="false" ShowInHeader="false" />
+        <Column T="CategoryResponse" Field="Name" />
+        <Column T="CategoryResponse" Field="Active" />
+        <Column T="CategoryResponse" Field="Company">
+            <CellTemplate>
+                @(context.Item.Company?.ShortName ?? "None")
+            </CellTemplate>
+        </Column>
+        <Column T="CategoryResponse" Field="Description" />
+        <Column T="CategoryResponse">
+            <CellTemplate>
+                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
+                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+            </CellTemplate>
+        </Column>
+    </Columns>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new [] { 50, 100 }"/>
+         <MudDataGridPager T="CategoryResponse" PageSizeOptions="WebConst.AppPaged" />
     </PagerContent>
-    <FooterContent>
-        <MudTd colspan="5">Select All</MudTd>
-    </FooterContent>
-</MudTable>
+</MudDataGrid>

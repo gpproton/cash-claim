@@ -1,7 +1,7 @@
 @using XClaim.Common.Dtos
 @inject IBankService Http
-
 @page "/app/settings/banks"
+@attribute [Authorize]
 
 @code {
     private string Search { get; set; } = string.Empty;
@@ -11,13 +11,11 @@
     private HashSet<BankResponse> SelectedItems { get; set; } = new HashSet<BankResponse>();
     private int CurrentPage { get; set; } = 1;
     
-    protected override async Task OnInitializedAsync() {
-        await LoadItems();
-    }
+    protected override async Task OnInitializedAsync() => await LoadItems();
 
     private async Task LoadItems() {
         this.Loading = true;
-        _elements = await Http.GetBanksAsync();
+        _elements = await Http.GetAllAsync();
         this.Loading = false;
     }
 
