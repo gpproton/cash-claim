@@ -19,7 +19,7 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
         _mapper = mapper;
     }
 
-    public async Task<IList<TResponse>> GetAllAsync(FilterBase? filter) {
+    public virtual async Task<IList<TResponse>> GetAllAsync(FilterBase? filter) {
         var values = filter is null ?
             await _ctx.Set<TEntity>().ToListAsync() :
             await _ctx.Set<TEntity>().ApplyFilter(filter).ToListAsync();

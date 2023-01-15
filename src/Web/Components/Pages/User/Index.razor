@@ -1,40 +1,74 @@
-@page "/app/users"
-
 @using XClaim.Common.Dtos
+@page "/app/users"
+@inject IUserService Http
+@attribute [Authorize]
 
 @code {
-    private string _search = string.Empty;
-    private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-    private HashSet<PaymentResponse> _selectedItems = new ();
-    private readonly IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
-    private bool _selectOnRowClick = true;
-    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private DateRange _dateRange = WebConst.AppDateRange;
+    private IEnumerable<UserResponse> _elements = new List<UserResponse>();
+    private HashSet<UserResponse> SelectedItems { get; set; } = new HashSet<UserResponse>();
+    private int CurrentPage { get; set; } = 1;
+    
+    protected override async Task OnInitializedAsync() => await LoadItems();
+
+    private async Task LoadItems() {
+        this.Loading = true;
+        _elements = await Http.GetAllAsync();
+        this.Loading = false;
+    }
+
+    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
+    
+    private Func<UserResponse, bool> Filter => x =>
+    string.IsNullOrWhiteSpace(Search)
+    || x.FullName.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.Email.Contains(Search, StringComparison.OrdinalIgnoreCase);
 }
 
 <Title>Users management</Title>
 
-<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="PaymentResponse">
+<MudDataGrid Dense="true" T="UserResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
+            <DeleteConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></DeleteConfirmation>
+        </TableToolbar>
     </ToolBarContent>
-    <HeaderContent>
-        <MudTh>First name</MudTh>
-        <MudTh>Last name</MudTh>
-        <MudTh>Email</MudTh>
-        <MudTh>Company</MudTh>
-        <MudTh>Permission</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Description">x</MudTd>
-        <MudTd DataLabel="Amount">@context.Amount</MudTd>
-        <MudTd DataLabel="Category">x</MudTd>
-        <MudTd DataLabel="Status">x</MudTd>
-        <MudTd DataLabel="Status">x</MudTd>
-    </RowTemplate>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <SelectColumn T="UserResponse" ShowInFooter="false" ShowInHeader="false" />
+        <Column T="UserResponse">
+            <CellTemplate>
+                <MudStack Spacing="2" Row="true">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" Variant="Variant.Filled" Color="Color.Warning" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Archive"Size="Size.Small" Variant="Variant.Filled" Color="Color.Info" />
+                </MudStack>
+            </CellTemplate>
+        </Column>
+        <Column T="UserResponse" Field="FullName" Title="Name" />
+        <Column T="UserResponse" Field="Email" />
+        <Column T="UserResponse" Field="Active">
+            <CellTemplate>
+                <MudChip Label="true">@(context.Item.Active ? "Yes" : "No")</MudChip>
+            </CellTemplate>
+        </Column>
+        <Column T="UserResponse" Field="Permission" />
+        <Column T="UserResponse" Field="Company">
+            <CellTemplate>
+                @(context.Item.Company?.ShortName ?? "None")
+            </CellTemplate>
+        </Column>
+        <Column T="UserResponse" Title="Team">
+            <CellTemplate>
+                @(context.Item.Team?.Name ?? "None")
+            </CellTemplate>
+        </Column>
+    </Columns>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new [] { 50, 100 }"/>
+         <MudDataGridPager T="UserResponse" PageSizeOptions="WebConst.AppPaged" />
     </PagerContent>
-    <FooterContent>
-        <MudTd colspan="5">Select All</MudTd>
-    </FooterContent>
-</MudTable>
+</MudDataGrid>

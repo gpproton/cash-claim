@@ -34,7 +34,7 @@ public sealed class UserEntity : BaseEntity {
     public Guid? TeamManagedId { get; set; }
     public BankAccountEntity? BankAccount { get; set; }
     public Guid? BankAccountId { get; set; }
-    public bool Verified { get; set; }
+    public bool Active { get; set; }
     [MaxLength(128)]
     public string? Token { get; set; }
     public string? Image { get; set; }

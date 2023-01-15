@@ -19,7 +19,7 @@ public class UserResponse : BaseResponse {
     public TeamResponse? Team { get; set; }
     public TeamResponse? TeamManaged { get; set; }
     public BankAccountResponse? BankAccount { get; set; }
-    public bool Verified { get; set; }
+    public bool Active { get; set; }
     public string Token { get; set; } = String.Empty;
     public string? Image { get; set; }
 }
