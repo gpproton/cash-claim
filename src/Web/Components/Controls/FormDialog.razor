@@ -14,14 +14,23 @@
         <MudGrid Justify="Justify.Center">
             <MudItem xs="12">
                 <MudGrid>
-                    <MudItem xs="6">
-                        <MudTextField T="string" Label="Field 1"/>
+                    <MudItem  xs="12">
+                        <MudSelect T="string" Label="Select Option" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary">
+                            <MudSelectItem Value="@("foo")">Foo</MudSelectItem>
+                            <MudSelectItem Value="@("bar")">Bar</MudSelectItem>
+                        </MudSelect>
                     </MudItem>
                     <MudItem xs="6">
-                        <MudTextField T="string" Label="Field 2"/>
+                        <MudTextField Variant="Variant.Outlined" T="string" Label="Field 1"/>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudTextField Variant="Variant.Outlined" T="string" Label="Field 2"/>
                     </MudItem>
                     <MudItem xs="12">
-                        <MudTextField T="string" Label="Field 3"/>
+                        <MudTextField Variant="Variant.Outlined" T="string" Label="Field 3"/>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTextField Variant="Variant.Outlined" T="string" Lines="3" Label="Field 4"/>
                     </MudItem>
                 </MudGrid>
             </MudItem>
