@@ -4,11 +4,11 @@
 
 @code {
     private string _search = string.Empty;
-    private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-    private HashSet<PaymentResponse> _selectedItems = new ();
+    private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
+    private HashSet<PaymentResponse> _selectedItems = new HashSet<PaymentResponse>();
     private readonly IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
     private bool _selectOnRowClick = true;
-    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
+    static void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
 }
 
 <Title>Currency</Title>
