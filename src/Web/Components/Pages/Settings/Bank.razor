@@ -8,6 +8,8 @@
     private bool Loading { get; set; }
     private DateRange _dateRange = WebConst.AppDateRange;
     private IEnumerable<BankResponse> _elements = new List<BankResponse>();
+    private HashSet<BankResponse> SelectedItems { get; set; } = new HashSet<BankResponse>();
+    private int CurrentPage { get; set; } = 1;
     
     protected override async Task OnInitializedAsync() {
         await LoadItems();
@@ -19,40 +21,28 @@
         this.Loading = false;
     }
 
-    private void CheckDeleted(bool result) {
-        Console.WriteLine(result);
-    }
+    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
     
-    private Func<BankResponse, bool> Filter => x => {
-        if (string.IsNullOrWhiteSpace(Search))
-            return true;
-        if (x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase))
-            return true;
-
-        return false;
-    };
-    
-    void RowClicked(DataGridRowClickEventArgs<BankResponse> args) { }
-
+    private Func<BankResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
 }
 
 <Title>Banks</Title>
 
-<MudDataGrid T="BankResponse" MultiSelection="true" Loading="Loading" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter"
-             Hideable="true" RowClick="@RowClicked">
+<MudDataGrid T="BankResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
-            <DeleteConfirmation OnDeleted="CheckDeleted"></DeleteConfirmation>
+            <DeleteConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></DeleteConfirmation>
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>
          <TableLoading></TableLoading>
     </LoadingContent>
     <Columns>
-        <SelectColumn T="BankResponse" />
+        <SelectColumn T="BankResponse" ShowInFooter="false" ShowInHeader="false" />
         <Column T="BankResponse" Field="Name" />
-        <Column T="BankResponse" Field="Description" />
         <Column T="BankResponse" Field="Active" />
+        <Column T="BankResponse" Field="Description" />
         <Column T="BankResponse">
             <CellTemplate>
                 <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />

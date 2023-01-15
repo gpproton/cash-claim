@@ -2,13 +2,16 @@
 
 @code {
     [Parameter]
+    public int Count { get; set; }
+    
+    [Parameter]
     public EventCallback<bool> OnDeleted { get; set; }
-
+    
     [Parameter]
     public string Title { get; set; } = "Confirm Archiving";
 
     async Task DeleteRequest() {
-        var result = await (await DialogService.ShowAsync<DeleteDialog>(Title)).Result;
+        var result = await (await DialogService.ShowAsync<DeleteDialog>($"{Title} {Count} items")).Result;
         if (!result.Canceled) {
             var value = result.Data.As<bool>();
             await OnDeleted.InvokeAsync(value);
@@ -16,4 +19,6 @@
     }
 }
 
-<MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Archive" Variant="Variant.Outlined" OnClick="DeleteRequest" Color="Color.Info" Size="Size.Large" />
+@if (Count > 0) {
+    <MudIconButton Class="pa-2 mr-2" Icon="@Icons.Material.Filled.Archive" Variant="Variant.Outlined" OnClick="DeleteRequest" Color="Color.Info" Size="Size.Large"/>
+}
