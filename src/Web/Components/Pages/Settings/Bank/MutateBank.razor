@@ -17,10 +17,8 @@
 
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
-        if (Id == null) {
-            Title = "Create Bank";
-            Bank = new BankResponse();
-        } else {
+        if (Id == null) Title = "Create Bank";
+        else {
             Loading = true;
             Title = "Update Bank";
             Bank = await  Http.GetByIdAsync(Id.Value);
@@ -39,20 +37,21 @@
         MudDialog.Close(DialogResult.Ok(result));
     }
 
-    async Task Archive(bool state) {
+    async Task TriggerArchive(bool state) {
         if (Bank?.Id != null) {
             var result = (await Http.ArchiveAsync(Bank.Id.Value)) != null;
             Snackbar.Add(result ? "Deleted successfully" : "Archiving failed", result ? Severity.Success : Severity.Error);
+            MudDialog.Close(DialogResult.Ok(result));
         }
     }
 }
 
 <MudDialog>
     <TitleContent>
-        <MudStack Row="true" Justify="@( Bank?.Id != null ? Justify.Center : Justify.SpaceBetween)">
+        <MudStack Row="true" Justify="@( Id == null ? Justify.Center : Justify.SpaceBetween)">
             <MudText Align="Align.Center" Typo="Typo.h5">@Title</MudText>
-            @if (Bank?.Id != null) {
-                <ArchiveConfirmation Form="true" OnDeleted="Archive"></ArchiveConfirmation>
+            @if (Id != null) {
+                <ArchiveConfirmation Form="true" OnDeleted="TriggerArchive"></ArchiveConfirmation>
             }
         </MudStack>
     </TitleContent>

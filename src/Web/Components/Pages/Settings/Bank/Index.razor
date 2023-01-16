@@ -1,7 +1,5 @@
 @using XClaim.Common.Dtos
 @inject IBankService Http
-@inject IDialogService DialogService
-@inject ISnackbar Snackbar
 @page "/app/settings/banks"
 @attribute [Authorize]
 
@@ -28,21 +26,6 @@
     private async Task ReloadList(bool reload) {
         if (reload) await this.LoadItems();
     }
-
-    private async Task TriggerEdit(Guid id) {
-        var parameters = new DialogParameters { { "Id", id } };
-        var dialog = await DialogService.ShowAsync<MutateBank>(string.Empty, parameters);
-        var result = await dialog.Result;
-        if (!result.Canceled) {
-            var value = result.Data.As<bool>();
-            // Check event creation...
-            if (value) await this.LoadItems();
-            Snackbar.Clear();
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
-            if (value) Snackbar.Add("Saved successfully", Severity.Success);
-            else Snackbar.Add("Failed..", Severity.Error);
-        }
-    }
 }
 
 <Title>Banks</Title>
@@ -65,8 +48,7 @@
         <Column T="BankResponse" Field="Description" />
         <Column T="BankResponse">
             <CellTemplate>
-                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled"
-                               OnClick="async () => {if (context.Item?.Id != null) await TriggerEdit(context.Item.Id.Value);}" Color="Color.Warning" />
+                <FormEditTrigger TForm="MutateBank" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
             </CellTemplate>
         </Column>
     </Columns>
