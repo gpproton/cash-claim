@@ -19,10 +19,20 @@
         this.Loading = false;
     }
 
-    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
-    
     private Func<BankResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
 
+    private async Task ArchiveSelectedItems(bool allow) {
+        if (!allow) return;
+        List<Guid> items = SelectedItems
+        .Where(f => f?.Id != null)
+        .Select(f => ((Guid) f.Id!)).ToList();
+        if (items.Count > 0) {
+            var result = (await Http.ArchiveRangeAsync(items)) != null;
+            SelectedItems.Clear();
+            await ReloadList(result);
+        }
+    }
+    
     private async Task ReloadList(bool reload) {
         if (reload) await this.LoadItems();
     }

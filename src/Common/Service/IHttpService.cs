@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace XClaim.Common.Service;
 
 public interface IHttpService {
@@ -8,4 +10,5 @@ public interface IHttpService {
     Task<T> Put<T>(string uri, object? value);
     Task Delete(string uri);
     Task<T> Delete<T>(string uri);
+    Task<T> Delete<T>(string uri, ICollection? values);
 }

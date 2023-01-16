@@ -13,4 +13,5 @@ public interface IBankService {
     
     Task<BankResponse> ArchiveAsync(Guid id);
     
+    Task<List<BankResponse>> ArchiveRangeAsync(List<Guid> ids);
 }

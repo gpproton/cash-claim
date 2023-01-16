@@ -20,11 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Pages\Claims\Dialogs" />
       <Folder Include="Pages\Overview\Dialogs" />
-      <Folder Include="Pages\Payments\Dialogs" />
-      <Folder Include="Pages\Reviews\Dialogs" />
-      <Folder Include="Pages\Settings\Dialogs" />
     </ItemGroup>
 
 </Project>

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text;
@@ -45,6 +46,11 @@ public abstract class AbstractHttpService : IHttpService {
 
         public async Task<T> Delete<T>(string uri) {
             var request = CreateRequest(HttpMethod.Delete, uri);
+            return await SendRequest<T>(request);
+        }
+        
+        public async Task<T> Delete<T>(string uri, ICollection? values) {
+            var request = CreateRequest(HttpMethod.Delete, uri, values);
             return await SendRequest<T>(request);
         }
 

@@ -24,4 +24,7 @@ public class BankService : IBankService {
     public async Task<BankResponse> ArchiveAsync(Guid id) {
         return await _http.Delete<BankResponse>($"api/v1/bank/{id}");
     }
+    public async Task<List<BankResponse>> ArchiveRangeAsync(List<Guid> ids) {
+        return await _http.Delete<List<BankResponse>>($"api/v1/bank", ids);
+    }
 }
