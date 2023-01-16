@@ -1,5 +1,6 @@
 @using XClaim.Common.Dtos
 @inject IBankService Http
+@inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @page "/app/settings/banks"
 @attribute [Authorize]
@@ -28,10 +29,19 @@
         if (reload) await this.LoadItems();
     }
 
-    private async Task ArchiveItem(Guid id) {
-        var result = (await Http.ArchiveAsync(id)) != null;
-        Snackbar.Add(result ? "Deleted successfully" : "Archiving failed", result ? Severity.Success : Severity.Error);
-        if(result) await this.LoadItems();
+    private async Task TriggerEdit(Guid id) {
+        var parameters = new DialogParameters { { "Id", id } };
+        var dialog = await DialogService.ShowAsync<MutateBank>(string.Empty, parameters);
+        var result = await dialog.Result;
+        if (!result.Canceled) {
+            var value = result.Data.As<bool>();
+            // Check event creation...
+            if (value) await this.LoadItems();
+            Snackbar.Clear();
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
+            if (value) Snackbar.Add("Saved successfully", Severity.Success);
+            else Snackbar.Add("Failed..", Severity.Error);
+        }
     }
 }
 
@@ -55,9 +65,8 @@
         <Column T="BankResponse" Field="Description" />
         <Column T="BankResponse">
             <CellTemplate>
-                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
-                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Archive"
-                               Variant="Variant.Filled" Color="Color.Info" OnClick="async () => {if (context.Item?.Id != null) await ArchiveItem(context.Item.Id.Value);}"/>
+                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled"
+                               OnClick="async () => {if (context.Item?.Id != null) await TriggerEdit(context.Item.Id.Value);}" Color="Color.Warning" />
             </CellTemplate>
         </Column>
     </Columns>
