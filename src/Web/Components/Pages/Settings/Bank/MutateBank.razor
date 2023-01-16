@@ -7,7 +7,7 @@
     
     [Parameter] public Guid? Id { get; set; }
 
-    public bool Loading { get; set; }
+    private bool Loading { get; set; }
 
     private string Title { get; set; } = string.Empty;
 
@@ -19,8 +19,10 @@
             Title = "Create Bank";
             Bank = new BankResponse();
         } else {
+            Loading = true;
             Title = "Update Bank";
             Bank = await  Http.GetByIdAsync(Id.Value);
+            Loading = false;
         }
     }
 
