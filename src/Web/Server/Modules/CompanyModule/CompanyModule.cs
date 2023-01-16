@@ -40,6 +40,11 @@ public class CompanyModule : IModule {
             var item = await sv.DeleteAsync(id);
             return item is null ? Results.NotFound() : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
+        
+        group.MapDelete("/", async ([FromBody] List<Guid> ids, CompanyService sv) => {
+            var items = await sv.DeleteRangeAsync(ids);
+            return items is null ? Results.NotFound() : TypedResults.Ok(items);
+        }).WithName($"RangeArchive{name}").WithOpenApi();
 
         return group;
     }

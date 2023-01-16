@@ -1,4 +1,5 @@
-﻿using XClaim.Common.Dtos;
+﻿using Microsoft.AspNetCore.Mvc;
+using XClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Modules.UserModule;
 
@@ -43,6 +44,11 @@ public class UserModule : IModule {
             var item = await sv.DeleteAsync(id);
             return item is null ? Results.NotFound() : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
+        
+        group.MapDelete("/", async ([FromBody] List<Guid> ids, UserService sv) => {
+            var items = await sv.DeleteRangeAsync(ids);
+            return items is null ? Results.NotFound() : TypedResults.Ok(items);
+        }).WithName($"RangeArchive{name}").WithOpenApi();
 
         return group;
     }

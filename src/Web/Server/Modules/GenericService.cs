@@ -57,4 +57,12 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
 
         return _mapper.Map<TResponse>(item);
     }
+    public async Task<List<TResponse>?> DeleteRangeAsync(List<Guid> ids) {
+        var items = _ctx.Set<TEntity>()
+        .Where(f => ids.Contains(f.Id)).ToList();
+        _ctx.Set<TEntity>().RemoveRange(items);
+        await _ctx.SaveChangesAsync();
+        
+        return _mapper.Map<List<TResponse>>(items);
+    }
 }

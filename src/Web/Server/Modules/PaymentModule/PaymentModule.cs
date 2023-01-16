@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using XClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Modules.PaymentModule;
@@ -34,6 +35,11 @@ public class PaymentModule : IModule {
             var item = await sv.DeleteAsync(id);
             return item is null ? Results.NotFound() : TypedResults.Ok(item);
         }).WithName($"Cancel{name}").WithOpenApi();
+        
+        group.MapDelete("/", async ([FromBody] List<Guid> ids, PaymentService sv) => {
+            var items = await sv.DeleteRangeAsync(ids);
+            return items is null ? Results.NotFound() : TypedResults.Ok(items);
+        }).WithName($"RangeArchive{name}").WithOpenApi();
 
         return group;
     }

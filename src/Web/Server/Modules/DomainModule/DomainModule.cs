@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using XClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Modules.DomainModule;
@@ -38,6 +39,11 @@ public class DomainModule : IModule {
             var item = await sv.DeleteAsync(id);
             return item is null ? Results.NotFound() : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
+        
+        group.MapDelete("/", async ([FromBody] List<Guid> ids, DomainService sv) => {
+            var items = await sv.DeleteRangeAsync(ids);
+            return items is null ? Results.NotFound() : TypedResults.Ok(items);
+        }).WithName($"RangeArchive{name}").WithOpenApi();
 
         return group;
     }

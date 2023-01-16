@@ -1,4 +1,5 @@
 using IdentityModel;
+using Microsoft.AspNetCore.Mvc;
 using XClaim.Common.Dtos;
 using XClaim.Web.Server.Helpers;
 
@@ -55,6 +56,11 @@ public class ClaimModule : IModule {
             var item = await sv.DeleteAsync(id);
             return item is null ? Results.NotFound() : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
+        
+        group.MapDelete("/", async ([FromBody] List<Guid> ids, ClaimService sv) => {
+            var items = await sv.DeleteRangeAsync(ids);
+            return items is null ? Results.NotFound() : TypedResults.Ok(items);
+        }).WithName($"RangeArchive{name}").WithOpenApi();
 
         return group;
     }
