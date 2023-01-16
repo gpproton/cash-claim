@@ -1,0 +1,65 @@
+@using XClaim.Common.Dtos
+@inject IBankService Http
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+    
+    [Parameter] public Guid? Id { get; set; }
+
+    public bool Loading { get; set; }
+
+    private string Title { get; set; } = string.Empty;
+
+    private BankResponse Bank { get; set; } = new BankResponse();
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        if (Id == null) {
+            Title = "Create Bank";
+            Bank = new BankResponse();
+        } else {
+            Title = "Update Bank";
+            Bank = await  Http.GetByIdAsync(Id.Value);
+        }
+    }
+
+    async Task Submit() {
+        bool result;
+        if (Id == null) {
+            result = (await Http.CreateAsync(Bank)) != null;
+        } else {
+            result = (await Http.UpdateAsync(Bank)) != null;
+        }
+            
+        MudDialog.Close(DialogResult.Ok(result));
+    }
+}
+
+<MudDialog>
+    <TitleContent>
+        <MudText Align="Align.Center" Typo="Typo.h5">@Title</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudContainer Class="my-4" MaxWidth="MaxWidth.Small">
+            <MudGrid Justify="Justify.Center">
+                <MudItem xs="12">
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudTextField Variant="Variant.Outlined" @bind-Value="Bank.Name" T="string" Label="Name"/>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField Variant="Variant.Outlined" @bind-Value="Bank.Description" T="string" Label="Description"/>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudSwitch @bind-Checked="@Bank.Active" Color="Color.Primary" Label="@(Bank.Active ? "Enabled" : "Disabled")" />
+                        </MudItem>
+                    </MudGrid>
+                </MudItem>
+            </MudGrid>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Size="Size.Large" Class="px-12 py-3">Save</MudButton>
+    </DialogActions>
+</MudDialog>

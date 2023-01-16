@@ -11,7 +11,8 @@
     public string Title { get; set; } = "Confirm Archiving";
 
     async Task DeleteRequest() {
-        var result = await (await DialogService.ShowAsync<DeleteDialog>($"{Title} {Count} items")).Result;
+        var text = Count < 2 ? Title : $"{Title} {Count} items";
+        var result = await (await DialogService.ShowAsync<DeleteDialog>(text)).Result;
         if (!result.Canceled) {
             var value = result.Data.As<bool>();
             await OnDeleted.InvokeAsync(value);
