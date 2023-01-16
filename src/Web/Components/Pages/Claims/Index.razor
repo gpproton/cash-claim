@@ -1,35 +1,58 @@
 @using XClaim.Common.Dtos
-
+@inject IClaimService Http
 @page "/app/claims"
 @attribute [Authorize]
 
 @code {
-    private string _search = string.Empty;
-    private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-    private readonly IEnumerable<PaymentResponse> _content = new List<PaymentResponse>();
-    private bool _selectOnRowClick = true;
-    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private DateRange _dateRange = WebConst.AppDateRange;
+    private IEnumerable<ClaimResponse> _elements = new List<ClaimResponse>();
+    private HashSet<ClaimResponse> SelectedItems { get; set; } = new HashSet<ClaimResponse>();
+    private int CurrentPage { get; set; } = 1;
+    
+    protected override async Task OnInitializedAsync() {
+        await LoadItems();
+    }
+
+    private async Task LoadItems() {
+        this.Loading = true;
+        _elements = await Http.GetAllAsync();
+        this.Loading = false;
+    }
+
+    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
+    
+    private Func<ClaimResponse, bool> Filter => x =>
+    string.IsNullOrWhiteSpace(Search)
+    || x.Description.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.Notes.Contains(Search, StringComparison.OrdinalIgnoreCase);
 }
 
-<Title>Personal claims</Title>
+<Title>Personal Claims</Title>
 
-<MudTable @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_content" OnRowClick="@OnRowClick" T="PaymentResponse">
+<MudDataGrid T="ClaimResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
+            <DeleteConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></DeleteConfirmation>
+        </TableToolbar>
     </ToolBarContent>
-    <HeaderContent>
-        <MudTh>Description</MudTh>
-        <MudTh>Amount</MudTh>
-        <MudTh>Category</MudTh>
-        <MudTh>Status</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Description">x</MudTd>
-        <MudTd DataLabel="Amount">@context.Amount</MudTd>
-        <MudTd DataLabel="Category">x</MudTd>
-        <MudTd DataLabel="Status">x</MudTd>
-    </RowTemplate>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <Column T="ClaimResponse" Field="Description" />
+        <Column T="ClaimResponse" Field="Amount" />
+        <Column T="ClaimResponse" Field="Status" />
+        <Column T="ClaimResponse" Field="Category" />
+        <Column T="ClaimResponse">
+            <CellTemplate>
+                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Info" Variant="Variant.Filled" Color="Color.Primary" />
+            </CellTemplate>
+        </Column>
+    </Columns>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new [] { 50, 100 }"/>
+         <MudDataGridPager T="ClaimResponse" PageSizeOptions="WebConst.AppPaged" />
     </PagerContent>
-</MudTable>
+</MudDataGrid>
