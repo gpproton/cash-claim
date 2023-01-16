@@ -1,3 +1,4 @@
+@inject NavigationManager Nav
 @page "/app/user/bank-account"
 @attribute [Authorize]
 
@@ -23,8 +24,12 @@
             <MudItem xs="12">
                 <MudTextField Variant="Variant.Outlined" Lines="3" T="string" Label="Notes"/>
             </MudItem>
-            <MudItem xs="12" Class="d-flex justify-center">
-                <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large" Class="mt-8 px-12 py-3">Save</MudButton>
+            <MudItem xs="12">
+                <MudStack Row="true" Justify="Justify.SpaceBetween">
+                    <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateTo(WebConst.AppHome)"
+                               Size="Size.Large" Class="mt-8 px-12 py-3">Back</MudButton>
+                    <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large" Class="mt-8 px-12 py-3">Save</MudButton>
+                </MudStack>
             </MudItem>
         </MudGrid>
     </MudItem>
