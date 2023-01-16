@@ -11,4 +11,7 @@ public class PaymentService : IPaymentService {
     public async Task<List<PaymentResponse>> GetAllAsync() {
         return await _http.Get<List<PaymentResponse>>("api/v1/payment" + "?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
     }
+    public async Task<List<PaymentResponse>> GetTransactionsAsync() {
+        return await _http.Get<List<PaymentResponse>>("api/v1/payment" + "?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
+    }
 }

@@ -1,39 +1,65 @@
 @using XClaim.Common.Dtos
-
+@inject IPaymentService Http
 @page "/app/transactions"
 @attribute [Authorize]
 
 @code {
-    private string _search = string.Empty;
-    private DateRange _dateRange = new (DateTime.Now.AddDays(-7).Date, DateTime.Now.Date);
-    private HashSet<PaymentResponse> _selectedItems = new ();
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private DateRange _dateRange = WebConst.AppDateRange;
     private IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
-    private bool _selectOnRowClick = true;
-    void OnRowClick(TableRowClickEventArgs<PaymentResponse> args) { }
+    private HashSet<PaymentResponse> SelectedItems { get; set; } = new HashSet<PaymentResponse>();
+    private int CurrentPage { get; set; } = 1;
+    
+    protected override async Task OnInitializedAsync() => await LoadItems();
+
+    private async Task LoadItems() {
+        this.Loading = true;
+        _elements = await Http.GetTransactionsAsync();
+        this.Loading = false;
+    }
+
+    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
+    
+    private Func<PaymentResponse, bool> Filter => x =>
+    string.IsNullOrWhiteSpace(Search)
+    || x.Description.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.Notes.Contains(Search, StringComparison.OrdinalIgnoreCase);
 }
 
 <Title>Transactions</Title>
 
-<MudTable @bind-SelectedItems="_selectedItems" @bind-SelectOnRowClick="@_selectOnRowClick" Height="calc(100vh - 256px)" Hover="true" Items="@_elements" MultiSelection="true" OnRowClick="@OnRowClick" T="PaymentResponse">
+<MudDataGrid T="PaymentResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="_search"></TableToolbar>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
+            <DeleteConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></DeleteConfirmation>
+        </TableToolbar>
     </ToolBarContent>
-    <HeaderContent>
-        <MudTh>Description</MudTh>
-        <MudTh>Amount</MudTh>
-        <MudTh>Category</MudTh>
-        <MudTh>Status</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Description">x</MudTd>
-        <MudTd DataLabel="Amount">@context.Amount</MudTd>
-        <MudTd DataLabel="Category">x</MudTd>
-        <MudTd DataLabel="Status">x</MudTd>
-    </RowTemplate>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <SelectColumn T="PaymentResponse" ShowInFooter="false" ShowInHeader="false" />
+        <Column T="PaymentResponse" Field="Description" />
+        <Column T="PaymentResponse" Field="Amount" />
+        <Column T="ClaimResponse" Field="Owner">
+            <CellTemplate>
+                @context.Item.Owner?.FullName
+            </CellTemplate>
+        </Column>
+        <Column T="PaymentResponse" Field="Completed" />
+        <Column T="PaymentResponse" Field="Claims">
+            <CellTemplate>1</CellTemplate>
+        </Column>
+        <Column T="PaymentResponse">
+            <CellTemplate>
+                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
+                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+            </CellTemplate>
+        </Column>
+    </Columns>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new [] { 50, 100 }"/>
+         <MudDataGridPager T="PaymentResponse" PageSizeOptions="WebConst.AppPaged" />
     </PagerContent>
-    <FooterContent>
-        <MudTd colspan="5">Select All</MudTd>
-    </FooterContent>
-</MudTable>
+</MudDataGrid>
