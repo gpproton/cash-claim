@@ -17,18 +17,34 @@
         _elements = await Http.GetAllAsync();
         this.Loading = false;
     }
-
-    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
     
     private Func<CurrencyResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task ArchiveSelectedItems(bool allow) {
+        if (!allow) return;
+        List<Guid> items = SelectedItems
+        .Where(f => f?.Id != null)
+        .Select(f => ((Guid) f.Id!)).ToList();
+        if (items.Count > 0) {
+            var result = (await Http.ArchiveRangeAsync(items)) != null;
+            SelectedItems.Clear();
+            await ReloadList(result);
+        }
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await this.LoadItems();
+    }
 }
 
 <Title>Currencies</Title>
 
-<MudDataGrid T="CurrencyResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
-             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
+<MudDataGrid T="CurrencyResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems"
+                      Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true"
+                      SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="false" @bind-Search="Search">
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateCurrency" OnCreateClicked="ReloadList"
+                      IsFilterActive="false" @bind-Search="Search">
             <ArchiveConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></ArchiveConfirmation>
         </TableToolbar>
     </ToolBarContent>
@@ -39,11 +55,11 @@
         <SelectColumn T="CurrencyResponse" ShowInFooter="false" ShowInHeader="false" />
         <Column T="CurrencyResponse" Field="Name" />
         <Column T="CurrencyResponse" Field="Symbol" />
+        <Column T="CurrencyResponse" Field="Active" />
         <Column T="CurrencyResponse" Field="Description" />
         <Column T="CurrencyResponse">
             <CellTemplate>
-                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
-                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+                <FormEditTrigger TForm="MutateCurrency" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
             </CellTemplate>
         </Column>
     </Columns>

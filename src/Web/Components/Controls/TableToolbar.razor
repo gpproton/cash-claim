@@ -21,6 +21,9 @@
     // Date bindings
     [Parameter]
     public bool IsFilterActive { get; set; }
+
+    [Parameter]
+    public bool IsCreateActive { get; set; } = true;
     
     TValue? _value;
     
@@ -82,9 +85,12 @@
 
 <MudTextField @bind-Value="Search" Style="max-width: 300px" Variant="Variant.Outlined" DisableUnderLine="true" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
 <MudSpacer />
+
 @ChildContent
-@if (IsFilterActive)
-{
+
+@if (IsFilterActive) {
     <MudIconButton Class="pa-2 mr-2" Icon="@Icons.Material.Filled.Tune" Variant="Variant.Outlined" OnClick="TriggerFilter" Color="Color.Primary" Size="Size.Large" />
 }
-<MudIconButton Class="px-3 py-2" Icon="@Icons.Material.Filled.Add" OnClick="TriggerCreate" Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" />
+@if (IsCreateActive) {
+    <MudIconButton Class="px-3 py-2" Icon="@Icons.Material.Filled.Add" OnClick="TriggerCreate" Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" />
+}

@@ -6,7 +6,6 @@
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
-    private DateRange _dateRange = WebConst.AppDateRange;
     private IEnumerable<BankResponse> _elements = new List<BankResponse>();
     private HashSet<BankResponse> SelectedItems { get; set; } = new HashSet<BankResponse>();
     private int CurrentPage { get; set; } = 1;
@@ -44,7 +43,8 @@
              Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true"
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateBank" OnCreateClicked="ReloadList" IsFilterActive="false" @bind-Value="_dateRange" @bind-Search="Search">
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateBank" OnCreateClicked="ReloadList"
+                      IsFilterActive="false" @bind-Search="Search">
             <ArchiveConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></ArchiveConfirmation>
         </TableToolbar>
     </ToolBarContent>

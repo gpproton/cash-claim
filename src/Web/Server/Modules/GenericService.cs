@@ -20,10 +20,10 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
     }
 
     public virtual async Task<IList<TResponse>> GetAllAsync(FilterBase? filter) {
+        var query = _ctx.Set<TEntity>().Where(x => x.DeletedAt == null);
         var values = filter is null ?
-            await _ctx.Set<TEntity>().ToListAsync() :
-            await _ctx.Set<TEntity>().ApplyFilter(filter).ToListAsync();
-        return _mapper.Map<List<TResponse>>(values);
+                     query.ToListAsync() : query.ApplyFilter(filter).ToListAsync();
+        return _mapper.Map<List<TResponse>>(await values);
     }
 
     public async Task<TResponse> GetByIdAsync(Guid id) {
