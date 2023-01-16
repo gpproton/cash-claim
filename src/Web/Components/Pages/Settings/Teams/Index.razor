@@ -29,7 +29,7 @@
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="false" @bind-Search="Search">
-            <ArchiveConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></ArchiveConfirmation>
+            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>

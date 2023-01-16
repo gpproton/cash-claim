@@ -8,6 +8,10 @@
     
     [Parameter]
     public Guid? Id { get; set; }
+    
+    private string ActionText {
+        get { return Id == null ? "Create" : "Update"; }
+    }
 
     private bool Loading { get; set; }
 
@@ -38,7 +42,7 @@
     }
 
     async Task TriggerArchive(bool state) {
-        if (Item?.Id != null) {
+        if (Item?.Id != null && state) {
             var result = (await Http.ArchiveAsync(Item.Id.Value)) != null;
             Snackbar.Add(result ? "Deleted successfully" : "Archiving failed", result ? Severity.Success : Severity.Error);
             MudDialog.Close(DialogResult.Ok(result));
@@ -51,7 +55,7 @@
         <MudStack Row="true" Justify="@( Id == null ? Justify.Center : Justify.SpaceBetween)">
             <MudText Align="Align.Center" Typo="Typo.h5">@Title</MudText>
             @if (Id != null) {
-                <ArchiveConfirmation Form="true" OnDeleted="TriggerArchive"></ArchiveConfirmation>
+                <ArchiveConfirmation Form="true" OnArchived="TriggerArchive"></ArchiveConfirmation>
             }
         </MudStack>
     </TitleContent>
@@ -81,6 +85,6 @@
         </MudContainer>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Size="Size.Large" Class="px-12 py-3">Save</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Size="Size.Large" Class="px-12 py-3">@ActionText</MudButton>
     </DialogActions>
 </MudDialog>

@@ -5,7 +5,7 @@
     public int Count { get; set; }
     
     [Parameter]
-    public EventCallback<bool> OnDeleted { get; set; }
+    public EventCallback<bool> OnArchived { get; set; }
 
     [Parameter]
     public bool Small { get; set; }
@@ -13,15 +13,18 @@
     [Parameter]
     public bool Form { get; set; }
     
-    [Parameter]
-    public string Title { get; set; } = "Confirm Archiving";
+    private string Title {
+        get {
+            const string text = "Confirm Archiving";
+            return Count < 2 ? text : $"{text} {Count} items";
+        }
+    }
 
     async Task DeleteRequest() {
-        var text = Count == 1 ? Title : $"{Title} {Count} items";
-        var result = await (await DialogService.ShowAsync<ArchiveDialog>(text)).Result;
+        var result = await (await DialogService.ShowAsync<ArchiveDialog>(Title)).Result;
         if (!result.Canceled) {
             var value = result.Data.As<bool>();
-            await OnDeleted.InvokeAsync(value);
+            await OnArchived.InvokeAsync(value);
         }
     }
 }

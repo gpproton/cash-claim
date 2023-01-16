@@ -27,13 +27,13 @@
         .Select(f => ((Guid) f.Id!)).ToList();
         if (items.Count > 0) {
             var result = (await Http.ArchiveRangeAsync(items)) != null;
-            SelectedItems.Clear();
             await ReloadList(result);
         }
     }
     
     private async Task ReloadList(bool reload) {
         if (reload) await this.LoadItems();
+        SelectedItems.Clear();
     }
 }
 
@@ -45,7 +45,7 @@
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateBank" OnCreateClicked="ReloadList"
                       IsFilterActive="false" @bind-Search="Search">
-            <ArchiveConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></ArchiveConfirmation>
+            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>

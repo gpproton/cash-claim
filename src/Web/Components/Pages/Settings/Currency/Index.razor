@@ -34,6 +34,7 @@
     
     private async Task ReloadList(bool reload) {
         if (reload) await this.LoadItems();
+        SelectedItems.Clear();
     }
 }
 
@@ -45,7 +46,7 @@
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateCurrency" OnCreateClicked="ReloadList"
                       IsFilterActive="false" @bind-Search="Search">
-            <ArchiveConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></ArchiveConfirmation>
+            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>

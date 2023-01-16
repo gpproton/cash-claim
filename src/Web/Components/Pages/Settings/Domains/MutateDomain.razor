@@ -1,5 +1,5 @@
 @using XClaim.Common.Dtos
-@inject IBankService Http
+@inject IDomainService Http
 @inject ISnackbar Snackbar
 
 @code {
@@ -17,14 +17,14 @@
 
     private string Title { get; set; } = string.Empty;
 
-    private BankResponse Item { get; set; } = new BankResponse();
-
+    private DomainResponse Item { get; set; } = new DomainResponse();
+    
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
-        if (Id == null) Title = "Create Bank";
+        if (Id == null) Title = "Create Domain";
         else {
             Loading = true;
-            Title = "Update Bank";
+            Title = "Update Domain";
             Item = await  Http.GetByIdAsync(Id.Value);
             Loading = false;
         }
@@ -68,7 +68,7 @@
                 <MudItem xs="12">
                     <MudGrid>
                         <MudItem xs="12">
-                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Name" T="string" Label="Name"/>
+                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Address" T="string" Label="Address"/>
                         </MudItem>
                         <MudItem xs="12">
                             <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Description" T="string" Label="Description"/>

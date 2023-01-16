@@ -6,7 +6,6 @@
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
-    private DateRange _dateRange = WebConst.AppDateRange;
     private IEnumerable<DomainResponse> _elements = new List<DomainResponse>();
     private HashSet<DomainResponse> SelectedItems { get; set; } = new HashSet<DomainResponse>();
     private int CurrentPage { get; set; } = 1;
@@ -18,22 +17,39 @@
         _elements = await Http.GetAllAsync();
         this.Loading = false;
     }
-
-    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
     
     private Func<DomainResponse, bool> Filter => x =>
     string.IsNullOrWhiteSpace(Search)
     || x.Address.Contains(Search, StringComparison.OrdinalIgnoreCase)
     || x.Address.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task ArchiveSelectedItems(bool allow) {
+        if (!allow) return;
+        List<Guid> items = SelectedItems
+        .Where(f => f?.Id != null)
+        .Select(f => ((Guid) f.Id!)).ToList();
+        if (items.Count > 0) {
+            var result = (await Http.ArchiveRangeAsync(items)) != null;
+            SelectedItems.Clear();
+            await ReloadList(result);
+        }
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await this.LoadItems();
+        SelectedItems.Clear();
+    }
 }
 
-<Title>Domain & address management</Title>
+<Title>Domain & Address management</Title>
 
-<MudDataGrid T="DomainResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
+<MudDataGrid T="DomainResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems"
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true"
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="false" @bind-Value="_dateRange" @bind-Search="Search">
-            <ArchiveConfirmation Count="@SelectedItems.Count" OnDeleted="ArchiveSelectedItems"></ArchiveConfirmation>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateDomain" OnCreateClicked="ReloadList"
+                      IsFilterActive="false" @bind-Search="Search">
+            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>
@@ -46,8 +62,7 @@
         <Column T="DomainResponse" Field="Description" />
         <Column T="DomainResponse">
             <CellTemplate>
-                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
-                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+                <FormEditTrigger TForm="MutateDomain" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
             </CellTemplate>
         </Column>
     </Columns>
