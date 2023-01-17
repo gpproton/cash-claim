@@ -21,10 +21,8 @@
     
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
-        if (Id == null) Title = "Create Domain";
-        else {
+        if (Id != null) {
             Loading = true;
-            Title = "Update Domain";
             Item = await  Http.GetByIdAsync(Id.Value);
             Loading = false;
         }

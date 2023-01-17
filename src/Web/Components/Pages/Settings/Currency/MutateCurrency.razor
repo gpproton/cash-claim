@@ -21,10 +21,8 @@
 
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
-        if (Id == null) Title = "Create Currency";
-        else {
+        if (Id != null) {
             Loading = true;
-            Title = "Update Currency";
             Item = await  Http.GetByIdAsync(Id.Value);
             Loading = false;
         }
