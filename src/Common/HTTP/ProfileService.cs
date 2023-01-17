@@ -4,6 +4,7 @@ using XClaim.Common.Service;
 namespace XClaim.Common.HTTP;
 
 public class ProfileService : IProfileService {
+    private const string RootApi = "api/v1/profile";
     private readonly IHttpService _http;
 
     public ProfileService(IHttpService http) {
@@ -11,7 +12,7 @@ public class ProfileService : IProfileService {
     }
 
     public async Task<AuthResponse?> GetAsync() {
-        return await _http.Get<AuthResponse?>("/api/v1/profile/account");
+        return await _http.Get<AuthResponse?>($"{RootApi}/account");
     }
 
     public async Task<bool> SignOutAsync() {

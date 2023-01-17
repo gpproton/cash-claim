@@ -23,7 +23,7 @@ public class BankService : IBankService {
         return await _http.Put<BankResponse>(RootApi, bank);
     }
     public async Task<BankResponse> ArchiveAsync(Guid id) {
-        return await _http.Delete<BankResponse>($"RootApi/{id}");
+        return await _http.Delete<BankResponse>($"{RootApi}/{id}");
     }
     public async Task<List<BankResponse>> ArchiveRangeAsync(List<Guid> ids) {
         return await _http.Delete<List<BankResponse>>(RootApi, ids);
