@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using XClaim.Common.Dtos;
+using XClaim.Web.Server.Filters;
 
 namespace XClaim.Web.Server.Modules.BankModule {
 

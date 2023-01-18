@@ -15,7 +15,7 @@ public class CategoryModule : IModule {
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
 
-        group.MapGet("/", async ([FromServices] CategoryService sv, [AsParameters] GenericFilter filter) =>
+        group.MapGet("/", async ([FromServices] CategoryService sv, [AsParameters] CategoryFilter filter) =>
                 await sv.GetAllAsync(filter))
             .WithName($"GetAll{name}")
             .WithOpenApi();

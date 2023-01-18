@@ -1,11 +1,10 @@
 using AutoFilterer.Attributes;
-using AutoFilterer.Enums;
+using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.CategoryModule;
 
 public class CategoryFilter : GenericFilter {
-    [CompareTo("Name")]
-    [StringFilterOptions(StringFilterOption.Contains)]
+    [CompareTo(nameof(CategoryEntity.Name), nameof(CategoryEntity.Description))]
     [ToLowerContainsComparison]
-    public string? Search { get; set; }
+    public virtual string? Search { get; set; }
 }

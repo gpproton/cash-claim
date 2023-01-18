@@ -1,11 +1,10 @@
 using AutoFilterer.Attributes;
-using AutoFilterer.Enums;
+using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.CurrencyModule;
 
 public class CurrencyFilter : GenericFilter {
-    [CompareTo("Name")]
-    [StringFilterOptions(StringFilterOption.Contains)]
+    [CompareTo(nameof(CurrencyEntity.Name), nameof(CurrencyEntity.Description))]
     [ToLowerContainsComparison]
     public string? Search { get; set; }
 }
