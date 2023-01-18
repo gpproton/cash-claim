@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using XClaim.Common.Extensions;
 using XClaim.Common.Helpers;
 
 namespace XClaim.Common.Service;
@@ -16,6 +17,12 @@ public abstract class AbstractHttpService : IHttpService {
 
         public async Task<T> Get<T>(string uri) {
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
+            return await SendRequest<T>(request);
+        }
+        public async Task<T> Get<T>(string uri, object? query) {
+            string queries = query != null ? query.GetQueryString() : (new PaginationHelper()).GetQueryString();
+            var url = uri + queries;
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
             return await SendRequest<T>(request);
         }
 
