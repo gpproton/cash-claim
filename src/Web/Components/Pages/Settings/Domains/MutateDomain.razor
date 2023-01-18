@@ -69,11 +69,12 @@
                             <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Address" T="string" Label="Address"/>
                         </MudItem>
                         <MudItem xs="12">
-                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Description" T="string" Label="Description"/>
-                        </MudItem>
-                        <MudItem xs="12">
                             <MudSwitch @bind-Checked="@Item.Active" Color="Color.Primary" Label="@(Item.Active ? "Enabled" : "Disabled")"/>
                         </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField Variant="Variant.Outlined" Lines="4" @bind-Value="Item.Description" T="string" Label="Description"/>
+                        </MudItem>
+                        
                     </MudGrid>
                 </MudItem>
             </MudGrid>

@@ -65,17 +65,20 @@
             <MudGrid Justify="Justify.Center">
                 <MudItem xs="12">
                     <MudGrid>
-                        <MudItem xs="6">
+                        <MudItem xs="12">
                             <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Name" T="string" Label="Name"/>
                         </MudItem>
                         <MudItem xs="6">
                             <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Symbol" T="string" Label="Symbol"/>
                         </MudItem>
-                        <MudItem xs="12">
-                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Description" T="string" Label="Description"/>
+                        <MudItem xs="6">
+                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Rate" T="decimal" Label="Rate"/>
                         </MudItem>
                         <MudItem xs="12">
                             <MudSwitch @bind-Checked="@Item.Active" Color="Color.Primary" Label="@(Item.Active ? "Enabled" : "Disabled")"/>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField Variant="Variant.Outlined" Lines="4" @bind-Value="Item.Description" T="string" Label="Description"/>
                         </MudItem>
                     </MudGrid>
                 </MudItem>
