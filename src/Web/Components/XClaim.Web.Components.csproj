@@ -19,8 +19,4 @@
         <ProjectReference Include="..\Shared\XClaim.Web.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Pages\Overview\Dialogs" />
-    </ItemGroup>
-
 </Project>
