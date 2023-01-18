@@ -2,8 +2,8 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Dtos;
-using XClaim.Common.Entities;
 using XClaim.Web.Server.Data;
+using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.UserModule;
 

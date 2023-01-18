@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Base;
 using XClaim.Common.Enums;
 
-namespace XClaim.Common.Entities;
+namespace XClaim.Web.Server.Entities;
 
 [Index(nameof(Email), IsUnique = true)]
 [Index(nameof(Phone), IsUnique = true)]

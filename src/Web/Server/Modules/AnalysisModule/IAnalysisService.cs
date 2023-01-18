@@ -1,4 +1,4 @@
-using XClaim.Common.Entities;
+using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.AnalysisModule;
 

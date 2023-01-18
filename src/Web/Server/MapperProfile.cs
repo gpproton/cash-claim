@@ -1,5 +1,5 @@
 using XClaim.Common.Dtos;
-using XClaim.Common.Entities;
+using XClaim.Web.Server.Entities;
 using AutoMapperProfile = AutoMapper.Profile;
 
 namespace XClaim.Web.Server;

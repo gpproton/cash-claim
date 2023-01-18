@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using XClaim.Common.Base;
 
-namespace XClaim.Common.Entities;
+namespace XClaim.Web.Server.Entities;
 
 public sealed class CompanyEntity : BaseEntity {
     public bool Active { get; set; }

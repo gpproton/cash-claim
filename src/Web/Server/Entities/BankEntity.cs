@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Base;
 
-namespace XClaim.Common.Entities;
+namespace XClaim.Web.Server.Entities;
 
 [Index(nameof(Name), IsUnique = true)]
 public class BankEntity : BaseEntity {

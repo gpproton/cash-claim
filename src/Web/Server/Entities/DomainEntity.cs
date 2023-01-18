@@ -1,6 +1,6 @@
 using XClaim.Common.Base;
 
-namespace XClaim.Common.Entities;
+namespace XClaim.Web.Server.Entities;
 
 public class DomainEntity : BaseEntity {
     public string Address { get; set; } = string.Empty;

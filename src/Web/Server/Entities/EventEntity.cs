@@ -2,7 +2,7 @@
 using XClaim.Common.Base;
 using XClaim.Common.Enums;
 
-namespace XClaim.Common.Entities;
+namespace XClaim.Web.Server.Entities;
 
 public sealed class EventEntity : BaseEntity {
     public EventType Type { get; set; } = EventType.Claim;

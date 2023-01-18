@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Base;
-using XClaim.Common.Entities;
+using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Data;
 
