@@ -15,7 +15,7 @@ public class DomainModule : IModule {
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
 
-        group.MapGet("/", async (DomainService sv, [AsParameters] GenericFilter filter) =>
+        group.MapGet("/", async (DomainService sv, [AsParameters] DomainFilter filter) =>
         await sv.GetAllAsync(filter))
         .WithName($"GetAll{name}")
         .WithOpenApi();

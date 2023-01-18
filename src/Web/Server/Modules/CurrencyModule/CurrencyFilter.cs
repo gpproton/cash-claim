@@ -1,10 +1,10 @@
 using AutoFilterer.Attributes;
 using AutoFilterer.Enums;
 
-namespace XClaim.Web.Server.Modules.UserModule;
+namespace XClaim.Web.Server.Modules.CurrencyModule;
 
-public class UserFilter : GenericFilter {
-    [CompareTo("FirstName", "LastName", "Email", CombineWith = CombineType.Or)]
+public class CurrencyFilter : GenericFilter {
+    [CompareTo("Name")]
     [StringFilterOptions(StringFilterOption.Contains)]
     [ToLowerContainsComparison]
     public string? Search { get; set; }

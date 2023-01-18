@@ -10,7 +10,7 @@ namespace XClaim.Web.Server.Modules.CategoryModule;
 public class CategoryService : GenericService<ServerContext, CategoryEntity, CategoryResponse> {
     public CategoryService(ServerContext ctx, IMapper mapper) : base(ctx, mapper) { }
 
-    public async Task<List<CategoryResponse>> GetAllAsync(GenericFilter? filter) {
+    public async Task<List<CategoryResponse>> GetAllAsync(CategoryFilter? filter) {
         var query = _ctx.Categories
         .Include(x => x.Company);
         var values = filter is null ? await query.ToListAsync() : await query.ApplyFilter(filter).ToListAsync();

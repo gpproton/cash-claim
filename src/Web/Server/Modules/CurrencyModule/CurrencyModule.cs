@@ -15,7 +15,7 @@ public class CurrencyModule : IModule {
         var url = $"{Constants.RootApi}/{name.ToLower()}";
         var group = endpoints.MapGroup(url).WithTags(name);
 
-        group.MapGet("/", async (CurrencyService sv, [AsParameters] GenericFilter filter) =>
+        group.MapGet("/", async (CurrencyService sv, [AsParameters] CurrencyFilter filter) =>
         await sv.GetAllAsync(filter))
         .WithName($"GetAll{name}")
         .WithOpenApi();

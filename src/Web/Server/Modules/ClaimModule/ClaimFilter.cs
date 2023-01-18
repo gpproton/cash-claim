@@ -6,8 +6,9 @@ using XClaim.Common.Enums;
 namespace XClaim.Web.Server.Modules.ClaimModule;
 
 public class ClaimFilter : GenericFilter {
-    [CompareTo("Description", "Notes", CombineWith = CombineType.And)]
+    [CompareTo("Description", "Notes", CombineWith = CombineType.Or)]
     [StringFilterOptions(StringFilterOption.Contains)]
+    [ToLowerContainsComparison]
     public string? Search { get; set; }
 
     public ClaimStatus[]? Status { get; set; }
