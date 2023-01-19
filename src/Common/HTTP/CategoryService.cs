@@ -1,5 +1,6 @@
 using XClaim.Common.Dtos;
 using XClaim.Common.Service;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
@@ -10,7 +11,22 @@ public class CategoryService : ICategoryService {
     public CategoryService(IHttpService http) {
         _http = http;
     }
-    public async Task<List<CategoryResponse>> GetAllAsync() {
-        return await _http.Get<List<CategoryResponse>>($"{RootApi}?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
+    public async Task<PagedResponse<List<CategoryResponse>>> GetAllAsync(object? query = null) =>
+        await _http.Get<PagedResponse<List<CategoryResponse>>>(RootApi, query);
+    
+    public async Task<Response<CategoryResponse>> GetByIdAsync(Guid id) {
+        return await _http.Get<Response<CategoryResponse>>($"{RootApi}/{id}");
+    }
+    public async Task<Response<CategoryResponse>> CreateAsync(CategoryResponse bank) {
+        return await _http.Post<Response<CategoryResponse>>(RootApi, bank);
+    }
+    public async Task<Response<CategoryResponse>> UpdateAsync(CategoryResponse bank) {
+        return await _http.Put<Response<CategoryResponse>>(RootApi, bank);
+    }
+    public async Task<Response<CategoryResponse>> ArchiveAsync(Guid id) {
+        return await _http.Delete<Response<CategoryResponse>>($"{RootApi}/{id}");
+    }
+    public async Task<Response<List<CategoryResponse>>> ArchiveRangeAsync(List<Guid> ids) {
+        return await _http.Delete<Response<List<CategoryResponse>>>(RootApi, ids);
     }
 }

@@ -1,4 +1,5 @@
 @using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
 @inject ICategoryService Http
 @page "/app/settings/category"
 @attribute [Authorize]
@@ -6,28 +7,46 @@
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
+    private int Current { get; set; } = 1;
+    MudDataGrid<CategoryResponse>? _dataGrid;
     private DateRange _dateRange = WebConst.AppDateRange;
-    private IEnumerable<CategoryResponse> _elements = new List<CategoryResponse>();
     private HashSet<CategoryResponse> SelectedItems { get; set; } = new HashSet<CategoryResponse>();
-    private int CurrentPage { get; set; } = 1;
     
-    protected override async Task OnInitializedAsync() => await LoadItems();
-
-    private async Task LoadItems() {
+    private async Task<GridData<CategoryResponse>> ServerDataFunc(GridState<CategoryResponse> state) {
+        SelectedItems.Clear();
         this.Loading = true;
-        _elements = await Http.GetAllAsync();
+        var items = await Http.GetAllAsync(new PaginationFilter { Page = Current, PerPage = state.PageSize });
         this.Loading = false;
+        return new GridData<CategoryResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
     }
-
-    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
     
     private Func<CategoryResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    
+    private async Task ArchiveSelectedItems(bool allow) {
+        if (!allow) return;
+        List<Guid> items = SelectedItems
+        .Where(f => f?.Id != null)
+        .Select(f => ((Guid) f.Id!)).ToList();
+        if (items.Count > 0) {
+            var result = (await Http.ArchiveRangeAsync(items));
+            await ReloadList(result.Succeeded);
+        }
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
 }
 
 <Title>Claim categories</Title>
 
-<MudDataGrid T="CategoryResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
-             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
+<MudDataGrid @ref="_dataGrid" T="CategoryResponse" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading"
+             ServerData="ServerDataFunc" Height="@WebConst.TableHeight" Hover="true" SortMode="SortMode.Multiple"
+             Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
             <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
