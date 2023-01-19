@@ -20,7 +20,7 @@ public abstract class AbstractHttpService : IHttpService {
             return await SendRequest<T>(request);
         }
         public async Task<T> Get<T>(string uri, object? query) {
-            string queries = query != null ? query.GetQueryString() : (new PaginationHelper()).GetQueryString();
+            string queries = query != null ? query.GetQueryString() : (new PaginationFilter()).GetQueryString();
             var url = uri + queries;
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             return await SendRequest<T>(request);
