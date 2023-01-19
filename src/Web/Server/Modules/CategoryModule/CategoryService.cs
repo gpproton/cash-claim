@@ -2,19 +2,38 @@ using AutoFilterer.Extensions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Dtos;
+using XClaim.Common.Helpers;
+using XClaim.Common.Wrappers;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.CategoryModule;
 
 public class CategoryService : GenericService<ServerContext, CategoryEntity, CategoryResponse> {
-    public CategoryService(ServerContext ctx, IMapper mapper) : base(ctx, mapper) { }
+    public CategoryService(ServerContext ctx, IMapper mapper, ILogger<CategoryService> logger) : base(ctx, mapper, logger) { }
 
-    public async Task<List<CategoryResponse>> GetAllAsync(CategoryFilter? filter) {
-        var query = _ctx.Categories
-        .Include(x => x.Company);
-        var values = filter is null ? await query.ToListAsync() : await query.ApplyFilter(filter).ToListAsync();
+    public async Task<PagedResponse<List<CategoryResponse>>> GetAllAsync(CategoryFilter responseFilter) {
+        var result = new PagedResponse<List<CategoryResponse>>();
+        var query = _ctx.Categories.Include(x => x.Company);
+        try {
+            var count = await query.CountAsync();
+            var data = await query.ApplyFilter(responseFilter).ToListAsync();
+            var response = _mapper.Map<List<CategoryResponse>>(data);
+            var filter = new PaginationFilter {
+                Page = responseFilter.Page,
+                PerPage = responseFilter.PerPage
+            };
+            result = new PagedResponse<List<CategoryResponse>>(response, count, filter) {
+                Succeeded = true
+            };
+        }
+        catch (Exception e) {
+            result.Errors = new[] {
+                e.ToString()
+            };
+            _logger.LogError(e.ToString());
+        }
 
-        return _mapper.Map<List<CategoryResponse>>(values);
+        return result;
     }
 }

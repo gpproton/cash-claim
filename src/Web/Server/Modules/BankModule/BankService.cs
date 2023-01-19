@@ -6,5 +6,5 @@ using XClaim.Web.Server.Entities;
 namespace XClaim.Web.Server.Modules.BankModule;
 
 public class BankService : GenericService<ServerContext, BankEntity, BankResponse>, IBankService {
-    public BankService(ServerContext ctx, IMapper mapper) : base(ctx, mapper) { }
+    public BankService(ServerContext ctx, IMapper mapper, ILogger<BankService> logger) : base(ctx, mapper, logger) { }
 }

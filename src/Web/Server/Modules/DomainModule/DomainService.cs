@@ -6,5 +6,5 @@ using XClaim.Web.Server.Entities;
 namespace XClaim.Web.Server.Modules.DomainModule;
 
 public class DomainService : GenericService<ServerContext, DomainEntity, DomainResponse> {
-    public DomainService(ServerContext ctx, IMapper mapper) : base(ctx, mapper) { }
+    public DomainService(ServerContext ctx, IMapper mapper, ILogger<DomainService> logger) : base(ctx, mapper, logger) { }
 }

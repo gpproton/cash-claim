@@ -32,7 +32,7 @@ public class ProfileModule : IModule {
             var expireIn = (int)expiry.Subtract(DateTime.Now).TotalSeconds;
 
             ProfileResponse? profile;
-            var account = await user.GetByEmailAsync(email);
+            var account = (await user.GetByEmailAsync(email)).Data;
 
             if (account is null) {
                 profile = new ProfileResponse {

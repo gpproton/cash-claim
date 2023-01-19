@@ -1,4 +1,6 @@
+using AutoFilterer.Types;
 using XClaim.Common.Dtos;
+using XClaim.Common.Helpers;
 using XClaim.Web.Server.Entities;
 using AutoMapperProfile = AutoMapper.Profile;
 
@@ -19,5 +21,6 @@ public class MapperProfile : AutoMapperProfile {
         CreateMap<PaymentEntity, PaymentResponse>().ReverseMap();
         CreateMap<TeamEntity, TeamResponse>().ReverseMap();
         CreateMap<UserEntity, UserResponse>().ReverseMap();
+        CreateMap<PaginationFilterBase, PaginationFilter>().ReverseMap();
     }
 }

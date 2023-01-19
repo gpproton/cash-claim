@@ -16,7 +16,7 @@ public class PaymentModule : IModule {
         var group = endpoints.MapGroup(url).WithTags(name);
 
         group.MapGet("/", async (PaymentService sv, [AsParameters] PaymentFilter filter) =>
-                await sv.GetAllAsync(null))
+                await sv.GetAllAsync(filter))
             .WithName($"GetAll{name}")
             .WithOpenApi();
 
