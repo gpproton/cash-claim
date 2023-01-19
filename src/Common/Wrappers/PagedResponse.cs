@@ -1,0 +1,28 @@
+using XClaim.Common.Helpers;
+
+namespace XClaim.Common.Wrappers;
+
+public class PagedResponse<T> : Response<T> {
+    public PagedResponse() { }
+
+    public PagedResponse(T? data, int total, PaginationFilter filter) {
+        
+        this.Data = data;
+        this.Message = string.Empty;
+        this.Succeeded = true;
+        this.Errors = null;
+        this.Total = total;
+        this.Page = filter.Page;
+        this.PerPage = filter.PerPage;
+    }
+    
+    public int Page { get; set; }
+    public int PerPage { get; set; }
+    public int TotalPages {
+        get {
+            var total = ((double)Total / PerPage);
+            return Convert.ToInt32(Math.Ceiling(total));
+        }
+    }
+    public int Total { get; set; }
+}
