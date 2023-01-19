@@ -5,11 +5,9 @@ namespace XClaim.Common.Wrappers;
 public class PagedResponse<T> : Response<T> {
     public PagedResponse() { }
 
-    public PagedResponse(T data, int total, PaginationFilter filter) {
+    public PagedResponse(T? data, int total, PaginationFilter filter) {
         this.Data = data;
         this.Message = string.Empty;
-        this.Succeeded = true;
-        this.Errors = null;
         this.Total = total;
         this.Page = filter.Page;
         this.PerPage = filter.PerPage;

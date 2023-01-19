@@ -58,12 +58,12 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
     }
 
     public async Task<Response<TResponse>> CreateAsync(TResponse value) {
-        var map = _mapper.Map<TEntity>(value);
-        await _ctx.Set<TEntity>().AddAsync(map);
+        var item = _mapper.Map<TEntity>(value);
+        await _ctx.Set<TEntity>().AddAsync(item);
         await _ctx.SaveChangesAsync();
-        var data = _mapper.Map<TResponse>(map);
+        var data = _mapper.Map<TResponse>(item);
 
-        return new Response<TResponse>(data) {
+        return new Response<TResponse>(data!) {
             Succeeded = data != null
         };
     }
