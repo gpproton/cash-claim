@@ -32,7 +32,7 @@ public class TeamModule : IModule {
 
         group.MapPut("/", async (TeamResponse value, TeamService sv) => {
             var result = await sv.UpdateAsync(value);
-            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(value);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Update{name}").WithOpenApi();
 
         group.MapDelete("/{id:guid}", async (Guid id, TeamService sv) => {

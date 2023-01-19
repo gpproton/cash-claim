@@ -1,17 +1,18 @@
 using XClaim.Common.Dtos;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
 public interface IDomainService {
-    Task<List<DomainResponse>> GetAllAsync();
+    Task<PagedResponse<List<DomainResponse>>> GetAllAsync(object? query = null);
+
+    Task<Response<DomainResponse>> GetByIdAsync(Guid id);
     
-    Task<DomainResponse> GetByIdAsync(Guid id);
+    Task<Response<DomainResponse>> CreateAsync(DomainResponse bank);
     
-    Task<DomainResponse> CreateAsync(DomainResponse domain);
+    Task<Response<DomainResponse>> UpdateAsync(DomainResponse bank);
     
-    Task<DomainResponse> UpdateAsync(DomainResponse domain);
+    Task<Response<DomainResponse>> ArchiveAsync(Guid id);
     
-    Task<DomainResponse> ArchiveAsync(Guid id);
-    
-    Task<List<DomainResponse>> ArchiveRangeAsync(List<Guid> ids);
+    Task<Response<List<DomainResponse>>> ArchiveRangeAsync(List<Guid> ids);
 }

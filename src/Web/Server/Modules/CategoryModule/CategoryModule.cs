@@ -32,7 +32,7 @@ public class CategoryModule : IModule {
 
         group.MapPut("/", async (CategoryResponse value, CategoryService sv) => {
             var result = await sv.UpdateAsync(value);
-            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(value);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Update{name}").WithOpenApi();
 
         group.MapDelete("/{id:guid}", async (Guid id, CategoryService sv) => {

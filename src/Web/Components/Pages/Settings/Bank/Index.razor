@@ -1,6 +1,5 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
-@using XClaim.Common
 @inject IBankService Http
 @page "/app/settings/banks"
 @attribute [Authorize]
@@ -8,19 +7,14 @@
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
+    private int Current { get; set; } = 1;
     MudDataGrid<BankResponse>? _dataGrid;
-    private int CurrentPage { get; set; } = 1;
-    private int RowsPerPage { get; set; } = SharedConst.RowsPerPage;
-    private PaginationFilter Filters {
-        get { return new PaginationFilter { Page = CurrentPage, PerPage = RowsPerPage }; }
-    }
-
     private HashSet<BankResponse> SelectedItems { get; set; } = new HashSet<BankResponse>();
     
-    private async Task<GridData<BankResponse>> ServerDataFunc(GridState<BankResponse> gridState) {
+    private async Task<GridData<BankResponse>> ServerDataFunc(GridState<BankResponse> state) {
         SelectedItems.Clear();
         this.Loading = true;
-        var items = await Http.GetAllAsync(Filters);
+        var items = await Http.GetAllAsync(new PaginationFilter { Page = Current, PerPage = state.PageSize });
         this.Loading = false;
         return new GridData<BankResponse> {
             Items = items.Data,
@@ -49,8 +43,8 @@
 <Title>Banks</Title>
 
 <MudDataGrid @ref="_dataGrid" T="BankResponse" ServerData="ServerDataFunc" MultiSelection="true" SelectedItems="SelectedItems"
-             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
-             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true" CurrentPage="Current"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true">
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateBank" OnCreateClicked="ReloadList"
                       IsFilterActive="false" @bind-Search="Search">

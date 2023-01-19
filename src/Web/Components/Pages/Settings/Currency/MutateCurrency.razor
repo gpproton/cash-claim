@@ -23,25 +23,20 @@
         await base.OnInitializedAsync();
         if (Id != null) {
             Loading = true;
-            Item = await  Http.GetByIdAsync(Id.Value);
+            var response = (await Http.GetByIdAsync(Id.Value)).Data;
+            if (response != null) Item = response;
             Loading = false;
         }
     }
 
     async Task Submit() {
-        bool result;
-        if (Id == null) {
-            result = (await Http.CreateAsync(Item)) != null;
-        } else {
-            result = (await Http.UpdateAsync(Item)) != null;
-        }
-            
-        MudDialog.Close(DialogResult.Ok(result));
+        var result = Id == null ? (await Http.CreateAsync(Item)) : (await Http.UpdateAsync(Item));
+        MudDialog.Close(DialogResult.Ok(result.Succeeded));
     }
 
     async Task TriggerArchive(bool state) {
         if (Item?.Id != null && state) {
-            var result = (await Http.ArchiveAsync(Item.Id.Value)) != null;
+            var result = (await Http.ArchiveAsync(Item.Id.Value)).Succeeded;
             Snackbar.Add(result ? "Deleted successfully" : "Archiving failed", result ? Severity.Success : Severity.Error);
             MudDialog.Close(DialogResult.Ok(result));
         }

@@ -1,5 +1,6 @@
 using XClaim.Common.Dtos;
 using XClaim.Common.Service;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
@@ -10,22 +11,22 @@ public class CurrencyService : ICurrencyService {
     public CurrencyService(IHttpService http) {
         _http = http;
     }
-    public async Task<List<CurrencyResponse>> GetAllAsync() {
-        return await _http.Get<List<CurrencyResponse>>(RootApi + "?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
+    public async Task<PagedResponse<List<CurrencyResponse>>> GetAllAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<CurrencyResponse>>>(RootApi, query);
     }
-    public async Task<CurrencyResponse> GetByIdAsync(Guid id) {
-        return await _http.Get<CurrencyResponse>($"{RootApi}/{id}");
+    public async Task<Response<CurrencyResponse>> GetByIdAsync(Guid id) {
+        return await _http.Get<Response<CurrencyResponse>>($"{RootApi}/{id}");
     }
-    public async Task<CurrencyResponse> CreateAsync(CurrencyResponse currency) {
-        return await _http.Post<CurrencyResponse>(RootApi, currency);
+    public async Task<Response<CurrencyResponse>> CreateAsync(CurrencyResponse bank) {
+        return await _http.Post<Response<CurrencyResponse>>(RootApi, bank);
     }
-    public async Task<CurrencyResponse> UpdateAsync(CurrencyResponse currency) {
-        return await _http.Put<CurrencyResponse>(RootApi, currency);
+    public async Task<Response<CurrencyResponse>> UpdateAsync(CurrencyResponse bank) {
+        return await _http.Put<Response<CurrencyResponse>>(RootApi, bank);
     }
-    public async Task<CurrencyResponse> ArchiveAsync(Guid id) {
-        return await _http.Delete<CurrencyResponse>($"{RootApi}/{id}");
+    public async Task<Response<CurrencyResponse>> ArchiveAsync(Guid id) {
+        return await _http.Delete<Response<CurrencyResponse>>($"{RootApi}/{id}");
     }
-    public async Task<List<CurrencyResponse>> ArchiveRangeAsync(List<Guid> ids) {
-        return await _http.Delete<List<CurrencyResponse>>(RootApi, ids);
+    public async Task<Response<List<CurrencyResponse>>> ArchiveRangeAsync(List<Guid> ids) {
+        return await _http.Delete<Response<List<CurrencyResponse>>>(RootApi, ids);
     }
 }

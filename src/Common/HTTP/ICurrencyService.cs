@@ -1,17 +1,18 @@
 using XClaim.Common.Dtos;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
 public interface ICurrencyService {
-    Task<List<CurrencyResponse>> GetAllAsync();
+    Task<PagedResponse<List<CurrencyResponse>>> GetAllAsync(object? query = null);
     
-    Task<CurrencyResponse> GetByIdAsync(Guid id);
+    Task<Response<CurrencyResponse>> GetByIdAsync(Guid id);
     
-    Task<CurrencyResponse> CreateAsync(CurrencyResponse currency);
+    Task<Response<CurrencyResponse>> CreateAsync(CurrencyResponse category);
     
-    Task<CurrencyResponse> UpdateAsync(CurrencyResponse currency);
+    Task<Response<CurrencyResponse>> UpdateAsync(CurrencyResponse category);
     
-    Task<CurrencyResponse> ArchiveAsync(Guid id);
+    Task<Response<CurrencyResponse>> ArchiveAsync(Guid id);
     
-    Task<List<CurrencyResponse>> ArchiveRangeAsync(List<Guid> ids);
+    Task<Response<List<CurrencyResponse>>> ArchiveRangeAsync(List<Guid> ids);
 }
