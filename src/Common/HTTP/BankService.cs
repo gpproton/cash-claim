@@ -1,5 +1,6 @@
 using XClaim.Common.Dtos;
 using XClaim.Common.Service;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
@@ -10,22 +11,22 @@ public class BankService : IBankService {
     public BankService(IHttpService http) {
         _http = http;
     }
-    public async Task<List<BankResponse>> GetAllAsync() {
-        return await _http.Get<List<BankResponse>>($"{RootApi}?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
+    public async Task<PagedResponse<List<BankResponse>>> GetAllAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<BankResponse>>>(RootApi, query);
     }
-    public async Task<BankResponse> GetByIdAsync(Guid id) {
-        return await _http.Get<BankResponse>($"{RootApi}/{id}");
+    public async Task<Response<BankResponse>> GetByIdAsync(Guid id) {
+        return await _http.Get<Response<BankResponse>>($"{RootApi}/{id}");
     }
-    public async Task<BankResponse> CreateAsync(BankResponse bank) {
-        return await _http.Post<BankResponse>(RootApi, bank);
+    public async Task<Response<BankResponse>> CreateAsync(BankResponse bank) {
+        return await _http.Post<Response<BankResponse>>(RootApi, bank);
     }
-    public async Task<BankResponse> UpdateAsync(BankResponse bank) {
-        return await _http.Put<BankResponse>(RootApi, bank);
+    public async Task<Response<BankResponse>> UpdateAsync(BankResponse bank) {
+        return await _http.Put<Response<BankResponse>>(RootApi, bank);
     }
-    public async Task<BankResponse> ArchiveAsync(Guid id) {
-        return await _http.Delete<BankResponse>($"{RootApi}/{id}");
+    public async Task<Response<BankResponse>> ArchiveAsync(Guid id) {
+        return await _http.Delete<Response<BankResponse>>($"{RootApi}/{id}");
     }
-    public async Task<List<BankResponse>> ArchiveRangeAsync(List<Guid> ids) {
-        return await _http.Delete<List<BankResponse>>(RootApi, ids);
+    public async Task<Response<List<BankResponse>>> ArchiveRangeAsync(List<Guid> ids) {
+        return await _http.Delete<Response<List<BankResponse>>>(RootApi, ids);
     }
 }

@@ -1,4 +1,6 @@
 @using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@using XClaim.Common
 @inject IBankService Http
 @page "/app/settings/banks"
 @attribute [Authorize]
@@ -6,16 +8,24 @@
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
-    private IEnumerable<BankResponse> _elements = new List<BankResponse>();
-    private HashSet<BankResponse> SelectedItems { get; set; } = new HashSet<BankResponse>();
+    MudDataGrid<BankResponse>? _dataGrid;
     private int CurrentPage { get; set; } = 1;
-    
-    protected override async Task OnInitializedAsync() => await LoadItems();
+    private int RowsPerPage { get; set; } = SharedConst.RowsPerPage;
+    private PaginationFilter Filters {
+        get { return new PaginationFilter { Page = CurrentPage, PerPage = RowsPerPage }; }
+    }
 
-    private async Task LoadItems() {
+    private HashSet<BankResponse> SelectedItems { get; set; } = new HashSet<BankResponse>();
+    
+    private async Task<GridData<BankResponse>> ServerDataFunc(GridState<BankResponse> gridState) {
+        SelectedItems.Clear();
         this.Loading = true;
-        _elements = await Http.GetAllAsync();
+        var items = await Http.GetAllAsync(Filters);
         this.Loading = false;
+        return new GridData<BankResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
     }
 
     private Func<BankResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
@@ -26,21 +36,20 @@
         .Where(f => f?.Id != null)
         .Select(f => ((Guid) f.Id!)).ToList();
         if (items.Count > 0) {
-            var result = (await Http.ArchiveRangeAsync(items)) != null;
-            await ReloadList(result);
+            var result = (await Http.ArchiveRangeAsync(items));
+            await ReloadList(result.Succeeded);
         }
     }
     
     private async Task ReloadList(bool reload) {
-        if (reload) await this.LoadItems();
-        SelectedItems.Clear();
+        if (reload) await _dataGrid!.ReloadServerData();
     }
 }
 
 <Title>Banks</Title>
 
-<MudDataGrid T="BankResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems"
-             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true"
+<MudDataGrid @ref="_dataGrid" T="BankResponse" ServerData="ServerDataFunc" MultiSelection="true" SelectedItems="SelectedItems"
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateBank" OnCreateClicked="ReloadList"

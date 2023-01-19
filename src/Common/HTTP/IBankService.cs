@@ -1,17 +1,18 @@
 using XClaim.Common.Dtos;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
 public interface IBankService {
-    Task<List<BankResponse>> GetAllAsync();
+    Task<PagedResponse<List<BankResponse>>> GetAllAsync(object? query = null);
 
-    Task<BankResponse> GetByIdAsync(Guid id);
+    Task<Response<BankResponse>> GetByIdAsync(Guid id);
     
-    Task<BankResponse> CreateAsync(BankResponse bank);
+    Task<Response<BankResponse>> CreateAsync(BankResponse bank);
     
-    Task<BankResponse> UpdateAsync(BankResponse bank);
+    Task<Response<BankResponse>> UpdateAsync(BankResponse bank);
     
-    Task<BankResponse> ArchiveAsync(Guid id);
+    Task<Response<BankResponse>> ArchiveAsync(Guid id);
     
-    Task<List<BankResponse>> ArchiveRangeAsync(List<Guid> ids);
+    Task<Response<List<BankResponse>>> ArchiveRangeAsync(List<Guid> ids);
 }
