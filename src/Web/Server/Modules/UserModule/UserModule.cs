@@ -22,32 +22,32 @@ public class UserModule : IModule {
 
         group.MapGet("/{id:guid}", async (Guid id, UserService sv) => {
             var result = await sv.GetByIdAsync(id);
-            return TypedResults.Ok(result);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
         
         group.MapGet("/{email}", async (string email, UserService sv) => {
             var result = await sv.GetByEmailAsync(email);
-            return result is null ? Results.NotFound() : TypedResults.Ok(result);
+            return !result.Succeeded ? Results.NotFound() : TypedResults.Ok(result);
         }).WithName($"Get{name}ByEmail").WithOpenApi();
 
         group.MapPost("/", async (UserResponse value, UserService sv) => {
-            await sv.CreateAsync(value);
-            return TypedResults.Created($"{url}/{value.Id}", value);
+            var response = await sv.CreateAsync(value);
+            return TypedResults.Created($"{url}/{value.Id}", response);
         }).WithName($"Create{name}").WithOpenApi();
 
         group.MapPut("/", async (UserResponse value, UserService sv) => {
             var result = await sv.UpdateAsync(value);
-            return result is null ? Results.NotFound() : TypedResults.Ok(value);
+            return !result.Succeeded ? Results.NotFound() : TypedResults.Ok(value);
         }).WithName($"Update{name}").WithOpenApi();
 
         group.MapDelete("/{id:guid}", async (Guid id, UserService sv) => {
             var item = await sv.DeleteAsync(id);
-            return item is null ? Results.NotFound() : TypedResults.Ok(item);
+            return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
         
         group.MapDelete("/", async ([FromBody] List<Guid> ids, UserService sv) => {
             var items = await sv.DeleteRangeAsync(ids);
-            return items is null ? Results.NotFound() : TypedResults.Ok(items);
+            return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);
         }).WithName($"RangeArchive{name}").WithOpenApi();
 
         return group;

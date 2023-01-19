@@ -1,5 +1,3 @@
-using XClaim.Common.Dtos;
-
 namespace XClaim.Web.Server.Modules.EventModule;
 
 public class EventModule : IModule {
@@ -21,7 +19,7 @@ public class EventModule : IModule {
 
         group.MapGet("/{id:guid}", async (Guid id, EventService sv) => {
             var result = await sv.GetByIdAsync(id);
-            return TypedResults.Ok(result);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
         return group;

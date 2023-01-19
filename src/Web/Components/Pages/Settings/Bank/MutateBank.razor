@@ -23,14 +23,14 @@
         await base.OnInitializedAsync();
         if (Id != null) {
             Loading = true;
-            Item = (await Http.GetByIdAsync(Id.Value)).Data;
+            var bankResponse = (await Http.GetByIdAsync(Id.Value)).Data;
+            if (bankResponse != null) Item = bankResponse;
             Loading = false;
         }
     }
 
     async Task Submit() {
         var result = Id == null ? (await Http.CreateAsync(Item)) : (await Http.UpdateAsync(Item));
-        Console.WriteLine(result.Succeeded);
         MudDialog.Close(DialogResult.Ok(result.Succeeded));
     }
 

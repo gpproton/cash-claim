@@ -1,4 +1,3 @@
-using IdentityModel;
 using Microsoft.AspNetCore.Mvc;
 using XClaim.Common.Dtos;
 using XClaim.Web.Server.Helpers;
@@ -24,18 +23,25 @@ public class ClaimModule : IModule {
 
         group.MapGet("/{id:guid}", async (Guid id, ClaimService sv) => {
             var result = await sv.GetByIdAsync(id);
-            return TypedResults.Ok(result);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
         group.MapPost("/", async (ClaimResponse value, ClaimService sv) => {
-            await sv.CreateAsync(value);
-            return TypedResults.Created($"{url}/{value.Id}", value);
+            var response = await sv.CreateAsync(value);
+            return TypedResults.Created($"{url}/{value.Id}", response);
         }).WithName($"Create{name}").WithOpenApi();
 
-        group.MapPost("/upload/{Id:guid}", async (Guid? Id, ClaimService sv, IFormFileCollection files, FileUploadService upload) => {
-            var uploads = await upload.UploadFiles(files);
+        group.MapPost("/upload/{id:guid}", async (Guid id, ClaimService sv, IFormFileCollection files, FileUploadService upload) => {
+            
             // TODO: Get claim and save in upload service
-            return TypedResults.Ok(uploads);
+            var result = (await sv.GetByIdAsync(id));
+            if (result.Data == null) return Results.NotFound(result);
+            var uploads = await upload.UploadFiles(files);
+            var data = result.Data;
+            data.Files = uploads;
+            var update = await sv.UpdateAsync(data);
+            
+            return !update.Succeeded ? Results.BadRequest(update) : TypedResults.Ok(update);
         })
             .Accepts<IFormFileCollection>("multipart/form-data")
             .Produces<List<FileResponse>>()
@@ -43,23 +49,22 @@ public class ClaimModule : IModule {
 
         group.MapPut("/", async (ClaimResponse value, ClaimService sv) => {
             var result = await sv.UpdateAsync(value);
-            return result is null ? Results.NotFound() : TypedResults.Ok(value);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Update{name}").WithOpenApi();
 
-        group.MapPost("/review/{id:guid}", (ClaimService sv) => {
-            // TODO: new claim review serviuce
-
+        group.MapPost("/review/{id:guid}", () => {
+            // TODO: new claim review service
             Results.Ok();
         }).WithName($"Review{name}").WithOpenApi();
 
         group.MapDelete("/{id:guid}", async (Guid id, ClaimService sv) => {
             var item = await sv.DeleteAsync(id);
-            return item is null ? Results.NotFound() : TypedResults.Ok(item);
+            return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
         
         group.MapDelete("/", async ([FromBody] List<Guid> ids, ClaimService sv) => {
             var items = await sv.DeleteRangeAsync(ids);
-            return items is null ? Results.NotFound() : TypedResults.Ok(items);
+            return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);
         }).WithName($"RangeArchive{name}").WithOpenApi();
 
         return group;

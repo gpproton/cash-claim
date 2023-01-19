@@ -22,27 +22,27 @@ public class DomainModule : IModule {
         
         group.MapGet("/{id:guid}", async (Guid id, DomainService sv) => {
             var result = await sv.GetByIdAsync(id);
-            return TypedResults.Ok(result);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
         group.MapPost("/", async (DomainResponse value, DomainService sv) => {
-            await sv.CreateAsync(value);
-            return TypedResults.Created($"{url}/{value.Id}", value);
+            var response = await sv.CreateAsync(value);
+            return TypedResults.Created($"{url}/{value.Id}", response);
         }).WithName($"Create{name}").WithOpenApi();
 
         group.MapPut("/", async (DomainResponse value, DomainService sv) => {
             var result = await sv.UpdateAsync(value);
-            return result is null ? Results.NotFound() : TypedResults.Ok(value);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Update{name}").WithOpenApi();
 
         group.MapDelete("/{id:guid}", async (Guid id, DomainService sv) => {
             var item = await sv.DeleteAsync(id);
-            return item is null ? Results.NotFound() : TypedResults.Ok(item);
+            return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
         
         group.MapDelete("/", async ([FromBody] List<Guid> ids, DomainService sv) => {
             var items = await sv.DeleteRangeAsync(ids);
-            return items is null ? Results.NotFound() : TypedResults.Ok(items);
+            return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);
         }).WithName($"RangeArchive{name}").WithOpenApi();
 
         return group;

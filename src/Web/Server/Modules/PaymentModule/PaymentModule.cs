@@ -22,23 +22,23 @@ public class PaymentModule : IModule {
 
         group.MapGet("/{id:guid}", async (Guid id, PaymentService sv) => {
             var result = await sv.GetByIdAsync(id);
-            return TypedResults.Ok(result);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
 
         group.MapPost("/confirmation", async (PaymentResponse value, PaymentService sv) => {
             value.CompletedAt = DateTime.Now;
             var result = await sv.UpdateAsync(value);
-            return result is null ? Results.NotFound() : TypedResults.Ok(value);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Confirm{name}").WithOpenApi();
 
         group.MapPost("/cancel/{id:guid}", async (Guid id, PaymentService sv) => {
             var item = await sv.DeleteAsync(id);
-            return item is null ? Results.NotFound() : TypedResults.Ok(item);
+            return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
         }).WithName($"Cancel{name}").WithOpenApi();
         
         group.MapDelete("/", async ([FromBody] List<Guid> ids, PaymentService sv) => {
             var items = await sv.DeleteRangeAsync(ids);
-            return items is null ? Results.NotFound() : TypedResults.Ok(items);
+            return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);
         }).WithName($"RangeArchive{name}").WithOpenApi();
 
         return group;
