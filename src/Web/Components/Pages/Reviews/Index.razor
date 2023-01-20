@@ -1,4 +1,5 @@
 @using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
 @inject IClaimService Http
 @page "/app/reviews"
 @attribute [Authorize]
@@ -6,54 +7,67 @@
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
-    private DateRange _dateRange = WebConst.AppDateRange;
-    private IEnumerable<ClaimResponse> _elements = new List<ClaimResponse>();
-    private HashSet<ClaimResponse> SelectedItems { get; set; } = new HashSet<ClaimResponse>();
-    private int CurrentPage { get; set; } = 1;
+    private int Current { get; set; } = 1;
+    private DateRange DateRange { get; set; } = WebConst.AppDateRange;
+    MudDataGrid<ClaimResponse>? _dataGrid;
     
-    protected override async Task OnInitializedAsync() => await LoadItems();
-
-    private async Task LoadItems() {
-        this.Loading = true;
-        _elements = await Http.GetReviewsAsync();
-        this.Loading = false;
-    }
-
-    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
+    private HashSet<ClaimResponse> SelectedItems { get; set; } = new HashSet<ClaimResponse>();
     
     private Func<ClaimResponse, bool> Filter => x =>
     string.IsNullOrWhiteSpace(Search)
     || x.Description.Contains(Search, StringComparison.OrdinalIgnoreCase)
     || x.Notes.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task<GridData<ClaimResponse>> ServerDataFunc(GridState<ClaimResponse> state) {
+        SelectedItems.Clear();
+        this.Loading = true;
+        var filter = new DateSearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null 
+        };
+        var items = await Http.GetReviewsAsync(filter);
+        this.Loading = false;
+        return new GridData<ClaimResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
 }
 
 <Title>Claim Reviews</Title>
 
-<MudDataGrid T="ClaimResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
-             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
+<MudDataGrid @ref="_dataGrid" T="ClaimResponse" MultiSelection="true" ServerData="ServerDataFunc" SelectedItems="SelectedItems" 
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
-            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
-        </TableToolbar>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateReview" @bind-Value="DateRange"
+                      IsFilterActive="true" IsCreateActive="false" @bind-Search="Search" />
     </ToolBarContent>
     <LoadingContent>
          <TableLoading></TableLoading>
     </LoadingContent>
     <Columns>
-        <SelectColumn T="ClaimResponse" ShowInFooter="false" ShowInHeader="false" />
         <Column T="ClaimResponse" Field="Description" />
         <Column T="ClaimResponse" Field="Owner">
             <CellTemplate>
-                @context.Item.Owner?.FullName
+                @(context.Item.Owner?.FullName ?? "None")
             </CellTemplate>
         </Column>
         <Column T="ClaimResponse" Field="Amount" />
-        <Column T="ClaimResponse" Field="Category" />
+        <Column T="ClaimResponse" Field="Category">
+            <CellTemplate>
+                @(context.Item.Category?.Name ?? "None")
+            </CellTemplate>
+        </Column>
         <Column T="ClaimResponse" Field="Status" />
         <Column T="ClaimResponse">
             <CellTemplate>
-                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
-                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+                <FormEditTrigger TForm="MutateReview" Id="context.Item.Id!.Value" Icon="@Icons.Material.Filled.Menu" OnTriggered="ReloadList"></FormEditTrigger>
             </CellTemplate>
         </Column>
     </Columns>

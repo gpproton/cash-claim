@@ -1,5 +1,6 @@
 using XClaim.Common.Dtos;
 using XClaim.Common.Service;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
@@ -10,11 +11,25 @@ public class ClaimService : IClaimService {
     public ClaimService(IHttpService http) {
         _http = http;
     }
-    public async Task<List<ClaimResponse>> GetAllAsync() {
-        return await _http.Get<List<ClaimResponse>>($"{RootApi}?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
+    public async Task<PagedResponse<List<ClaimResponse>>> GetAllAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<ClaimResponse>>>(RootApi, query);
     }
-    
-    public async Task<List<ClaimResponse>> GetReviewsAsync() {
-        return await _http.Get<List<ClaimResponse>>($"{RootApi}?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
+    public async Task<PagedResponse<List<ClaimResponse>>> GetReviewsAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<ClaimResponse>>>(RootApi, query);
+    }
+    public async Task<Response<ClaimResponse>> GetByIdAsync(Guid id) {
+        return await _http.Get<Response<ClaimResponse>>($"{RootApi}/{id}");
+    }
+    public async Task<Response<ClaimResponse>> CreateAsync(ClaimResponse claim) {
+        return await _http.Post<Response<ClaimResponse>>(RootApi, claim);
+    }
+    public async Task<Response<ClaimResponse>> UpdateAsync(ClaimResponse claim) {
+        return await _http.Put<Response<ClaimResponse>>(RootApi, claim);
+    }
+    public async Task<Response<ClaimResponse>> ReviewAsync(ClaimResponse claim) {
+        return await _http.Put<Response<ClaimResponse>>(RootApi, claim);
+    }
+    public async Task<Response<ClaimResponse>> ArchiveAsync(Guid id) {
+        return await _http.Delete<Response<ClaimResponse>>($"{RootApi}/{id}");
     }
 }

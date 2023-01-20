@@ -84,8 +84,8 @@
                         </MudItem>
                         <MudItem xs="12">
                             <MudAutocomplete T="CompanyResponse" Label="Company" @bind-Value="Company" SearchFunc="@SearchCompany"
-                                             Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Company = null"
-                                             Clearable="true" ToStringFunc="@(e=> e == null ? null : $"{e.FullName}")" />
+                                 Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Company = null"
+                                 Clearable="true" ToStringFunc="@(e=> e == null ? null : $"{e.FullName}")" />
                         </MudItem>
                         <MudItem xs="12">
                             <MudSwitch @bind-Checked="@Item.Active" Color="Color.Primary" Label="@(Item.Active ? "Enabled" : "Disabled")"/>

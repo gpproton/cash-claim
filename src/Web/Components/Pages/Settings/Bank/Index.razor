@@ -14,7 +14,12 @@
     private async Task<GridData<BankResponse>> ServerDataFunc(GridState<BankResponse> state) {
         SelectedItems.Clear();
         this.Loading = true;
-        var items = await Http.GetAllAsync(new PaginationFilter { Page = Current, PerPage = state.PageSize });
+        var filter = new SearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null 
+        };
+        var items = await Http.GetAllAsync(filter);
         this.Loading = false;
         return new GridData<BankResponse> {
             Items = items.Data,

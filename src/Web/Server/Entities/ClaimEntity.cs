@@ -19,7 +19,7 @@ public sealed class ClaimEntity : BaseEntity {
     public CompanyEntity? Company { get; set; }
     public Guid? CompanyId { get; set; }
     public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
-    [Required]
+    // [Required]
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
     public UserEntity? ReviewedBy { get; set; }

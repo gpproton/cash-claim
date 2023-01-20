@@ -8,8 +8,10 @@ public class ClaimResponse : BaseResponse {
     public string Notes { get; set; } = string.Empty;
     public decimal Amount { get; set; }
     public CategoryResponse? Category { get; set; }
+    public Guid? CategoryId { get; set; }
     public CompanyResponse? Company { get; set; }
-    public ClaimStatus Status { get; set; }
+    public Guid? CompanyId { get; set; }
+    public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
     public UserResponse? Owner { get; set; }
     public UserResponse? ReviewedBy { get; set; }
     public DateTime? ReviewedAt { get; set; }
