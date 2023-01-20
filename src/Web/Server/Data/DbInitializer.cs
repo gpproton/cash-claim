@@ -60,9 +60,9 @@ public class DbInitializer {
         };
         
         var users = new List<UserEntity> {
-            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, Permission = UserPermission.Administrator, FirstName = "John", LastName = "Doe", UserName = "john_doe", Email = "john.doe@test.com", Phone = "+23401", TeamId = teams[0].Id,CompanyId = companies[0].Id },
-            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", UserName = "jane_doe", Email = "jane.doe@test.com", Phone = "+23402", TeamId = teams[1].Id, CompanyId = companies[1].Id },
-            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Johnny ", LastName = "Test", UserName = "johnny_test", Email = "johnny.test@test.com", Phone = "+23403", TeamId = teams[2].Id, CompanyId = companies[2].Id },
+            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, Permission = UserPermission.Administrator, FirstName = "John", LastName = "Doe", Email = "john.doe@test.com", Phone = "+23401", TeamId = teams[0].Id,CompanyId = companies[0].Id },
+            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", Email = "jane.doe@test.com", Phone = "+23402", TeamId = teams[1].Id, CompanyId = companies[1].Id },
+            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Johnny ", LastName = "Test", Email = "johnny.test@test.com", Phone = "+23403", TeamId = teams[2].Id, CompanyId = companies[2].Id },
         };
         
         _modelBuilder.Entity<BankEntity>().HasData(banks);

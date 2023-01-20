@@ -19,7 +19,12 @@
     private async Task<GridData<UserResponse>> ServerDataFunc(GridState<UserResponse> state) {
         SelectedItems.Clear();
         this.Loading = true;
-        var items = await Http.GetAllAsync(new SearchFilter { Page = Current, PerPage = state.PageSize, Search = Search });
+        var filter = new SearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null
+        };
+        var items = await Http.GetAllAsync(filter);
         this.Loading = false;
         return new GridData<UserResponse> {
             Items = items.Data,
@@ -33,8 +38,8 @@
         .Where(f => f?.Id != null)
         .Select(f => ((Guid) f.Id!)).ToList();
         if (items.Count > 0) {
-            // var result = (await Http.ArchiveRangeAsync(items));
-            // await ReloadList(result.Succeeded);
+            var result = (await Http.ArchiveRangeAsync(items));
+            await ReloadList(result.Succeeded);
         }
     }
     
@@ -43,13 +48,13 @@
     }
 }
 
-<Title>Users management</Title>
+<Title>Users Management</Title>
 
-<MudDataGrid @ref="_dataGrid" Dense="true" T="UserResponse" MultiSelection="true" SelectedItems="SelectedItems"
-             Loading="Loading"Height="@WebConst.TableHeight" Hover="true"
+<MudDataGrid @ref="_dataGrid" Dense="true" T="UserResponse" MultiSelection="true" SelectedItems="SelectedItems" ServerData="ServerDataFunc"
+             Loading="Loading"Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Search="Search">
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateUser" IsFilterActive="true" IsCreateActive="false" @bind-Search="Search">
             <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
         </TableToolbar>
     </ToolBarContent>
@@ -61,8 +66,7 @@
         <Column T="UserResponse">
             <CellTemplate>
                 <MudStack Spacing="2" Row="true">
-                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" Variant="Variant.Filled" Color="Color.Warning" />
-                    <MudIconButton Icon="@Icons.Material.Filled.Archive"Size="Size.Small" Variant="Variant.Filled" Color="Color.Info" />
+                    <FormEditTrigger TForm="MutateUser" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
                 </MudStack>
             </CellTemplate>
         </Column>

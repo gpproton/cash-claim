@@ -28,8 +28,7 @@
     }
     
     private Func<CategoryResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
-    
-    
+
     private async Task ArchiveSelectedItems(bool allow) {
         if (!allow) return;
         List<Guid> items = SelectedItems

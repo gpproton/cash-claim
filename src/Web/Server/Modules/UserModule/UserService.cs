@@ -50,4 +50,23 @@ public class UserService : GenericService<ServerContext, UserEntity, UserRespons
         
         return result;
     }
+    
+    new public virtual async Task<Response<UserResponse?>> GetByIdAsync(Guid id) {
+        var response = new Response<UserResponse?>();
+        try {
+            var item = await _ctx.Users
+                       .Where(x => x.Id == id)
+                       .Include(x => x.Company)
+                       .Include(x => x.Team)
+                       .FirstOrDefaultAsync();
+            var data = _mapper.Map<UserResponse>(item);
+            response.Data = data;
+            response.Succeeded = data != null;
+        } catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+
+        return response;
+    }
 }
