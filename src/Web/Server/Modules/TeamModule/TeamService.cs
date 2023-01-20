@@ -43,7 +43,6 @@ public class TeamService : GenericService<ServerContext, TeamEntity, TeamRespons
     
     new public virtual async Task<Response<TeamResponse?>> GetByIdAsync(Guid id) {
         var result = new Response<TeamResponse?>();
-
         try {
             var item = await _ctx.Teams
                        .Include(e => e.Company)

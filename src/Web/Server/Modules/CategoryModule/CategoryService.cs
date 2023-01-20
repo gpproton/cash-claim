@@ -1,4 +1,5 @@
 using AutoFilterer.Extensions;
+using AutoFilterer.Types;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Dtos;
@@ -12,7 +13,7 @@ namespace XClaim.Web.Server.Modules.CategoryModule;
 public class CategoryService : GenericService<ServerContext, CategoryEntity, CategoryResponse> {
     public CategoryService(ServerContext ctx, IMapper mapper, ILogger<CategoryService> logger) : base(ctx, mapper, logger) { }
 
-    public async Task<PagedResponse<List<CategoryResponse>>> GetAllAsync(CategoryFilter responseFilter) {
+    new public async Task<PagedResponse<List<CategoryResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
         var result = new PagedResponse<List<CategoryResponse>>();
         var query = _ctx.Categories.Include(x => x.Company);
         try {
@@ -34,6 +35,25 @@ public class CategoryService : GenericService<ServerContext, CategoryEntity, Cat
             _logger.LogError(e.ToString());
         }
 
+        return result;
+    }
+    
+    new public virtual async Task<Response<CategoryResponse?>> GetByIdAsync(Guid id) {
+        var result = new Response<CategoryResponse?>();
+        try {
+            var item = await _ctx.Categories
+                       .Include(e => e.Company)
+                       .FirstOrDefaultAsync(e => e.Id == id);
+            var data = _mapper.Map<CategoryResponse>(item);
+            result.Succeeded = data != null;
+            result.Data = data;
+        }
+        catch (Exception e) {
+            result.Errors = new[] {
+                e.ToString()
+            };
+        }
+        
         return result;
     }
 }
