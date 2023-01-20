@@ -58,13 +58,13 @@ public class DbInitializer {
             new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Logistics Dept", CompanyId = companies[1].Id  },
             new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "QA Dept", CompanyId = companies[2].Id  }
         };
-        
+
         var users = new List<UserEntity> {
             new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, Permission = UserPermission.Administrator, FirstName = "John", LastName = "Doe", Email = "john.doe@test.com", Phone = "+23401", TeamId = teams[0].Id,CompanyId = companies[0].Id },
             new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", Email = "jane.doe@test.com", Phone = "+23402", TeamId = teams[1].Id, CompanyId = companies[1].Id },
             new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Johnny ", LastName = "Test", Email = "johnny.test@test.com", Phone = "+23403", TeamId = teams[2].Id, CompanyId = companies[2].Id },
         };
-        
+
         _modelBuilder.Entity<BankEntity>().HasData(banks);
         _modelBuilder.Entity<DomainEntity>().HasData(domains);
         _modelBuilder.Entity<CurrencyEntity>().HasData(currencies);

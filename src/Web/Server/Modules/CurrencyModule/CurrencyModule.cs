@@ -19,7 +19,7 @@ public class CurrencyModule : IModule {
         await sv.GetAllAsync(filter))
         .WithName($"GetAll{name}")
         .WithOpenApi();
-        
+
         group.MapGet("/{id:guid}", async (Guid id, CurrencyService sv) => {
             var result = await sv.GetByIdAsync(id);
             return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
@@ -39,7 +39,7 @@ public class CurrencyModule : IModule {
             var item = await sv.DeleteAsync(id);
             return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
-        
+
         group.MapDelete("/", async ([FromBody] List<Guid> ids, CurrencyService sv) => {
             var items = await sv.DeleteRangeAsync(ids);
             return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);

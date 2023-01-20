@@ -17,7 +17,7 @@ public class UserService : IUserService {
     public async Task<PagedResponse<List<UserResponse>>> GetManagersAsync(object? query = null) {
         return await _http.Get<PagedResponse<List<UserResponse>>>(RootApi, query);
     }
-    
+
     public async Task<Response<UserResponse>> GetByIdAsync(Guid id) {
         return await _http.Get<Response<UserResponse>>($"{RootApi}/{id}");
     }

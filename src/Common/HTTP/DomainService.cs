@@ -7,11 +7,11 @@ namespace XClaim.Common.HTTP;
 public class DomainService : IDomainService {
     private const string RootApi = "api/v1/domain";
     private readonly IHttpService _http;
-    
+
     public DomainService(IHttpService http) {
         _http = http;
     }
-    
+
     public async Task<PagedResponse<List<DomainResponse>>> GetAllAsync(object? query = null) {
         return await _http.Get<PagedResponse<List<DomainResponse>>>(RootApi, query);
     }

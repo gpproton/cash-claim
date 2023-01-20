@@ -12,11 +12,11 @@ public class PagedResponse<T> : Response<T> {
         this.Page = filter.Page;
         this.PerPage = filter.PerPage;
     }
-    
+
     public int Page { get; set; }
     public int PerPage { get; set; }
     public int Total { get; set; }
-    
+
     public int TotalPages {
         get {
             var total = ((double)this.Total / this.PerPage);

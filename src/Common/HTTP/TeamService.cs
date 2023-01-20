@@ -7,11 +7,11 @@ namespace XClaim.Common.HTTP;
 public class TeamService : ITeamService {
     private const string RootApi = "api/v1/team";
     private readonly IHttpService _http;
-    
+
     public TeamService(IHttpService http) {
         _http = http;
     }
-    
+
     public async Task<PagedResponse<List<TeamResponse>>> GetAllAsync(object? query = null) {
         return await _http.Get<PagedResponse<List<TeamResponse>>>(RootApi, query);
     }

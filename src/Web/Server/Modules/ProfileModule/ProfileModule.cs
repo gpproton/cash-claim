@@ -19,7 +19,7 @@ public class ProfileModule : IModule {
 
         group.MapGet("/account", async (HttpRequest request, UserService user) => {
             bool isAuth = request.HttpContext.User.Identity?.IsAuthenticated ?? false;
-            
+
             if (!isAuth) return Results.Unauthorized();
             var auth = await request.HttpContext.AuthenticateAsync("Microsoft");
             var email = request.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value ?? "";
@@ -41,11 +41,12 @@ public class ProfileModule : IModule {
                     LastName = names[^1],
                     Phone = phone
                 };
-            } else {
+            }
+            else {
                 profile = new ProfileResponse {
                     Email = account.Email,
                     FirstName = account.FirstName,
-                    LastName = account.LastName ,
+                    LastName = account.LastName,
                     Phone = account.LastName,
                     Permission = account.Permission,
                     Balance = account.Balance,
@@ -63,8 +64,8 @@ public class ProfileModule : IModule {
                 Data = profile,
                 UserName = fullName
             };
-            
-             return Results.Ok(response);
+
+            return Results.Ok(response);
         }).WithName("AccountProfile").WithOpenApi();
 
         return group;

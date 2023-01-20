@@ -39,7 +39,7 @@ public class TeamModule : IModule {
             var item = await sv.DeleteAsync(id);
             return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
-        
+
         group.MapDelete("/", async ([FromBody] List<Guid> ids, TeamService sv) => {
             var items = await sv.DeleteRangeAsync(ids);
             return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);

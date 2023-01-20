@@ -7,13 +7,13 @@ namespace XClaim.Common.HTTP;
 public class CategoryService : ICategoryService {
     private const string RootApi = "api/v1/category";
     private readonly IHttpService _http;
-    
+
     public CategoryService(IHttpService http) {
         _http = http;
     }
     public async Task<PagedResponse<List<CategoryResponse>>> GetAllAsync(object? query = null) =>
         await _http.Get<PagedResponse<List<CategoryResponse>>>(RootApi, query);
-    
+
     public async Task<Response<CategoryResponse>> GetByIdAsync(Guid id) {
         return await _http.Get<Response<CategoryResponse>>($"{RootApi}/{id}");
     }

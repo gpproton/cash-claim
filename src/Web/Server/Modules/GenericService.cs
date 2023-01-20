@@ -37,14 +37,15 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
             result = new PagedResponse<List<TResponse>>(response, count, filter) {
                 Succeeded = true
             };
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             result.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
         }
 
         return result;
     }
-    
+
     public virtual async Task<Response<TResponse?>> GetByIdAsync(Guid id) {
         var response = new Response<TResponse?>();
         try {
@@ -52,7 +53,8 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
             var data = _mapper.Map<TResponse>(item);
             response.Data = data;
             response.Succeeded = data != null;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
         }
@@ -70,7 +72,8 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
             response = new Response<TResponse>(data!) {
                 Succeeded = data != null
             };
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
         }
@@ -89,7 +92,8 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
             var data = _mapper.Map<TResponse>(item);
             response.Data = data;
             response.Succeeded = data != null;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
         }
@@ -106,15 +110,16 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
             var data = _mapper.Map<TResponse>(item);
             response.Data = data;
             response.Succeeded = data != null;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
         }
-        
-        
+
+
         return response;
     }
-    
+
     public async Task<Response<List<TResponse>?>> DeleteRangeAsync(List<Guid> ids) {
         var response = new Response<List<TResponse>?>();
         try {
@@ -125,7 +130,8 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
             var data = _mapper.Map<List<TResponse>>(items);
             response.Data = data;
             response.Succeeded = data != null;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
         }

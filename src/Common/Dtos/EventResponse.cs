@@ -7,5 +7,5 @@ public class EventResponse : BaseResponse {
     public EventType Type { get; set; } = EventType.Claim;
     public ClaimResponse? Claim { get; set; }
     public PaymentResponse? Payment { get; set; }
-    public string Description { get; set; }  = string.Empty;
+    public string Description { get; set; } = string.Empty;
 }
