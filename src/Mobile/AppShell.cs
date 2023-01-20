@@ -8,9 +8,9 @@ using XClaim.Mobile.Views.Payment;
 namespace XClaim.Mobile;
 
 public class AppShell : Shell {
-    public AppShell() {
+    public AppShell(AppShellViewModel vm) {
         FlyoutBehavior = FlyoutBehavior.Disabled;
-        BindingContext = new AppShellViewModel();
+        BindingContext = vm;
 
         Items.Add(new ShellContent {
             FlyoutItemIsVisible = false,
@@ -75,7 +75,7 @@ public class AppShell : Shell {
 
         Items.Add(new ShellContent {
             FlyoutItemIsVisible = false,
-            Route = nameof(NotificationView),
+            Route = $"{nameof(HomeView)}/{nameof(NotificationView)}",
             ContentTemplate = new DataTemplate(typeof(NotificationView))
         });
 
@@ -85,6 +85,10 @@ public class AppShell : Shell {
             ContentTemplate = new DataTemplate(typeof(ProfileView))
         });
     }
+
+    private void MobileShell() { }
+
+    private void DesktopShell() { }
 }
 
 public partial class AppShellViewModel : BaseViewModel {

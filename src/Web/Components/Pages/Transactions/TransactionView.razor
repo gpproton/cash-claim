@@ -1,0 +1,38 @@
+@using XClaim.Common.Dtos
+@inject IPaymentService Http
+@inject ISnackbar Snackbar
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+    
+    [Parameter]
+    public Guid? Id { get; set; }
+
+    private bool Loading { get; set; }
+    
+    private PaymentResponse Item { get; set; } = new PaymentResponse();
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        if (Id != null) {
+            Loading = true;
+            var response = (await Http.GetByIdAsync(Id.Value)).Data;
+            if (response != null) {
+                Item = response;
+            }
+            Loading = false;
+        }
+    }
+}
+
+<MudDialog Class="ma-0 pa-0">
+    <DialogContent>
+        <MudOverlay Visible="Loading" DarkBackground="true" Absolute="true">
+            <MudProgressCircular Color="Color.Default" Style="height:96px;width:96px;" Indeterminate="true" />
+        </MudOverlay>
+        <MudContainer Class="px-0 mx-0" Style="min-height: calc(100vh - 250px)">
+            
+        </MudContainer>
+    </DialogContent>
+</MudDialog>

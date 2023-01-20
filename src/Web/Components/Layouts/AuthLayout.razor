@@ -1,0 +1,25 @@
+@inherits LayoutComponentBase
+@inject NavigationManager Nav
+
+@code {
+    void SignIn() => Nav.NavigateTo($"{Nav.BaseUri}{WebConst.ApiAuth}", true);
+    void SignOut() => Console.WriteLine("Trigger SignOut");
+}
+
+<MudAppBar Elevation="1">
+    <MudText Typo="Typo.h5" Class="ml-3">X-Claim</MudText>
+    <MudSpacer />
+    <AuthorizeView>
+        <Authorized>
+            <MudButton Variant="Variant.Outlined" Class="px-12 px-4 white text-indigo" Size="Size.Large" OnClick="SignOut">Sign Out</MudButton>
+        </Authorized>
+        <NotAuthorized>
+            <MudButton Variant="Variant.Outlined" Class="px-12 px-4 white text-indigo" Size="Size.Large" OnClick="SignIn">Sign In</MudButton>
+        </NotAuthorized>
+    </AuthorizeView>
+</MudAppBar>
+<MudMainContent>
+    <MudContainer>
+        @Body
+    </MudContainer>
+</MudMainContent>

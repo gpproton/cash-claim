@@ -1,10 +1,13 @@
 using XClaim.Mobile.Views.Home;
-using static Microsoft.Maui.Controls.Button;
 
 namespace XClaim.Mobile.Views.Startup;
 
 public class AuthView : BaseView<AuthViewModel> {
-    enum PageRow { First, Second }
+    private enum PageRow {
+        First,
+        Second
+    }
+
     public AuthView(AuthViewModel vm) : base(vm) => Build();
 
     protected override void Build() {
@@ -16,27 +19,23 @@ public class AuthView : BaseView<AuthViewModel> {
             ),
             Children = {
                 new Image() {
-                    HeightRequest = 320,
-                    MaximumHeightRequest = 768,
-                    Aspect = Aspect.AspectFill
-                }
-                .Source(Icons.AuthBanner)
-                .CenterHorizontal()
-                .Row(PageRow.First),
-                new VerticalStackLayout() {
-                    Children = {
-                        new Button() {
-                            ImageSource = Icons.Google,
-                            ContentLayout = new ButtonContentLayout(ButtonContentLayout.ImagePosition.Left, 32)
-                        }
-                        .Text("Sign in with Google")
-                        .DynamicResource(StyleProperty, "ButtonAuth")
-                        .CenterVertical()
-                        .BindCommand(nameof(AuthViewModel.NavigateToHomeCommand))
+                        HeightRequest = 320,
+                        MaximumHeightRequest = 768,
+                        Aspect = Aspect.AspectFill
                     }
-                }
-                .Paddings(16, 16, 16, 16)
-                .Row(PageRow.Second)
+                    .Source(Icons.AuthBanner)
+                    .CenterHorizontal()
+                    .Row(PageRow.First),
+                new VerticalStackLayout() {
+                        Children = {
+                            new Button().Text("Sign in with Microsoft")
+                                .Style(ButtonStyle.LargeOutline)
+                                .CenterVertical()
+                                .BindCommand(nameof(AuthViewModel.NavigateToHomeCommand))
+                        }
+                    }
+                    .Paddings(16, 16, 16, 16)
+                    .Row(PageRow.Second)
             }
         };
     }
@@ -48,5 +47,19 @@ public class AuthView : BaseView<AuthViewModel> {
 
 public partial class AuthViewModel : BaseViewModel {
     [RelayCommand]
-    async void NavigateToHome() => await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
+    private async void NavigateToHome() {
+        var redirect = $"{AppConst.AppId}://";
+        try {
+            WebAuthenticatorResult result = await WebAuthenticator.Default.AuthenticateAsync(
+                new Uri($"{AppConst.AuthUri}"),
+                new Uri(redirect)
+                );
+
+            Console.WriteLine(result);
+            await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
+        }
+        catch (TaskCanceledException e) {
+            Console.WriteLine(e);
+        }
+    }
 }

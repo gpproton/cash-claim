@@ -1,8 +1,14 @@
 namespace XClaim.Mobile.Views.Startup;
 
 public class WelcomeView : BaseView<WelcomeViewModel> {
-    enum PageRow { First, Second }
-    public WelcomeView(WelcomeViewModel vm) : base(vm) => Build();
+    private enum PageRow {
+        First,
+        Second
+    }
+
+    public WelcomeView(WelcomeViewModel vm) : base(vm) {
+        Build();
+    }
 
     protected override void Build() {
         Background = Gradients.AppGradient;
@@ -13,25 +19,25 @@ public class WelcomeView : BaseView<WelcomeViewModel> {
             ),
             Children = {
                 new Image() {
-                    HeightRequest = 320,
-                    MaximumHeightRequest = 768,
-                    Aspect = Aspect.AspectFill
-                }
-                .Source(Icons.WelcomeBanner)
-                .CenterHorizontal()
-                .Row(PageRow.First),
-                new VerticalStackLayout() {
-                    Children = {
-                        new Button()
-                        .Text("Get Started")
-                        .DynamicResource(StyleProperty, "ButtonLargeLight")
-                        .CenterVertical()
-                        .Invoke(l => l.Clicked += async (sender, args) =>
-                                     await Shell.Current.GoToAsync($"//{nameof(AuthView)}")
-                        )
+                        HeightRequest = 320,
+                        MaximumHeightRequest = 768,
+                        Aspect = Aspect.AspectFill
                     }
-                }
-                .Row(PageRow.Second)
+                    .Source(Icons.WelcomeBanner)
+                    .CenterHorizontal()
+                    .Row(PageRow.First),
+                new VerticalStackLayout() {
+                        Children = {
+                            new Button()
+                                .Text(AppConst.WelcomeGreeting)
+                                .Style(ButtonStyle.LargeLight)
+                                .CenterVertical()
+                                .Invoke(l => l.Clicked += async (sender, args) =>
+                                    await Shell.Current.GoToAsync($"//{nameof(AuthView)}")
+                                )
+                        }
+                    }
+                    .Row(PageRow.Second)
             }
         };
     }

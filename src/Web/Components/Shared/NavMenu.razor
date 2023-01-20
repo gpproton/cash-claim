@@ -1,0 +1,76 @@
+﻿@code {
+    [Parameter]
+    public bool SideBarOpen { get; set; } = true;
+
+    record MenuLink(string Title, string Icon, string Path, List<MenuLink>? Child = null);
+
+    private List<MenuLink> _links = new() {
+        new MenuLink("Overview", Icons.Material.Filled.Dashboard, "/app/overview"),
+        new MenuLink("Claims", Icons.Material.Filled.Money, "/app/claims"),
+        new MenuLink("Payments", Icons.Material.Filled.CreditCard, "/app/payments"),
+        new MenuLink("Reviews", Icons.Material.Filled.Reviews, "/app/reviews"),
+        new MenuLink("Transactions", Icons.Material.Filled.SendTimeExtension, "/app/transactions")
+    };
+
+    private List<MenuLink> _secondaryLinks = new() {
+        new MenuLink("Settings", Icons.Material.Filled.Settings, "/app/settings/",
+            new () {
+                new MenuLink("Teams", Icons.Material.Filled.Groups, "/app/settings/teams"),
+                new MenuLink("Category", Icons.Material.Filled.Category, "/app/settings/category"),
+                new MenuLink("Companies", Icons.Material.Filled.PendingActions, "/app/settings/companies"),
+                new MenuLink("Banks", Icons.Material.Filled.Money, "/app/settings/banks"),
+                new MenuLink("Domains", Icons.Material.Filled.Computer, "/app/settings/domains"),
+                new MenuLink("Currency", Icons.Material.Filled.CurrencyExchange, "/app/settings/currency"),
+                new MenuLink("Server", Icons.Material.Filled.SettingsApplications, "/app/settings/server")
+            }),
+        new MenuLink("Users", Icons.Material.Filled.People, "/app/users"),
+        new MenuLink("Help", Icons.Material.Filled.Help, "/app/help")
+    };
+}
+
+<MudDrawer @bind-Open="SideBarOpen" Elevation="1">
+    <MudDrawerHeader>
+        <MudAvatar Rounded="true" Color="Color.Transparent" Size="Size.Medium">X</MudAvatar>
+        <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-top:4px; margin-left:15px;">X-Claim</MudText>
+    </MudDrawerHeader>
+    <MudDivider Class="my-4" />
+    <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
+        @foreach (var link in _links) {
+            <MudNavLink Href="@link.Path" Icon="@link.Icon" Class="nav_link">@link.Title</MudNavLink>
+        }
+    </MudNavMenu>
+
+    <div class="nav_footer mt-16 pt-6">
+        <MudDivider Class="my-2" />
+        @foreach (var link in _secondaryLinks) {
+            <MudNavMenu href="@link.Path" Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
+                @if (link.Child is not null) {
+                    <MudNavGroup Class="nav_link" Title="@link.Title" Icon="@Icons.Material.Filled.Settings" Expanded="false">
+                        @foreach (var subLink in link.Child) {
+                            <MudNavLink Href="@subLink.Path" Icon="@subLink.Icon" Class="nav_link">@subLink.Title</MudNavLink>
+                        }
+                    </MudNavGroup>
+                } else {
+                    <MudNavLink Href="@link.Path" Icon="@link.Icon" Class="nav_link">@link.Title</MudNavLink>
+                }
+            </MudNavMenu>
+        }
+    </div>
+    
+</MudDrawer>
+
+<style>
+.mud-nav-link-icon-default {
+    transform: scale(1.2);
+}
+.nav_link {
+    font-family: 'Roboto', serif;
+    font-size: 1.1rem;
+    font-weight: 300
+}
+
+.nav_footer {
+    /*position: sticky;*/
+    /*bottom: 0;*/
+}
+</style>

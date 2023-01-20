@@ -1,0 +1,79 @@
+@page "/app/user/profile"
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@inject IUserService Http
+@inject ICurrencyService CurrencyService
+@inject NavigationManager Nav
+@inject ISnackbar Snackbar
+@attribute [Authorize]
+
+@code {
+    [Parameter]
+    public Guid? Id { get; set; }
+    
+    private CurrencyResponse? Currency { get; set; }
+    
+    private async Task<IEnumerable<CurrencyResponse>> SearchCurrency(string value) {
+        var response = await CurrencyService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<CurrencyResponse> {})!;
+    }
+    
+    private UserResponse Item { get; set; } = new UserResponse();
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+    }
+    
+    async Task Submit() {
+        Item.CurrencyId = Currency?.Id;
+        var result = await  Http.UpdateAsync(Item);
+        if (result.Succeeded) {
+            Snackbar.Add("Verification successful..", Severity.Success);
+            await Task.Delay(1500);
+            Nav.NavigateTo(WebConst.AppHome);
+        } else {
+            Snackbar.Add("Verification failed..", Severity.Error);
+        }
+    }
+
+}
+
+<Title>Profile options</Title>
+
+<MudGrid Justify="Justify.Center" Class="mt-6">
+    <MudItem xs="12" md="6">
+        <MudGrid>
+            <MudItem xs="12" Class="py-4">
+                <MudStack Row="true" Justify="Justify.Center">
+                    <MudBadge Color="Color.Warning" Origin="Origin.TopCenter" Icon="@Icons.Material.Filled.Add" Overlap="true" Bordered="true">
+                        <MudAvatar Rounded="true" Style="height:75px; width:75px; font-size:2.2rem;">SA</MudAvatar>
+                    </MudBadge>
+                </MudStack>
+            </MudItem>
+            <MudItem xs="6">
+                <MudTextField Variant="Variant.Outlined" @bind-Value="Item.FirstName" T="string" Label="First Name"/>
+            </MudItem>
+            <MudItem xs="6">
+                <MudTextField Variant="Variant.Outlined" @bind-Value="Item.LastName" T="string" Label="Last Name"/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Variant="Variant.Outlined" InputType="InputType.Email" @bind-Value="Item.Email" T="string" Label="Email"/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Variant="Variant.Outlined" InputType="InputType.Telephone" @bind-Value="Item.Phone" T="string" Label="Phone"/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudAutocomplete T="CurrencyResponse" Label="Currency" @bind-Value="Currency" SearchFunc="@SearchCurrency"
+                     Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Currency = null"
+                     Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.Symbol} - {e.Name}")"/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudStack Row="true" Justify="Justify.SpaceBetween">
+                    <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateTo(WebConst.AppHome)"
+                               Size="Size.Large" Class="mt-8 px-12 py-3">Back</MudButton>
+                    <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" OnClick="Submit" Size="Size.Large" Class="mt-8 px-12 py-3">Save</MudButton>
+                </MudStack>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+</MudGrid>

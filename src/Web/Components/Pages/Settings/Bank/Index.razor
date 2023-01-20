@@ -1,0 +1,76 @@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@inject IBankService Http
+@page "/app/settings/banks"
+@attribute [Authorize]
+
+@code {
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private int Current { get; set; } = 1;
+    MudDataGrid<BankResponse>? _dataGrid;
+    private HashSet<BankResponse> SelectedItems { get; set; } = new HashSet<BankResponse>();
+
+    private Func<BankResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task<GridData<BankResponse>> ServerDataFunc(GridState<BankResponse> state) {
+        SelectedItems.Clear();
+        this.Loading = true;
+        var filter = new SearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null 
+        };
+        var items = await Http.GetAllAsync(filter);
+        this.Loading = false;
+        return new GridData<BankResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
+    }
+
+    private async Task ArchiveSelectedItems(bool allow) {
+        if (!allow) return;
+        List<Guid> items = SelectedItems
+        .Where(f => f?.Id != null)
+        .Select(f => ((Guid) f.Id!)).ToList();
+        if (items.Count > 0) {
+            var result = (await Http.ArchiveRangeAsync(items));
+            await ReloadList(result.Succeeded);
+        }
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
+}
+
+<Title>Banks</Title>
+
+<MudDataGrid @ref="_dataGrid" T="BankResponse" ServerData="ServerDataFunc" MultiSelection="true" SelectedItems="SelectedItems"
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true" CurrentPage="Current"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true">
+    <ToolBarContent>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateBank" OnCreateClicked="ReloadList"
+                      IsFilterActive="false" @bind-Search="Search">
+            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
+        </TableToolbar>
+    </ToolBarContent>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <SelectColumn T="BankResponse" ShowInFooter="false" ShowInHeader="false" />
+        <Column T="BankResponse" Field="Name" />
+        <Column T="BankResponse" Field="Active" />
+        <Column T="BankResponse" Field="Description" />
+        <Column T="BankResponse">
+            <CellTemplate>
+                <FormEditTrigger TForm="MutateBank" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
+            </CellTemplate>
+        </Column>
+    </Columns>
+    <PagerContent>
+         <MudDataGridPager T="BankResponse" PageSizeOptions="WebConst.AppPaged" />
+    </PagerContent>
+</MudDataGrid>

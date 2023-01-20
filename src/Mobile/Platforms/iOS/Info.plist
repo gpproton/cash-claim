@@ -28,5 +28,31 @@
         </array>
         <key>XSAppIconAssets</key>
         <string>Assets.xcassets/appicon.appiconset</string>
+        <key>NSCameraUsageDescription</key>
+        <string>This app needs access to the camera to take photos.</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>This app needs access to microphone for taking videos.</string>
+        <key>NSPhotoLibraryAddUsageDescription</key>
+        <string>This app needs access to the photo gallery for picking photos and videos.</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>This app needs access to photos gallery for picking photos and videos.</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleURLName</key>
+				<string>Xclaim</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>xclaim</string>
+				</array>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+			</dict>
+		</array>
+		<key>NSAppTransportSecurity</key>    
+		<dict>
+			<key>NSAllowsLocalNetworking</key>
+			<true/>
+		</dict>
     </dict>
 </plist>

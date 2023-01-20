@@ -1,0 +1,37 @@
+@inject IDialogService DialogService
+
+@code {
+    [Parameter]
+    public int Count { get; set; }
+    
+    [Parameter]
+    public EventCallback<bool> OnArchived { get; set; }
+
+    [Parameter]
+    public bool Small { get; set; }
+
+    [Parameter]
+    public bool Form { get; set; }
+    
+    private string Title {
+        get {
+            const string text = "Confirm Archiving";
+            return Count < 2 ? text : $"{text} {Count} items";
+        }
+    }
+
+    async Task DeleteRequest() {
+        var result = await (await DialogService.ShowAsync<ArchiveDialog>(Title)).Result;
+        if (!result.Canceled) {
+            var value = result.Data.As<bool>();
+            await OnArchived.InvokeAsync(value);
+        }
+    }
+}
+
+@if (Count > 0 && !Form) {
+    <MudIconButton Class="pa-2 mr-2" Icon="@Icons.Material.Filled.Archive" Variant="Variant.Outlined"
+                   OnClick="DeleteRequest" Color="Color.Info" Size="@(Small ? Size.Small : Size.Large)"/>
+} else if (Form) {
+    <MudButton Variant="Variant.Text" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Archive" OnClick="DeleteRequest">Archive</MudButton>
+}
