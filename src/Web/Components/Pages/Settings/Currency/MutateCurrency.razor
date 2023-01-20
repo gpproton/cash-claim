@@ -15,7 +15,9 @@
 
     private bool Loading { get; set; }
 
-    private string Title { get; set; } = string.Empty;
+    private string Title {
+        get { return $"{ActionText} Currency"; }
+    }
 
     private CurrencyResponse Item { get; set; } = new CurrencyResponse();
 

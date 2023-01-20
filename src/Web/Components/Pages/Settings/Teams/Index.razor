@@ -1,4 +1,5 @@
 @using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
 @inject ITeamService Http
 @page "/app/settings/teams"
 @attribute [Authorize]
@@ -6,31 +7,56 @@
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
-    private IEnumerable<TeamResponse> _elements = new List<TeamResponse>();
+    private int Current { get; set; } = 1;
+    MudDataGrid<TeamResponse>? _dataGrid;
     private HashSet<TeamResponse> SelectedItems { get; set; } = new HashSet<TeamResponse>();
-    private int CurrentPage { get; set; } = 1;
     
-    protected override async Task OnInitializedAsync() => await LoadItems();
-
-    private async Task LoadItems() {
+    private async Task<GridData<TeamResponse>> ServerDataFunc(GridState<TeamResponse> state) {
+        SelectedItems.Clear();
         this.Loading = true;
-        _elements = await Http.GetAllAsync();
+        var filter = new SearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null
+        };
+        var items = await Http.GetAllAsync(filter);
         this.Loading = false;
+        return new GridData<TeamResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
     }
-
-    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
     
-    private Func<TeamResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    private Func<TeamResponse, bool> Filter => x =>
+    string.IsNullOrWhiteSpace(Search)
+    || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task ArchiveSelectedItems(bool allow) {
+        if (!allow) return;
+        List<Guid> items = SelectedItems
+        .Where(f => f?.Id != null)
+        .Select(f => ((Guid) f.Id!)).ToList();
+        if (items.Count > 0) {
+            var result = (await Http.ArchiveRangeAsync(items));
+            await ReloadList(result.Succeeded);
+        }
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
 }
 
 <Title>Teams</Title>
 
-<MudDataGrid T="TeamResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
-             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
+<MudDataGrid @ref="_dataGrid" T="TeamResponse" MultiSelection="true" SelectedItems="SelectedItems" ServerData="ServerDataFunc"
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="false" @bind-Search="Search">
-            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
-        </TableToolbar>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateTeam"
+                          OnCreateClicked="ReloadList" IsFilterActive="false" @bind-Search="Search">
+                <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
+            </TableToolbar>
     </ToolBarContent>
     <LoadingContent>
          <TableLoading></TableLoading>
@@ -52,8 +78,7 @@
         <Column T="TeamResponse" Field="Description" />
         <Column T="TeamResponse">
             <CellTemplate>
-                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
-                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+                <FormEditTrigger TForm="MutateTeam" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
             </CellTemplate>
         </Column>
     </Columns>

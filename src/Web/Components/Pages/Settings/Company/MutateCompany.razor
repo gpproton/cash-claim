@@ -1,7 +1,7 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
 @inject ICompanyService Http
-@inject IUserService UserHttp
+@inject IUserService UserService
 @inject ISnackbar Snackbar
 
 @code {
@@ -14,7 +14,7 @@
     private UserResponse? Manager { get; set; }
     
     private async Task<IEnumerable<UserResponse>> SearchManager(string value) {
-        var response = await UserHttp.GetManagersAsync(new SearchFilter { Search = value });
+        var response = await UserService.GetManagersAsync(new SearchFilter { Search = value });
         return (response.Succeeded ? response.Data : new List<UserResponse> {})!;
     }
     
@@ -24,7 +24,9 @@
 
     private bool Loading { get; set; }
 
-    private string Title { get; set; } = string.Empty;
+    private string Title {
+        get { return $"{ActionText} Company"; }
+    }
 
     private CompanyResponse Item { get; set; } = new CompanyResponse();
 
@@ -86,7 +88,7 @@
                         <MudItem xs="12">
                             <MudAutocomplete T="UserResponse" Label="Manager" @bind-Value="Manager" SearchFunc="@SearchManager"
                                              Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Manager = null"
-                                             Clearable="true" ToStringFunc="@(e=> e == null ? null : $"{e.FullName}")" />
+                                             Clearable="true" ToStringFunc="@(e=> e == null ? null : $"{e.FullName} - {e.Permission}")" />
                         </MudItem>
                         <MudItem xs="12">
                             <MudSwitch @bind-Checked="@Item.Active" Color="Color.Primary" Label="@(Item.Active ? "Enabled" : "Disabled")"/>
