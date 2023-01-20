@@ -24,7 +24,7 @@ public class UserModule : IModule {
             var result = await sv.GetByIdAsync(id);
             return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
-        
+
         group.MapGet("/{email}", async (string email, UserService sv) => {
             var result = await sv.GetByEmailAsync(email);
             return !result.Succeeded ? Results.NotFound() : TypedResults.Ok(result);
@@ -44,7 +44,7 @@ public class UserModule : IModule {
             var item = await sv.DeleteAsync(id);
             return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
-        
+
         group.MapDelete("/", async ([FromBody] List<Guid> ids, UserService sv) => {
             var items = await sv.DeleteRangeAsync(ids);
             return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);

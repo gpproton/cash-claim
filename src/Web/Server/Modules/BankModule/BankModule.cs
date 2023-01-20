@@ -39,7 +39,7 @@ namespace XClaim.Web.Server.Modules.BankModule {
                 var item = await sv.DeleteAsync(id);
                 return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
             }).WithName($"Archive{name}").WithOpenApi();
-            
+
             group.MapDelete("/", async ([FromBody] List<Guid> ids, BankService sv) => {
                 var items = await sv.DeleteRangeAsync(ids);
                 return !items.Succeeded ? Results.NotFound() : TypedResults.Ok(items);

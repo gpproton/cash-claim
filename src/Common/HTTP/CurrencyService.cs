@@ -7,7 +7,7 @@ namespace XClaim.Common.HTTP;
 public class CurrencyService : ICurrencyService {
     private const string RootApi = "api/v1/currency";
     private readonly IHttpService _http;
-    
+
     public CurrencyService(IHttpService http) {
         _http = http;
     }

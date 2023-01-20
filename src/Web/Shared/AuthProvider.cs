@@ -24,7 +24,8 @@ public class AuthProvider : AuthenticationStateProvider {
             }, "SessionAuth"));
 
             return await Task.FromResult(new AuthenticationState(claimsPrincipal));
-        } catch {
+        }
+        catch {
             return await Task.FromResult(new AuthenticationState(_anonymous));
         }
     }

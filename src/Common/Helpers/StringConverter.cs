@@ -8,10 +8,10 @@ public class StringConverter : JsonConverter<string> {
         if (reader.TokenType == JsonTokenType.Number) return reader.GetInt32().ToString();
         if (reader.TokenType == JsonTokenType.String)
             return reader.GetString()!;
- 
+
         throw new System.Text.Json.JsonException();
     }
- 
+
     public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options) {
         writer.WriteStringValue(value);
     }

@@ -12,20 +12,20 @@ public class AuthState : RootState {
         UserService = userService;
     }
 
-    private NavigationManager Nav { get; set;  }
+    private NavigationManager Nav { get; set; }
 
     private IProfileService UserService { get; set; }
 
     private readonly AuthenticationStateProvider _authProvider;
-    
+
     public bool Register { get; set; }
-    
+
     public async Task BootstrapAuth() {
         var auth = (AuthProvider)_authProvider;
         var authState = await auth.GetAuthenticationStateAsync();
-        var user  = authState.User;
+        var user = authState.User;
         var isAuth = user.Identity?.IsAuthenticated ?? false;
-        
+
         if (!isAuth) {
             var profile = await UserService.GetAsync()!;
             if (profile is not null) {

@@ -7,7 +7,7 @@ namespace XClaim.Common.HTTP;
 public class CompanyService : ICompanyService {
     private const string RootApi = "api/v1/company";
     private readonly IHttpService _http;
-    
+
     public CompanyService(IHttpService http) {
         _http = http;
     }

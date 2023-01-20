@@ -37,7 +37,7 @@ public class CategoryService : GenericService<ServerContext, CategoryEntity, Cat
 
         return result;
     }
-    
+
     new public virtual async Task<Response<CategoryResponse?>> GetByIdAsync(Guid id) {
         var result = new Response<CategoryResponse?>();
         try {
@@ -53,7 +53,7 @@ public class CategoryService : GenericService<ServerContext, CategoryEntity, Cat
                 e.ToString()
             };
         }
-        
+
         return result;
     }
 }

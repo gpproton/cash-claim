@@ -7,7 +7,7 @@ namespace XClaim.Common.HTTP;
 public class PaymentService : IPaymentService {
     private const string RootApi = "api/v1/payment";
     private readonly IHttpService _http;
-    
+
     public PaymentService(IHttpService http) {
         _http = http;
     }

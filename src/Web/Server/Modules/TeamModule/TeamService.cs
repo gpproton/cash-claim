@@ -12,7 +12,7 @@ namespace XClaim.Web.Server.Modules.TeamModule;
 
 public class TeamService : GenericService<ServerContext, TeamEntity, TeamResponse> {
     public TeamService(ServerContext ctx, IMapper mapper, ILogger<TeamService> logger) : base(ctx, mapper, logger) { }
-    
+
     new public virtual async Task<PagedResponse<List<TeamResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
         var result = new PagedResponse<List<TeamResponse>>();
         var query = _ctx.Teams
@@ -40,7 +40,7 @@ public class TeamService : GenericService<ServerContext, TeamEntity, TeamRespons
 
         return result;
     }
-    
+
     new public virtual async Task<Response<TeamResponse?>> GetByIdAsync(Guid id) {
         var result = new Response<TeamResponse?>();
         try {
@@ -57,7 +57,7 @@ public class TeamService : GenericService<ServerContext, TeamEntity, TeamRespons
                 e.ToString()
             };
         }
-        
+
         return result;
     }
 }

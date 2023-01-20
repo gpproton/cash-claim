@@ -35,7 +35,7 @@ public class PaymentModule : IModule {
             var item = await sv.DeleteAsync(id);
             return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
         }).WithName($"Cancel{name}").WithOpenApi();
-        
+
         group.MapDelete("/", async ([FromBody] List<Guid> ids, PaymentService sv) => {
             var items = await sv.DeleteRangeAsync(ids);
             return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);

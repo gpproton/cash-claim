@@ -64,7 +64,7 @@ public class AuthModule : IModule {
         .WithOpenApi();
 
         group.MapPost("/sign-out", async (HttpRequest request) => {
-             await request.HttpContext.SignOutAsync();
+            await request.HttpContext.SignOutAsync();
 
             return Results.Ok(true);
         }).WithName("SignOut")

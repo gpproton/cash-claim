@@ -7,7 +7,7 @@ namespace XClaim.Common.HTTP;
 public class ClaimService : IClaimService {
     private const string RootApi = "api/v1/claim";
     private readonly IHttpService _http;
-    
+
     public ClaimService(IHttpService http) {
         _http = http;
     }

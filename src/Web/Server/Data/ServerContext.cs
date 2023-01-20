@@ -10,7 +10,7 @@ public partial class ServerContext : DbContext {
 
     protected override void OnModelCreating(ModelBuilder mx) {
         // base.OnModelCreating(mx);
-        
+
         // Handle soft delete query filter
         foreach (var entityType in mx.Model.GetEntityTypes())
             if (typeof(IBaseEntity).IsAssignableFrom(entityType.ClrType))
@@ -29,7 +29,7 @@ public partial class ServerContext : DbContext {
             .WithOne(u => u.TeamManaged)
             .HasForeignKey<TeamEntity>(t => t.ManagerId)
             .OnDelete(DeleteBehavior.SetNull);
-        
+
         // User - BankAccount One to One
         mx.Entity<BankAccountEntity>()
             .HasOne(u => u.Owner)

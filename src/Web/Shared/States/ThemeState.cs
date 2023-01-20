@@ -4,7 +4,7 @@ namespace XClaim.Web.Shared.States;
 
 public class ThemeState : RootState {
     public bool IsLightMode { get; private set; } = true;
-    
+
     public MudTheme CurrentTheme { get; private set; } = new();
 
     public void ToggleTheme() {

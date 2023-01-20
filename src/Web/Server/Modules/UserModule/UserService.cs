@@ -22,7 +22,7 @@ public class UserService : GenericService<ServerContext, UserEntity, UserRespons
             Succeeded = data != null
         };
     }
-    
+
     public async Task<PagedResponse<List<UserResponse>>> GetAllAsync(UserFilter responseFilter) {
         var result = new PagedResponse<List<UserResponse>>();
         var query = _ctx.Users
@@ -37,7 +37,7 @@ public class UserService : GenericService<ServerContext, UserEntity, UserRespons
                 Page = responseFilter.Page,
                 PerPage = responseFilter.PerPage
             };
-            result = new PagedResponse<List<UserResponse>>(response, count, filter){
+            result = new PagedResponse<List<UserResponse>>(response, count, filter) {
                 Succeeded = true
             };
         }
@@ -47,10 +47,10 @@ public class UserService : GenericService<ServerContext, UserEntity, UserRespons
             };
             _logger.LogError(e.ToString());
         }
-        
+
         return result;
     }
-    
+
     new public virtual async Task<Response<UserResponse?>> GetByIdAsync(Guid id) {
         var response = new Response<UserResponse?>();
         try {
@@ -62,7 +62,8 @@ public class UserService : GenericService<ServerContext, UserEntity, UserRespons
             var data = _mapper.Map<UserResponse>(item);
             response.Data = data;
             response.Succeeded = data != null;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
         }

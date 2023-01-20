@@ -32,7 +32,7 @@ public class ClaimModule : IModule {
         }).WithName($"Create{name}").WithOpenApi();
 
         group.MapPost("/upload/{id:guid}", async (Guid id, ClaimService sv, IFormFileCollection files, FileUploadService upload) => {
-            
+
             // TODO: Get claim and save in upload service
             var result = (await sv.GetByIdAsync(id));
             if (result.Data == null) return Results.NotFound(result);
@@ -40,7 +40,7 @@ public class ClaimModule : IModule {
             var data = result.Data;
             data.Files = uploads;
             var update = await sv.UpdateAsync(data);
-            
+
             return !update.Succeeded ? Results.BadRequest(update) : TypedResults.Ok(update);
         })
             .Accepts<IFormFileCollection>("multipart/form-data")
@@ -61,7 +61,7 @@ public class ClaimModule : IModule {
             var item = await sv.DeleteAsync(id);
             return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
         }).WithName($"Archive{name}").WithOpenApi();
-        
+
         group.MapDelete("/", async ([FromBody] List<Guid> ids, ClaimService sv) => {
             var items = await sv.DeleteRangeAsync(ids);
             return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);

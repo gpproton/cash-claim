@@ -18,6 +18,6 @@ public class PaymentResponse : BaseResponse {
         }
     }
 
-    public string Notes { get; set; }  = string.Empty;
+    public string Notes { get; set; } = string.Empty;
     public ICollection<ClaimResponse> Claims { get; set; } = default!;
 }

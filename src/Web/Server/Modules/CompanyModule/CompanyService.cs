@@ -42,12 +42,12 @@ public class CompanyService : GenericService<ServerContext, CompanyEntity, Compa
         var item = await _ctx.Companies.Include(m => m.Manager)
                    .FirstOrDefaultAsync(m => m.Id == id);
         var data = _mapper.Map<CompanyResponse>(item);
-        
+
         return new Response<CompanyResponse?>(data) {
             Succeeded = data != null
         };
     }
-    
+
     new public async Task<Response<CompanyResponse?>> DeleteAsync(Guid id) {
         var result = new Response<CompanyResponse?>();
         var item = await _ctx.Set<CompanyEntity>().FindAsync(id);
@@ -58,7 +58,7 @@ public class CompanyService : GenericService<ServerContext, CompanyEntity, Compa
         var data = _mapper.Map<CompanyResponse>(item);
         result.Data = data;
         result.Succeeded = data != null;
-        
+
         return result;
     }
 }

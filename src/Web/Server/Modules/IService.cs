@@ -19,6 +19,6 @@ public interface IService<TContext, TEntity, TResponse>
     Task<Response<TResponse?>> UpdateAsync(TResponse value);
 
     Task<Response<TResponse?>> DeleteAsync(Guid id);
-    
+
     Task<Response<List<TResponse>?>> DeleteRangeAsync(List<Guid> ids);
 }

@@ -15,7 +15,7 @@ public static class HttpServiceExtensions {
         services.AddScoped<ITeamService, TeamService>();
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IEventService, EventService>();
-        
+
         return services;
     }
 }
