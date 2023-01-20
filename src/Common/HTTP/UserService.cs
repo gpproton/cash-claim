@@ -1,5 +1,6 @@
 using XClaim.Common.Dtos;
 using XClaim.Common.Service;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
@@ -10,7 +11,10 @@ public class UserService : IUserService {
     public UserService(IHttpService http) {
         _http = http;
     }
-    public Task<List<UserResponse>> GetAllAsync() {
-        return _http.Get<List<UserResponse>>($"{RootApi}?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
+    public async Task<PagedResponse<List<UserResponse>>> GetAllAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<UserResponse>>>(RootApi, query);
+    }
+    public async Task<PagedResponse<List<UserResponse>>> GetManagersAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<UserResponse>>>(RootApi, query);
     }
 }

@@ -23,8 +23,8 @@
         await base.OnInitializedAsync();
         if (Id != null) {
             Loading = true;
-            var bankResponse = (await Http.GetByIdAsync(Id.Value)).Data;
-            if (bankResponse != null) Item = bankResponse;
+            var response = (await Http.GetByIdAsync(Id.Value)).Data;
+            if (response != null) Item = response;
             Loading = false;
         }
     }

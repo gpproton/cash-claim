@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using XClaim.Common.Base;
 using XClaim.Web.Server.Entities;
 
@@ -9,7 +10,7 @@ public partial class ServerContext : DbContext {
 
     protected override void OnModelCreating(ModelBuilder mx) {
         // base.OnModelCreating(mx);
-
+        
         // Handle soft delete query filter
         foreach (var entityType in mx.Model.GetEntityTypes())
             if (typeof(IBaseEntity).IsAssignableFrom(entityType.ClrType))
@@ -19,18 +20,22 @@ public partial class ServerContext : DbContext {
         mx.Entity<CompanyEntity>()
             .HasOne(c => c.Manager)
             .WithOne(u => u.CompanyManaged)
-            .HasForeignKey<CompanyEntity>(c => c.ManagerId);
+            .HasForeignKey<CompanyEntity>(c => c.ManagerId)
+            .OnDelete(DeleteBehavior.SetNull);
 
         // User - Team (Manager) One to One
         mx.Entity<TeamEntity>()
             .HasOne(t => t.Manager)
             .WithOne(u => u.TeamManaged)
-            .HasForeignKey<TeamEntity>(t => t.ManagerId);
+            .HasForeignKey<TeamEntity>(t => t.ManagerId)
+            .OnDelete(DeleteBehavior.SetNull);
+        
         // User - BankAccount One to One
         mx.Entity<BankAccountEntity>()
             .HasOne(u => u.Owner)
             .WithOne(ba => ba.BankAccount)
-            .HasForeignKey<BankAccountEntity>(u => u.OwnerId);
+            .HasForeignKey<BankAccountEntity>(u => u.OwnerId)
+            .OnDelete(DeleteBehavior.SetNull);
 
         // Initialize database seeding
         new DbInitializer(mx).Seed();

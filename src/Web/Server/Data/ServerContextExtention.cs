@@ -37,6 +37,7 @@ public partial class ServerContext {
                         break;
                     case EntityState.Deleted:
                         entry.State = EntityState.Modified;
+                        entry.References.All(e => e.IsModified = true);
                         entry.Property("CreatedAt").IsModified = false;
                         entry.Property("ModifiedAt").IsModified = false;
                         trackable.DeletedAt = utcNow;

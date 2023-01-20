@@ -15,7 +15,6 @@ public class UserResponse : BaseResponse {
     public UserPermission Permission { get; set; }
     public CompanyResponse? Company { get; set; }
     public CompanyResponse? CompanyManaged { get; set; }
-    public UserResponse? Manager { get; set; }
     public TeamResponse? Team { get; set; }
     public TeamResponse? TeamManaged { get; set; }
     public BankAccountResponse? BankAccount { get; set; }

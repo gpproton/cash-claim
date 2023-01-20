@@ -1,4 +1,5 @@
 @using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
 @page "/app/users"
 @inject IUserService Http
 @attribute [Authorize]
@@ -6,33 +7,49 @@
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
-    private DateRange _dateRange = WebConst.AppDateRange;
-    private IEnumerable<UserResponse> _elements = new List<UserResponse>();
+    private int Current { get; set; } = 1;
+    MudDataGrid<UserResponse>? _dataGrid;
     private HashSet<UserResponse> SelectedItems { get; set; } = new HashSet<UserResponse>();
-    private int CurrentPage { get; set; } = 1;
-    
-    protected override async Task OnInitializedAsync() => await LoadItems();
 
-    private async Task LoadItems() {
-        this.Loading = true;
-        _elements = await Http.GetAllAsync();
-        this.Loading = false;
-    }
-
-    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
-    
     private Func<UserResponse, bool> Filter => x =>
     string.IsNullOrWhiteSpace(Search)
     || x.FullName.Contains(Search, StringComparison.OrdinalIgnoreCase)
     || x.Email.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task<GridData<UserResponse>> ServerDataFunc(GridState<UserResponse> state) {
+        SelectedItems.Clear();
+        this.Loading = true;
+        var items = await Http.GetAllAsync(new SearchFilter { Page = Current, PerPage = state.PageSize, Search = Search });
+        this.Loading = false;
+        return new GridData<UserResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
+    }
+    
+    private async Task ArchiveSelectedItems(bool allow) {
+        if (!allow) return;
+        List<Guid> items = SelectedItems
+        .Where(f => f?.Id != null)
+        .Select(f => ((Guid) f.Id!)).ToList();
+        if (items.Count > 0) {
+            // var result = (await Http.ArchiveRangeAsync(items));
+            // await ReloadList(result.Succeeded);
+        }
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
 }
 
 <Title>Users management</Title>
 
-<MudDataGrid Dense="true" T="UserResponse" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
-             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
+<MudDataGrid @ref="_dataGrid" Dense="true" T="UserResponse" MultiSelection="true" SelectedItems="SelectedItems"
+             Loading="Loading"Height="@WebConst.TableHeight" Hover="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Search="Search">
             <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
         </TableToolbar>
     </ToolBarContent>

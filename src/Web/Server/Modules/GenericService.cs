@@ -2,6 +2,7 @@ using AutoFilterer.Extensions;
 using AutoFilterer.Types;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using XClaim.Common.Base;
 using XClaim.Common.Helpers;
 using XClaim.Common.Wrappers;
@@ -48,7 +49,7 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
         return result;
     }
     
-    public async Task<Response<TResponse?>> GetByIdAsync(Guid id) {
+    public virtual async Task<Response<TResponse?>> GetByIdAsync(Guid id) {
         var item = await _ctx.Set<TEntity>().FindAsync(id);
         var data = _mapper.Map<TResponse>(item);
         

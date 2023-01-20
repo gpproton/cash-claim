@@ -1,7 +1,9 @@
 using System.Net;
+using System.Text.Json.Serialization;
 using AutoFilterer.Swagger;
 using HealthChecks.ApplicationStatus.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -16,6 +18,11 @@ var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ServerContext>(options => {
     options.UseSqlite(connectionString).UseSnakeCaseNamingConvention();
 });
+
+builder.Services.Configure<JsonOptions>(options => {
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
 builder.Services.AddTransient<FileUploadService>();
 
 builder.Services.Configure<CookiePolicyOptions>(options => {

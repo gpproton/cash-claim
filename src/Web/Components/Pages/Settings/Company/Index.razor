@@ -1,4 +1,5 @@
 @using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
 @inject ICompanyService Http
 @page "/app/settings/companies"
 @attribute [Authorize]
@@ -6,34 +7,51 @@
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
-    private DateRange _dateRange = WebConst.AppDateRange;
-    private IEnumerable<CompanyResponse> _elements = new List<CompanyResponse>();
+    private int Current { get; set; } = 1;
+    MudDataGrid<CompanyResponse>? _dataGrid;
     private HashSet<CompanyResponse> SelectedItems { get; set; } = new HashSet<CompanyResponse>();
-    private int CurrentPage { get; set; } = 1;
     
-    protected override async Task OnInitializedAsync() => await LoadItems();
-
-    private async Task LoadItems() {
+    private async Task<GridData<CompanyResponse>> ServerDataFunc(GridState<CompanyResponse> state) {
+        SelectedItems.Clear();
         this.Loading = true;
-        _elements = await Http.GetAllAsync();
+        var items = await Http.GetAllAsync(new PaginationFilter { Page = Current, PerPage = state.PageSize });
         this.Loading = false;
+        return new GridData<CompanyResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
     }
-
-    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
     
     private Func<CompanyResponse, bool> Filter => x =>
     string.IsNullOrWhiteSpace(Search)
     || x.ShortName.Contains(Search, StringComparison.OrdinalIgnoreCase)
     || x.FullName.Contains(Search, StringComparison.OrdinalIgnoreCase)
     || x.AdminEmail.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task ArchiveSelectedItems(bool allow) {
+        if (!allow) return;
+        List<Guid> items = SelectedItems
+        .Where(f => f?.Id != null)
+        .Select(f => ((Guid) f.Id!)).ToList();
+        if (items.Count > 0) {
+            var result = (await Http.ArchiveRangeAsync(items));
+            await ReloadList(result.Succeeded);
+        }
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
 }
 
 <Title>Organizations</Title>
 
-<MudDataGrid T="CompanyResponse" FixedFooter="true" Items="@_elements" MultiSelection="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
-             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
+<MudDataGrid @ref="_dataGrid" T="CompanyResponse" MultiSelection="true" ServerData="ServerDataFunc" SelectedItems="SelectedItems"
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateCompany"
+                      OnCreateClicked="ReloadList" IsFilterActive="false" @bind-Search="Search">
             <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
         </TableToolbar>
     </ToolBarContent>
@@ -51,8 +69,7 @@
         </Column>
         <Column T="CompanyResponse">
             <CellTemplate>
-                <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Warning" />
-                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" />
+                <FormEditTrigger TForm="MutateCompany" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
             </CellTemplate>
         </Column>
     </Columns>

@@ -26,8 +26,6 @@ public sealed class UserEntity : BaseEntity {
     public Guid? CompanyId { get; set; }
     public CompanyEntity? CompanyManaged { get; set; }
     public Guid? CompanyManagedId { get; set; }
-    public UserEntity? Manager { get; set; }
-    public Guid? ManagerId { get; set; }
     public TeamEntity? Team { get; set; }
     public Guid? TeamId { get; set; }
     public TeamEntity? TeamManaged { get; set; }
