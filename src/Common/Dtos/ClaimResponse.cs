@@ -7,6 +7,7 @@ public class ClaimResponse : BaseResponse {
     public string Description { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
     public decimal Amount { get; set; }
+    public ClaimPriority Priority { get; set; } = ClaimPriority.Normal;
     public CategoryResponse? Category { get; set; }
     public Guid? CategoryId { get; set; }
     public CompanyResponse? Company { get; set; }

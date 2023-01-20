@@ -1,4 +1,5 @@
 @using XClaim.Common.Dtos
+@using XClaim.Common.Enums
 @using XClaim.Common.Helpers
 @inject IClaimService Http
 @inject ICategoryService CategoryService
@@ -99,9 +100,16 @@
                             <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="UploadFiles">
                                 <ButtonTemplate>
                                     <MudIconButton HtmlTag="label" Class="pa-3" Variant="Variant.Filled" Color="Color.Primary"
-                                         Size="Size.Large" Icon="@Icons.Material.Filled.CloudUpload" for="@context" />
+                                                   Size="Size.Large" Icon="@Icons.Material.Filled.CloudUpload" for="@context" />
                                 </ButtonTemplate>
                             </MudFileUpload>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudSelect T="ClaimPriority" Label="Priority" Variant="Variant.Outlined" bind-Value="Item.Priority" AnchorOrigin="Origin.BottomCenter">
+                                @foreach (ClaimPriority priority in Enum.GetValues(typeof(ClaimPriority))) {
+                                    <MudSelectItem T="ClaimPriority" Value="priority"/>
+                                }
+                            </MudSelect>
                         </MudItem>
                         <MudItem xs="12">
                             <MudTextField Variant="Variant.Outlined" Lines="4" @bind-Value="Item.Notes" T="string" Label="Notes"/>

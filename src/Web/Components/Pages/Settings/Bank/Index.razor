@@ -10,6 +10,8 @@
     private int Current { get; set; } = 1;
     MudDataGrid<BankResponse>? _dataGrid;
     private HashSet<BankResponse> SelectedItems { get; set; } = new HashSet<BankResponse>();
+
+    private Func<BankResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
     
     private async Task<GridData<BankResponse>> ServerDataFunc(GridState<BankResponse> state) {
         SelectedItems.Clear();
@@ -26,8 +28,6 @@
             TotalItems = items.Total
         };
     }
-
-    private Func<BankResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
 
     private async Task ArchiveSelectedItems(bool allow) {
         if (!allow) return;

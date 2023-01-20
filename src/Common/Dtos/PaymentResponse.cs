@@ -7,6 +7,7 @@ public class PaymentResponse : BaseResponse {
 
     public decimal Amount { get; set; }
     public UserResponse? Owner { get; set; }
+    public Guid? OwnerId { get; set; }
     public DateTime? CompletedAt { get; set; }
 
     public UserResponse? CompletedBy { get; set; }

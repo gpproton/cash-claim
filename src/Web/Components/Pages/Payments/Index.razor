@@ -1,4 +1,5 @@
 @using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
 @inject IPaymentService Http
 @page "/app/payments"
 @attribute [Authorize]
@@ -6,34 +7,46 @@
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
-    private DateRange _dateRange = WebConst.AppDateRange;
-    private IEnumerable<PaymentResponse> _elements = new List<PaymentResponse>();
+    private int Current { get; set; } = 1;
+    MudDataGrid<PaymentResponse>? _dataGrid;
+    private DateRange DateRange { get; set; } = WebConst.AppDateRange;
     private HashSet<PaymentResponse> SelectedItems { get; set; } = new HashSet<PaymentResponse>();
-    private int CurrentPage { get; set; } = 1;
-    
-    protected override async Task OnInitializedAsync() => await LoadItems();
-
-    private async Task LoadItems() {
-        this.Loading = true;
-        _elements = await Http.GetAllAsync();
-        this.Loading = false;
-    }
-
-    private void ArchiveSelectedItems(bool result) => Console.WriteLine(result);
     
     private Func<PaymentResponse, bool> Filter => x =>
     string.IsNullOrWhiteSpace(Search)
     || x.Description.Contains(Search, StringComparison.OrdinalIgnoreCase)
     || x.Notes.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task<GridData<PaymentResponse>> ServerDataFunc(GridState<PaymentResponse> state) {
+        SelectedItems.Clear();
+        this.Loading = true;
+        var filter = new DateSearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null,
+            StartDate = DateRange.Start,
+            EndDate = DateRange.End
+        };
+        var items = await Http.GetAllAsync(filter);
+        this.Loading = false;
+        return new GridData<PaymentResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
 }
 
 <Title>Personal Payments</Title>
 
-<MudDataGrid T="PaymentResponse" Items="@_elements" MultiSelection="true" FixedFooter="true" SelectedItems="SelectedItems" Loading="Loading" Height="@WebConst.TableHeight" Hover="true"
-             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="CurrentPage">
+<MudDataGrid @ref="_dataGrid" T="PaymentResponse" MultiSelection="true" FixedFooter="true" SelectedItems="SelectedItems" ServerData="ServerDataFunc"
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" SortMode="SortMode.Multiple"
+             Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" @bind-Value="_dateRange" @bind-Search="Search">
-            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" IsCreateActive="false" @bind-Value="DateRange" @bind-Search="Search">
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>
@@ -48,7 +61,7 @@
         </Column>
         <Column T="PaymentResponse">
             <CellTemplate>
-                <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Info" Variant="Variant.Filled" Color="Color.Primary" />
+                <FormEditTrigger TForm="PaymentView" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
             </CellTemplate>
         </Column>
     </Columns>

@@ -11,6 +11,7 @@ public sealed class ClaimEntity : BaseEntity {
     [MaxLength(1024)]
     public string? Notes { get; set; }
     public decimal Amount { get; set; }
+    public ClaimPriority Priority { get; set; } = ClaimPriority.Normal;
     public PaymentEntity? Payment { get; set; }
     public Guid? PaymentId { get; set; }
     [Required]

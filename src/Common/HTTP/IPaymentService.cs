@@ -1,9 +1,14 @@
 using XClaim.Common.Dtos;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
 public interface IPaymentService {
-    Task<List<PaymentResponse>> GetAllAsync();
+    Task<PagedResponse<List<PaymentResponse>>> GetAllAsync(object? query = null);
+
+    Task<PagedResponse<List<PaymentResponse>>> GetTransactionsAsync(object? query = null);
     
-    Task<List<PaymentResponse>> GetTransactionsAsync();
+    Task<Response<PaymentResponse>> GetByIdAsync(Guid id);
+    
+    Task<Response<PaymentResponse>> CompleteAsync(Guid id);
 }

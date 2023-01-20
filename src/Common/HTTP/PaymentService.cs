@@ -1,5 +1,6 @@
 using XClaim.Common.Dtos;
 using XClaim.Common.Service;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
@@ -10,10 +11,16 @@ public class PaymentService : IPaymentService {
     public PaymentService(IHttpService http) {
         _http = http;
     }
-    public async Task<List<PaymentResponse>> GetAllAsync() {
-        return await _http.Get<List<PaymentResponse>>($"{RootApi}?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
+    public async Task<PagedResponse<List<PaymentResponse>>> GetAllAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<PaymentResponse>>>(RootApi, query);
     }
-    public async Task<List<PaymentResponse>> GetTransactionsAsync() {
-        return await _http.Get<List<PaymentResponse>>($"{RootApi}?Page=1&PerPage=25&SortBy=Ascending&CombineWith=Or");
+    public async Task<PagedResponse<List<PaymentResponse>>> GetTransactionsAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<PaymentResponse>>>(RootApi, query);
+    }
+    public async Task<Response<PaymentResponse>> GetByIdAsync(Guid id) {
+        return await _http.Get<Response<PaymentResponse>>($"{RootApi}/{id}");
+    }
+    public async Task<Response<PaymentResponse>> CompleteAsync(Guid id) {
+        return await _http.Get<Response<PaymentResponse>>($"{RootApi}/complete/id");
     }
 }
