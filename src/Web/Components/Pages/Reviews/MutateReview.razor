@@ -50,7 +50,7 @@
                                           Src="_content/XClaim.Web.Components/vectors/money_savings.svg" Alt="review_image" />
                             </MudStack>
                             <MudStack AlignItems="AlignItems.Center" Spacing="5">
-                                <MudText Typo="Typo.h3">N @(Item.Amount)</MudText>
+                                <MudText Typo="Typo.h3">N @($"{Item.Amount:N0}")</MudText>
                                 <MudText Typo="Typo.caption">@(Item.Notes)</MudText>
                             </MudStack>
                             <MudStack Row="true" Justify="Justify.SpaceEvenly">
