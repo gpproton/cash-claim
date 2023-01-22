@@ -12,11 +12,11 @@ using XClaim.Web.Server;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Helpers;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("Default");
+string? connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ServerContext>(options => {
-    options.UseSqlite(connectionString).UseSnakeCaseNamingConvention();
+    _ = options.UseSqlite(connectionString).UseSnakeCaseNamingConvention();
 });
 
 builder.Services.Configure<JsonOptions>(options => {
@@ -38,8 +38,8 @@ builder.Services.AddAuthentication("Cookies")
         opt.SlidingExpiration = true;
     })
     .AddMicrosoftAccount(opt => {
-        var clientId = builder.Configuration.GetValue<string>("Microsoft:ClientId") ?? "";
-        var clientSecret = builder.Configuration.GetValue<string>("Microsoft:ClientSecret") ?? "";
+        string clientId = builder.Configuration.GetValue<string>("Microsoft:ClientId") ?? "";
+        string clientSecret = builder.Configuration.GetValue<string>("Microsoft:ClientSecret") ?? "";
 
         opt.SignInScheme = "Cookies";
         opt.ClientId = clientId;
@@ -52,7 +52,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt => {
-    opt.UseAutoFiltererParameters();
+    _ = opt.UseAutoFiltererParameters();
     opt.SwaggerDoc("v1", new OpenApiInfo { Title = $"X-Claim", Version = "v1" });
 });
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -60,20 +60,20 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.RegisterModules();
 
-var healthCheck = builder.Services.AddHealthChecks()
+IHealthChecksBuilder healthCheck = builder.Services.AddHealthChecks()
     .AddApplicationStatus();
 builder.Services.AddHealthChecksUI()
     .AddInMemoryStorage();
 
 if (connectionString != null) {
-    healthCheck.AddSqlite(connectionString);
+    _ = healthCheck.AddSqlite(connectionString);
 }
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment()) {
     app.UseWebAssemblyDebugging();
-    app.UseSwagger();
-    app.UseSwaggerUI(opt => {
+    _ = app.UseSwagger();
+    _ = app.UseSwaggerUI(opt => {
         const string path = "/swagger/v1/swagger.json";
         opt.SwaggerEndpoint(path, "X-Claim V1 Docs");
         opt.DefaultModelExpandDepth(3);
@@ -82,9 +82,9 @@ if (app.Environment.IsDevelopment()) {
         opt.ShowExtensions();
     });
 }
-else
-    app.UseExceptionHandler("/Error");
-
+else {
+    _ = app.UseExceptionHandler("/Error");
+}
 
 app.UseCookiePolicy(new CookiePolicyOptions {
     MinimumSameSitePolicy = SameSiteMode.Lax
@@ -101,20 +101,25 @@ app.UseAuthorization();
 // INFO: Disabled due to mobile self signed certificate
 // app.UseHttpsRedirection();
 
-var uploadService = app.Services.GetService<FileUploadService>();
+FileUploadService? uploadService = app.Services.GetService<FileUploadService>();
 if (uploadService != null) {
-    var fullUploadPath = uploadService.GetUploadRootPath();
+    string fullUploadPath = uploadService.GetUploadRootPath();
     if (!Directory.Exists(fullUploadPath)) {
         Console.WriteLine("Creating static files directory");
-        Directory.CreateDirectory(fullUploadPath);
+        _ = Directory.CreateDirectory(fullUploadPath);
     }
-    app.UseStaticFiles();
+    _ = app.UseStaticFiles();
 
-    void OnPrepareResponse(StaticFileResponseContext ctx) {
-        if (!ctx.Context.Request.Path.StartsWithSegments("/static")) return;
+    static void OnPrepareResponse(StaticFileResponseContext ctx) {
+        if (!ctx.Context.Request.Path.StartsWithSegments("/static")) {
+            return;
+        }
 
         ctx.Context.Response.Headers.Add("Cache-Control", "no-store");
-        if (ctx.Context.User.Identity == null || ctx.Context.User.Identity.IsAuthenticated) return;
+        if (ctx.Context.User.Identity == null || ctx.Context.User.Identity.IsAuthenticated) {
+            return;
+        }
+
         ctx.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
         ctx.Context.Response.ContentLength = 0;
         ctx.Context.Response.Body = Stream.Null;
@@ -122,7 +127,7 @@ if (uploadService != null) {
         // JsonSerializer.Serialize(new { Status = 401, Message = "UnAuthorized file access" });
     }
 
-    app.UseStaticFiles(new StaticFileOptions {
+    _ = app.UseStaticFiles(new StaticFileOptions {
         FileProvider = new PhysicalFileProvider(fullUploadPath),
         RequestPath = new PathString("/static"),
         OnPrepareResponse = OnPrepareResponse

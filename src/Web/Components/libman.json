@@ -1,5 +1,11 @@
 {
   "version": "1.0",
   "defaultProvider": "cdnjs",
-  "libraries": []
+  "libraries": [
+    {
+      "provider": "unpkg",
+      "library": "@fontsource/roboto@4.5.8",
+      "destination": "wwwroot/lib/roboto"
+    }
+  ]
 }
