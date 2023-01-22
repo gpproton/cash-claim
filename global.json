@@ -1,0 +1,13 @@
+{
+  "sdk": {
+    "version": "7.0.102",
+    "rollForward": "latestPatch"
+  },
+  "scripts": {
+    "build": "dotnet build --configuration Debug",
+    "format": "dotnet format ./XClaim.sln",
+    "web": "dotnet watch --project src/Web/Server/XClaim.Web.Server.csproj",
+    "dev:blazor": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet watch --project src/Web/Client/XClaim.Web.Client.csproj",
+    "dev:web": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet r web"
+  }
+}
