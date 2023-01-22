@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Microsoft.Maui.Platform;
 using XClaim.Mobile.Services;
 
 namespace XClaim.Mobile;
