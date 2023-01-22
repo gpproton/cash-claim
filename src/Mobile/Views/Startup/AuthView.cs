@@ -48,7 +48,7 @@ public class AuthView : BaseView<AuthViewModel> {
 public partial class AuthViewModel : BaseViewModel {
     [RelayCommand]
     private async void NavigateToHome() {
-        var redirect = $"{AppConst.AppId}://";
+        const string redirect = $"{AppConst.AppId}://";
         try {
             WebAuthenticatorResult result = await WebAuthenticator.Default.AuthenticateAsync(
                 new Uri($"{AppConst.AuthUri}"),
