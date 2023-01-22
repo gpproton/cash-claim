@@ -5,9 +5,11 @@
   },
   "scripts": {
     "build": "dotnet build --configuration Debug",
+    "build:web": "dotnet build src/Web/Server/",
+    "build:app": "dotnet build src/Mobile/XClaim.Mobile.csproj",
     "format": "dotnet format ./XClaim.sln",
-    "web": "dotnet watch --project src/Web/Server/XClaim.Web.Server.csproj",
-    "dev:blazor": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet watch --project src/Web/Client/XClaim.Web.Client.csproj",
+    "web": "dotnet watch --project src/Web/Server/",
+    "dev:blazor": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet watch --project src/Web/Client/",
     "dev:web": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet r web"
   }
 }
