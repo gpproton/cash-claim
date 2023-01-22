@@ -220,7 +220,7 @@ public class HomeView : BaseView<HomeViewModel> {
         var cx = (CollectionView)sender;
         cx.SelectedItem = null;
         if (e.CurrentSelection.FirstOrDefault() is EventResponse item)
-            if (item is not null)
+            if (item.Id != null)
                 await MauiPopup.PopupAction.DisplayPopup(new HomeEventPop(item));
     }
 }
@@ -234,7 +234,7 @@ public partial class HomeViewModel : ListViewModel {
     private async Task LoadDefaults() {
         IsLoading = true;
         await Task.Delay(500);
-        Status = new ProfileResponse("saurav#email.me", "Saurav", "Argawal", "+234", UserPermission.Administrator);
+        Status = new ProfileResponse { FirstName = "Saurav", LastName = "Argawal", Balance = 2000, Permission = UserPermission.Administrator };
         RecentItems = new ObservableCollection<EventResponse> { };
         IsLoading = false;
     }
