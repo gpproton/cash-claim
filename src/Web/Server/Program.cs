@@ -14,9 +14,13 @@ using XClaim.Web.Server.Helpers;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Host.ConfigureServices((ctx, srv) => {
+    ConfigHelper.ApplyDefaultAppConfiguration(ctx, builder.Configuration, args);
+});
+
 string? connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ServerContext>(options => {
-    _ = options.UseSqlite(connectionString).UseSnakeCaseNamingConvention();
+    options.UseSqlite(connectionString).UseSnakeCaseNamingConvention();
 });
 
 builder.Services.Configure<JsonOptions>(options => {
@@ -32,18 +36,15 @@ builder.Services.Configure<CookiePolicyOptions>(options => {
 
 builder.Services.AddAuthentication("Cookies")
     .AddCookie(opt => {
-        opt.Cookie.Name = "AuthCookie";
+        opt.Cookie.Name = Constants.AppSessionName;
         opt.Cookie.IsEssential = true;
         opt.ExpireTimeSpan = TimeSpan.FromDays(7);
         opt.SlidingExpiration = true;
     })
     .AddMicrosoftAccount(opt => {
-        string clientId = builder.Configuration.GetValue<string>("Microsoft:ClientId") ?? "";
-        string clientSecret = builder.Configuration.GetValue<string>("Microsoft:ClientSecret") ?? "";
-
         opt.SignInScheme = "Cookies";
-        opt.ClientId = clientId;
-        opt.ClientSecret = clientSecret;
+        opt.ClientId = builder.Configuration.GetValue<string>("Microsoft:ClientId") ?? "client-id";
+        opt.ClientSecret = builder.Configuration.GetValue<string>("Microsoft:ClientSecret") ?? "client-secret";
         opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         opt.SaveTokens = true;
     });
