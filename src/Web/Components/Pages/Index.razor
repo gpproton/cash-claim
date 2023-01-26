@@ -1,14 +1,8 @@
 ﻿@page "/"
-@inject AuthState Auth
+@layout EmptyLayout
 
-@code {
+<Title>Bootstrapping</Title>
 
-    protected override async Task OnInitializedAsync() {
-        await base.OnInitializedAsync();
-        await Auth.BootstrapAuth();
-    }
-}
-
-<Title>Bootstrapping...</Title>
-
-<MudProgressCircular Color="Color.Primary" Style="height:128px;width:128px;" Indeterminate="true" />
+<MudStack AlignItems="AlignItems.Center" Justify="Justify.Center" Style="min-height: calc(100vh - 175px)">
+    <MudProgressCircular Color="Color.Primary" Style="height:128px;width:128px;" Indeterminate="true" />
+</MudStack>
