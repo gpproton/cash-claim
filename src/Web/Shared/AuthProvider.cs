@@ -6,6 +6,7 @@ using XClaim.Common.Dtos;
 namespace XClaim.Web.Shared;
 
 public class AuthProvider : AuthenticationStateProvider {
+    private const string SessionKey = "UserSession";
     private readonly ISessionStorageService _sessionStorage;
     private readonly ClaimsPrincipal _anonymous = new ClaimsPrincipal(new ClaimsIdentity());
 
@@ -15,12 +16,12 @@ public class AuthProvider : AuthenticationStateProvider {
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
         try {
-            var userSession = await _sessionStorage.GetAsync<AuthResponse>("UserSession");
+            var userSession = await _sessionStorage.GetAsync<AuthResponse>(SessionKey);
             if (userSession == null)
                 return await Task.FromResult(new AuthenticationState(_anonymous));
             var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> {
-                new(ClaimTypes.Name, userSession.UserName),
-                new(ClaimTypes.Role, userSession.Role)
+                new Claim(ClaimTypes.Name, userSession.UserName),
+                new Claim(ClaimTypes.Role, userSession.Role)
             }, "SessionAuth"));
 
             return await Task.FromResult(new AuthenticationState(claimsPrincipal));
@@ -40,27 +41,27 @@ public class AuthProvider : AuthenticationStateProvider {
                     new Claim(ClaimTypes.Role, userSession.Role)
                 }));
             userSession.ExpiryTimeStamp = DateTime.Now.AddSeconds(userSession.ExpiresIn);
-            await _sessionStorage.SaveAsync("UserSession", userSession);
+            await _sessionStorage.SaveAsync(SessionKey, userSession);
         }
         else {
             claimsPrincipal = _anonymous;
-            await _sessionStorage.RemoveItemAsync("UserSession");
+            await _sessionStorage.RemoveItemAsync(SessionKey);
         }
 
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
     }
 
+    public async Task ClearAuthInfo() => await this.UpdateAuthenticationState(null);
+
     public async Task<string?> GetToken() {
         var result = string.Empty;
         try {
-            var userSession = await _sessionStorage.GetAsync<AuthResponse>("UserSession");
+            var userSession = await _sessionStorage.GetAsync<AuthResponse>(SessionKey);
             if (userSession != null && DateTime.Now < userSession.ExpiryTimeStamp)
                 result = userSession.Token;
-        }
-        catch {
+        } catch {
             // ignored
         }
-
         return result;
     }
 }
