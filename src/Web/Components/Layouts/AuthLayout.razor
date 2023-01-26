@@ -1,9 +1,9 @@
 @inherits LayoutComponentBase
-@inject NavigationManager Nav
+@inject AuthState AuthState
 
 @code {
-    void SignIn() => Nav.NavigateTo($"{Nav.BaseUri}{WebConst.ApiAuth}", true);
-    void SignOut() => Console.WriteLine("Trigger SignOut");
+    void SignIn() => AuthState.TriggerApiAuth();
+    async Task SignOut() => await AuthState.TriggerSignOut();
 }
 
 <MudAppBar Elevation="1">

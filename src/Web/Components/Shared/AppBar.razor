@@ -1,13 +1,7 @@
-@using Blazored.SessionStorage
-@using XClaim.Common.Dtos
-@using XClaim.Common.HTTP
 @implements IDisposable
 @inject AppState AppState
 @inject ThemeState ThemeState
-@inject NavigationManager Nav
-@inject IProfileService UserService
-@inject ISessionStorageService SessionStorage
-@inject AuthenticationStateProvider AuthProvider
+@inject AuthState AuthState
 
 @code {
     protected override void OnInitialized() {
@@ -21,12 +15,7 @@
         ThemeState.OnChange -= StateHasChanged;
     }
 
-    async Task SignOut() {
-        var auth = (AuthProvider)AuthProvider;
-        await UserService.SignOutAsync();
-        await auth.UpdateAuthenticationState(null);
-        Nav.NavigateTo(WebConst.AppAuth, true);
-    }
+    async Task SignOut() => await AuthState.TriggerSignOut();
 }
 
 <MudAppBar Elevation="3">
