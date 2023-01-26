@@ -1,11 +1,13 @@
 @page "/app/registration"
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
+@using Nextended.Core.Extensions
 @inject IUserService Http
 @inject ICompanyService CompanyService
 @inject ICurrencyService CurrencyService
 @inject NavigationManager Nav
 @inject ISnackbar Snackbar
+@inject AuthState AuthState
 @attribute [Authorize]
 
 @code {
@@ -27,6 +29,19 @@
 
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
+        var session = await AuthState.GetSession();
+        
+        if (session?.Data != null) {
+            ProfileResponse data = session.Data;
+            
+            // Check domain validation
+            if (data.Email.IsNullOrEmpty()) await AuthState.TriggerSignOut();
+            
+            Item.FirstName = data.FirstName;
+            Item.LastName = data.LastName;
+            Item.Email = data.Email;
+            Item.Phone = data.Phone;
+        }
     }
 
     async Task Verify() {
@@ -34,9 +49,10 @@
         Item.CurrencyId = Currency?.Id;
         var result = await  Http.RegistrationAsync(Item);
         if (result.Succeeded) {
+            await AuthState.TriggerAuthentication();
             Snackbar.Add("Verification successful..", Severity.Success);
-            await Task.Delay(1500);
-            Nav.NavigateTo(WebConst.AppHome);
+            await Task.Delay(500);
+            Nav.NavigateTo(WebConst.AppHome, true);
         } else {
             Snackbar.Add("Verification failed..", Severity.Error);
         }
