@@ -1,10 +1,10 @@
 ﻿namespace XClaim.Common.Enums;
 
 public enum UserPermission {
-    Cashier,
-    Standard,
-    Lead,
-    Finance,
+    System,
     Administrator,
-    System
+    Finance,
+    Cashier,
+    Lead,
+    Standard
 }
