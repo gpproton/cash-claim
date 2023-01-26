@@ -12,11 +12,13 @@ public static class SharedServiceExtensions {
         services.AddMudServices();
         services.AddBlazoredSessionStorage();
         services.AddScoped<IHttpService, HttpService>();
+        services.AddScoped<AuthenticationStateProvider, AuthProvider>();
+        services.AddAuthorizationCore();
+        
+        // App States
         services.AddSingleton<AppState>();
         services.AddSingleton<ThemeState>();
         services.AddScoped<AuthState>();
-        services.AddScoped<AuthenticationStateProvider, AuthProvider>();
-        services.AddAuthorizationCore();
 
         return services;
     }

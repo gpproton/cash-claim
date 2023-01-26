@@ -6,7 +6,6 @@ using XClaim.Common.Dtos;
 namespace XClaim.Web.Shared;
 
 public class AuthProvider : AuthenticationStateProvider {
-    private const string SessionKey = "UserSession";
     private readonly ISessionStorageService _sessionStorage;
     private readonly ClaimsPrincipal _anonymous = new ClaimsPrincipal(new ClaimsIdentity());
 
@@ -16,7 +15,7 @@ public class AuthProvider : AuthenticationStateProvider {
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
         try {
-            var userSession = await _sessionStorage.GetAsync<AuthResponse>(SessionKey);
+            var userSession = await _sessionStorage.GetAsync<AuthResponse>(WebConst.SessionKey);
             if (userSession == null)
                 return await Task.FromResult(new AuthenticationState(_anonymous));
             var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> {
@@ -41,11 +40,11 @@ public class AuthProvider : AuthenticationStateProvider {
                     new Claim(ClaimTypes.Role, userSession.Role)
                 }));
             userSession.ExpiryTimeStamp = DateTime.Now.AddSeconds(userSession.ExpiresIn);
-            await _sessionStorage.SaveAsync(SessionKey, userSession);
+            await _sessionStorage.SaveAsync(WebConst.SessionKey, userSession);
         }
         else {
             claimsPrincipal = _anonymous;
-            await _sessionStorage.RemoveItemAsync(SessionKey);
+            await _sessionStorage.RemoveItemAsync(WebConst.SessionKey);
         }
 
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
@@ -56,7 +55,7 @@ public class AuthProvider : AuthenticationStateProvider {
     public async Task<string?> GetToken() {
         var result = string.Empty;
         try {
-            var userSession = await _sessionStorage.GetAsync<AuthResponse>(SessionKey);
+            var userSession = await _sessionStorage.GetAsync<AuthResponse>(WebConst.SessionKey);
             if (userSession != null && DateTime.Now < userSession.ExpiryTimeStamp)
                 result = userSession.Token;
         } catch {
