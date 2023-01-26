@@ -32,8 +32,7 @@
         var session = await AuthState.GetSession();
         
         if (session?.Data != null) {
-            ProfileResponse data = session.Data;
-            
+            UserResponse data = session.Data;
             // Check domain validation
             if (data.Email.IsNullOrEmpty()) await AuthState.TriggerSignOut();
             

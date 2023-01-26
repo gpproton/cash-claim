@@ -2,6 +2,7 @@ using System.Security.Claims;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using XClaim.Common.Dtos;
+using XClaim.Common.Enums;
 using XClaim.Common.Wrappers;
 using XClaim.Web.Server.Modules.UserModule;
 
@@ -19,43 +20,34 @@ public class ProfileModule : IModule {
         var group = endpoints.MapGroup(url).WithTags(name);
 
         group.MapGet("/account", async (HttpRequest request, UserService user) => {
-            bool isAuth = request.HttpContext.User.Identity?.IsAuthenticated ?? false;
-            
+            var userContext = request.HttpContext.User;
+            bool isAuth = userContext.Identity?.IsAuthenticated ?? false;
             if (!isAuth) return TypedResults.Unauthorized();
             
             var auth = await request.HttpContext.AuthenticateAsync("Microsoft");
-            var email = request.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value ?? "";
-            var role = request.HttpContext.User.FindFirst(ClaimTypes.Role)?.Value ?? "";
-            var fullName = request.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
-            var phone = request.HttpContext.User.FindFirst(ClaimTypes.MobilePhone)?.Value ?? "";
+            var email = userContext.FindFirst(ClaimTypes.Email)?.Value ?? "";
+            var fullName = userContext.FindFirst(ClaimTypes.Name)?.Value ?? "";
+            var phone = userContext.FindFirst(ClaimTypes.HomePhone)?.Value ?? "";
             var names = fullName.Split(" ");
             var token = auth?.Properties?.GetTokenValue("access_token");
             var expiry = (auth?.Properties?.ExpiresUtc?.ToUnixTimeSeconds() ?? -1).ToDateTimeFromEpoch();
             var expireIn = (int)expiry.Subtract(DateTime.Now).TotalSeconds;
 
-            ProfileResponse? profile;
+            UserResponse? profile = new UserResponse();
             var account = (await user.GetByEmailAsync(email)).Data;
-
-            if (account is null) {
-                profile = new ProfileResponse {
-                    Email = email,
-                    FirstName = names[0],
-                    LastName = names[^1],
-                    Phone = phone
-                };
+            if (account == null) {
+                profile.Email = email;
+                profile.FirstName = names[0];
+                profile.LastName = names[^1];
+                profile.Phone = phone;
             } else {
-                profile = new ProfileResponse {
-                    Email = account.Email,
-                    FirstName = account.FirstName,
-                    LastName = account.LastName,
-                    Phone = account.LastName,
-                    Permission = account.Permission,
-                    Balance = account.Balance,
-                    Team = account.Team
-                };
+                profile = account;
             }
+            
+            var role = account?.Permission != null ?
+                       account.Permission.ToString() : userContext.FindFirst(ClaimTypes.Role)?.Value ?? UserPermission.Standard.ToString();
 
-            var result = new AuthResponse {
+            return Results.Ok(new Response<AuthResponse?>(new AuthResponse {
                 Confirmed = account != null,
                 ExpiryTimeStamp = expiry,
                 ExpiresIn = expireIn,
@@ -64,9 +56,7 @@ public class ProfileModule : IModule {
                 Message = "Success",
                 Data = profile,
                 UserName = fullName
-            };
-
-            return Results.Ok(new Response<AuthResponse?>(result) { Succeeded = expireIn > 0 });
+            }) { Succeeded = expireIn > 0 });
         }).WithName("AccountProfile").WithOpenApi();
 
         return group;

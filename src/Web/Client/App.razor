@@ -7,6 +7,7 @@
         var isAuthPath = args.Path.Equals(WebConst.AppAuth);
         var session = await AuthState.GetSession();
         var isAuth = await AuthState.IsAuth();
+        
         switch (isAuth) {
             case true when !session!.Confirmed && !args.Path.Equals(WebConst.AppRegister):
                 Nav.NavigateTo(WebConst.AppRegister, true);
