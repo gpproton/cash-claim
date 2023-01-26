@@ -14,7 +14,11 @@ public class UserService : GenericService<ServerContext, UserEntity, UserRespons
     public async Task<Response<UserResponse?>> GetByEmailAsync(string email) {
         var item = await _ctx.Users
                    .Where(x => x.DeletedAt == null)
-                   .FirstOrDefaultAsync(u => u.Email == email);
+                   .Where(x => x.Email == email)
+                   .Include(x => x.Company)
+                   .Include(x => x.Team)
+                   .Include(x => x.Currency)
+                   .FirstOrDefaultAsync();
         var data = _mapper.Map<UserResponse>(item);
 
         return new Response<UserResponse?> {
@@ -58,6 +62,7 @@ public class UserService : GenericService<ServerContext, UserEntity, UserRespons
                        .Where(x => x.Id == id)
                        .Include(x => x.Company)
                        .Include(x => x.Team)
+                       .Include(x => x.Currency)
                        .FirstOrDefaultAsync();
             var data = _mapper.Map<UserResponse>(item);
             response.Data = data;
