@@ -1,26 +1,55 @@
-﻿@code { }
+﻿@inject NavigationManager Nav
+@inject AuthState AuthState
+
+@code {
+    private async Task OnNavigateAsync(NavigationContext args) {
+        var isRootPath = args.Path.Equals(string.Empty);
+        var isAuthPath = args.Path.Equals(WebConst.AppAuth);
+        var session = await AuthState.GetSession();
+        var isAuth = await AuthState.IsAuth();
+        switch (isAuth) {
+            case true when !session!.Confirmed && !args.Path.Equals(WebConst.AppRegister):
+                Nav.NavigateTo(WebConst.AppRegister, true);
+                break;
+            case false when isAuthPath:
+                break;
+            case true when isAuthPath || isRootPath:
+                Nav.NavigateTo(WebConst.AppHome, true);
+                break;
+            case false when isRootPath:
+                await AuthState.TriggerAuthentication();
+                if (isAuth) Nav.NavigateTo(!session!.Confirmed ? WebConst.AppRegister : WebConst.AppHome, true);
+                else {
+                    await Task.Delay(50);
+                    Nav.NavigateTo(WebConst.AppAuth, true);
+                }
+                break;
+            case false: {
+                break;
+            }
+        }
+    }
+}
 
 <RootLayout>
     <CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }">
+    <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }" OnNavigateAsync="OnNavigateAsync">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
-                     @if (context.User.Identity?.IsAuthenticated != true) {
-                         <RedirectToSignin />
-                     } else {
-                         <p role="alert">You are not authorized to access this resource.</p>
-                     }
+                    @if (context.User.Identity?.IsAuthenticated != true) {
+                        <RedirectToSignin/>
+                    } else {
+                        <p role="alert">You are not authorized to access this resource.</p>
+                    }
                 </NotAuthorized>
                 <Authorizing>
-                    @* @if (Register) { *@
-                    @*     <RedirectToRegistration /> *@
-                    @* } *@
+                    ...
                 </Authorizing>
             </AuthorizeRouteView>
         </Found>
         <NotFound>
-            <PageTitle>Not found</PageTitle>
+            <PageTitle>Not Found</PageTitle>
             <LayoutView Layout="@typeof(AuthLayout)">
                 <p role="alert">Sorry, there's nothing at this address.</p>
             </LayoutView>
