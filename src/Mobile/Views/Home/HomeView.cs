@@ -228,13 +228,13 @@ public class HomeView : BaseView<HomeViewModel> {
 public partial class HomeViewModel : ListViewModel {
     [ObservableProperty] private ObservableCollection<EventResponse>? _recentItems;
 
-    [ObservableProperty] private ProfileResponse? _status;
+    [ObservableProperty] private UserResponse? _status;
 
     [RelayCommand]
     private async Task LoadDefaults() {
         IsLoading = true;
         await Task.Delay(500);
-        Status = new ProfileResponse { FirstName = "Saurav", LastName = "Argawal", Balance = 2000, Permission = UserPermission.Administrator };
+        Status = new UserResponse { FirstName = "Saurav", LastName = "Argawal", Balance = 2000, Permission = UserPermission.Administrator };
         RecentItems = new ObservableCollection<EventResponse> { };
         IsLoading = false;
     }
