@@ -12,7 +12,7 @@ public class UserResponse : BaseResponse {
         get { return $"{FirstName} {LastName}"; }
     }
     public decimal Balance { get; set; }
-    public UserPermission Permission { get; set; }
+    public UserPermission Permission { get; set; } = UserPermission.Standard;
     public CompanyResponse? Company { get; set; }
     public Guid? CompanyId { get; set; }
     public CompanyResponse? CompanyManaged { get; set; }

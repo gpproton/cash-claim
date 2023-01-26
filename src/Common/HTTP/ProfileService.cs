@@ -1,5 +1,6 @@
 using XClaim.Common.Dtos;
 using XClaim.Common.Service;
+using XClaim.Common.Wrappers;
 
 namespace XClaim.Common.HTTP;
 
@@ -11,8 +12,8 @@ public class ProfileService : IProfileService {
         _http = http;
     }
 
-    public async Task<AuthResponse?> GetAsync() {
-        return await _http.Get<AuthResponse?>($"{RootApi}/account");
+    public async Task<Response<AuthResponse?>> GetAsync() {
+        return await _http.Get<Response<AuthResponse?>>($"{RootApi}/account");
     }
 
     public async Task<bool> SignOutAsync() {

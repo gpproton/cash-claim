@@ -2,6 +2,7 @@ using System.Security.Claims;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using XClaim.Common.Dtos;
+using XClaim.Common.Wrappers;
 using XClaim.Web.Server.Modules.UserModule;
 
 namespace XClaim.Web.Server.Modules.ProfileModule;
@@ -19,8 +20,9 @@ public class ProfileModule : IModule {
 
         group.MapGet("/account", async (HttpRequest request, UserService user) => {
             bool isAuth = request.HttpContext.User.Identity?.IsAuthenticated ?? false;
-
-            if (!isAuth) return Results.Unauthorized();
+            
+            if (!isAuth) return TypedResults.Unauthorized();
+            
             var auth = await request.HttpContext.AuthenticateAsync("Microsoft");
             var email = request.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value ?? "";
             var role = request.HttpContext.User.FindFirst(ClaimTypes.Role)?.Value ?? "";
@@ -41,8 +43,7 @@ public class ProfileModule : IModule {
                     LastName = names[^1],
                     Phone = phone
                 };
-            }
-            else {
+            } else {
                 profile = new ProfileResponse {
                     Email = account.Email,
                     FirstName = account.FirstName,
@@ -54,8 +55,8 @@ public class ProfileModule : IModule {
                 };
             }
 
-            var response = new AuthResponse {
-                Confirmed = false,
+            var result = new AuthResponse {
+                Confirmed = account != null,
                 ExpiryTimeStamp = expiry,
                 ExpiresIn = expireIn,
                 Token = token,
@@ -65,7 +66,7 @@ public class ProfileModule : IModule {
                 UserName = fullName
             };
 
-            return Results.Ok(response);
+            return Results.Ok(new Response<AuthResponse?>(result) { Succeeded = expireIn > 0 });
         }).WithName("AccountProfile").WithOpenApi();
 
         return group;
