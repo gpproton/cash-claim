@@ -1,9 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
+using XClaim.Common.Extensions;
 
 namespace XClaim.Common.HTTP;
 
 public static class HttpServiceExtensions {
     public static IServiceCollection UseHttpServices(this IServiceCollection services) {
+        services.AddLazyResolution();
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<IBankService, BankService>();
         services.AddScoped<IUserService, UserService>();
