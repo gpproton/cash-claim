@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Dtos;
+using XClaim.Common.Enums;
 using XClaim.Common.Helpers;
 using XClaim.Common.Wrappers;
 using XClaim.Web.Server.Data;
@@ -67,6 +68,27 @@ public class UserService : GenericService<ServerContext, UserEntity, UserRespons
             var data = _mapper.Map<UserResponse>(item);
             response.Data = data;
             response.Succeeded = data != null;
+        }
+        catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+
+        return response;
+    }
+    
+    new public async Task<Response<UserResponse>> CreateAsync(UserResponse value) {
+        var response = new Response<UserResponse>();
+        try {
+            var item = _mapper.Map<UserEntity>(value);
+            var isAdmin = (await _ctx.Users.CountAsync(x => x.Permission == UserPermission.System)) < 1;
+            if (isAdmin) item.Permission = UserPermission.System;
+            await _ctx.Users.AddAsync(item);
+            await _ctx.SaveChangesAsync();
+            var data = _mapper.Map<UserResponse>(item);
+            response = new Response<UserResponse>(data!) {
+                Succeeded = data != null
+            };
         }
         catch (Exception e) {
             response.Errors = new[] { e.ToString() };
