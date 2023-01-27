@@ -2,7 +2,7 @@
 @using XClaim.Common.Helpers
 @inject ICompanyService Http
 @page "/app/settings/companies"
-@attribute [Authorize]
+@attribute [Authorize(Roles = "System")]
 
 @code {
     private string Search { get; set; } = string.Empty;

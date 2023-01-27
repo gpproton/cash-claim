@@ -1,8 +1,9 @@
 @using XClaim.Common.Dtos
+@using XClaim.Common.Enums
 @using XClaim.Common.Helpers
 @page "/app/users"
 @inject IUserService Http
-@attribute [Authorize]
+@attribute [Authorize(Roles = "System, Administrator")]
 
 @code {
     private string Search { get; set; } = string.Empty;

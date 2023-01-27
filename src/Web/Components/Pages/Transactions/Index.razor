@@ -2,7 +2,7 @@
 @using XClaim.Common.Helpers
 @inject IPaymentService Http
 @page "/app/transactions"
-@attribute [Authorize]
+@attribute [Authorize(Roles = "System, Administrator, Finance, Cashier")]
 
 @code {
     private string Search { get; set; } = string.Empty;

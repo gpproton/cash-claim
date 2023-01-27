@@ -43,9 +43,9 @@ public class ProfileModule : IModule {
             } else {
                 profile = account;
             }
-            
+
             var role = account?.Permission != null ?
-                       account.Permission.ToString() : userContext.FindFirst(ClaimTypes.Role)?.Value ?? UserPermission.Standard.ToString();
+                       Enum.GetName(account.Permission)! : userContext.FindFirst(ClaimTypes.Role)?.Value ?? Enum.GetName(UserPermission.Standard)!;
 
             return Results.Ok(new Response<AuthResponse?>(new AuthResponse {
                 Confirmed = account != null,

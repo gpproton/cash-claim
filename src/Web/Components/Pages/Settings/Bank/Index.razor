@@ -2,7 +2,7 @@
 @using XClaim.Common.Helpers
 @inject IBankService Http
 @page "/app/settings/banks"
-@attribute [Authorize]
+@attribute [Authorize(Roles = "System, Administrator")]
 
 @code {
     private string Search { get; set; } = string.Empty;
