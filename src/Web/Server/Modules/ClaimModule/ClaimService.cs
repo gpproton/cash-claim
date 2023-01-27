@@ -10,10 +10,10 @@ using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.ClaimModule;
 
-public class ClaimService : GenericService<ServerContext, ClaimEntity, ClaimResponse>, IClaimService {
+public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, ClaimResponse>, IClaimService {
     public ClaimService(ServerContext ctx, IMapper mapper, ILogger<ClaimService> logger) : base(ctx, mapper, logger) { }
 
-    new public virtual async Task<PagedResponse<List<ClaimResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
+    new public async Task<PagedResponse<List<ClaimResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
         var result = new PagedResponse<List<ClaimResponse>>();
         var query = _ctx.Claims.Where(x => x.DeletedAt == null)
         .Include(x => x.Owner)
@@ -38,7 +38,7 @@ public class ClaimService : GenericService<ServerContext, ClaimEntity, ClaimResp
         return result;
     }
 
-    new public virtual async Task<Response<ClaimResponse?>> GetByIdAsync(Guid id) {
+    new public async Task<Response<ClaimResponse?>> GetByIdAsync(Guid id) {
         var response = new Response<ClaimResponse?>();
         try {
             var item = await _ctx.Claims.Where(x => x.Id == id)

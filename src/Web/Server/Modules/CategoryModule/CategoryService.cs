@@ -10,7 +10,7 @@ using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.CategoryModule;
 
-public class CategoryService : GenericService<ServerContext, CategoryEntity, CategoryResponse> {
+public sealed class CategoryService : GenericService<ServerContext, CategoryEntity, CategoryResponse> {
     public CategoryService(ServerContext ctx, IMapper mapper, ILogger<CategoryService> logger) : base(ctx, mapper, logger) { }
 
     new public async Task<PagedResponse<List<CategoryResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
@@ -38,7 +38,7 @@ public class CategoryService : GenericService<ServerContext, CategoryEntity, Cat
         return result;
     }
 
-    new public virtual async Task<Response<CategoryResponse?>> GetByIdAsync(Guid id) {
+    new public async Task<Response<CategoryResponse?>> GetByIdAsync(Guid id) {
         var result = new Response<CategoryResponse?>();
         try {
             var item = await _ctx.Categories

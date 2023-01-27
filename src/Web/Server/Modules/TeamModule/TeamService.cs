@@ -10,10 +10,10 @@ using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.TeamModule;
 
-public class TeamService : GenericService<ServerContext, TeamEntity, TeamResponse> {
+public sealed class TeamService : GenericService<ServerContext, TeamEntity, TeamResponse> {
     public TeamService(ServerContext ctx, IMapper mapper, ILogger<TeamService> logger) : base(ctx, mapper, logger) { }
 
-    new public virtual async Task<PagedResponse<List<TeamResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
+    new public async Task<PagedResponse<List<TeamResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
         var result = new PagedResponse<List<TeamResponse>>();
         var query = _ctx.Teams
         .Include(e => e.Company)
@@ -41,7 +41,7 @@ public class TeamService : GenericService<ServerContext, TeamEntity, TeamRespons
         return result;
     }
 
-    new public virtual async Task<Response<TeamResponse?>> GetByIdAsync(Guid id) {
+    new public async Task<Response<TeamResponse?>> GetByIdAsync(Guid id) {
         var result = new Response<TeamResponse?>();
         try {
             var item = await _ctx.Teams

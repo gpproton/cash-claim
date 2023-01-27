@@ -10,7 +10,7 @@ using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.CompanyModule;
 
-public class CompanyService : GenericService<ServerContext, CompanyEntity, CompanyResponse> {
+public sealed class CompanyService : GenericService<ServerContext, CompanyEntity, CompanyResponse> {
     public CompanyService(ServerContext ctx, IMapper mapper, ILogger<CompanyService> logger) : base(ctx, mapper, logger) { }
 
     new public async Task<PagedResponse<List<CompanyResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {

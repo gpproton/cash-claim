@@ -10,7 +10,7 @@ using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.UserModule;
 
-public class UserService : GenericService<ServerContext, UserEntity, UserResponse>, IUserService {
+public sealed class UserService : GenericService<ServerContext, UserEntity, UserResponse>, IUserService {
     public UserService(ServerContext ctx, IMapper mapper, ILogger<UserService> logger) : base(ctx, mapper, logger) { }
     public async Task<Response<UserResponse?>> GetByEmailAsync(string email) {
         var item = await _ctx.Users
@@ -56,7 +56,7 @@ public class UserService : GenericService<ServerContext, UserEntity, UserRespons
         return result;
     }
 
-    new public virtual async Task<Response<UserResponse?>> GetByIdAsync(Guid id) {
+    new public async Task<Response<UserResponse?>> GetByIdAsync(Guid id) {
         var response = new Response<UserResponse?>();
         try {
             var item = await _ctx.Users
