@@ -71,6 +71,13 @@ if (connectionString != null) {
 }
 
 WebApplication app = builder.Build();
+
+using (var scope = app.Services.CreateScope()) {
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ServerContext>();    
+    await context.Database.MigrateAsync();
+}
+
 if (app.Environment.IsDevelopment()) {
     app.UseWebAssemblyDebugging();
     _ = app.UseSwagger();
