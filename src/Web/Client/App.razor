@@ -41,16 +41,25 @@
                     @if (context.User.Identity?.IsAuthenticated != true) {
                         <RedirectToSignin/>
                     } else {
-                        <p role="alert">You are not authorized to access this resource.</p>
+                        <NotAuthorized />
                     }
                 </NotAuthorized>
             </AuthorizeRouteView>
         </Found>
         <NotFound>
-            <PageTitle>Not Found</PageTitle>
-            <LayoutView Layout="@typeof(AuthLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
-            </LayoutView>
+            <Title>Not Found</Title>
+            <AuthorizeView>
+                <Authorized>
+                    <LayoutView Layout="@typeof(MainLayout)">
+                        <ErrorFound />
+                    </LayoutView>
+                </Authorized>
+                <NotAuthorized>
+                    <LayoutView Layout="@typeof(AuthLayout)">
+                        <ErrorFound />
+                    </LayoutView>
+                </NotAuthorized>
+            </AuthorizeView>
         </NotFound>
     </Router>
     </CascadingAuthenticationState>
