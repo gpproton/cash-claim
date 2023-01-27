@@ -55,27 +55,27 @@
         </MudStack>
     </TitleContent>
     <DialogContent>
-        <MudOverlay Visible="Loading" DarkBackground="true" Absolute="true">
-            <MudProgressCircular Color="Color.Default" Style="height:96px;width:96px;" Indeterminate="true" />
-        </MudOverlay>
         <MudContainer Class="my-4" MaxWidth="MaxWidth.Small">
             <MudGrid Justify="Justify.Center">
                 <MudItem xs="12">
                     <MudGrid>
                         <MudItem xs="12">
-                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Name" T="string" Label="Name"/>
+                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Name" Disabled="Loading" T="string" Label="Name"/>
                         </MudItem>
-                        <MudItem xs="6">
-                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Symbol" T="string" Label="Symbol"/>
+                        <MudItem xs="4">
+                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Symbol" Disabled="Loading" T="string" Label="Symbol"/>
                         </MudItem>
-                        <MudItem xs="6">
-                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Rate" T="decimal" Label="Rate"/>
+                        <MudItem xs="4">
+                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Rate" Disabled="Loading" T="decimal" Label="Rate"/>
+                        </MudItem>
+                        <MudItem xs="4">
+                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Code" Disabled="Loading" T="string" Label="Code"/>
                         </MudItem>
                         <MudItem xs="12">
-                            <MudSwitch @bind-Checked="@Item.Active" Color="Color.Primary" Label="@(Item.Active ? "Enabled" : "Disabled")"/>
+                            <MudSwitch @bind-Checked="@Item.Active" Color="Color.Primary" Disabled="Loading" Label="@(Item.Active ? "Enabled" : "Disabled")"/>
                         </MudItem>
                         <MudItem xs="12">
-                            <MudTextField Variant="Variant.Outlined" Lines="4" @bind-Value="Item.Description" T="string" Label="Description"/>
+                            <MudTextField Variant="Variant.Outlined" Lines="4" @bind-Value="Item.Description" Disabled="Loading" T="string" Label="Description"/>
                         </MudItem>
                     </MudGrid>
                 </MudItem>
@@ -83,6 +83,6 @@
         </MudContainer>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Size="Size.Large" Class="px-12 py-3">@ActionText</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Size="Size.Large" Class="px-12 py-3" Disabled="Loading">@ActionText</MudButton>
     </DialogActions>
 </MudDialog>
