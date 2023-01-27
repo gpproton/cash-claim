@@ -51,6 +51,13 @@ builder.Services.AddAuthentication("Cookies")
 builder.Services.AddHttpContextAccessor(); ;
 builder.Services.AddAuthorization();
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromDays(7);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt => {
     _ = opt.UseAutoFiltererParameters();
@@ -95,17 +102,19 @@ else {
 }
 
 app.UseCookiePolicy(new CookiePolicyOptions {
-    MinimumSameSitePolicy = SameSiteMode.Lax
+    MinimumSameSitePolicy = SameSiteMode.None
 });
-app.RegisterApiEndpoints();
+
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
-app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
+app.MapRazorPages();
+app.RegisterApiEndpoints();
 // INFO: Disabled due to mobile self signed certificate
 // app.UseHttpsRedirection();
 
