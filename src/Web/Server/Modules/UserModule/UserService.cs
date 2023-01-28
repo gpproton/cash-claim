@@ -32,7 +32,7 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
         };
     }
     
-    public async Task<Response<UserResponse?>> GetByIdentifierAsync(string identifier) {
+    public async Task<Response<UserResponse?>> GetByIdentifierAsync(string? identifier) {
         var item = await _ctx.Users
                    .Where(x => x.DeletedAt == null)
                    .Where(x => x.Identifier == identifier)
