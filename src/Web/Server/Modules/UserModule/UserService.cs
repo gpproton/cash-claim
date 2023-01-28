@@ -7,15 +7,35 @@ using XClaim.Common.Helpers;
 using XClaim.Common.Wrappers;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Entities;
+using XClaim.Web.Server.Helpers;
 
 namespace XClaim.Web.Server.Modules.UserModule;
 
 public sealed class UserService : GenericService<ServerContext, UserEntity, UserResponse>, IUserService {
-    public UserService(ServerContext ctx, IMapper mapper, ILogger<UserService> logger) : base(ctx, mapper, logger) { }
+    private readonly IdentityHelper _identity;
+    public UserService(ServerContext ctx, IMapper mapper, ILogger<UserService> logger, IdentityHelper identity) : base(ctx, mapper, logger) {
+        _identity = identity;
+    }
     public async Task<Response<UserResponse?>> GetByEmailAsync(string email) {
         var item = await _ctx.Users
                    .Where(x => x.DeletedAt == null)
                    .Where(x => x.Email == email)
+                   .Include(x => x.Company)
+                   .Include(x => x.Team)
+                   .Include(x => x.Currency)
+                   .FirstOrDefaultAsync();
+        var data = _mapper.Map<UserResponse>(item);
+
+        return new Response<UserResponse?> {
+            Data = data,
+            Succeeded = data != null
+        };
+    }
+    
+    public async Task<Response<UserResponse?>> GetByIdentifierAsync(string identifier) {
+        var item = await _ctx.Users
+                   .Where(x => x.DeletedAt == null)
+                   .Where(x => x.Identifier == identifier)
                    .Include(x => x.Company)
                    .Include(x => x.Team)
                    .Include(x => x.Currency)
@@ -81,6 +101,7 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
         var response = new Response<UserResponse>();
         try {
             var item = _mapper.Map<UserEntity>(value);
+            item.Identifier = _identity!.NameIdentifier!;
             var isAdmin = (await _ctx.Users.CountAsync(x => x.Permission == UserPermission.System)) < 1;
             if (isAdmin) item.Permission = UserPermission.System;
             await _ctx.Users.AddAsync(item);

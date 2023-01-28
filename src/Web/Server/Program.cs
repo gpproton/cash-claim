@@ -28,6 +28,7 @@ builder.Services.Configure<JsonOptions>(options => {
 });
 
 builder.Services.AddTransient<FileUploadService>();
+builder.Services.AddTransient<IdentityHelper>();
 
 builder.Services.Configure<CookiePolicyOptions>(options => {
     options.CheckConsentNeeded = _ => true;
