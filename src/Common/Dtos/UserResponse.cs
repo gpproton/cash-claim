@@ -4,6 +4,7 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Dtos;
 
 public class UserResponse : BaseResponse {
+    public string Identifier { get; set; } = string.Empty;
     public string Email { get; set; } = String.Empty;
     public string Phone { get; set; } = String.Empty;
     public string FirstName { get; set; } = String.Empty;

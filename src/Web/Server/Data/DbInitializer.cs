@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SourceExpress.ShorterGuid;
 using XClaim.Common.Enums;
 using XClaim.Web.Server.Entities;
 
@@ -63,8 +64,8 @@ public class DbInitializer {
         };
 
         var users = new List<UserEntity> {
-            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "John", LastName = "Doe", Email = "john.doe@tolaram.com", Phone = "+234012345567", TeamId = teams[0].Id, CompanyId = companies[0].Id },
-            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", Email = "jane.doe@tolaram.com", Phone = "+234022424553", TeamId = teams[1].Id, CompanyId = companies[1].Id }
+            new UserEntity { Id = Guid.NewGuid(), Identifier = (Guid.NewGuid()).ToLowerShorterString(), CreatedAt = time, FirstName = "John", LastName = "Doe", Email = "john.doe@tolaram.com", Phone = "+234012345567", TeamId = teams[0].Id, CompanyId = companies[0].Id },
+            new UserEntity { Id = Guid.NewGuid(), Identifier = (Guid.NewGuid()).ToLowerShorterString(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", Email = "jane.doe@tolaram.com", Phone = "+234022424553", TeamId = teams[1].Id, CompanyId = companies[1].Id }
         };
 
         _modelBuilder.Entity<BankEntity>().HasData(banks);

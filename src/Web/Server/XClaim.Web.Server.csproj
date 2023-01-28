@@ -36,6 +36,7 @@
 		</PackageReference>
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+		<PackageReference Include="SourceExpress.ShorterGuid" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup>

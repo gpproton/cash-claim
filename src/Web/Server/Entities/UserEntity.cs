@@ -6,7 +6,9 @@ using XClaim.Common.Enums;
 namespace XClaim.Web.Server.Entities;
 
 [Index(nameof(Email), IsUnique = true)]
+[Index(nameof(Identifier), IsUnique = true)]
 public sealed class UserEntity : BaseEntity {
+    public string Identifier { get; set; } = string.Empty;
     [MaxLength(256)]
     public string Email { get; set; } = string.Empty;
     public string? ProfileImage { get; set; }
