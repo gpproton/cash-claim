@@ -18,17 +18,16 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
         _identity = identity;
     }
 
-    private async Task<IIncludableQueryable<ClaimEntity, CategoryEntity?>> ClaimPersonalQuery(IQueryable<ClaimEntity> queryable) {
-        var userId = ((await _identity.GetUser())!).Id;
-        return queryable.Where(x => x.DeletedAt == null)
-        .Where(x => x.OwnerId == userId)
+    private static Task<IIncludableQueryable<ClaimEntity, CategoryEntity?>> ClaimPersonalQuery(IQueryable<ClaimEntity> queryable) {
+        return Task.FromResult(queryable.Where(x => x.DeletedAt == null)
         .Include(x => x.Owner)
-        .Include(x => x.Category);
+        .Include(x => x.Category));
     }
 
     new public async Task<PagedResponse<List<ClaimResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
+        var userId = ((await _identity.GetUser())!).Id;
         var result = new PagedResponse<List<ClaimResponse>>();
-        var query = await ClaimPersonalQuery(_ctx.Claims);
+        var query = (await ClaimPersonalQuery(_ctx.Claims)).Where(x => x.OwnerId == userId);
         try {
             var count = await query.CountAsync();
             var data = await query.ApplyFilter(responseFilter).ToListAsync();
