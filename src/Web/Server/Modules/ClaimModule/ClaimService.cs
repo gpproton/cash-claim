@@ -25,9 +25,10 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
     }
 
     new public async Task<PagedResponse<List<ClaimResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
-        var userId = ((await _identity.GetUser())!).Id;
+        var id = ((await _identity.GetUser())!).Id;
         var result = new PagedResponse<List<ClaimResponse>>();
-        var query = (await ClaimPersonalQuery(_ctx.Claims)).Where(x => x.OwnerId == userId);
+        var query = (await ClaimPersonalQuery(_ctx.Claims))
+        .Where(x => x.OwnerId == id);
         try {
             var count = await query.CountAsync();
             var data = await query.ApplyFilter(responseFilter).ToListAsync();
@@ -51,7 +52,10 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
         var response = new Response<ClaimResponse?>();
         try {
             var item = await (await ClaimPersonalQuery(_ctx.Claims))
-                       .Where(x => x.Id == id).FirstOrDefaultAsync();
+                       .Where(x => x.Id == id)
+                       .Include(x => x.Payment)
+                       .Include(x => x.Files)
+                       .FirstOrDefaultAsync();
             var data = _mapper.Map<ClaimResponse>(item);
             response.Data = data;
             response.Succeeded = data != null;
@@ -62,4 +66,8 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
 
         return response;
     }
+
+    public async Task<PagedResponse<List<ClaimResponse>>> GetReviewsAsync(PaginationFilterBase responseFilter) => default!;
+
+    public async Task<Response<ClaimResponse?>> ReviewAsync(Guid id) => default!;
 }
