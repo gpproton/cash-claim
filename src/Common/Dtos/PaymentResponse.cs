@@ -4,20 +4,18 @@ namespace XClaim.Common.Dtos;
 
 public class PaymentResponse : BaseResponse {
     public string Description { get; set; } = string.Empty;
-
     public decimal Amount { get; set; }
+    public string Notes { get; set; } = string.Empty;
     public UserResponse? Owner { get; set; }
     public Guid? OwnerId { get; set; }
-    public DateTime? CompletedAt { get; set; }
-
-    public UserResponse? CompletedBy { get; set; }
-
-    public bool Completed {
+    public DateTime? ConfirmedAt { get; set; }
+    public UserResponse? ConfirmedBy { get; set; }
+    public Guid? ConfirmedById { get; set; }
+    public bool Confirmed {
         get {
-            return CompletedAt != null;
+            return ConfirmedAt != null;
         }
     }
-
-    public string Notes { get; set; } = string.Empty;
+    public int Count { get; set; }
     public ICollection<ClaimResponse> Claims { get; set; } = default!;
 }

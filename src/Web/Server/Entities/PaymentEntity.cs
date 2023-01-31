@@ -12,14 +12,16 @@ public sealed class PaymentEntity : BaseEntity {
     [Required]
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
-    public DateTime? CompletedAt { get; set; }
-    public UserEntity? CompletedBy { get; set; }
-    public bool Completed {
+    public DateTime? ConfirmedAt { get; set; }
+    public UserEntity? ConfirmedBy { get; set; }
+    public Guid? ConfirmedById { get; set; }
+    public bool Confirmed {
         get {
-            return CompletedAt != null;
+            return ConfirmedAt != null;
         }
     }
-    public Guid? CompletedById { get; set; }
+    public int Count { get; set; }
+    public ICollection<ClaimEntity> Claims { get; set; } = default!;
     public ICollection<FileEntity> Files { get; set; } = default!;
     public ICollection<CommentEntity> Comments { get; set; } = default!;
 }

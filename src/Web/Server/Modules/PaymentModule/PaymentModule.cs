@@ -26,7 +26,7 @@ public class PaymentModule : IModule {
         }).WithName($"Get{name}ById").WithOpenApi();
 
         group.MapPost("/confirmation", async (PaymentResponse value, PaymentService sv) => {
-            value.CompletedAt = DateTime.Now;
+            value.ConfirmedAt = DateTime.Now;
             var result = await sv.UpdateAsync(value);
             return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Confirm{name}").WithOpenApi();
