@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SourceExpress.ShorterGuid;
+using XClaim.Common;
 using XClaim.Common.Enums;
 using XClaim.Web.Server.Entities;
 
@@ -68,6 +69,10 @@ public class DbInitializer {
             new UserEntity { Id = Guid.NewGuid(), Identifier = Guid.NewGuid().ToLowerShorterString(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", Email = "jane.doe@tolaram.com", Phone = "+234022424553", TeamId = teams[1].Id, CompanyId = companies[1].Id }
         };
 
+        var server = new List<ServerEntity> {
+            new ServerEntity { Id = Guid.NewGuid(), AdminEmail = "admin@x-claim.dev", CurrencyId = currencies[0].Id, MaintenanceText = "In-Progress", ServiceName = SharedConst.ServiceName }
+        };
+
         _modelBuilder.Entity<BankEntity>().HasData(banks);
         _modelBuilder.Entity<DomainEntity>().HasData(domains);
         _modelBuilder.Entity<CurrencyEntity>().HasData(currencies);
@@ -75,5 +80,6 @@ public class DbInitializer {
         _modelBuilder.Entity<CategoryEntity>().HasData(categories);
         _modelBuilder.Entity<UserEntity>().HasData(users);
         _modelBuilder.Entity<TeamEntity>().HasData(teams);
+        _modelBuilder.Entity<ServerEntity>().HasData(server);
     }
 }

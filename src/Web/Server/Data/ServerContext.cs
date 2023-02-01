@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using XClaim.Common.Base;
+using XClaim.Common.Enums;
+using XClaim.Web.Server.Converters;
 using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Data;
@@ -29,23 +31,29 @@ public partial class ServerContext : DbContext {
             .WithOne(u => u.TeamManaged)
             .HasForeignKey<TeamEntity>(t => t.ManagerId)
             .OnDelete(DeleteBehavior.SetNull);
-
-        // User - BankAccount One to One
-        mx.Entity<BankAccountEntity>()
-            .HasOne(u => u.Owner)
-            .WithOne(ba => ba.BankAccount)
-            .HasForeignKey<BankAccountEntity>(u => u.OwnerId)
-            .OnDelete(DeleteBehavior.SetNull);
+        
+        mx.Entity<NotificationEntity>()
+        .Property(e => e.Channels)
+        .HasConversion(new EnumCollectionJsonValueConverter<NotificationChannels>())
+        .Metadata.SetValueComparer(new CollectionValueComparer<NotificationChannels>());
+        
+        mx.Entity<NotificationEntity>()
+        .Property(e => e.Types)
+        .HasConversion(new EnumCollectionJsonValueConverter<EventType>())
+        .Metadata.SetValueComparer(new CollectionValueComparer<EventType>());
 
         // Initialize database seeding
         new DbInitializer(mx).Seed();
     }
 
+    public DbSet<ServerEntity> Server { get; set; } = default!;
     public DbSet<UserEntity> Users { get; set; } = default!;
+    public DbSet<NotificationEntity> UserNotification { get; set; } = default!;
+    public DbSet<SettingEntity> UserSetting { get; set; } = default!;
+    public DbSet<BankAccountEntity> UserBankAccount { get; set; } = default!;
     public DbSet<TeamEntity> Teams { get; set; } = default!;
     public DbSet<BankEntity> Banks { get; set; } = default!;
     public DbSet<CompanyEntity> Companies { get; set; } = default!;
-    public DbSet<BankAccountEntity> BankAccounts { get; set; } = default!;
     public DbSet<CategoryEntity> Categories { get; set; } = default!;
     public DbSet<CommentEntity> Comments { get; set; } = default!;
     public DbSet<EventEntity> Events { get; set; } = default!;
