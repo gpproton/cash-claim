@@ -21,11 +21,11 @@ public class UserService : IUserService {
     public async Task<Response<UserResponse>> GetByIdAsync(Guid id) {
         return await _http.Get<Response<UserResponse>>($"{RootApi}/{id}");
     }
-    public async Task<Response<UserResponse>> RegistrationAsync(UserResponse bank) {
-        return await _http.Post<Response<UserResponse>>(RootApi, bank);
+    public async Task<Response<UserResponse>> RegistrationAsync(UserResponse user) {
+        return await _http.Post<Response<UserResponse>>(RootApi, user);
     }
-    public async Task<Response<UserResponse>> UpdateAsync(UserResponse bank) {
-        return await _http.Put<Response<UserResponse>>(RootApi, bank);
+    public async Task<Response<UserResponse>> UpdateAsync(UserResponse user) {
+        return await _http.Put<Response<UserResponse>>(RootApi, user);
     }
     public async Task<Response<UserResponse>> ArchiveAsync(Guid id) {
         return await _http.Delete<Response<UserResponse>>($"{RootApi}/{id}");
