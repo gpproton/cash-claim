@@ -102,6 +102,7 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
         try {
             var item = _mapper.Map<UserEntity>(value);
             item.Identifier = _identity!.NameIdentifier!;
+            item.Active = true;
             var isAdmin = (await _ctx.Users.CountAsync(x => x.Permission == UserPermission.System)) < 1;
             if (isAdmin) item.Permission = UserPermission.System;
             await _ctx.Users.AddAsync(item);
