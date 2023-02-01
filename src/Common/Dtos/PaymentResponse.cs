@@ -11,11 +11,7 @@ public class PaymentResponse : BaseResponse {
     public DateTime? ConfirmedAt { get; set; }
     public UserResponse? ConfirmedBy { get; set; }
     public Guid? ConfirmedById { get; set; }
-    public bool Confirmed {
-        get {
-            return ConfirmedAt != null;
-        }
-    }
+    public bool Confirmed => ConfirmedAt != null;
     public int Count { get; set; }
     public ICollection<ClaimResponse> Claims { get; set; } = default!;
 }
