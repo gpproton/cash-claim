@@ -1,4 +1,3 @@
-using XClaim.Common.Dtos;
 using XClaim.Mobile.Views.Payment.Component;
 
 namespace XClaim.Mobile.Views.Payment;
@@ -90,7 +89,7 @@ public class PaymentView : BaseView<PaymentViewModel> {
                                     new Label { TextColor = Colors.LightGreen }
                                         .Font(size: 18)
                                         .Bind(Label.TextProperty, nameof(PaymentResponse.Amount),
-                                            convert: (decimal value) => AppConst.Naira + string.Format("{0:N0}", value))
+                                            convert: (decimal value) => AppConst.Naira + $"{value:N0}")
                                         .MinWidth(95)
                                         .Row(SectionLevel.First)
                                         .Column(SectionLevel.Third)
@@ -98,7 +97,7 @@ public class PaymentView : BaseView<PaymentViewModel> {
                                         .CenterHorizontal(),
                                     new Label()
                                         .Font(size: 11)
-                                        .Bind(Label.TextProperty, nameof(PaymentResponse.Completed))
+                                        .Bind(Label.TextProperty, nameof(PaymentResponse.Confirmed))
                                         .Row(SectionLevel.Second)
                                         .Column(SectionLevel.Third),
                                     new BoxView()
