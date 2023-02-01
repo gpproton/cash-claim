@@ -1,6 +1,7 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Enums
 @using XClaim.Common.Helpers
+@using Nextended.Core.Extensions
 @inject IClaimService Http
 @inject ICategoryService CategoryService
 @inject ISnackbar Snackbar
@@ -105,9 +106,10 @@
                             </MudFileUpload>
                         </MudItem>
                         <MudItem xs="12">
-                            <MudSelect T="ClaimPriority" Label="Priority" Variant="Variant.Outlined" bind-Value="Item.Priority" AnchorOrigin="Origin.BottomCenter">
-                                @foreach (ClaimPriority priority in Enum.GetValues(typeof(ClaimPriority))) {
-                                    <MudSelectItem T="ClaimPriority" Value="priority"/>
+                            <MudSelect T="ClaimPriority" Label="Priority" Variant="Variant.Outlined" @bind-Value="Item.Priority"
+                                       For="@(() => Item.Priority)" AnchorOrigin="Origin.BottomCenter">
+                                @foreach (var priority in Enum.GetValues<ClaimPriority>()) {
+                                    <MudSelectItem Value="priority">@priority.ToDescriptionString().Capitalize()</MudSelectItem>
                                 }
                             </MudSelect>
                         </MudItem>
