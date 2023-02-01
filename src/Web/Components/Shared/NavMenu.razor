@@ -1,6 +1,12 @@
-﻿@code {
+﻿@using XClaim.Common.Dtos
+@using XClaim.Common.Extensions
+@inject AuthState AuthState
+
+@code {
     [Parameter]
     public bool SideBarOpen { get; set; } = true;
+
+    private UserResponse? _profile;
 
     record MenuLink(string Title, string Icon, string Path, List<MenuLink>? Child = null);
 
@@ -12,7 +18,8 @@
         new MenuLink("Transactions", Icons.Material.Filled.SendTimeExtension, "/app/transactions")
     };
 
-    private List<MenuLink> _secondaryLinks = new() {
+    private List<MenuLink> _secondaryLinks = new List<MenuLink> {
+        new MenuLink("Users", Icons.Material.Filled.People, "/app/users"),
         new MenuLink("Settings", Icons.Material.Filled.Settings, "/app/settings/",
             new () {
                 new MenuLink("Teams", Icons.Material.Filled.Groups, "/app/settings/teams"),
@@ -22,26 +29,58 @@
                 new MenuLink("Domains", Icons.Material.Filled.Computer, "/app/settings/domains"),
                 new MenuLink("Currency", Icons.Material.Filled.CurrencyExchange, "/app/settings/currency"),
                 new MenuLink("Server", Icons.Material.Filled.SettingsApplications, "/app/settings/server")
-            }),
-        new MenuLink("Users", Icons.Material.Filled.People, "/app/users"),
-        new MenuLink("Help", Icons.Material.Filled.Help, "/app/help")
+            })
     };
+    
+    async Task SignOut() => await AuthState.TriggerSignOut();
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        if(await AuthState.IsAuth())
+            _profile = ((await AuthState.GetSession())!).Data;
+    }
+
+    private string GetInitialsText(string?[] value) {
+        if (value.Length < 2) return "FL";
+        var firstName = value[0]?.ToUpper();
+        var lastName = value[^1]?.ToUpper();
+        
+        if (firstName == null && lastName == null) return "FL";
+        return firstName![..1] + lastName![..1];
+    }
 }
 
 <MudDrawer @bind-Open="SideBarOpen" Elevation="1">
-    <MudDrawerHeader>
-        <MudAvatar Rounded="true" Color="Color.Transparent" Size="Size.Medium">X</MudAvatar>
-        <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-top:4px; margin-left:15px;">X-Claim</MudText>
-    </MudDrawerHeader>
-    <MudDivider Class="my-4" />
-    <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
-        @foreach (var link in _links) {
-            <MudNavLink Href="@link.Path" Icon="@link.Icon" Class="nav_link">@link.Title</MudNavLink>
-        }
-    </MudNavMenu>
-
-    <div class="nav_footer mt-16 pt-6">
-        <MudDivider Class="my-2" />
+    @if (_profile != null) {
+        <MudMenu FullWidth="true" Class="ma-0 pa-0" AnchorOrigin="Origin.BottomCenter" Style="width: 100%" TransformOrigin="Origin.TopCenter" Variant="Variant.Filled">
+            <ActivatorContent>
+                <MudPaper Class="pa-2 ma-2" Elevation="0" Style="@("background-color: var(--mud-palette-primary-hover); cursor: pointer; width: 100%")">
+                    <MudStack Row="true">
+                        <MudAvatar Size="Size.Large">@GetInitialsText(new[] {_profile?.FirstName, _profile?.LastName})</MudAvatar>
+                        <MudStack Spacing="0" Justify="Justify.Center" AlignItems="AlignItems.Start">
+                            <MudText Typo="Typo.h6" Color="Color.Primary">@_profile?.FirstName.Truncate(12)</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Dark">@_profile?.Email.Truncate(18)</MudText>
+                        </MudStack>
+                    </MudStack>
+                </MudPaper>
+            </ActivatorContent>
+            <ChildContent>
+                <MudMenuItem Icon="@Icons.Material.Filled.Person" Href="app/user/profile">Profile</MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.CreditCard" Href="/app/user/bank-account">Bank Act</MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.Help" Href="/app/help">Help</MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="SignOut">Sign Out</MudMenuItem>
+            </ChildContent>
+        </MudMenu>
+    }
+    
+    <div class="my-16">
+        <MudDivider Class="my-2"/>
+        <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
+            @foreach (var link in _links) {
+                <MudNavLink Href="@link.Path" Icon="@link.Icon" Class="nav_link">@link.Title</MudNavLink>
+            }
+        </MudNavMenu>
+        <MudDivider Class="mt-8 mb-2"/>
         @foreach (var link in _secondaryLinks) {
             <MudNavMenu href="@link.Path" Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
                 @if (link.Child is not null) {
@@ -50,13 +89,13 @@
                             <MudNavLink Href="@subLink.Path" Icon="@subLink.Icon" Class="nav_link">@subLink.Title</MudNavLink>
                         }
                     </MudNavGroup>
-                } else {
+                }
+                else {
                     <MudNavLink Href="@link.Path" Icon="@link.Icon" Class="nav_link">@link.Title</MudNavLink>
                 }
             </MudNavMenu>
         }
     </div>
-    
 </MudDrawer>
 
 <style>
@@ -67,10 +106,5 @@
     font-family: 'Roboto', serif;
     font-size: 1.1rem;
     font-weight: 300
-}
-
-.nav_footer {
-    /*position: sticky;*/
-    /*bottom: 0;*/
 }
 </style>
