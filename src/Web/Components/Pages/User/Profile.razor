@@ -3,7 +3,7 @@
 @using XClaim.Common.Helpers
 @inject IUserService Http
 @inject ICurrencyService CurrencyService
-@inject NavigationManager Nav
+@inject Navigation Nav
 @inject ISnackbar Snackbar
 @attribute [Authorize]
 
@@ -69,7 +69,7 @@
             </MudItem>
             <MudItem xs="12">
                 <MudStack Row="true" Justify="Justify.SpaceBetween">
-                    <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateTo(WebConst.AppHome)"
+                    <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateBack()"
                                Size="Size.Large" Class="mt-8 px-12 py-3">Back</MudButton>
                     <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" OnClick="Submit" Size="Size.Large" Class="mt-8 px-12 py-3">Save</MudButton>
                 </MudStack>
