@@ -29,7 +29,8 @@ public sealed class UserEntity : BaseEntity {
     public TeamEntity? TeamManaged { get; set; }
     public Guid? TeamManagedId { get; set; }
     public BankAccountEntity? BankAccount { get; set; }
-    public Guid? BankAccountId { get; set; }
+    public NotificationEntity? Notification { get; set; }
+    public SettingEntity? Setting { get; set; }
     public CurrencyEntity? Currency { get; set; }
     public Guid? CurrencyId { get; set; }
     public bool Active { get; set; }
