@@ -73,6 +73,7 @@
             <MudProgressCircular Color="Color.Default" Style="height:96px;width:96px;" Indeterminate="true" />
         </MudOverlay>
         <MudContainer Class="my-4" MaxWidth="MaxWidth.Small">
+            <CascadingAuthenticationState>
             <MudGrid Justify="Justify.Center">
                 <MudItem xs="12">
                     <MudGrid>
@@ -82,17 +83,22 @@
                         <MudItem xs="12">
                             <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Description" T="string" Label="Description"/>
                         </MudItem>
-                        <MudItem xs="12">
-                            <MudAutocomplete T="CompanyResponse" Label="Company" @bind-Value="Company" SearchFunc="@SearchCompany"
-                                 Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Company = null"
-                                 Clearable="true" ToStringFunc="@(e=> e == null ? null : $"{e.FullName}")" />
-                        </MudItem>
+                        <AuthorizeView Roles="System">
+                            <Authorized>
+                                <MudItem xs="12">
+                                    <MudAutocomplete T="CompanyResponse" Label="Company" @bind-Value="Company" SearchFunc="@SearchCompany"
+                                                     Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Company = null"
+                                                     Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.FullName}")"/>
+                                </MudItem>
+                            </Authorized>
+                        </AuthorizeView>
                         <MudItem xs="12">
                             <MudSwitch @bind-Checked="@Item.Active" Color="Color.Primary" Label="@(Item.Active ? "Enabled" : "Disabled")"/>
                         </MudItem>
                     </MudGrid>
                 </MudItem>
             </MudGrid>
+            </CascadingAuthenticationState>
         </MudContainer>
     </DialogContent>
     <DialogActions>
