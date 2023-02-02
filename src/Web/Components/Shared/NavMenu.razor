@@ -1,5 +1,6 @@
 ﻿@using XClaim.Common.Dtos
 @using XClaim.Common.Extensions
+@using XClaim.Common.Helpers
 @inject AuthState AuthState
 
 @code {
@@ -27,8 +28,7 @@
                 new MenuLink("Companies", Icons.Material.Filled.PendingActions, "/app/settings/companies"),
                 new MenuLink("Banks", Icons.Material.Filled.Money, "/app/settings/banks"),
                 new MenuLink("Domains", Icons.Material.Filled.Computer, "/app/settings/domains"),
-                new MenuLink("Currency", Icons.Material.Filled.CurrencyExchange, "/app/settings/currency"),
-                new MenuLink("Server", Icons.Material.Filled.SettingsApplications, "/app/settings/server")
+                new MenuLink("Currency", Icons.Material.Filled.CurrencyExchange, "/app/settings/currency")
             })
     };
     
@@ -40,14 +40,9 @@
             _profile = ((await AuthState.GetSession())!).Data;
     }
 
-    private string GetInitialsText(string?[] value) {
-        if (value.Length < 2) return "FL";
-        var firstName = value[0]?.ToUpper();
-        var lastName = value[^1]?.ToUpper();
-        
-        if (firstName == null && lastName == null) return "FL";
-        return firstName![..1] + lastName![..1];
-    }
+    private string ProfileInitials => StringHelpers.GetInitialsText(new[] {
+        _profile?.FirstName, _profile?.LastName
+    });
 }
 
 <MudDrawer @bind-Open="SideBarOpen" Elevation="1">
@@ -57,9 +52,7 @@
                 <ActivatorContent>
                     <MudPaper Class="pa-2 ma-2" Elevation="0" Style="@("background-color: var(--mud-palette-primary-hover); cursor: pointer; width: 100%")">
                         <MudStack Row="true">
-                            <MudAvatar Size="Size.Large">@GetInitialsText(new[] {
-                                                             _profile?.FirstName, _profile?.LastName
-                                                         })</MudAvatar>
+                            <MudAvatar Rounded="true" Size="Size.Large">@ProfileInitials</MudAvatar>
                             <MudStack Spacing="0" Justify="Justify.Center" AlignItems="AlignItems.Start">
                                 <MudText Typo="Typo.h6" Color="Color.Primary">@_profile?.FirstName.Truncate(12)</MudText>
                                 <MudText Typo="Typo.body2" Color="Color.Dark">@_profile?.Email.Truncate(18)</MudText>
@@ -71,6 +64,7 @@
                     <MudMenuItem Icon="@Icons.Material.Filled.Person" Href="app/user/profile">Profile</MudMenuItem>
                     <MudMenuItem Icon="@Icons.Material.Filled.Settings" Href="/app/user/settings">Settings</MudMenuItem>
                     <MudMenuItem Icon="@Icons.Material.Filled.CreditCard" Href="/app/user/bank-account">Bank Act</MudMenuItem>
+                    <MudMenuItem Icon="@Icons.Material.Filled.SettingsApplications" Href="/app/settings/server">Server Options</MudMenuItem>
                     <MudMenuItem Icon="@Icons.Material.Filled.Help" Href="/app/help">Help</MudMenuItem>
                     <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="SignOut">Sign Out</MudMenuItem>
                 </ChildContent>
