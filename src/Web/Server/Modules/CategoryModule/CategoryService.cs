@@ -53,10 +53,13 @@ public sealed class CategoryService : GenericService<ServerContext, CategoryEnti
     new public async Task<Response<CategoryResponse?>> GetByIdAsync(Guid id) {
         var result = new Response<CategoryResponse?>();
         try {
+            var user = await _identity.GetUser();
             var item = await _ctx.Categories
                        .Include(e => e.Company)
                        .FirstOrDefaultAsync(e => e.Id == id);
             var data = _mapper.Map<CategoryResponse>(item);
+            if (user!.Permission != UserPermission.System && data.CompanyId == null)
+                data.CompanyId = user.CompanyId;
             result.Succeeded = data != null;
             result.Data = data;
         }
@@ -67,5 +70,27 @@ public sealed class CategoryService : GenericService<ServerContext, CategoryEnti
         }
 
         return result;
+    }
+    
+    new public async Task<Response<CategoryResponse>> CreateAsync(CategoryResponse value) {
+        var response = new Response<CategoryResponse>();
+        try {
+            var user = await _identity.GetUser();
+            if (user!.Permission != UserPermission.System && value.CompanyId == null)
+                value.CompanyId = user.CompanyId;
+            var item = _mapper.Map<CategoryEntity>(value);
+            await _ctx.Categories.AddAsync(item);
+            await _ctx.SaveChangesAsync();
+            var data = _mapper.Map<CategoryResponse>(item);
+            response = new Response<CategoryResponse>(data!) {
+                Succeeded = data != null
+            };
+        }
+        catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+
+        return response;
     }
 }

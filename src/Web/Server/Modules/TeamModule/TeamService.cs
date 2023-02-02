@@ -54,11 +54,14 @@ public sealed class TeamService : GenericService<ServerContext, TeamEntity, Team
     new public async Task<Response<TeamResponse?>> GetByIdAsync(Guid id) {
         var result = new Response<TeamResponse?>();
         try {
+            var user = await _identity.GetUser();
             var item = await _ctx.Teams
                        .Include(e => e.Company)
                        .Include(e => e.Manager)
                        .FirstOrDefaultAsync(e => e.Id == id);
             var data = _mapper.Map<TeamResponse>(item);
+            if (user!.Permission != UserPermission.System && data.CompanyId == null)
+                data.CompanyId = user.CompanyId;
             result.Succeeded = data != null;
             result.Data = data;
         }
@@ -69,5 +72,27 @@ public sealed class TeamService : GenericService<ServerContext, TeamEntity, Team
         }
 
         return result;
+    }
+    
+    new public async Task<Response<TeamResponse>> CreateAsync(TeamResponse value) {
+        var response = new Response<TeamResponse>();
+        try {
+            var user = await _identity.GetUser();
+            if (user!.Permission != UserPermission.System && value.CompanyId == null)
+                value.CompanyId = user.CompanyId;
+            var item = _mapper.Map<TeamEntity>(value);
+            await _ctx.Teams.AddAsync(item);
+            await _ctx.SaveChangesAsync();
+            var data = _mapper.Map<TeamResponse>(item);
+            response = new Response<TeamResponse>(data!) {
+                Succeeded = data != null
+            };
+        }
+        catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+
+        return response;
     }
 }

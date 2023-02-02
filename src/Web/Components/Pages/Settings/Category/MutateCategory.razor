@@ -4,7 +4,6 @@
 @inject ICategoryService Http
 @inject ICompanyService CompanyService
 @inject ISnackbar Snackbar
-@inject AuthState AuthState
 
 @code {
     [CascadingParameter]
@@ -47,12 +46,7 @@
     }
 
     async Task Submit() {
-        if (await AuthState.GetPermission() != UserPermission.System) {
-            Item.CompanyId = (await AuthState.GetAccount())!.CompanyId;
-            Company = (await AuthState.GetAccount())!.Company;
-        } else {
-            Item.CompanyId = Company?.Id;
-        }
+        Item.CompanyId = Company?.Id;
         var result = Id == null ? (await Http.CreateAsync(Item)) : (await Http.UpdateAsync(Item));
         MudDialog.Close(DialogResult.Ok(result.Succeeded));
     }
