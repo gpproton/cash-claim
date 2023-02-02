@@ -7,9 +7,8 @@ public static class ConfigHelper {
     public static void ApplyDefaultAppConfiguration(HostBuilderContext hostingContext, IConfigurationBuilder appConfigBuilder, string[]? args) {
         IHostEnvironment env = hostingContext.HostingEnvironment;
         bool reloadOnChange = GetReloadConfigOnChangeValue(hostingContext);
-
-        appConfigBuilder.AddIniFile("config.ini", optional: true, reloadOnChange: reloadOnChange)
-        .AddIniFile($"config{env.EnvironmentName}.ini", optional: true, reloadOnChange: reloadOnChange);
+        var configFile = env.IsDevelopment() ? $"config.Development.ini" : "config.ini";
+        appConfigBuilder.AddIniFile(configFile, optional: true, reloadOnChange: reloadOnChange);
 
         if (env.IsDevelopment() && env.ApplicationName is { Length: > 0 }) {
             var appAssembly = Assembly.Load(new AssemblyName(env.ApplicationName));
