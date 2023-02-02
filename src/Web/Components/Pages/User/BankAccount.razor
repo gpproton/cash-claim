@@ -1,36 +1,89 @@
 @inject Navigation Nav
+@inject IBankService BankService
+@inject IProfileService ProfileService
+@inject ISnackbar Snackbar
 @page "/app/user/bank-account"
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
 @attribute [Authorize]
 
-@code { }
+@code {
+    private bool Loading { get; set; }
+    bool _success;
+    string[] _errors = { };
+    MudForm? _form;
+    
+    private BankResponse? Bank { get; set; }
+
+    private BankAccountResponse? Item { get; set; } = new BankAccountResponse();
+    
+    private async Task<IEnumerable<BankResponse>> SearchBank(string value) {
+        var response = await BankService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<BankResponse> {})!;
+    }
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        Loading = true;
+        var result = await ProfileService.GetBankAccountAsync();
+        if (result is { Succeeded: true, Data: { } }) {
+            Bank = result.Data.Bank;
+            Item = result.Data;
+        }
+        Loading = false;
+    }
+
+    private async Task Submit() {
+        await _form!.Validate();
+        if (!_success) return;
+        
+        if (Item != null) {
+            Item.BankId = Bank?.Id;
+            var result = await ProfileService.UpdateBankAccountAsync(Item);
+            Snackbar.Clear();
+            await Task.Delay(500);
+            Snackbar.Add(result.Succeeded ? "Updated successfully.." : "Update failed..", result.Succeeded ? Severity.Success : Severity.Error);
+            if (result.Succeeded) {
+                Nav.NavigateBack();
+            }
+        }
+    }
+}
 
 <Title>Bank Account</Title>
 
-<MudGrid Justify="Justify.Center" Class="mt-6">
-    <MudItem xs="12" md="6">
-        <MudGrid>
-            <MudItem xs="12">
-                <MudTextField Variant="Variant.Outlined" T="string" Label="Account Name"/>
-            </MudItem>
-            <MudItem xs="12">
-                <MudTextField Variant="Variant.Outlined" T="string" Label="Account Number"/>
-            </MudItem>
-            <MudItem  xs="12">
-                <MudSelect T="string" Label="Bank" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary">
-                    <MudSelectItem Value="@("foo")">Foo</MudSelectItem>
-                    <MudSelectItem Value="@("bar")">Bar</MudSelectItem>
-                </MudSelect>
-            </MudItem>
-            <MudItem xs="12">
-                <MudTextField Variant="Variant.Outlined" Lines="5" T="string" Label="Notes"/>
-            </MudItem>
-            <MudItem xs="12">
-                <MudStack Row="true" Justify="Justify.SpaceBetween">
-                    <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateBack()"
-                               Size="Size.Large" Class="mt-8 px-12 py-3">Back</MudButton>
-                    <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large" Class="mt-8 px-12 py-3">Save</MudButton>
-                </MudStack>
+<MudContainer Class="mt-12" MaxWidth="MaxWidth.Medium">
+    <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
+        <MudGrid Justify="Justify.Center" Class="mt-6">
+            <MudItem xs="12" md="6">
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudTextField Variant="Variant.Outlined" @bind-Value="Item.FullName" T="string" Label="Account Name"
+                                      Required="true" RequiredError="Account name is required!" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTextField Variant="Variant.Outlined" InputType="InputType.Number" @bind-Value="Item.Number" T="string"
+                                      Label="Account Number" Required="true" RequiredError="Account number is required!"/>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudAutocomplete T="BankResponse" Label="Bank" @bind-Value="Bank" SearchFunc="@SearchBank"
+                                         Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Bank = null"
+                                         Clearable="true" ToStringFunc="@(e => e.Name)"
+                                         Required="true" RequiredError="Bank selection is required!" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Description" Lines="5" T="string" Label="Notes"/>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudStack Row="true" Justify="Justify.SpaceBetween">
+                            <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateBack()"
+                                       Size="Size.Large" Class="mt-8 px-12 py-3">Back</MudButton>
+                            <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large" OnClick="Submit"
+                                       Class="mt-8 px-12 py-3">Save</MudButton>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
             </MudItem>
         </MudGrid>
-    </MudItem>
-</MudGrid>
+    </MudForm>
+</MudContainer>
