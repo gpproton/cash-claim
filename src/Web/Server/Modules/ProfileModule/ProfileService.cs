@@ -50,17 +50,16 @@ public class ProfileService : IProfileService {
     
     private async Task<BankAccountEntity?> GetBankAccount() {
         var id = await this.GetId();
-        return await _ctx.UserBankAccount.FirstOrDefaultAsync(x => x.OwnerId == id);
+        return await _ctx.UserBankAccount.Where(x => x.OwnerId == id)
+               .Include(x => x.Bank).FirstOrDefaultAsync();
     }
 
     public async Task<Response<BankAccountResponse?>> GetBankAccountAsync() {
         var response = new Response<BankAccountResponse?>();
-        var id = await this.GetId();
-        if (id == null ) return response;
         try {
             var data = _mapper.Map<BankAccountResponse>(await this.GetBankAccount());
             response.Data = data;
-            response.Succeeded = true;
+            response.Succeeded = data != null;
         } catch (Exception e) {
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
@@ -76,14 +75,12 @@ public class ProfileService : IProfileService {
 
         try {
             var userBankAccount = await this.GetBankAccount();
-            BankAccountEntity item;
+            var item = _mapper.Map<BankAccountEntity>(account);
             if (userBankAccount == null) {
-                item = _mapper.Map<BankAccountEntity>(account);
                 item.OwnerId = id;
                 await _ctx.UserBankAccount.AddAsync(item);
                 await _ctx.SaveChangesAsync();
             } else {
-                item = _mapper.Map<BankAccountEntity>(account);
                 _ctx.UserBankAccount.Update(item);
                 await _ctx.SaveChangesAsync();
             }
