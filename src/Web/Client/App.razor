@@ -21,7 +21,7 @@
                 break;
             case false when isAuthPath:
                 break;
-            case true when isAuthPath || isRootPath || isRegistrationPath:
+            case true when isAuthPath || isRootPath || (isRegistrationPath && session.Confirmed):
                 Nav.NavigateTo(WebConst.AppHome);
                 break;
             case false when isRootPath:
