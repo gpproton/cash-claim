@@ -4,6 +4,7 @@ using XClaim.Common.Wrappers;
 namespace XClaim.Web.Server.Modules.ProfileModule;
 
 public interface IProfileService {
+    Task<Response<AuthResponse?>> GetAccountAsync();
     Task<Response<BankAccountResponse?>> GetBankAccountAsync();
     Task<Response<BankAccountResponse?>> UpdateBankAccountAsync(BankAccountResponse account);
     

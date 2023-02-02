@@ -1,10 +1,12 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Dtos;
+using XClaim.Common.Enums;
 using XClaim.Common.Wrappers;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Entities;
 using XClaim.Web.Server.Helpers;
+using XClaim.Web.Server.Modules.UserModule;
 
 namespace XClaim.Web.Server.Modules.ProfileModule;
 
@@ -14,19 +16,38 @@ public class ProfileService : IProfileService {
     private readonly IMapper _mapper;
     private readonly ILogger<ProfileService> _logger;
     private readonly IdentityHelper _identity;
+    private readonly UserService _user;
     
-    public ProfileService(ServerContext ctx, IMapper mapper, ILogger<ProfileService> logger, IdentityHelper identity) {
+    public ProfileService(ServerContext ctx, IMapper mapper, ILogger<ProfileService> logger, IdentityHelper identity, UserService user) {
         _ctx = ctx;
         _mapper = mapper;
         _logger = logger;
         _identity = identity;
+        _user = user;
     }
 
     private async Task<Guid?> GetId() {
         var profile = await _identity.GetUser();
         return profile!.Id;
     }
+    
+    public async Task<Response<AuthResponse?>> GetAccountAsync() {
+        var response = new Response<AuthResponse?>();
+        var profile = await _identity.GetAuthProfile();
+        if (!_identity.IsAuthenticated) return response;
+        var account = (await _user.GetByIdentifierAsync(profile!.Data!.Identifier)).Data;
+        if (account != null) {
+            profile.Data = account;
+            profile.Confirmed = true;
+        }
+        var role = account?.Permission != null ? Enum.GetName(account.Permission)! : Enum.GetName(UserPermission.Anonymous)!;
+        profile.Role = role;
 
+        return new Response<AuthResponse?>(profile) {
+            Succeeded = profile.ExpiresIn > 0
+        };
+    }
+    
     private async Task<BankAccountEntity?> GetBankAccount() {
         var id = await this.GetId();
         return await _ctx.UserBankAccount.FirstOrDefaultAsync(x => x.OwnerId == id);

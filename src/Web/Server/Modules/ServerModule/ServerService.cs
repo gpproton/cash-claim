@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common;
 using XClaim.Common.Dtos;
+using XClaim.Common.HTTP;
 using XClaim.Common.Wrappers;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Entities;

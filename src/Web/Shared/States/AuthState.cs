@@ -38,7 +38,7 @@ public class AuthState : RootState {
     public async Task<bool> IsAuth() => (await GetUser()).Identity!.IsAuthenticated;
     
     public async Task TriggerAuthentication() {
-        var response = await _profileService.GetAsync();
+        var response = await _profileService.GetAccountAsync();
         if (response is { Data: { }, Succeeded: true })
             await Profile.UpdateAuthenticationState(response.Data);
         else

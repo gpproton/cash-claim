@@ -1,4 +1,5 @@
 using XClaim.Common.Dtos;
+using XClaim.Common.HTTP;
 
 namespace XClaim.Web.Server.Modules.ServerModule;
 
