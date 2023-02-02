@@ -3,20 +3,32 @@ using AutoFilterer.Types;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Dtos;
+using XClaim.Common.Enums;
 using XClaim.Common.Helpers;
 using XClaim.Common.Wrappers;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Entities;
+using XClaim.Web.Server.Helpers;
 
 namespace XClaim.Web.Server.Modules.CategoryModule;
 
 public sealed class CategoryService : GenericService<ServerContext, CategoryEntity, CategoryResponse> {
-    public CategoryService(ServerContext ctx, IMapper mapper, ILogger<CategoryService> logger) : base(ctx, mapper, logger) { }
+    
+    private readonly IdentityHelper _identity;
+    
+    public CategoryService(ServerContext ctx, IMapper mapper, ILogger<CategoryService> logger, IdentityHelper identity) : base(ctx, mapper, logger) {
+        _identity = identity;
+    }
 
     new public async Task<PagedResponse<List<CategoryResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
         var result = new PagedResponse<List<CategoryResponse>>();
-        var query = _ctx.Categories.Include(x => x.Company);
         try {
+            var current = await _identity.GetUser();
+            var isSystemUser = current!.Permission == UserPermission.System;
+            var query = _ctx.Categories
+            .Where(e => isSystemUser || e.CompanyId == current.CompanyId)
+            .Include(x => x.Company);
+            
             var count = await query.CountAsync();
             var data = await query.ApplyFilter(responseFilter).ToListAsync();
             var response = _mapper.Map<List<CategoryResponse>>(data);

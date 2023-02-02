@@ -49,19 +49,18 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
     }
 
     public async Task<PagedResponse<List<UserResponse>>> GetAllAsync(UserFilter responseFilter) {
-        var current = await _identity.GetUser();
         var result = new PagedResponse<List<UserResponse>>();
-
-        // INFO: Return an error to normal users
-        if (current!.Permission > UserPermission.Administrator) return result;
-        var isAdmin = current!.Permission == UserPermission.Administrator;
-        var query = _ctx.Users
-        // INFO: Limits admins to their company and haide system mangers.
-        .Where(x => !isAdmin || x.CompanyId == current!.CompanyId && x.Permission != UserPermission.System )
-        .Include(x => x.Company)
-        .Include(x => x.Team);
-        
         try {
+            var current = await _identity.GetUser();
+            // INFO: Return an error to normal users
+            if (current!.Permission > UserPermission.Administrator) return result;
+            var isAdmin = current!.Permission == UserPermission.Administrator;
+            var query = _ctx.Users
+            // INFO: Limits admins to their company and haide system mangers.
+            .Where(x => !isAdmin || x.CompanyId == current!.CompanyId && x.Permission != UserPermission.System )
+            .Include(x => x.Company)
+            .Include(x => x.Team);
+            
             var count = await query.CountAsync();
             var data = await query.ApplyFilter(responseFilter).ToListAsync();
             var response = _mapper.Map<List<UserResponse>>(data);
