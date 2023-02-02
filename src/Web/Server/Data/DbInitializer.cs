@@ -48,7 +48,8 @@ public class DbInitializer {
         var companies = new List<CompanyEntity> {
             new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "BHN Logistics", FullName = "MCPL LTD - BHN Division" },
             new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "MCPL LTD", FullName = "Multi Consumer Product LTD" },
-            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "Dufil Prima", FullName = "Dufil Prima Foods Plc" }
+            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "Dufil Prima", FullName = "Dufil Prima Foods Plc" },
+            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "X-Claim", FullName = "X-Claim Instance Management" }
         };
 
         var categories = new List<CategoryEntity> {

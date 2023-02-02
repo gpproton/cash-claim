@@ -7,8 +7,8 @@ public enum UserPermission {
     Administrator,
     [Description("Finance Manager")]
     Finance,
+    Lead,
     Cashier,
     [Description("Department Head")]
-    Lead,
     Standard
 }
