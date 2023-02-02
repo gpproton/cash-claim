@@ -3,6 +3,7 @@ using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using XClaim.Common.Dtos;
+using XClaim.Common.Enums;
 using XClaim.Common.HTTP;
 
 namespace XClaim.Web.Shared.States;
@@ -30,6 +31,9 @@ public class AuthState : RootState {
     private async Task<AuthenticationState> GetState() => await Profile.GetAuthenticationStateAsync();
 
     private async Task<ClaimsPrincipal> GetUser() => (await GetState()).User;
+
+    public async Task<UserPermission> GetPermission() => (await this.GetSession())!.Data?.Permission ?? UserPermission.Anonymous;
+    public async Task<UserResponse?> GetAccount() => (await this.GetSession())!.Data;
 
     public async Task<bool> IsAuth() => (await GetUser()).Identity!.IsAuthenticated;
     

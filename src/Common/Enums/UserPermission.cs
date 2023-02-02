@@ -10,5 +10,6 @@ public enum UserPermission {
     Lead,
     Cashier,
     [Description("Department Head")]
-    Standard
+    Standard,
+    Anonymous
 }
