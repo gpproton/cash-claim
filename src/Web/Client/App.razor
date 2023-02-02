@@ -1,21 +1,28 @@
-﻿@inject NavigationManager Nav
+﻿@using XClaim.Common.HTTP
+@inject NavigationManager Nav
+@inject AppState AppState
 @inject AuthState AuthState
+@inject IServerService ServerService
 
 @code {
     private async Task OnNavigateAsync(NavigationContext args) {
         var isRootPath = args.Path.Equals(string.Empty);
         var isAuthPath = args.Path.Equals(WebConst.AppAuth);
+        var isRegistrationPath = args.Path.Equals(WebConst.AppRegister);
         var session = await AuthState.GetSession();
         var isAuth = await AuthState.IsAuth();
         
+        var result = await ServerService.GetAsync();
+        await AppState.LoadServerState(result.Data!);
+        
         switch (isAuth) {
-            case true when !session!.Confirmed && !args.Path.Equals(WebConst.AppRegister):
+            case true when !session!.Confirmed && !isRegistrationPath:
                 Nav.NavigateTo(WebConst.AppRegister, true);
                 break;
             case false when isAuthPath:
                 break;
-            case true when isAuthPath || isRootPath:
-                Nav.NavigateTo(WebConst.AppHome, true);
+            case true when isAuthPath || isRootPath || isRegistrationPath:
+                Nav.NavigateTo(WebConst.AppHome);
                 break;
             case false when isRootPath:
                 await AuthState.TriggerAuthentication();
