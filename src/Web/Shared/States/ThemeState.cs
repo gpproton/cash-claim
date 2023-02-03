@@ -5,16 +5,21 @@ namespace XClaim.Web.Shared.States;
 public class ThemeState : RootState {
     public bool IsLightMode { get; private set; } = true;
 
-    public MudTheme CurrentTheme { get; private set; } = new();
+    public MudTheme CurrentTheme { get; private set; } = new MudTheme();
 
     public void ToggleTheme() {
         IsLightMode = !IsLightMode;
-        CurrentTheme = !IsLightMode ? GenerateDarkTheme() : new MudTheme();
+        CurrentTheme = IsLightMode ? new MudTheme() : GenerateDarkTheme();
         NotifyStateChanged();
     }
 
-    private static MudTheme GenerateDarkTheme() =>
-        new() {
+    public void SetLightMode(bool value) {
+        IsLightMode = value;
+        CurrentTheme = IsLightMode ? new MudTheme() : GenerateDarkTheme();
+        NotifyStateChanged();
+    }
+
+    private static MudTheme GenerateDarkTheme() => new MudTheme {
             Palette = new Palette {
                 Black = "#27272f",
                 Background = "#32333d",
