@@ -2,13 +2,13 @@ using System.ComponentModel;
 
 namespace XClaim.Common.Enums {
     public enum NotificationChannels {
-        [Description("Email NOtifications")]
+        [Description("Email Notifications")]
         Email,
-        [Description("Push NOtifications")]
+        [Description("Push Notifications")]
         Push,
-        [Description("SMS NOtifications")]
+        [Description("SMS Notifications")]
         Sms,
-        [Description("MS Teams NOtifications")]
+        [Description("MS Teams Notifications")]
         Teams
     }
 }
