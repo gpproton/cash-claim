@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Nextended.Core.Extensions;
 using XClaim.Common.Dtos;
 using XClaim.Common.Enums;
 using XClaim.Common.Wrappers;
@@ -97,13 +98,14 @@ public class ProfileService : IProfileService {
     
     private async Task<SettingEntity?> GetSetting() {
         var id = await this.GetId();
-        return await _ctx.UserSetting.FirstOrDefaultAsync(x => x.OwnerId == id);
+        return await _ctx.UserSetting.Where(x => x.OwnerId == id)
+               .Include(x => x.Owner)
+               .AsNoTracking()
+               .FirstOrDefaultAsync();
     }
     
     public async Task<Response<SettingResponse?>> GetSettingAsync() {
         var response = new Response<SettingResponse?>();
-        var id = await this.GetId();
-        if (id == null ) return response;
         try {
             var data = _mapper.Map<SettingResponse>(await this.GetSetting());
             response.Data = data;
@@ -118,18 +120,16 @@ public class ProfileService : IProfileService {
     public async Task<Response<SettingResponse?>> UpdateSettingAsync(SettingResponse setting) {
         var response = new Response<SettingResponse?>();
         var id = await this.GetId();
-        if (id == null ) return response;
         
         try {
             var userSetting = await this.GetSetting();
-            SettingEntity item;
+            var item = setting.MapTo<SettingEntity>();
             if (userSetting == null) {
-                item = _mapper.Map<SettingEntity>(setting);
                 item.OwnerId = id;
                 await _ctx.UserSetting.AddAsync(item);
                 await _ctx.SaveChangesAsync();
             } else {
-                item = _mapper.Map<SettingEntity>(setting);
+                _mapper.Map(userSetting, item);
                 _ctx.UserSetting.Update(item);
                 await _ctx.SaveChangesAsync();
             }
@@ -147,13 +147,14 @@ public class ProfileService : IProfileService {
     private async Task<NotificationEntity?> GetNotification() {
         var id = await this.GetId();
 
-        return await _ctx.UserNotification.FirstOrDefaultAsync(x => x.OwnerId == id);
+        return await _ctx.UserNotification.Where(x => x.OwnerId == id)
+               .Include(x => x.Owner)
+               .AsNoTracking()
+               .FirstOrDefaultAsync();
     }
     
     public async Task<Response<NotificationResponse?>> GetNotificationAsync() {
         var response = new Response<NotificationResponse?>();
-        var id = await this.GetId();
-        if (id == null ) return response;
         try {
             var data = _mapper.Map<NotificationResponse>(await this.GetNotification());
             response.Data = data;
@@ -167,19 +168,17 @@ public class ProfileService : IProfileService {
     }
     public async Task<Response<NotificationResponse?>> UpdateNotificationAsync(NotificationResponse notification) {
         var response = new Response<NotificationResponse?>();
-        var id = await this.GetId();
-        if (id == null ) return response;
 
         try {
             var userNotification = await this.GetNotification();
-            NotificationEntity item;
+            var id = await this.GetId();
+            var item = _mapper.Map<NotificationEntity>(notification);
             if (userNotification == null) {
-                item = _mapper.Map<NotificationEntity>(notification);
                 item.OwnerId = id;
                 await _ctx.UserNotification.AddAsync(item);
                 await _ctx.SaveChangesAsync();
             } else {
-                item = _mapper.Map<NotificationEntity>(notification);
+                _mapper.Map(userNotification, item);
                 _ctx.UserNotification.Update(item);
                 await _ctx.SaveChangesAsync();
             }
