@@ -11,7 +11,7 @@
 
     record MenuLink(string Title, string Icon, string Path, List<MenuLink>? Child = null);
 
-    private List<MenuLink> _links = new() {
+    private List<MenuLink> _links = new List<MenuLink> {
         new MenuLink("Overview", Icons.Material.Filled.Dashboard, "/app/overview"),
         new MenuLink("Claims", Icons.Material.Filled.Money, "/app/claims"),
         new MenuLink("Payments", Icons.Material.Filled.CreditCard, "/app/payments"),
@@ -21,15 +21,7 @@
 
     private List<MenuLink> _secondaryLinks = new List<MenuLink> {
         new MenuLink("Users", Icons.Material.Filled.People, "/app/users"),
-        new MenuLink("Manage", Icons.Material.Filled.ManageAccounts, "/app/settings/",
-            new List<MenuLink> {
-                new MenuLink("Teams", Icons.Material.Filled.Groups, "/app/settings/teams"),
-                new MenuLink("Category", Icons.Material.Filled.Category, "/app/settings/category"),
-                new MenuLink("Companies", Icons.Material.Filled.PendingActions, "/app/settings/companies"),
-                new MenuLink("Banks", Icons.Material.Filled.Money, "/app/settings/banks"),
-                new MenuLink("Domains", Icons.Material.Filled.Computer, "/app/settings/domains"),
-                new MenuLink("Currency", Icons.Material.Filled.CurrencyExchange, "/app/settings/currency")
-            })
+        new MenuLink("Manage", Icons.Material.Filled.SettingsApplications, "/app/manage")
     };
     
     async Task SignOut() => await AuthState.TriggerSignOut();

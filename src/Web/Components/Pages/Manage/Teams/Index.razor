@@ -1,7 +1,8 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
+@layout ManageLayout
 @inject ITeamService Http
-@page "/app/settings/teams"
+@page "/app/manage/teams"
 @attribute [Authorize(Roles = "System, Administrator")]
 
 @code {

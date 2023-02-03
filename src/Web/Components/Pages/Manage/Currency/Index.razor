@@ -1,7 +1,8 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
+@layout ManageLayout
 @inject ICurrencyService Http
-@page "/app/settings/currency"
+@page "/app/manage/currency"
 @attribute [Authorize(Roles = "System")]
 
 @code {
