@@ -2,19 +2,31 @@
 @inject NavigationManager Nav
 @inject AppState AppState
 @inject AuthState AuthState
+@inject ThemeState ThemeState
 @inject IServerService ServerService
 
 @code {
+    
     private async Task OnNavigateAsync(NavigationContext args) {
         var isRootPath = args.Path.Equals(string.Empty);
         var isAuthPath = args.Path.Equals(WebConst.AppAuth);
         var isRegistrationPath = args.Path.Equals(WebConst.AppRegister);
         var session = await AuthState.GetSession();
         var isAuth = await AuthState.IsAuth();
+
+        if (AppState.ServerState == null) {
+            var server = await ServerService.GetAsync();
+            await AppState.LoadServerState(server.Data!);
+        }
         
-        var result = await ServerService.GetAsync();
-        await AppState.LoadServerState(result.Data!);
-        
+        if (isAuth) {
+            var user = await AuthState.GetAccount();
+            if (user != null) {
+                var lightMode = user.Setting?.DarkMode ?? false;
+                ThemeState.SetLightMode(!lightMode);
+            }
+        }
+
         switch (isAuth) {
             case true when !session!.Confirmed && !isRegistrationPath:
                 Nav.NavigateTo(WebConst.AppRegister, true);

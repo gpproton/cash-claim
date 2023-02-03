@@ -9,7 +9,7 @@ public class AppState : RootState {
 
     public string? AppTitle { get; private set; } = SharedConst.ServiceName;
     
-    public ServerStateResponse ServerState { get; private set; } = default!;
+    public ServerStateResponse? ServerState { get; private set; }
 
     public bool IsSidebarOpen { get; private set; } = true;
 
