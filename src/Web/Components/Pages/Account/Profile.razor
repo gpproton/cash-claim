@@ -1,4 +1,4 @@
-@page "/app/user/profile"
+@page "/app/account/profile"
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
 @using System.ComponentModel.DataAnnotations
@@ -45,13 +45,11 @@
         if (!_success) return;
         Item.CurrencyId = Currency?.Id;
         var result = await  Http.UpdateAsync(Item);
+        if (result.Succeeded)
+            await AuthState.Refresh();
         Snackbar.Clear();
         await Task.Delay(1500);
         Snackbar.Add(result.Succeeded ? "Updated successfully.." : "Update failed..", result.Succeeded ? Severity.Success : Severity.Error);
-        if (result.Succeeded) {
-            // await AuthState.TriggerAuthentication();
-            Nav.NavigateBack();
-        }
     }
     
     private string ProfileInitials => StringHelpers.GetInitialsText(new[] {

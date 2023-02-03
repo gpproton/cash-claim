@@ -1,0 +1,9 @@
+@page "/app/account"
+@inject Navigation Nav
+
+@code {
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        Nav.NavigateTo("/app/account/profile");
+    }
+}

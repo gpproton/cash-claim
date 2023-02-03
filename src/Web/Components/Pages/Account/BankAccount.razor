@@ -2,7 +2,7 @@
 @inject IBankService BankService
 @inject IProfileService ProfileService
 @inject ISnackbar Snackbar
-@page "/app/user/bank-account"
+@page "/app/account/bank-account"
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
 @attribute [Authorize]
@@ -79,7 +79,7 @@
                             <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateBack()"
                                        Size="Size.Large" Class="mt-8 px-12 py-3">Back</MudButton>
                             <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large" OnClick="Submit"
-                                       Class="mt-8 px-12 py-3">Save</MudButton>
+                                       Class="mt-8 px-12 py-3">Update</MudButton>
                         </MudStack>
                     </MudItem>
                 </MudGrid>

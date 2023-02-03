@@ -6,6 +6,7 @@
 @inject ICompanyService CompanyService
 @inject ITeamService TeamService
 @inject ISnackbar Snackbar
+@inject AuthState AuthState
 
 @code {
     [CascadingParameter]
@@ -62,6 +63,8 @@
         Item.CompanyId = Company?.Id;
         Item.TeamId = Team?.Id;
         var result = await  Http.UpdateAsync(Item);
+        if (result.Succeeded)
+            await AuthState.Refresh();
         MudDialog.Close(DialogResult.Ok(result.Succeeded));
     }
 

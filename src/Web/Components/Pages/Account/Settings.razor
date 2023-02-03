@@ -1,0 +1,75 @@
+@implements IDisposable
+@inject Navigation Nav
+@inject IProfileService ProfileService
+@inject ISnackbar Snackbar
+@inject ThemeState ThemeState
+@inject AuthState AuthState
+@page "/app/account/settings"
+@using XClaim.Common.Enums
+@using Nextended.Core.Extensions
+@using XClaim.Common.Dtos
+@attribute [Authorize]
+
+@code {
+    bool _success;
+    string[] _errors = { };
+    MudForm? _form;
+    private SettingResponse Item { get; set; } = new SettingResponse();
+    
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        var result = await ProfileService.GetSettingAsync();
+        if (result is { Succeeded: true, Data: { } }) {
+            Item = result.Data;
+        }
+    }
+
+    private async Task Submit() {
+        await _form!.Validate();
+        if (!_success) return;
+        var result = await ProfileService.UpdateSettingAsync(Item);
+        if (result.Data != null) {
+            await AuthState.Refresh();
+            var lightMode = !(result.Data.DarkMode);
+            ThemeState.SetLightMode(lightMode);
+            ThemeState.OnChange += StateHasChanged;
+        }
+        Snackbar.Clear();
+        await Task.Delay(500);
+        Snackbar.Add(result.Succeeded ? "Updated successfully.." : "Update failed..", result.Succeeded ? Severity.Success : Severity.Error);
+    }
+    
+    public void Dispose() => ThemeState.OnChange -= StateHasChanged;
+}
+
+<Title>Account Settings</Title>
+
+<MudContainer Class="mt-12" MaxWidth="MaxWidth.Medium">
+    <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
+        <MudGrid Justify="Justify.Center" Class="mt-6">
+            <MudItem xs="12" md="6">
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudSelect T="AppLanguage" Label="Priority" Variant="Variant.Outlined" @bind-Value="Item.Language"
+                                   For="@(() => Item.Language)" AnchorOrigin="Origin.BottomCenter">
+                            @foreach (var lang in Enum.GetValues<AppLanguage>()) {
+                                <MudSelectItem Value="lang">@lang.ToDescriptionString().Capitalize()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudCheckBox @bind-Checked="@Item.DarkMode" Label="@(Item.DarkMode ? "Dark Mode Enabled" : "Dark Mode Disabled")" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudStack Row="true" Justify="Justify.SpaceBetween">
+                            <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateBack()"
+                                       Size="Size.Large" Class="mt-8 px-12 py-3">Back</MudButton>
+                            <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large"
+                                       Class="mt-8 px-12 py-3" OnClick="Submit">Update</MudButton>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+</MudContainer>
