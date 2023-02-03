@@ -23,6 +23,7 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
                    .Include(x => x.Company)
                    .Include(x => x.Team)
                    .Include(x => x.Currency)
+                   .Include(x => x.Setting)
                    .FirstOrDefaultAsync();
         var data = _mapper.Map<UserResponse>(item);
 
@@ -39,6 +40,7 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
                    .Include(x => x.Company)
                    .Include(x => x.Team)
                    .Include(x => x.Currency)
+                   .Include(x => x.Setting)
                    .FirstOrDefaultAsync();
         var data = _mapper.Map<UserResponse>(item);
 
