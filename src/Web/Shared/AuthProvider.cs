@@ -50,6 +50,10 @@ public class AuthProvider : AuthenticationStateProvider {
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
     }
 
+    public async Task RefreshAuthenticationState(AuthResponse userSession) {
+        await _sessionStorage.SaveAsync(WebConst.SessionKey, userSession);
+    }
+
     public async Task ClearAuthInfo() => await this.UpdateAuthenticationState(null);
 
     public async Task<string?> GetToken() {
