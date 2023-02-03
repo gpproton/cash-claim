@@ -25,6 +25,7 @@ public class MapperProfile : AutoMapperProfile {
         CreateMap<BankAccountEntity, BankAccountResponse>().ReverseMap();
         CreateMap<ServerEntity, ServerResponse>().ReverseMap();
         CreateMap<ServerStateResponse, ServerResponse>().ReverseMap();
+        CreateMap<TransferRequestResponse, TransferRequestEntity>().ReverseMap();
         CreateMap<PaginationFilterBase, PaginationFilter>().ReverseMap();
     }
 }

@@ -49,6 +49,30 @@ public class UserModule : IModule {
             var items = await sv.DeleteRangeAsync(ids);
             return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);
         }).WithName($"RangeArchive{name}").WithOpenApi();
+        
+        group.MapGet("/transfer/profile", async (UserService sv) => {
+            var result = await sv.GetTransferAsync();
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
+        }).WithName($"Get{name}Transfer").WithOpenApi();
+        
+        group.MapGet("/transfer", async (UserService sv, [AsParameters] TransferRequestFilter filter) => {
+            var result = await sv.GetAllTransferAsync(filter);
+            return !result.Succeeded ? Results.NotFound() : TypedResults.Ok(result);
+        }).WithName($"Get{name}TransferList").WithOpenApi();
+        
+        group.MapPost("/transfer", async (UserService sv) =>
+        await sv.CreateTransferAsync())
+        .WithName($"Create{name}Transfer").WithOpenApi();
+        
+        group.MapPut("/transfer", async (TransferRequestResponse value, UserService sv) => {
+            var result = await sv.ApproveTransferAsync(value);
+            return !result.Succeeded ? Results.NotFound() : TypedResults.Ok(result);
+        }).WithName($"Update{name}Transfer").WithOpenApi();
+        
+        group.MapDelete("/transfer/{id:guid}", async (Guid id, UserService sv) => {
+            var item = await sv.ArchiveTransferAsync(id);
+            return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
+        }).WithName($"Archive{name}Transfer").WithOpenApi();
 
         return group;
     }

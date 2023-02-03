@@ -7,7 +7,6 @@ public interface IProfileService {
     Task<Response<AuthResponse?>> GetAccountAsync();
     Task<Response<BankAccountResponse?>> GetBankAccountAsync();
     Task<Response<BankAccountResponse?>> UpdateBankAccountAsync(BankAccountResponse account);
-    
     Task<Response<SettingResponse?>> GetSettingAsync();
     Task<Response<SettingResponse?>> UpdateSettingAsync(SettingResponse setting);
     

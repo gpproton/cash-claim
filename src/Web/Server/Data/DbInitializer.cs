@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SourceExpress.ShorterGuid;
 using XClaim.Common;
-using XClaim.Common.Enums;
 using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Data;

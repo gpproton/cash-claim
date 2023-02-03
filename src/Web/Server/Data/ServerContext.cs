@@ -60,4 +60,5 @@ public partial class ServerContext : DbContext {
     public DbSet<ClaimEntity> Claims { get; set; } = default!;
     public DbSet<FileEntity> Files { get; set; } = default!;
     public DbSet<PaymentEntity> Payments { get; set; } = default!;
+    public DbSet<TransferRequestEntity> TransferRequests { get; set; } = default!;
 }
