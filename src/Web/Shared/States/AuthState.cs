@@ -32,6 +32,13 @@ public class AuthState : RootState {
 
     private async Task<ClaimsPrincipal> GetUser() => (await GetState()).User;
 
+    public async Task Refresh() {
+        var auth = (await _profileService.GetAccountAsync()).Data;
+        if (auth != null) {
+            await Profile.RefreshAuthenticationState(auth);
+        }
+    }
+
     public async Task<UserPermission> GetPermission() => (await this.GetSession())!.Data?.Permission ?? UserPermission.Anonymous;
     public async Task<UserResponse?> GetAccount() => (await this.GetSession())!.Data;
 
