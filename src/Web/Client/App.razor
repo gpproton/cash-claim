@@ -14,19 +14,6 @@
         var session = await AuthState.GetSession();
         var isAuth = await AuthState.IsAuth();
 
-        if (AppState.ServerState == null) {
-            var server = await ServerService.GetAsync();
-            await AppState.LoadServerState(server.Data!);
-            await AuthState.Refresh();
-            if (isAuth) {
-                var user = await AuthState.GetAccount();
-                if (user != null) {
-                    var lightMode = user.Setting?.DarkMode ?? false;
-                    ThemeState.SetLightMode(!lightMode);
-                }
-            }
-        }
-        
         switch (isAuth) {
             case true when !session!.Confirmed && !isRegistrationPath:
                 Nav.NavigateTo(WebConst.AppRegister, true);
@@ -46,6 +33,19 @@
                 break;
             case false: {
                 break;
+            }
+        }
+        
+        if (AppState.ServerState == null) {
+            var server = await ServerService.GetAsync();
+            await AppState.LoadServerState(server.Data!);
+            if (isAuth) {
+                await AuthState.Refresh();
+                var user = await AuthState.GetAccount();
+                if (user != null) {
+                    var lightMode = user.Setting?.DarkMode ?? false;
+                    ThemeState.SetLightMode(!lightMode);
+                }
             }
         }
     }
