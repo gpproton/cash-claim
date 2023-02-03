@@ -17,6 +17,7 @@
         if (AppState.ServerState == null) {
             var server = await ServerService.GetAsync();
             await AppState.LoadServerState(server.Data!);
+            await AuthState.Refresh();
         }
         
         if (isAuth) {
