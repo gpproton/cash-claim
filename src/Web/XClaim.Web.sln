@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Common", "..\Common\XClaim.Common.csproj", "{7296F081-81BD-4E64-A5BF-658B989D8907}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Pages", "Components\XClaim.Web.Pages.csproj", "{E948EEF5-8827-45B9-8BEA-AA17269F59D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Pages", "Components\XClaim.Web.Components.csproj", "{E948EEF5-8827-45B9-8BEA-AA17269F59D7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Client", "Client\XClaim.Web.Client.csproj", "{67A320D0-39EB-4DFD-B7B4-DE28B192392B}"
 EndProject
