@@ -1,22 +1,22 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
 @using XClaim.Web.Components.Pages.User.Components
-@page "/app/users"
+@page "/app/users/transfer-request"
 @inject IUserService Http
-@attribute [Authorize(Roles = "System, Administrator")]
+@attribute [Authorize(Roles = "System")]
 
 @code {
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
     private int Current { get; set; } = 1;
-    MudDataGrid<UserResponse>? _dataGrid;
-    private HashSet<UserResponse> SelectedItems { get; set; } = new HashSet<UserResponse>();
-    private Func<UserResponse, bool> Filter => x =>
+    MudDataGrid<TransferRequestItem>? _dataGrid;
+    private HashSet<TransferRequestItem> SelectedItems { get; set; } = new HashSet<TransferRequestItem>();
+    private Func<TransferRequestItem, bool> Filter => x =>
     string.IsNullOrWhiteSpace(Search)
-    || x.FullName.Contains(Search, StringComparison.OrdinalIgnoreCase)
-    || x.Email.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    || x.User!.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.Email!.Contains(Search, StringComparison.OrdinalIgnoreCase);
     
-    private async Task<GridData<UserResponse>> ServerDataFunc(GridState<UserResponse> state) {
+    private async Task<GridData<TransferRequestItem>> ServerDataFunc(GridState<TransferRequestItem> state) {
         SelectedItems.Clear();
         this.Loading = true;
         var filter = new SearchFilter {
@@ -24,9 +24,9 @@
             PerPage = state.PageSize,
             Search = Search.Length > 2 ? Search : null
         };
-        var items = await Http.GetAllAsync(filter);
+        var items = await Http.GetAllTransferAsync(filter);
         this.Loading = false;
-        return new GridData<UserResponse> {
+        return new GridData<TransferRequestItem> {
             Items = items.Data,
             TotalItems = items.Total
         };
@@ -48,9 +48,9 @@
     }
 }
 
-<Title>Users Management</Title>
+<Title>User Account Transfers</Title>
 
-<MudDataGrid @ref="_dataGrid" Dense="true" T="UserResponse" MultiSelection="true" SelectedItems="SelectedItems" ServerData="ServerDataFunc"
+<MudDataGrid @ref="_dataGrid" Dense="true" T="TransferRequestItem" MultiSelection="true" SelectedItems="SelectedItems" ServerData="ServerDataFunc"
              Loading="Loading"Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
@@ -62,34 +62,25 @@
          <TableLoading></TableLoading>
     </LoadingContent>
     <Columns>
-        <SelectColumn T="UserResponse" ShowInFooter="false" ShowInHeader="false" />
-        <Column T="UserResponse">
+        <SelectColumn T="TransferRequestItem" ShowInFooter="false" ShowInHeader="false" />
+        @* <Column T="TransferRequestItem"> *@
+        @*     <CellTemplate> *@
+        @*         <MudStack Spacing="2" Row="true"> *@
+        @*             <FormEditTrigger TForm="MutateUser" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger> *@
+        @*         </MudStack> *@
+        @*     </CellTemplate> *@
+        @* </Column> *@
+        <Column T="TransferRequestItem" Field="User" Title="Name" />
+        <Column T="TransferRequestItem" Field="Email" />
+        <Column T="TransferRequestItem" Field="Completed">
             <CellTemplate>
-                <MudStack Spacing="2" Row="true">
-                    <FormEditTrigger TForm="MutateUser" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
-                </MudStack>
+                <MudChip Label="true">@(context.Item.Completed ? "Yes" : "No")</MudChip>
             </CellTemplate>
         </Column>
-        <Column T="UserResponse" Field="FullName" Title="Name" />
-        <Column T="UserResponse" Field="Email" />
-        <Column T="UserResponse" Field="Active">
-            <CellTemplate>
-                <MudChip Label="true">@(context.Item.Active ? "Yes" : "No")</MudChip>
-            </CellTemplate>
-        </Column>
-        <Column T="UserResponse" Field="Permission" />
-        <Column T="UserResponse" Field="Company">
-            <CellTemplate>
-                @(context.Item.Company?.ShortName ?? "None")
-            </CellTemplate>
-        </Column>
-        <Column T="UserResponse" Title="Team">
-            <CellTemplate>
-                @(context.Item.Team?.Name ?? "None")
-            </CellTemplate>
-        </Column>
+        <Column T="TransferRequestItem" Field="Company" Title="New Company" />
+        <Column T="TransferRequestItem" Field="PreviousCompany" Title="Previous Company" />
     </Columns>
     <PagerContent>
-         <MudDataGridPager T="UserResponse" PageSizeOptions="WebConst.AppPaged" />
+         <MudDataGridPager T="TransferRequestItem" PageSizeOptions="WebConst.AppPaged" />
     </PagerContent>
 </MudDataGrid>
