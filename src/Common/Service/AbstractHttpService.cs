@@ -30,6 +30,11 @@ public abstract class AbstractHttpService : IHttpService {
         var request = CreateRequest(HttpMethod.Post, uri, value);
         await SendRequest(request);
     }
+    
+    public async Task<T> Post<T>(string uri) {
+        var request = CreateRequest(HttpMethod.Post, uri);
+        return await SendRequest<T>(request);
+    }
 
     public async Task<T> Post<T>(string uri, object? value) {
         var request = CreateRequest(HttpMethod.Post, uri, value);
@@ -39,6 +44,11 @@ public abstract class AbstractHttpService : IHttpService {
     public async Task Put(string uri, object? value) {
         var request = CreateRequest(HttpMethod.Put, uri, value);
         await SendRequest(request);
+    }
+    
+    public async Task<T> Put<T>(string uri) {
+        var request = CreateRequest(HttpMethod.Put, uri);
+        return await SendRequest<T>(request);
     }
 
     public async Task<T> Put<T>(string uri, object? value) {
