@@ -480,3 +480,5 @@ $RECYCLE.BIN/
 *.sqlite3*
 StaticFiles
 **/wwwroot/lib
+secret.json
+published
