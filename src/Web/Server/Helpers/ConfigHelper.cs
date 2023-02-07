@@ -4,20 +4,21 @@ using System.Reflection;
 namespace XClaim.Web.Server.Helpers;
 
 public static class ConfigHelper {
-    public static void ApplyDefaultAppConfiguration(HostBuilderContext hostingContext, IConfigurationBuilder appConfigBuilder, string[]? args) {
+    public static void ApplyDefaultAppConfiguration(HostBuilderContext hostingContext, IConfigurationBuilder builder, string[]? args) {
         IHostEnvironment env = hostingContext.HostingEnvironment;
         bool reloadOnChange = GetReloadConfigOnChangeValue(hostingContext);
-        var configFile = env.IsDevelopment() ? $"config.Development.ini" : "config.ini";
-        appConfigBuilder.AddIniFile(configFile, optional: true, reloadOnChange: reloadOnChange);
+        builder.SetBasePath(env.ContentRootPath);
+        builder.AddIniFile("config.ini", optional: false, reloadOnChange: reloadOnChange);
+        builder.AddIniFile("config.Development.ini", optional: true, reloadOnChange: reloadOnChange);
+        builder.AddEnvironmentVariables();
+        {
+            builder.AddCommandLine(args!);
+        }
 
         if (env.IsDevelopment() && env.ApplicationName is { Length: > 0 }) {
             var appAssembly = Assembly.Load(new AssemblyName(env.ApplicationName));
             if (appAssembly != null)
-                appConfigBuilder.AddUserSecrets(appAssembly, optional: true, reloadOnChange: reloadOnChange);
-        }
-
-        appConfigBuilder.AddEnvironmentVariables(); {
-            appConfigBuilder.AddCommandLine(args!);
+                builder.AddUserSecrets(appAssembly, optional: true, reloadOnChange: reloadOnChange);
         }
 
         [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2026:RequiresUnreferencedCode", Justification = "Calling IConfiguration.GetValue is safe when the T is bool.")]
