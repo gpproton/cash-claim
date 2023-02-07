@@ -167,12 +167,12 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
         return response;
     }
     
-    public async Task<Response<TransferRequestResponse>> CreateTransferAsync() {
+    public async Task<Response<TransferRequestResponse>> CreateTransferAsync(TransferRequestResponse value) {
         var response = new Response<TransferRequestResponse>();
         try {
             var id = await this.GetId();
             if (id != null) {
-                var item = new TransferRequestEntity { UserId = id, Completed = false };
+                var item = new TransferRequestEntity { UserId = id, CompanyId = value.CompanyId, Completed = false };
                 await _ctx.TransferRequests.AddAsync(item);
                 await _ctx.SaveChangesAsync();
                 var data = _mapper.Map<TransferRequestResponse>(item);
@@ -190,21 +190,33 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
     }
     
     
-    public async Task<PagedResponse<List<TransferRequestResponse>>> GetAllTransferAsync(TransferRequestFilter transferFilter) {
-        var result = new PagedResponse<List<TransferRequestResponse>>();
+    public async Task<PagedResponse<List<TransferRequestItem>>> GetAllTransferAsync(TransferRequestFilter transferFilter) {
+        var result = new PagedResponse<List<TransferRequestItem>>();
         try {
             var query = _ctx.TransferRequests
             .Where(x => x.Completed == false)
-            .Include(x => x.User);
+            .Include(x => x.Company)
+            .Include(x => x.User)
+            .ThenInclude(x => x!.Company)
+            .ApplyFilter(transferFilter)
+            .Select(x => new TransferRequestItem {
+                Id = x.Id,
+                CreatedAt = x.CreatedAt,
+                User = $"{x.User!.FirstName} {x.User!.LastName}",
+                UserId = x.User.Id,
+                Email = x.User.Email,
+                Company = x.Company!.ShortName,
+                PreviousCompany = x.User.Company!.ShortName,
+                Completed = x.Completed
+            });
             
             var count = await query.CountAsync();
-            var data = await query.ApplyFilter(transferFilter).ToListAsync();
-            var response = _mapper.Map<List<TransferRequestResponse>>(data);
+            var data = await query.ToListAsync();
             var filter = new PaginationFilter {
                 Page = transferFilter.Page,
                 PerPage = transferFilter.PerPage
             };
-            result = new PagedResponse<List<TransferRequestResponse>>(response, count, filter) {
+            result = new PagedResponse<List<TransferRequestItem>>(data, count, filter) {
                 Succeeded = true
             };
         }
@@ -218,12 +230,19 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
         return result;
     }
     
-    public async Task<Response<TransferRequestResponse?>> ApproveTransferAsync(TransferRequestResponse transfer) {
+    public async Task<Response<TransferRequestResponse?>> ApproveTransferAsync(Guid id) {
         var response = new Response<TransferRequestResponse?>();
         try {
-            var item = await _ctx.TransferRequests.FindAsync(transfer.Id);
-            if (item is null) return response;
-            _mapper.Map(transfer, item);
+            var item = await _ctx.TransferRequests.Where(x => x.Id == id)
+                       .Include(x => x.Company)
+                       .Include(x => x.User)
+                       .FirstOrDefaultAsync();
+            if (item!.UserId is null || item.CompanyId is null) return response;
+            var user = await _ctx.Users.FindAsync(item.UserId);
+            user!.CompanyId = item.CompanyId;
+            user.TeamId = null;
+            user.Permission = UserPermission.Standard;
+            _ctx.Update(user);
             _ctx.Update(item);
             await _ctx.SaveChangesAsync();
             var data = _mapper.Map<TransferRequestResponse>(item);

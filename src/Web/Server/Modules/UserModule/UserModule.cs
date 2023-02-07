@@ -60,12 +60,12 @@ public class UserModule : IModule {
             return !result.Succeeded ? Results.NotFound() : TypedResults.Ok(result);
         }).WithName($"Get{name}TransferList").WithOpenApi();
         
-        group.MapPost("/transfer", async (UserService sv) =>
-        await sv.CreateTransferAsync())
+        group.MapPost("/transfer", async (UserService sv, TransferRequestResponse transfer) =>
+        await sv.CreateTransferAsync(transfer))
         .WithName($"Create{name}Transfer").WithOpenApi();
         
-        group.MapPut("/transfer", async (TransferRequestResponse value, UserService sv) => {
-            var result = await sv.ApproveTransferAsync(value);
+        group.MapPut("/transfer/{id:guid}", async (Guid id, UserService sv) => {
+            var result = await sv.ApproveTransferAsync(id);
             return !result.Succeeded ? Results.NotFound() : TypedResults.Ok(result);
         }).WithName($"Update{name}Transfer").WithOpenApi();
         
