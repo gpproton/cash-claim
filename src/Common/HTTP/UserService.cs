@@ -33,4 +33,19 @@ public class UserService : IUserService {
     public async Task<Response<List<UserResponse>>> ArchiveRangeAsync(List<Guid> ids) {
         return await _http.Delete<Response<List<UserResponse>>>(RootApi, ids);
     }
+    public async Task<PagedResponse<List<TransferRequestItem>>> GetAllTransferAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<TransferRequestItem>>>($"{RootApi}/transfer", query);
+    }
+    public async Task<Response<TransferRequestResponse?>> GetTransferAsync() {
+        return await _http.Get<Response<TransferRequestResponse?>>($"{RootApi}/transfer/profile");
+    }
+    public async Task<Response<TransferRequestResponse>> CreateTransferAsync(TransferRequestResponse transfer) {
+        return await _http.Post<Response<TransferRequestResponse>>($"{RootApi}/transfer", transfer);
+    }
+    public async Task<Response<TransferRequestResponse>> ApproveTransferAsync(Guid id) {
+        return await _http.Put<Response<TransferRequestResponse>>($"{RootApi}/transfer/{id}");
+    }
+    public async Task<Response<TransferRequestResponse>> ArchiveTransferAsync(Guid id) {
+        return await _http.Delete<Response<TransferRequestResponse>>($"{RootApi}/transfer/{id}");
+    }
 }
