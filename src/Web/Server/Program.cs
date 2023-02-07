@@ -10,6 +10,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using XClaim.Web.Server;
 using XClaim.Web.Server.Data;
+using XClaim.Web.Server.Extensions;
 using XClaim.Web.Server.Helpers;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -18,12 +19,8 @@ builder.Host.ConfigureServices((ctx, srv) => {
     ConfigHelper.ApplyDefaultAppConfiguration(ctx, builder.Configuration, args);
 });
 
-string? connectionString = builder.Configuration.GetConnectionString("Default");
-builder.Services.AddDbContext<ServerContext>(options => {
-    options.UseSqlite(connectionString).UseSnakeCaseNamingConvention();
-});
-
-builder.Services.Configure<JsonOptions>(options => {
+builder.Services.SetupDatabase(builder.Configuration)
+.Configure<JsonOptions>(options => {
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
@@ -69,13 +66,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.RegisterModules();
 
-IHealthChecksBuilder healthCheck = builder.Services.AddHealthChecks()
-    .AddApplicationStatus();
+
 builder.Services.AddHealthChecksUI()
     .AddInMemoryStorage();
-
-if (connectionString != null) {
-    _ = healthCheck.AddSqlite(connectionString);
+IHealthChecksBuilder healthCheck = builder.Services.AddHealthChecks()
+.AddApplicationStatus();
+string? appConnectionString = builder.Configuration.GetConnectionString("Default");
+if (appConnectionString != null) {
+    _ = healthCheck.AddSqlite(appConnectionString);
 }
 
 WebApplication app = builder.Build();
