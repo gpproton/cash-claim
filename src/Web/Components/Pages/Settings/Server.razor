@@ -35,7 +35,7 @@
         
         var result = await ServerService.UpdateAsync(Item);
         if (result.Succeeded)
-            await AppState.LoadServerState(result.Data!);
+            AppState.LoadServerState(result.Data!);
         Snackbar.Add(result.Succeeded ? "Deleted successfully" : "Archiving failed", result.Succeeded ? Severity.Success : Severity.Error);
         
     }
