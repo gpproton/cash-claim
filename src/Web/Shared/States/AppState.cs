@@ -28,7 +28,7 @@ public class AppState : RootState {
         NotifyStateChanged();
     }
 
-    public async Task LoadServerState(ServerStateResponse server) {
+    public void LoadServerState(ServerStateResponse server) {
         ServerState = server;
         AppTitle = server.ServiceName;
         NotifyStateChanged();

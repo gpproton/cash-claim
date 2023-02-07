@@ -21,14 +21,13 @@
             case false when isAuthPath:
                 break;
             case true when isAuthPath || isRootPath || (isRegistrationPath && session.Confirmed):
-                Nav.NavigateTo(WebConst.AppHome);
+                Nav.NavigateTo(WebConst.AppHome, true);
                 break;
             case false when isRootPath:
                 await AuthState.TriggerAuthentication();
                 if (isAuth) Nav.NavigateTo(!session!.Confirmed ? WebConst.AppRegister : WebConst.AppHome, true);
                 else {
-                    await Task.Delay(50);
-                    Nav.NavigateTo(WebConst.AppAuth, true);
+                    Nav.NavigateTo(WebConst.AppHome);
                 }
                 break;
             case false: {
@@ -38,7 +37,7 @@
         
         if (AppState.ServerState == null) {
             var server = await ServerService.GetAsync();
-            await AppState.LoadServerState(server.Data!);
+            AppState.LoadServerState(server.Data!);
             if (isAuth) {
                 await AuthState.Refresh();
                 var user = await AuthState.GetAccount();
