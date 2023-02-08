@@ -32,16 +32,16 @@
         };
     }
     
-    private async Task ArchiveSelectedItems(bool allow) {
-        if (!allow) return;
-        List<Guid> items = SelectedItems
-        .Where(f => f?.Id != null)
-        .Select(f => ((Guid) f.Id!)).ToList();
-        if (items.Count > 0) {
-            var result = (await Http.ArchiveRangeAsync(items));
-            await ReloadList(result.Succeeded);
-        }
-    }
+    // private async Task ArchiveSelectedItems(bool allow) {
+    //     if (!allow) return;
+    //     List<Guid> items = SelectedItems
+    //     .Where(f => f?.Id != null)
+    //     .Select(f => ((Guid) f.Id!)).ToList();
+    //     if (items.Count > 0) {
+    //         var result = (await Http.ArchiveRangeAsync(items));
+    //         await ReloadList(result.Succeeded);
+    //     }
+    // }
     
     private async Task ReloadList(bool reload) {
         if (reload) await _dataGrid!.ReloadServerData();
@@ -55,7 +55,7 @@
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateUser" IsFilterActive="true" IsCreateActive="false" @bind-Search="Search">
-            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
+            @* <ConfirmationDialog Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ConfirmationDialog> *@
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>

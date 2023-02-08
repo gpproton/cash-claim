@@ -49,7 +49,7 @@
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateCurrency" OnCreateClicked="ReloadList"
                       IsFilterActive="false" @bind-Search="Search">
-            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
+            <ConfirmationDialog Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ConfirmationDialog>
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>
