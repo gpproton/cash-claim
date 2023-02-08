@@ -5,33 +5,43 @@
     public int Count { get; set; }
     
     [Parameter]
-    public EventCallback<bool> OnArchived { get; set; }
+    public EventCallback<bool> OnTriggered { get; set; }
 
     [Parameter]
     public bool Small { get; set; }
 
     [Parameter]
-    public bool Form { get; set; }
+    public bool TextButton { get; set; }
     
-    private string Title {
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? Text { get; set; } = "Archive";
+
+    [Parameter]
+    public string Icon { get; set; } = Icons.Material.Filled.Archive;
+    
+    private string ArchiveTitle {
         get {
             const string text = "Confirm Archiving";
             return Count < 2 ? text : $"{text} {Count} items";
         }
     }
 
-    async Task DeleteRequest() {
-        var result = await (await DialogService.ShowAsync<ArchiveDialog>(Title)).Result;
+    async Task TriggerRequest() {
+        var result = await (await DialogService.ShowAsync<ArchiveDialog>(Title ?? ArchiveTitle)).Result;
         if (!result.Canceled) {
             var value = result.Data.As<bool>();
-            await OnArchived.InvokeAsync(value);
+            await OnTriggered.InvokeAsync(value);
         }
     }
 }
 
-@if (Count > 0 && !Form) {
-    <MudIconButton Class="pa-2 mr-2" Icon="@Icons.Material.Filled.Archive" Variant="Variant.Outlined"
-                   OnClick="DeleteRequest" Color="Color.Info" Size="@(Small ? Size.Small : Size.Large)"/>
-} else if (Form) {
-    <MudButton Variant="Variant.Text" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Archive" OnClick="DeleteRequest">Archive</MudButton>
+@if (Count > 0 && !TextButton) {
+    <MudIconButton Class="pa-2 mr-2" Icon="@Icon" Variant="Variant.Outlined"
+                   OnClick="TriggerRequest" Color="Color.Info" Size="@(Small ? Size.Small : Size.Large)"/>
+} else if (TextButton) {
+    <MudButton Variant="Variant.Text" Color="Color.Primary" StartIcon="@Icon"
+               Size="@(Small ? Size.Small : Size.Large)" OnClick="TriggerRequest">@Text</MudButton>
 }

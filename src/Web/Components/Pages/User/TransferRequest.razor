@@ -55,7 +55,7 @@
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateUser" IsFilterActive="true" IsCreateActive="false" @bind-Search="Search">
-            @* <ConfirmationDialog Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ConfirmationDialog> *@
+            @* <ConfirmationDialog Count="@SelectedItems.Count" OnTriggered="ArchiveSelectedItems"></ConfirmationDialog> *@
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>

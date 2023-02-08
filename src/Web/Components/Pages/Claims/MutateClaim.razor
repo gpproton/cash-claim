@@ -74,7 +74,7 @@
         <MudStack Row="true" Justify="@( Id == null ? Justify.Center : Justify.SpaceBetween)">
             <MudText Align="Align.Center" Typo="Typo.h5">@Title</MudText>
             @if (Id != null) {
-                <ConfirmationDialog Form="true" OnArchived="TriggerArchive"></ConfirmationDialog>
+                <ConfirmationDialog TextButton="true" OnTriggered="TriggerArchive"></ConfirmationDialog>
             }
         </MudStack>
     </TitleContent>
