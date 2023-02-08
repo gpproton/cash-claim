@@ -243,6 +243,7 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
             user.TeamId = null;
             user.Permission = UserPermission.Standard;
             _ctx.Update(user);
+            item.Completed = true;
             _ctx.Update(item);
             await _ctx.SaveChangesAsync();
             var data = _mapper.Map<TransferRequestResponse>(item);

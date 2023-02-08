@@ -9,9 +9,15 @@
 
     [Parameter]
     public bool Small { get; set; }
+    
+    [Parameter]
+    public Variant? ButtonVariant { get; set; }
 
     [Parameter]
-    public bool TextButton { get; set; }
+    public bool ButtonText { get; set; }
+    
+    [Parameter]
+    public Color? ButtonColor { get; set; }
     
     [Parameter]
     public string? Title { get; set; }
@@ -38,10 +44,10 @@
     }
 }
 
-@if (Count > 0 && !TextButton) {
-    <MudIconButton Class="pa-2 mr-2" Icon="@Icon" Variant="Variant.Outlined"
-                   OnClick="TriggerRequest" Color="Color.Info" Size="@(Small ? Size.Small : Size.Large)"/>
-} else if (TextButton) {
-    <MudButton Variant="Variant.Text" Color="Color.Primary" StartIcon="@Icon"
+@if (Count > 0 && !ButtonText) {
+    <MudIconButton Class="pa-2 mr-2" Icon="@Icon" Variant="@(ButtonVariant ?? Variant.Outlined)"
+                   OnClick="TriggerRequest" Color="@(ButtonColor ?? Color.Info)" Size="@(Small ? Size.Small : Size.Large)"/>
+} else if (ButtonText) {
+    <MudButton Variant="@(ButtonVariant ?? Variant.Text)" Color="@(ButtonColor ?? Color.Primary)" StartIcon="@Icon"
                Size="@(Small ? Size.Small : Size.Large)" OnClick="TriggerRequest">@Text</MudButton>
 }
