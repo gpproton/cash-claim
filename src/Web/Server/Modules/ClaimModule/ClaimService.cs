@@ -25,7 +25,7 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
     }
 
     new public async Task<PagedResponse<List<ClaimResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
-        var id = ((await _identity.GetUser())!).Id;
+        var id = await _identity.GetId();
         var result = new PagedResponse<List<ClaimResponse>>();
         var query = (await ClaimPersonalQuery(_ctx.Claims))
         .Where(x => x.OwnerId == id);
@@ -60,6 +60,27 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
             response.Data = data;
             response.Succeeded = data != null;
         } catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+
+        return response;
+    }
+    
+    new public async Task<Response<ClaimResponse>> CreateAsync(ClaimResponse value) {
+        var response = new Response<ClaimResponse>();
+        try {
+            var item = _mapper.Map<ClaimEntity>(value);
+            await _ctx.Set<ClaimEntity>().AddAsync(item);
+            item.OwnerId = await _identity.GetId();
+            item.CompanyId = await _identity.GetCompanyId();
+            await _ctx.SaveChangesAsync();
+            var data = _mapper.Map<ClaimResponse>(item);
+            response = new Response<ClaimResponse>(data!) {
+                Succeeded = data != null
+            };
+        }
+        catch (Exception e) {
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
         }
