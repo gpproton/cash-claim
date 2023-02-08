@@ -16,12 +16,7 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
     public UserService(ServerContext ctx, IMapper mapper, ILogger<UserService> logger, IdentityHelper identity) : base(ctx, mapper, logger) {
         _identity = identity;
     }
-    
-    private async Task<Guid?> GetId() {
-        var profile = await _identity.GetUser();
-        return profile!.Id;
-    }
-    
+
     public async Task<Response<UserResponse?>> GetByEmailAsync(string email) {
         var item = await _ctx.Users
                    .Where(x => x.DeletedAt == null)
@@ -136,7 +131,7 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
 
     private async Task<TransferRequestEntity?> GetTransfer() {
         try {
-            var id = await this.GetId();
+            var id = await _identity.GetId();
             if (id == null) return null;
             return await _ctx.TransferRequests.Where(x => x.UserId == id && x.Completed == false)
                    .Include(x => x.User)
@@ -170,7 +165,7 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
     public async Task<Response<TransferRequestResponse>> CreateTransferAsync(TransferRequestResponse value) {
         var response = new Response<TransferRequestResponse>();
         try {
-            var id = await this.GetId();
+            var id = await _identity.GetId();
             if (id != null) {
                 var item = new TransferRequestEntity { UserId = id, CompanyId = value.CompanyId, Completed = false };
                 await _ctx.TransferRequests.AddAsync(item);
