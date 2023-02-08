@@ -6,5 +6,6 @@ public enum ClaimStatus {
     Cancelled,
     Reviewed,
     Confirmed,
-    Approved
+    Approved,
+    None
 }
