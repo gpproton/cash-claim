@@ -3,6 +3,7 @@ using AutoMapper;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Nextended.Core.Extensions;
 using XClaim.Common.Dtos;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Entities;
@@ -14,6 +15,7 @@ public sealed class IdentityHelper {
 
     private const string UserKey = "identity-user-state";
     private const string ManagerKey = "identity-manager-state";
+    private const string TeamMembersKey = "identity-team-members-state";
     
     private readonly IHttpContextAccessor _contextAccessor;
     private readonly ServerContext _ctx;
@@ -97,7 +99,7 @@ public sealed class IdentityHelper {
                     .Include(x => x.Team)
                     .Include(x => x.Currency)
                     .FirstOrDefaultAsync();
-        var result = _mapper.Map<UserResponse>(query);
+        var result = query.MapTo<UserResponse>();
         ctx!.Session.Set(UserKey, result);
 
         return result;
@@ -109,11 +111,20 @@ public sealed class IdentityHelper {
 
         return response;
     }
+    
+    public async Task<Guid?> GetId() {
+        var profile = await this.GetUser();
+        return profile!.Id;
+    }
 
     public async Task<CompanyResponse?> GetCompany() {
         var user = await this.GetUser();
-
         return user?.Company;
+    }
+
+    public async Task<Guid?> GetCompanyId() {
+        var company = await this.GetCompany();
+        return company?.Id;
     }
 
     public async Task<TeamResponse?> GetTeam() {
@@ -121,7 +132,34 @@ public sealed class IdentityHelper {
 
         return user?.Team;
     }
+
+    private async Task<Guid?> GetTeamId() {
+        var team = await this.GetTeam();
+
+        return team?.Id;
+    }
+
+    public async Task<List<UserResponse>> GetTeamMembers() {
+        var ctx = _contextAccessor!.HttpContext;
+        var cache = ctx!.Session.Get<List<UserResponse>>(TeamMembersKey);
+        if (cache != null)
+            return cache;
+        
+        var id = await this.GetTeamId();
+        if (id == null) return new List<UserResponse> { };
+
+        var result = await _ctx.Users.Where(x => x.TeamId == id).ToListAsync();
+        ctx!.Session.Set(ManagerKey, result);
+
+        return result.MapTo<List<UserResponse>>();
+    }
     
+    public async Task<List<Guid>> GetTeamMemberId() {
+        var members = await this.GetTeamMembers();
+
+        return members.Select(x => x.Id.MapTo<Guid>()).ToList();
+    }
+
     public async Task<UserResponse?> GetManager() {
         var ctx = _contextAccessor!.HttpContext;
         var cache = ctx!.Session.Get<UserResponse>(ManagerKey);
@@ -132,10 +170,10 @@ public sealed class IdentityHelper {
         var team = await this.GetTeam();
         if (team!.ManagerId == null) return null;
         Guid managerId = ((Guid)team!.ManagerId!);
-        var manager = await this.GetByIdAsync(managerId);
-        ctx!.Session.Set(ManagerKey, manager);
+        var result = await this.GetByIdAsync(managerId);
+        ctx!.Session.Set(ManagerKey, result);
 
-        return manager;
+        return result;
     }
     
     public async Task<bool> HasManager() => await this.GetManager() != null;
