@@ -124,13 +124,14 @@
                                         }
                                     </MudSelect>
                                 </MudItem>
-                                <MudItem xs="12">
-                                    <MudAutocomplete Disabled="Loading" T="CompanyResponse" Label="Company" @bind-Value="Company" SearchFunc="@SearchCompany"
-                                                     Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Company = null"
-                                                     Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.FullName}")"/>
-                                </MudItem>
+                                
                             </Authorized>
                         </AuthorizeView>
+                        <MudItem xs="12">
+                            <MudAutocomplete Disabled="true" T="CompanyResponse" Label="Company" @bind-Value="Company" SearchFunc="@SearchCompany"
+                                             Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Company = null"
+                                             Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.FullName}")"/>
+                        </MudItem>
                         <MudItem xs="12">
                             <MudAutocomplete Disabled="Loading" T="TeamResponse" Label="Team" @bind-Value="Team" SearchFunc="@SearchTeam"
                                              Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Team = null"
