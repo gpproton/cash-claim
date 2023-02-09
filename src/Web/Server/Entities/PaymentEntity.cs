@@ -15,7 +15,7 @@ public sealed class PaymentEntity : BaseEntity {
     public DateTime? ConfirmedAt { get; set; }
     public UserEntity? ConfirmedBy { get; set; }
     public Guid? ConfirmedById { get; set; }
-    public bool Confirmed => ConfirmedAt != null;
+    public bool Confirmed => ConfirmedAt != null || ConfirmedById != null;
     public int Count { get; set; }
     public ICollection<ClaimEntity> Claims { get; set; } = default!;
     public ICollection<FileEntity> Files { get; set; } = default!;
