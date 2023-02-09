@@ -5,6 +5,7 @@
 @inject IUserService UserService
 @inject ICompanyService CompanyService
 @inject ISnackbar Snackbar
+@inject AuthState AuthState
 
 @code {
     [CascadingParameter]
@@ -37,11 +38,15 @@
         get { return $"{ActionText} Team"; }
     }
 
+    private bool IsSystemUser { get; set; }
+
     private TeamResponse Item { get; set; } = new TeamResponse();
 
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
         if (Id != null) {
+            var user = await AuthState.GetAccount();
+            IsSystemUser = user is {Permission: UserPermission.System };
             Loading = true;
             var response = (await Http.GetByIdAsync(Id.Value)).Data;
             if (response != null) {
@@ -97,15 +102,11 @@
                                              Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Manager = null"
                                              Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.FullName} - {e.Permission}")"/>
                         </MudItem>
-                        <AuthorizeView Roles="System">
-                            <Authorized>
-                                <MudItem xs="12">
-                                    <MudAutocomplete T="CompanyResponse" Label="Company" @bind-Value="Company" SearchFunc="@SearchCompany"
-                                                     Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Company = null"
-                                                     Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.FullName}")"/>
-                                </MudItem>
-                            </Authorized>
-                        </AuthorizeView>
+                        <MudItem xs="12">
+                            <MudAutocomplete Disabled="!IsSystemUser" T="CompanyResponse" Label="Company" @bind-Value="Company" SearchFunc="@SearchCompany"
+                                             Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Company = null"
+                                             Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.FullName}")"/>
+                        </MudItem>
                         <MudItem xs="12">
                             <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Description" Lines="4" T="string" Label="Description"/>
                         </MudItem>
