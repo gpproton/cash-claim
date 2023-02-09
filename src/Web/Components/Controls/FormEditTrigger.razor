@@ -11,6 +11,9 @@
 
     [Parameter]
     public string Icon { get; set; } = Icons.Material.Filled.Edit;
+
+    [Parameter]
+    public Color ButtonColor { get; set; } = Color.Warning;
     
     [Parameter]
     public EventCallback<bool> OnTriggered { get; set; }
@@ -31,4 +34,4 @@
     }
 }
 
-<MudIconButton Class="pa-2" Icon="@Icon" Size="@(Small ? Size.Small : Size.Medium)" Variant="Variant.Filled" OnClick="TriggerEdit" Color="Color.Warning" />
+<MudIconButton Class="pa-2" Icon="@Icon" Size="@(Small ? Size.Small : Size.Medium)" Variant="Variant.Filled" OnClick="TriggerEdit" Color="@ButtonColor" />

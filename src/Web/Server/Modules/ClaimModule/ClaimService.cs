@@ -95,29 +95,35 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
         return response;
     }
 
-    private async Task<IQueryable<ClaimEntity>> ResolveClaimEntity() {
+    private async Task<IQueryable<ClaimEntity>> ResolveClaimEntity(bool skipFilter = false) {
         var user = await _identity.GetUser();
         var userId = await _identity.GetId();
         var company = await _identity.GetCompanyId();
         var users = await _identity.GetTeamMemberId();
         IQueryable<ClaimEntity> filtered;
-        var query = _ctx.Claims.Where(x => x.OwnerId != userId)
-        .Where(x => x.PaymentId == null);
-        if (user != null) {
-            switch (user.Permission) {
+        var query = _ctx.Claims;
+        if (!skipFilter) {
+            switch (user!.Permission) {
                 case UserPermission.System:
-                    filtered = query.Where(x => true);
+                    filtered = query.Where(x => x.OwnerId != userId)
+                    .Where(x => x.PaymentId == null);
                     break;
                 case UserPermission.Administrator:
-                    filtered = query.Where(x => x.CompanyId == company)
+                    filtered = query.Where(x => x.OwnerId != userId)
+                    .Where(x => x.PaymentId == null)
+                    .Where(x => x.CompanyId == company)
                     .Where(x => x.Status >= ClaimStatus.Confirmed);
                     break;
                 case UserPermission.Finance:
-                    filtered = query.Where(x => x.CompanyId == company)
+                    filtered = query.Where(x => x.OwnerId != userId)
+                    .Where(x => x.PaymentId == null)
+                    .Where(x => x.CompanyId == company)
                     .Where(x => x.Status >= ClaimStatus.Reviewed);
                     break;
                 case UserPermission.Lead:
                     filtered = query.Where(x => x.CompanyId == company && users.Contains(x.OwnerId!.Value))
+                    .Where(x => x.OwnerId != userId)
+                    .Where(x => x.PaymentId == null)
                     .Where(x => x.Status >= ClaimStatus.Pending);
                     break;
                 case UserPermission.Cashier:
@@ -127,9 +133,8 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
                     filtered = query.Where(x => false);
                     break;
             }
-        }
-        else {
-            filtered = query.Where(x => false);
+        } else {
+            filtered = query.Where(x => x.Status != ClaimStatus.Pending);
         }
         
         return filtered.Include(x => x.Owner)
@@ -173,7 +178,7 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
         try {
             var user = await _identity.GetUser();
             if(user?.Id != null) {
-                var query = await this.ResolveClaimEntity();
+                var query = await this.ResolveClaimEntity(true);
                 var data = await query.Where(x => x.Id == id)
                 .Select(x => transformEntity(x).Result).FirstOrDefaultAsync();
                 response.Data = data;

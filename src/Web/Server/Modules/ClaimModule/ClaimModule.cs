@@ -75,17 +75,17 @@ public class ClaimModule : IModule {
         
         group.MapPut("/review/reject/{id:guid}", async (Guid id, CommentResponse comment, ClaimService sv) => {
             var result = await sv.ReviewValidateAsync(id, ClaimStatus.Rejected, comment);
-            return !result.Succeeded ? Results.BadRequest(result) : TypedResults.Ok(result);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"ReviewReject{name}").WithOpenApi();
 
         group.MapPut("/review/validate/{id:guid}", async (Guid id, CommentResponse comment, ClaimService sv) => {
             var result = await sv.ReviewValidateAsync(id, ClaimStatus.None, comment);
-            return TypedResults.Ok(result);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"ReviewValidate{name}").WithOpenApi();
         
         group.MapPut("/review/cancel/{id:guid}", async (Guid id, ClaimService sv) => {
             var result = await sv.ReviewValidateAsync(id, ClaimStatus.Cancelled, null);
-            return !result.Succeeded ? Results.BadRequest(result) : TypedResults.Ok(result);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"ReviewCancel{name}").WithOpenApi();
 
         return group;

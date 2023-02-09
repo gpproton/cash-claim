@@ -1,6 +1,7 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Enums
 @using XClaim.Common.Helpers
+@using XClaim.Web.Components.Pages.Reviews
 @inject IClaimService Http
 @inject AuthState AuthState
 @page "/app/claims"
@@ -79,7 +80,9 @@
                 @if (context.Item.Status == ClaimStatus.Pending) {
                     <FormEditTrigger TForm="MutateClaim" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
                 } else {
-                    <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Info" Variant="Variant.Filled" Size="Size.Small" Color="Color.Primary"/>
+                    @* <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Info" Variant="Variant.Filled" Size="Size.Small" Color="Color.Primary"/> *@
+                    <FormEditTrigger TForm="MutateReview" Id="context.Item.Id!.Value" ButtonColor="Color.Primary"
+                                     Icon="@Icons.Material.Filled.Info" OnTriggered="ReloadList"></FormEditTrigger>
                 }
             </CellTemplate>
         </Column>
