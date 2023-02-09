@@ -1,3 +1,5 @@
+using System.Text;
+using System.Web;
 using XClaim.Common.Dtos;
 using XClaim.Common.Service;
 using XClaim.Common.Wrappers;
@@ -26,10 +28,25 @@ public class ClaimService : IClaimService {
     public async Task<Response<ClaimResponse>> UpdateAsync(ClaimResponse claim) {
         return await _http.Put<Response<ClaimResponse>>(RootApi, claim);
     }
-    public async Task<Response<ClaimResponse>> ReviewAsync(ClaimResponse claim) {
-        return await _http.Put<Response<ClaimResponse>>(RootApi, claim);
-    }
+    
     public async Task<Response<ClaimResponse>> ArchiveAsync(Guid id) {
         return await _http.Delete<Response<ClaimResponse>>($"{RootApi}/{id}");
+    }
+    public async Task<PagedResponse<List<ClaimStateResponse>>> GetReviewAllAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<ClaimStateResponse>>>($"{RootApi}/review", query);
+    }
+    public async Task<Response<ClaimStateResponse?>> GetReviewByIdAsync(Guid id) {
+        return await _http.Get<Response<ClaimStateResponse?>>($"{RootApi}/review/{id}");
+    }
+    public async Task<Response<ClaimStateResponse>> CancelReviewAsync(Guid id) {
+        return await _http.Put<Response<ClaimStateResponse>>($"{RootApi}/review/cancel/{id}");
+    }
+    public async Task<Response<ClaimStateResponse>> RejectReviewAsync(Guid id, string comment) {
+        var uri = $"{RootApi}/review/reject/{id}";
+        return await _http.Put<Response<ClaimStateResponse>>(uri, new CommentResponse { Content = comment});
+    }
+    public async Task<Response<ClaimStateResponse>> ValidateReviewAsync(Guid id, string comment) {
+    var uri = $"{RootApi}/review/validate/{id}";
+        return await _http.Put<Response<ClaimStateResponse>>(uri, new CommentResponse { Content = comment});
     }
 }

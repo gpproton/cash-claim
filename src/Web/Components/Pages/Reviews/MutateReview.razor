@@ -1,28 +1,23 @@
 @using XClaim.Common.Dtos
 @inject IClaimService Http
-@inject ISnackbar Snackbar
 
 @code {
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; } = default!;
     
+    private bool Loading { get; set; }
+    
     [Parameter]
     public Guid? Id { get; set; }
     
-    private CategoryResponse? Category { get; set; }
-
-    private bool Loading { get; set; }
-    
-    private ClaimResponse Item { get; set; } = new ClaimResponse();
+    private ClaimStateResponse? Item { get; set; }
 
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
         if (Id != null) {
             Loading = true;
-            var response = (await Http.GetByIdAsync(Id.Value)).Data;
+            var response = (await Http.GetReviewByIdAsync(Id.Value)).Data;
             if (response != null) {
-                Category = response.Category;
-                response.Company = null;
                 Item = response;
             }
             Loading = false;
@@ -32,43 +27,27 @@
 
 <MudDialog Class="ma-0 pa-0">
     <DialogContent>
-        <MudOverlay Visible="Loading" DarkBackground="true" Absolute="true">
-            <MudProgressCircular Color="Color.Default" Style="height:96px;width:96px;" Indeterminate="true" />
-        </MudOverlay>
         <MudContainer Class="px-0 mx-0" Style="min-height: calc(100vh - 250px)">
-            <MudTabs Elevation="1" Rounded="true" Centered="true">
-                <!-- Information section -->
-                <MudTabPanel Icon="@Icons.Material.Filled.Info">
-                    <MudContainer Class="my-8" MaxWidth="MaxWidth.Small">
-                        <MudStack Justify="Justify.SpaceBetween" Spacing="10">
-                            <MudStack AlignItems="AlignItems.Center" Spacing="2">
-                                <MudText>@(Item.Description ?? "Unknown")</MudText>
-                                <MudText Typo="Typo.h5">@(Item?.Owner?.FullName ?? "Unknown Unknown")</MudText>
-                            </MudStack>
-                            <MudStack AlignItems="AlignItems.Center">
-                                <MudImage Height="320" Width="320" ObjectFit="ObjectFit.ScaleDown" Fluid="true"
-                                          Src="_content/XClaim.Web.Components/vectors/money_savings.svg" Alt="review_image" />
-                            </MudStack>
-                            <MudStack AlignItems="AlignItems.Center" Spacing="5">
-                                <MudText Typo="Typo.h3">N @($"{Item.Amount:N0}")</MudText>
-                                <MudText Typo="Typo.caption">@(Item.Notes)</MudText>
-                            </MudStack>
-                            <MudStack Row="true" Justify="Justify.SpaceEvenly">
-                                <MudButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="px-12 py-3">Approve</MudButton>
-                                <MudButton Color="Color.Primary" Variant="Variant.Text" Size="Size.Large" Class="px-12 py-3">Reject</MudButton>
-                            </MudStack>
-                        </MudStack>
-                    </MudContainer>
-                </MudTabPanel>
-                <!-- Media section -->
-                <MudTabPanel Icon="@Icons.Material.Filled.PictureAsPdf">
-                    <MudContainer Class="my-8" MaxWidth="MaxWidth.Small">Media</MudContainer>
-                </MudTabPanel>
-                <!-- Messages section -->
-                <MudTabPanel Icon="@Icons.Material.Filled.Message" BadgeDot="true" BadgeColor="Color.Success">
-                    <MudContainer Class="my-8" MaxWidth="MaxWidth.Small">Message</MudContainer>
-                </MudTabPanel>
-            </MudTabs>
+            @if (Item == null || Loading) {
+                <MudStack Class="pa-16 ma-16" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                    <MudProgressCircular Color="Color.Primary" Style="height:128px;width:128px;" Indeterminate="true" />
+                </MudStack>
+            } else {
+                <MudTabs Elevation="1" Rounded="true" Centered="true">
+                    <!-- Information section -->
+                    <MudTabPanel Icon="@Icons.Material.Filled.Info">
+                        <ClaimDetails Item="@Item"/>
+                    </MudTabPanel>
+                    <!-- Media section -->
+                    <MudTabPanel Icon="@Icons.Material.Filled.PictureAsPdf">
+                        <FileViewer />
+                    </MudTabPanel>
+                    <!-- Messages section -->
+                    <MudTabPanel Icon="@Icons.Material.Filled.Message" BadgeDot="true" BadgeColor="Color.Success">
+                        <CommentViewer />
+                    </MudTabPanel>
+                </MudTabs>
+            }
         </MudContainer>
     </DialogContent>
 </MudDialog>

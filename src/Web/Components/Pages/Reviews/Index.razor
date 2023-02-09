@@ -1,6 +1,7 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
 @inject IClaimService Http
+@inject AuthState AuthState
 @page "/app/reviews"
 @attribute [Authorize(Roles = "System, Administrator, Finance, Lead")]
 
@@ -9,16 +10,23 @@
     private bool Loading { get; set; }
     private int Current { get; set; } = 1;
     private DateRange DateRange { get; set; } = WebConst.AppDateRange;
-    MudDataGrid<ClaimResponse>? _dataGrid;
+    MudDataGrid<ClaimStateResponse>? _dataGrid;
+    private string? DefaultCurrency { get;set; }
     
-    private HashSet<ClaimResponse> SelectedItems { get; set; } = new HashSet<ClaimResponse>();
+    private HashSet<ClaimStateResponse> SelectedItems { get; set; } = new HashSet<ClaimStateResponse>();
     
-    private Func<ClaimResponse, bool> Filter => x =>
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        var user = await AuthState.GetAccount();
+        DefaultCurrency = user!.Currency!.Symbol ?? "$";
+    }
+    
+    private Func<ClaimStateResponse, bool> Filter => x =>
     string.IsNullOrWhiteSpace(Search)
-    || x.Description.Contains(Search, StringComparison.OrdinalIgnoreCase)
-    || x.Notes.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    || x.Description!.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.Notes!.Contains(Search, StringComparison.OrdinalIgnoreCase);
     
-    private async Task<GridData<ClaimResponse>> ServerDataFunc(GridState<ClaimResponse> state) {
+    private async Task<GridData<ClaimStateResponse>> ServerDataFunc(GridState<ClaimStateResponse> state) {
         SelectedItems.Clear();
         this.Loading = true;
         var filter = new DateSearchFilter {
@@ -26,9 +34,9 @@
             PerPage = state.PageSize,
             Search = Search.Length > 2 ? Search : null 
         };
-        var items = await Http.GetReviewsAsync(filter);
+        var items = await Http.GetReviewAllAsync(filter);
         this.Loading = false;
-        return new GridData<ClaimResponse> {
+        return new GridData<ClaimStateResponse> {
             Items = items.Data,
             TotalItems = items.Total
         };
@@ -41,7 +49,7 @@
 
 <Title>Claim Reviews</Title>
 
-<MudDataGrid @ref="_dataGrid" T="ClaimResponse" MultiSelection="true" ServerData="ServerDataFunc" SelectedItems="SelectedItems" 
+<MudDataGrid @ref="_dataGrid" T="ClaimStateResponse" MultiSelection="true" ServerData="ServerDataFunc" SelectedItems="SelectedItems" 
              Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
@@ -52,26 +60,26 @@
          <TableLoading></TableLoading>
     </LoadingContent>
     <Columns>
-        <Column T="ClaimResponse" Field="Description" />
-        <Column T="ClaimResponse" Field="Owner">
+        <Column T="ClaimStateResponse" Field="Description" />
+        <Column T="ClaimStateResponse" Field="Owner">
             <CellTemplate>
-                @(context.Item.Owner?.FullName ?? "None")
+                @(context.Item.Owner ?? "None")
             </CellTemplate>
         </Column>
-        <Column T="ClaimResponse" Field="Amount" />
-        <Column T="ClaimResponse" Field="Category">
+        <Column T="ClaimStateResponse" Field="Amount">
             <CellTemplate>
-                @(context.Item.Category?.Name ?? "None")
+                @(context.Item.Currency ?? DefaultCurrency)@(context.Item.Amount)
             </CellTemplate>
         </Column>
-        <Column T="ClaimResponse" Field="Status" />
-        <Column T="ClaimResponse">
+        <Column T="ClaimStateResponse" Field="Category" />
+        <Column T="ClaimStateResponse" Field="Status" />
+        <Column T="ClaimStateResponse">
             <CellTemplate>
                 <FormEditTrigger TForm="MutateReview" Id="context.Item.Id!.Value" Icon="@Icons.Material.Filled.Menu" OnTriggered="ReloadList"></FormEditTrigger>
             </CellTemplate>
         </Column>
     </Columns>
     <PagerContent>
-         <MudDataGridPager T="ClaimResponse" PageSizeOptions="WebConst.AppPaged" />
+         <MudDataGridPager T="ClaimStateResponse" PageSizeOptions="WebConst.AppPaged" />
     </PagerContent>
 </MudDataGrid>
