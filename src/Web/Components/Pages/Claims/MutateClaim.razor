@@ -4,20 +4,32 @@
 @using Nextended.Core.Extensions
 @inject IClaimService Http
 @inject ICategoryService CategoryService
+@inject ICurrencyService CurrencyService
+@inject AuthState AuthState
 @inject ISnackbar Snackbar
 
 @code {
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; } = default!;
+    bool _success;
+    string[] _errors = { };
+    MudForm? _form;
     
     [Parameter]
     public Guid? Id { get; set; }
     
     private CategoryResponse? Category { get; set; }
     
+    private CurrencyResponse? Currency { get; set; }
+    
     private async Task<IEnumerable<CategoryResponse>> SearchCategory(string value) {
         var response = await CategoryService.GetAllAsync(new SearchFilter { Search = value });
         return (response.Succeeded ? response.Data : new List<CategoryResponse> {})!;
+    }
+    
+    private async Task<IEnumerable<CurrencyResponse>> SearchCurrency(string value) {
+        var response = await CurrencyService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<CurrencyResponse> {})!;
     }
     
     private string ActionText {
@@ -39,15 +51,24 @@
             var response = (await Http.GetByIdAsync(Id.Value)).Data;
             if (response != null) {
                 Category = response.Category;
+                Currency = response.Currency;
                 response.Company = null;
+                response.Currency = null;
                 Item = response;
             }
             Loading = false;
+        } else {
+            var user = await AuthState.GetAccount();
+            Currency = user!.Currency;
         }
     }
 
     async Task Submit() {
+        await _form!.Validate();
+        if (!_success) return;
+        
         Item.CategoryId = Category?.Id;
+        Item.CurrencyId = Currency?.Id;
         var result = Id == null ? (await Http.CreateAsync(Item)) : (await Http.UpdateAsync(Item));
         MudDialog.Close(DialogResult.Ok(result.Succeeded));
     }
@@ -61,6 +82,10 @@
     }
 
     readonly IList<IBrowserFile> _files = new List<IBrowserFile>();
+    
+    private string? AmountTooLow(string s) {
+        return Decimal.Parse(s) < 100 ? "Amount must be more than 100" : null;
+    }
     
     private void UploadFiles(IReadOnlyList<IBrowserFile> files) {
         foreach (var file in files) {
@@ -83,65 +108,92 @@
             <MudProgressCircular Color="Color.Default" Style="height:96px;width:96px;" Indeterminate="true" />
         </MudOverlay>
         <MudContainer Class="my-4" MaxWidth="MaxWidth.Small">
-            <MudGrid Justify="Justify.Center">
-                <MudItem xs="12">
-                    <MudGrid>
-                        <MudItem xs="8">
-                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Description" T="string" Label="Description"/>
-                        </MudItem>
-                        <MudItem xs="4">
-                            <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Amount" InputType="InputType.Number" T="decimal" Label="Amount"/>
-                        </MudItem>
-                        <MudItem xs="10">
-                            <MudAutocomplete T="CategoryResponse" Label="Category" @bind-Value="Category" SearchFunc="@SearchCategory"
-                                 Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Category = null"
-                                 Clearable="true" ToStringFunc="@(e=> e == null ? null : $"{e.Name}")" />
-                        </MudItem>
-                        <MudItem xs="2">
-                            <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="UploadFiles">
-                                <ButtonTemplate>
-                                    <MudIconButton HtmlTag="label" Class="pa-3" Variant="Variant.Filled" Color="Color.Primary"
-                                                   Size="Size.Large" Icon="@Icons.Material.Filled.CloudUpload" for="@context" />
-                                </ButtonTemplate>
-                            </MudFileUpload>
-                        </MudItem>
-                        <MudItem xs="12">
-                            <MudSelect T="ClaimPriority" Label="Priority" Variant="Variant.Outlined" @bind-Value="Item.Priority"
-                                       For="@(() => Item.Priority)" AnchorOrigin="Origin.BottomCenter">
-                                @foreach (var priority in Enum.GetValues<ClaimPriority>()) {
-                                    <MudSelectItem Value="priority">@priority.ToDescriptionString().Capitalize()</MudSelectItem>
-                                }
-                            </MudSelect>
-                        </MudItem>
-                        <MudItem xs="12">
-                            <MudTextField Variant="Variant.Outlined" Lines="4" @bind-Value="Item.Notes" T="string" Label="Notes"/>
-                        </MudItem>
-                        <MudItem xs="12">
-                            @if (_files.Count > 0) {
-                                <MudPaper Height="250" MaxHeight="250">
-                                    <MudStack Row="true" Justify="Justify.Center">
-                                        <MudText Typo="Typo.subtitle1">Uploads</MudText>
-                                    </MudStack>
-                                    <MudList Dense="true">
-                                        @foreach (var file in _files) {
-                                            <MudListItem Dense="true" Icon="@Icons.Material.Filled.AttachFile">
-                                                <MudStack Spacing="0" Row="true" Justify="Justify.SpaceBetween">
-                                                    <MudText>@file.Name - @(Math.Round(file.Size / (decimal) (1000 * 1000), 2))Mb</MudText>
-                                                    <MudIconButton Icon="@Icons.Material.Filled.Cancel" OnClick="() => _files.RemoveAt(_files.IndexOf(file))" />
+            <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
+                <MudGrid Justify="Justify.Center">
+                    <MudItem xs="12">
+                        <MudGrid>
+                            <MudItem xs="8">
+                                <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Description" T="string" Label="Description"
+                                              Required="true" RequiredError="Description is required!" />
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudTextField Variant="Variant.Outlined" @bind-Value="Item.Amount" InputType="InputType.Number"
+                                              T="decimal" Label="Amount" Required="true" Validation="@(new Func<string, string>(AmountTooLow))"/>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                    <MudAutocomplete T="CategoryResponse" Label="Category" @bind-Value="Category" SearchFunc="@SearchCategory"
+                                                     Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Category = null"
+                                                     Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.Name}")"
+                                                     Required="true" RequiredError="Category is required!" />
+                                    <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="UploadFiles">
+                                        <ButtonTemplate>
+                                            <MudIconButton HtmlTag="label" Class="pa-3" Variant="Variant.Filled" Color="Color.Primary"
+                                                           Size="Size.Large" Icon="@Icons.Material.Filled.CloudUpload" for="@context"/>
+                                        </ButtonTemplate>
+                                    </MudFileUpload>
+                                </MudStack>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudExpansionPanels MultiExpansion="true">
+                                    <MudExpansionPanel Text="More Options" Icon="@Icons.Material.Filled.Filter4">
+                                        <MudGrid>
+                                            <MudItem xs="12">
+                                                <MudSelect T="ClaimPriority" Label="Priority" Variant="Variant.Outlined" @bind-Value="Item.Priority"
+                                                           For="@(() => Item.Priority)" AnchorOrigin="Origin.BottomCenter">
+                                                    @foreach (var priority in Enum.GetValues<ClaimPriority>()) {
+                                                        <MudSelectItem Value="priority">@priority.ToDescriptionString().Capitalize()</MudSelectItem>
+                                                    }
+                                                </MudSelect>
+                                            </MudItem>
+                                            <MudItem xs="12">
+                                                <MudAutocomplete T="CurrencyResponse" Label="Currency" @bind-Value="Currency" SearchFunc="@SearchCurrency"
+                                                                 Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Currency = null"
+                                                                 Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.Symbol} - {e.Name}")"
+                                                                 Required="true" RequiredError="Currency selection is required!"/>
+                                            </MudItem>
+                                            <MudItem xs="12">
+                                                <MudTextField Variant="Variant.Outlined" Lines="4" @bind-Value="Item.Notes" T="string" Label="Notes"/>
+                                            </MudItem>
+                                        </MudGrid>
+                                    </MudExpansionPanel>
+                                    <MudExpansionPanel Text="Files" Icon="@Icons.Material.Filled.FileCopy">
+                                        <MudPaper>
+                                            @if (_files.Count > 0) {
+                                                <MudPaper Height="250" MaxHeight="250">
+                                                    <MudStack Row="true" Justify="Justify.Center">
+                                                        <MudText Typo="Typo.subtitle1">Uploads</MudText>
+                                                    </MudStack>
+                                                    <MudList Dense="true">
+                                                        @foreach (var file in _files) {
+                                                            <MudListItem Dense="true" Icon="@Icons.Material.Filled.AttachFile">
+                                                                <MudStack Spacing="0" Row="true" Justify="Justify.SpaceBetween">
+                                                                    <MudText>@file.Name - @(Math.Round(file.Size / (decimal)(1000 * 1000), 2))Mb</MudText>
+                                                                    <MudIconButton Icon="@Icons.Material.Filled.Cancel" OnClick="() => _files.RemoveAt(_files.IndexOf(file))"/>
+                                                                </MudStack>
+                                                            </MudListItem>
+                                                            <MudDivider/>
+                                                        }
+                                                    </MudList>
+                                                </MudPaper>
+                                            }
+                                            else {
+                                                <MudStack Row="true" Justify="Justify.Center">
+                                                    <MudText>No file uploaded.</MudText>
                                                 </MudStack>
-                                            </MudListItem>
-                                            <MudDivider />
-                                        }
-                                    </MudList>
-                                </MudPaper>
-                            }
-                        </MudItem>
-                    </MudGrid>
-                </MudItem>
-            </MudGrid>
+                                            }
+                                        </MudPaper>
+                                    </MudExpansionPanel>
+                                </MudExpansionPanels>
+                            </MudItem>
+                        </MudGrid>
+                    </MudItem>
+                </MudGrid>
+            </MudForm>
         </MudContainer>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Size="Size.Large" Class="px-12 py-3">@ActionText</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Size="Size.Large"
+                   Class="px-12 py-3">@ActionText</MudButton>
     </DialogActions>
 </MudDialog>
