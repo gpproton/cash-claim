@@ -58,6 +58,7 @@
         Item.CompanyId = Company?.Id;
         Item.CurrencyId = Currency?.Id;
         var result = await  Http.RegistrationAsync(Item);
+        Snackbar.Clear();
         if (result.Succeeded) {
             await AuthState.TriggerAuthentication();
             Snackbar.Add("Verification successful..", Severity.Success);
