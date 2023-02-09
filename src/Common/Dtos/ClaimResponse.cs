@@ -6,12 +6,14 @@ namespace XClaim.Common.Dtos;
 public class ClaimResponse : BaseResponse {
     public string Description { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
-    public decimal Amount { get; set; }
+    public decimal Amount { get; set; } = 100;
     public ClaimPriority Priority { get; set; } = ClaimPriority.Normal;
     public CategoryResponse? Category { get; set; }
     public Guid? CategoryId { get; set; }
     public CompanyResponse? Company { get; set; }
     public Guid? CompanyId { get; set; }
+    public CurrencyResponse? Currency { get; set; }
+    public Guid? CurrencyId { get; set; }
     public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
     public UserResponse? Owner { get; set; }
     public UserResponse? ReviewedBy { get; set; }
