@@ -9,7 +9,7 @@ namespace XClaim.Web.Server.Entities;
 public class CurrencyEntity : BaseEntity {
     public string Name { get; set; } = string.Empty;
     [MaxLength(1)]
-    public string Symbol { get; set; } = string.Empty;
+    public string? Symbol { get; set; } = string.Empty;
     [MaxLength(3)]
     public string Code { get; set; } = string.Empty;
     public decimal Rate { get; set; }

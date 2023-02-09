@@ -3,7 +3,9 @@ using AutoFilterer.Types;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Nextended.Core.Extensions;
 using XClaim.Common.Dtos;
+using XClaim.Common.Enums;
 using XClaim.Common.Helpers;
 using XClaim.Common.Wrappers;
 using XClaim.Web.Server.Data;
@@ -14,14 +16,17 @@ namespace XClaim.Web.Server.Modules.ClaimModule;
 
 public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, ClaimResponse>, IClaimService {
     private readonly IdentityHelper _identity;
-    public ClaimService(ServerContext ctx, IMapper mapper, ILogger<ClaimService> logger, IdentityHelper identity) : base(ctx, mapper, logger) {
+    private readonly ClaimStateResolver _stateResolver;
+    public ClaimService(ServerContext ctx, IMapper mapper, ILogger<ClaimService> logger, IdentityHelper identity, ClaimStateResolver stateResolver) : base(ctx, mapper, logger) {
         _identity = identity;
+        _stateResolver = stateResolver;
     }
 
-    private static Task<IIncludableQueryable<ClaimEntity, CategoryEntity?>> ClaimPersonalQuery(IQueryable<ClaimEntity> queryable) {
+    private static Task<IIncludableQueryable<ClaimEntity, CurrencyEntity?>> ClaimPersonalQuery(IQueryable<ClaimEntity> queryable) {
         return Task.FromResult(queryable.Where(x => x.DeletedAt == null)
         .Include(x => x.Owner)
-        .Include(x => x.Category));
+        .Include(x => x.Category)
+        .Include(x => x.Currency));
     }
 
     new public async Task<PagedResponse<List<ClaimResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
@@ -33,10 +38,7 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
             var count = await query.CountAsync();
             var data = await query.ApplyFilter(responseFilter).ToListAsync();
             var response = _mapper.Map<List<ClaimResponse>>(data);
-            var filter = new PaginationFilter {
-                Page = responseFilter.Page,
-                PerPage = responseFilter.PerPage
-            };
+            var filter = responseFilter.MapTo<PaginationFilter>();
             result = new PagedResponse<List<ClaimResponse>>(response, count, filter) {
                 Succeeded = true
             };
@@ -54,6 +56,7 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
             var item = await (await ClaimPersonalQuery(_ctx.Claims))
                        .Where(x => x.Id == id)
                        .Include(x => x.Payment)
+                       .Include(x => x.Currency)
                        .Include(x => x.Files)
                        .FirstOrDefaultAsync();
             var data = _mapper.Map<ClaimResponse>(item);
@@ -68,6 +71,7 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
     }
     
     new public async Task<Response<ClaimResponse>> CreateAsync(ClaimResponse value) {
+        var user = await _identity.GetUser();
         var response = new Response<ClaimResponse>();
         try {
             var item = _mapper.Map<ClaimEntity>(value);
@@ -75,6 +79,9 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
             item.OwnerId = await _identity.GetId();
             item.CompanyId = await _identity.GetCompanyId();
             await _ctx.SaveChangesAsync();
+            if (user is { Permission: <= UserPermission.Finance })
+                await this.ReviewValidateAsync(item.Id,  ClaimStatus.None, new CommentResponse { Content = "Confirmed by default."});
+                
             var data = _mapper.Map<ClaimResponse>(item);
             response = new Response<ClaimResponse>(data!) {
                 Succeeded = data != null
@@ -88,7 +95,128 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
         return response;
     }
 
-    public async Task<PagedResponse<List<ClaimResponse>>> GetReviewsAsync(PaginationFilterBase responseFilter) => default!;
+    private async Task<IQueryable<ClaimEntity>> ResolveClaimEntity() {
+        var user = await _identity.GetUser();
+        var userId = await _identity.GetId();
+        var company = await _identity.GetCompanyId();
+        var users = await _identity.GetTeamMemberId();
+        IQueryable<ClaimEntity> filtered;
+        var query = _ctx.Claims.Where(x => x.OwnerId != userId)
+        .Where(x => x.PaymentId == null);
+        if (user != null) {
+            switch (user.Permission) {
+                case UserPermission.System:
+                    filtered = query.Where(x => true);
+                    break;
+                case UserPermission.Administrator:
+                    filtered = query.Where(x => x.CompanyId == company)
+                    .Where(x => x.Status >= ClaimStatus.Confirmed);
+                    break;
+                case UserPermission.Finance:
+                    filtered = query.Where(x => x.CompanyId == company)
+                    .Where(x => x.Status >= ClaimStatus.Reviewed);
+                    break;
+                case UserPermission.Lead:
+                    filtered = query.Where(x => x.CompanyId == company && users.Contains(x.OwnerId!.Value))
+                    .Where(x => x.Status >= ClaimStatus.Pending);
+                    break;
+                case UserPermission.Cashier:
+                case UserPermission.Standard:
+                case UserPermission.Anonymous:
+                default:
+                    filtered = query.Where(x => false);
+                    break;
+            }
+        }
+        else {
+            filtered = query.Where(x => false);
+        }
+        
+        return filtered.Include(x => x.Owner)
+        .Include(x => x.Category)
+        .Include(x => x.Payment)
+        .Include(x => x.Currency);
+    }
 
-    public async Task<Response<ClaimResponse?>> ReviewAsync(Guid id) => default!;
+    public async Task<PagedResponse<List<ClaimStateResponse>>> GetReviewAllAsync(ClaimFilter responseFilter) {
+        var response = new PagedResponse<List<ClaimStateResponse>>();
+        try {
+            var query = await this.ResolveClaimEntity();
+            async Task<ClaimStateResponse> TransformEntity(ClaimEntity x) {
+                var state = _stateResolver.InitializeState(x);
+                return await state.Resolve();
+            }
+
+            var result = query.ApplyFilter(responseFilter);
+            var count = await result.CountAsync();
+            var db = await result.ToListAsync();
+            var data = db.Select(x => TransformEntity(x).Result).ToList();
+            var filter = responseFilter.MapTo<PaginationFilter>();
+            response = new PagedResponse<List<ClaimStateResponse>>(data, count, filter) {
+                Succeeded = true
+            };
+        }
+        catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+
+        return response;
+    }
+
+    public async Task<Response<ClaimStateResponse?>> GetReviewByIdAsync(Guid id) {
+        var response = new Response<ClaimStateResponse?>();
+        Func<ClaimEntity, Task<ClaimStateResponse>> transformEntity = async x => {
+            var state = _stateResolver.InitializeState(x);
+            return await state.Resolve();
+        };
+        try {
+            var user = await _identity.GetUser();
+            if(user?.Id != null) {
+                var query = await this.ResolveClaimEntity();
+                var data = await query.Where(x => x.Id == id)
+                .Select(x => transformEntity(x).Result).FirstOrDefaultAsync();
+                response.Data = data;
+                response.Succeeded = data != null;
+            }
+        }
+        catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+
+        return response;
+    }
+
+    public async Task<Response<ClaimStateResponse?>> ReviewValidateAsync(Guid id, ClaimStatus action, CommentResponse? comment) {
+        var response = new Response<ClaimStateResponse?>();
+        var userId = await _identity.GetId();
+        try {
+            var item = await (await ClaimPersonalQuery(_ctx.Claims))
+                       .Where(x => x.Id == id)
+                       .Include(x => x.Payment)
+                       .Include(x => x.Files)
+                       .FirstOrDefaultAsync();
+            if (item is null) return response;
+            var value = await _stateResolver.InitializeState(item).Transform(action);
+            _mapper.Map(value, item);
+            if (comment != null) {
+                _ctx.Comments.Add(new CommentEntity {
+                    OwnerId = userId,
+                    ClaimId = item.Id,
+                    Content = comment.Content
+                });
+            }
+            _ctx.Update(item);
+            await _ctx.SaveChangesAsync();
+            response.Data = await _stateResolver.InitializeState(value).Resolve();
+            response.Succeeded = response.Data  != null;
+        }
+        catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+
+        return response;
+    }
 }

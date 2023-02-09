@@ -11,6 +11,8 @@ public sealed class ClaimEntity : BaseEntity {
     [MaxLength(1024)]
     public string? Notes { get; set; }
     public decimal Amount { get; set; }
+    public CurrencyEntity? Currency { get; set; }
+    public Guid? CurrencyId { get; set; }
     public PaymentEntity? Payment { get; set; }
     public Guid? PaymentId { get; set; }
     [Required]
