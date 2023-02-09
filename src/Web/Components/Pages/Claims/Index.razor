@@ -2,6 +2,7 @@
 @using XClaim.Common.Enums
 @using XClaim.Common.Helpers
 @inject IClaimService Http
+@inject AuthState AuthState
 @page "/app/claims"
 @attribute [Authorize]
 
@@ -9,6 +10,7 @@
     private string Search { get; set; } = string.Empty;
     private bool Loading { get; set; }
     private int Current { get; set; } = 1;
+    private string? DefaultCurrency { get;set; }
     MudDataGrid<ClaimResponse>? _dataGrid;
     private DateRange DateRange { get; set; } = WebConst.AppDateRange;
     private HashSet<ClaimResponse> SelectedItems { get; set; } = new HashSet<ClaimResponse>();
@@ -17,7 +19,13 @@
     string.IsNullOrWhiteSpace(Search)
     || x.Description.Contains(Search, StringComparison.OrdinalIgnoreCase)
     || x.Notes.Contains(Search, StringComparison.OrdinalIgnoreCase);
-    
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        var user = await AuthState.GetAccount();
+        DefaultCurrency = user!.Currency!.Symbol ?? "$";
+    }
+
     private async Task<GridData<ClaimResponse>> ServerDataFunc(GridState<ClaimResponse> state) {
         SelectedItems.Clear();
         this.Loading = true;
@@ -55,7 +63,11 @@
     </LoadingContent>
     <Columns>
         <Column T="ClaimResponse" Field="Description" />
-        <Column T="ClaimResponse" Field="Amount" />
+        <Column T="ClaimResponse" Field="Amount">
+            <CellTemplate>
+                @(context.Item.Currency?.Symbol ?? DefaultCurrency)@(context.Item.Amount)
+            </CellTemplate>
+        </Column>
         <Column T="ClaimResponse" Field="Status" />
         <Column T="ClaimResponse" Field="Category">
             <CellTemplate>
