@@ -115,8 +115,7 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
         }
-
-
+        
         return response;
     }
 
