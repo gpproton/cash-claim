@@ -1,8 +1,10 @@
 @using XClaim.Common.Dtos
+@using XClaim.Common.Enums
 @using XClaim.Common.Extensions
 @using XClaim.Common.Wrappers
 @inject IClaimService Http
 @inject ISnackbar Snackbar
+@inject AuthState AuthState
 
 @code {
     private enum ActionState {
@@ -17,10 +19,17 @@
     private bool Loading { get; set; }
     private string Comment { get; set; } = string.Empty;
     private ActionState State { get; set; } = ActionState.None;
+    private Guid? UserId { get; set; } = default!;
     
     [Parameter]
     public ClaimStateResponse? Item { get; set; } = new ClaimStateResponse();
-    
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        var user = await AuthState.GetAccount();
+        UserId = user!.Id;
+    }
+
     private async Task Submit() {
         Loading = true;
         await _form!.Validate();
@@ -44,11 +53,24 @@
             Snackbar.Clear();
             Snackbar.Add(state ? "Successful" : "Failed", state ? Severity.Success : Severity.Error);
             if (state) {
-                Loading = false;
                 Item = result.Data;
+                Loading = false;
                 await Task.Delay(200);
                 State = ActionState.None;
             }
+        }
+    }
+    private async Task Cancel() {
+        var id = (Guid) Item!.Id!;
+        var result = await Http.CancelReviewAsync(id);
+        Loading = true;
+        var state = result.Succeeded;
+        Snackbar.Clear();
+        Snackbar.Add(state ? "Successful" : "Failed", state ? Severity.Success : Severity.Error);
+        if (state) {
+            Item = result.Data;
+            await Task.Delay(200);
+            Loading = false;
         }
     }
 }
@@ -72,10 +94,17 @@
                 <MudText Align="Align.Center" Typo="Typo.caption">@Item.Notes.Truncate(55)</MudText>
             </MudStack>
             @if (Item.Completed) {
-                <MudStack Row="true" Justify="Justify.SpaceEvenly">
+                <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center">
                     <MudButton Disabled="true" Color="Color.Primary" FullWidth="true" Variant="Variant.Filled"
                                OnClick="() => State = ActionState.Approve"
                                Size="Size.Large" Class="py-4">@Item.Status</MudButton>
+                    @if (Item.OwnerId == UserId && Item.Status != ClaimStatus.Cancelled) {
+                        <MudButton Disabled="Item.Payed || Item.Status == ClaimStatus.Rejected"
+                                   Color="Color.Primary" FullWidth="true" Variant="Variant.Filled"
+                                   OnClick="Cancel" Size="Size.Large" Class="py-4">
+                            @(Item.Status == ClaimStatus.Cancelled ? Item.Status : "Cancel")
+                            </MudButton>
+                    }
                 </MudStack>
             } else {
                 @if (State == ActionState.None) {
@@ -85,8 +114,7 @@
                         <MudButton Color="Color.Primary" Variant="Variant.Text" OnClick="() => State = ActionState.Reject"
                                    Size="Size.Large" Class="px-12 py-3">Reject</MudButton>
                     </MudStack>
-                }
-                else {
+                } else {
                     <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
                         <MudStack Justify="Justify.Center" AlignItems="AlignItems.Stretch">
                             <MudGrid>

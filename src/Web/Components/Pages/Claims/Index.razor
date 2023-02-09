@@ -66,7 +66,7 @@
         <Column T="ClaimResponse" Field="Description" />
         <Column T="ClaimResponse" Field="Amount">
             <CellTemplate>
-                @(context.Item.Currency?.Symbol ?? DefaultCurrency)@(context.Item.Amount)
+                @(context.Item.Currency?.Symbol ?? DefaultCurrency)@($"{context.Item.Amount:N0}")
             </CellTemplate>
         </Column>
         <Column T="ClaimResponse" Field="Status" />
@@ -80,7 +80,6 @@
                 @if (context.Item.Status == ClaimStatus.Pending) {
                     <FormEditTrigger TForm="MutateClaim" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
                 } else {
-                    @* <MudIconButton Class="pa-2 ml-1" Icon="@Icons.Material.Filled.Info" Variant="Variant.Filled" Size="Size.Small" Color="Color.Primary"/> *@
                     <FormEditTrigger TForm="MutateReview" Id="context.Item.Id!.Value" ButtonColor="Color.Primary"
                                      Icon="@Icons.Material.Filled.Info" OnTriggered="ReloadList"></FormEditTrigger>
                 }

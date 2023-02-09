@@ -68,7 +68,7 @@
         </Column>
         <Column T="ClaimStateResponse" Field="Amount">
             <CellTemplate>
-                @(context.Item.Currency ?? DefaultCurrency)@(context.Item.Amount)
+                @(context.Item.Currency ?? DefaultCurrency)@($"{context.Item.Amount:N0}")
             </CellTemplate>
         </Column>
         <Column T="ClaimStateResponse" Field="Category" />
