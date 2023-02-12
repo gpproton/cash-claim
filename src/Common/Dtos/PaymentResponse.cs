@@ -8,10 +8,11 @@ public class PaymentResponse : BaseResponse {
     public string Notes { get; set; } = string.Empty;
     public UserResponse? Owner { get; set; }
     public Guid? OwnerId { get; set; }
+    public UserResponse? CreatedBy { get; set; }
+    public Guid? CreatedById { get; set; }
     public DateTime? ConfirmedAt { get; set; }
-    public UserResponse? ConfirmedBy { get; set; }
-    public Guid? ConfirmedById { get; set; }
     public bool Confirmed => ConfirmedAt != null;
     public int Count { get; set; }
     public ICollection<ClaimResponse> Claims { get; set; } = default!;
+    public ICollection<FileResponse> Files { get; set; } = default!;
 }
