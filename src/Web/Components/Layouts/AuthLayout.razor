@@ -13,10 +13,10 @@
     <MudSpacer/>
     <MudStack Row="true" AlignItems="AlignItems.Center">
         <MudIconButton Variant="Variant.Filled" Icon="@Icons.Material.Filled.Help" Color="Color.Primary"
-                       OnClick='() => Nav.NavigateTo("/app/help")' Class="mr-3 pa-2"></MudIconButton>
+                       OnClick='() => Nav.NavigateTo("/app/help")' Class="mr-lg-3 mr-md-1 pa-2"></MudIconButton>
         <AuthorizeView>
             <Authorized>
-                <MudButton Variant="Variant.Outlined" Class="px-12 px-4" Color="Color.Primary" Size="Size.Large" OnClick="async () => await AuthState.TriggerSignOut()">Sign Out</MudButton>
+                <MudButton Variant="Variant.Outlined" Class="px-lg-8 px-lg-2 py-2" Color="Color.Primary" Size="Size.Small" OnClick="async () => await AuthState.TriggerSignOut()">Sign Out</MudButton>
             </Authorized>
         </AuthorizeView>
     </MudStack>
