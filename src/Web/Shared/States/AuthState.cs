@@ -49,14 +49,14 @@ public class AuthState : RootState {
         if (response is { Data: { }, Succeeded: true })
             await Profile.UpdateAuthenticationState(response.Data);
         else
-            await Profile.UpdateAuthenticationState(null);
+            await Profile.ClearAuthInfo();
     }
     
     public void TriggerApiAuth() => _nav.NavigateTo($"{_nav.BaseUri}{WebConst.ApiAuth}", true);
 
     public async Task TriggerSignOut() {
         await _profileService.SignOutAsync();
-        await Profile.UpdateAuthenticationState(null);
+        await Profile.ClearAuthInfo();
         _nav.NavigateTo(WebConst.AppAuth, true);
     }
 }
