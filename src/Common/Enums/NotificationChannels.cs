@@ -8,7 +8,7 @@ namespace XClaim.Common.Enums {
         Push,
         [Description("SMS Notifications")]
         Sms,
-        [Description("MS Teams Notifications")]
+        [Description("Teams Notifications")]
         Teams
     }
 }
