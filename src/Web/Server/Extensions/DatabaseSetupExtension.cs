@@ -26,7 +26,7 @@ public static class DatabaseSetupExtension {
 
             options.UseSnakeCaseNamingConvention()
             .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging()
+            // .EnableSensitiveDataLogging();
             .EnableDetailedErrors();
         });
 
