@@ -15,6 +15,8 @@
     [Parameter]
     public Guid? Id { get; set; }
     
+    private UserPermission AccountPermission { get; set; }
+    
     private CompanyResponse? Company { get; set; }
     
     private TeamResponse? Team { get; set; }
@@ -29,20 +31,17 @@
         return (response.Succeeded ? response.Data : new List<TeamResponse> {})!;
     }
     
-    private string ActionText {
-        get { return Id == null ? "Create" : "Update"; }
-    }
+    private string ActionText => Id == null ? "Create" : "Update";
 
     private bool Loading { get; set; }
 
-    private string Title {
-        get { return $"{ActionText} User"; }
-    }
+    private string Title => $"{ActionText} User";
 
     private UserResponse Item { get; set; } = new UserResponse();
 
     protected override async Task OnInitializedAsync() {
-        
+        await base.OnInitializedAsync();
+        AccountPermission = await AuthState.GetPermission();
         if (Id != null) {
             Loading = true;
             var res = await Http.GetByIdAsync(Id.Value);
@@ -56,7 +55,6 @@
             }
             Loading = false;
         }
-        await base.OnInitializedAsync();
     }
 
     async Task Submit() {
@@ -114,17 +112,30 @@
                         <MudItem xs="12">
                             <MudTextField Disabled="Loading" Variant="Variant.Outlined" @bind-Value="Item.Phone" InputType="InputType.Telephone" T="string" Label="Phone"/>
                         </MudItem>
-                        <AuthorizeView Roles="System">
+                        <AuthorizeView Roles="System,Administrator">
                             <Authorized>
                                 <MudItem xs="12">
                                     <MudSelect Disabled="Loading" T="UserPermission" Label="Permission" Variant="Variant.Outlined" For="@(()=>Item.Permission)"
                                                @bind-Value="Item.Permission" AnchorOrigin="Origin.BottomCenter">
                                         @foreach (var p in Enum.GetValues<UserPermission>()) {
-                                            <MudSelectItem Value="p">@p.ToDescriptionString().Capitalize()</MudSelectItem>
+                                            @switch (p) {
+                                                case UserPermission.System:
+                                                    @if (AccountPermission == UserPermission.System) {
+                                                        <MudSelectItem Value="@p">@p.ToDescriptionString().Capitalize()</MudSelectItem>
+                                                    }
+                                                    break;
+                                                case UserPermission.Administrator:
+                                                    @if (AccountPermission <= UserPermission.Administrator) {
+                                                        <MudSelectItem Value="@p">@p.ToDescriptionString().Capitalize()</MudSelectItem>
+                                                    }
+                                                    break;
+                                                default:
+                                                    <MudSelectItem Value="@p">@p.ToDescriptionString().Capitalize()</MudSelectItem>
+                                                    break;
+                                            }
                                         }
                                     </MudSelect>
                                 </MudItem>
-                                
                             </Authorized>
                         </AuthorizeView>
                         <MudItem xs="12">
