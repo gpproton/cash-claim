@@ -24,23 +24,19 @@
     
     private async Task<IEnumerable<CategoryResponse>> SearchCategory(string value) {
         var response = await CategoryService.GetAllAsync(new SearchFilter { Search = value });
-        return (response.Succeeded ? response.Data : new List<CategoryResponse> {})!;
+        return (response.Succeeded ? response.Data : new List<CategoryResponse>())!;
     }
     
     private async Task<IEnumerable<CurrencyResponse>> SearchCurrency(string value) {
         var response = await CurrencyService.GetAllAsync(new SearchFilter { Search = value });
-        return (response.Succeeded ? response.Data : new List<CurrencyResponse> {})!;
+        return (response.Succeeded ? response.Data : new List<CurrencyResponse>())!;
     }
     
-    private string ActionText {
-        get { return Id == null ? "Create" : "Update"; }
-    }
+    private string ActionText => Id == null ? "Create" : "Update";
 
     private bool Loading { get; set; }
 
-    private string Title {
-        get { return $"{ActionText} Claim"; }
-    }
+    private string Title => $"{ActionText} Claim";
 
     private ClaimResponse Item { get; set; } = new ClaimResponse();
 
@@ -74,7 +70,7 @@
     }
 
     async Task TriggerArchive(bool state) {
-        if (Item?.Id != null && state) {
+        if (Item.Id != null && state) {
             var result = (await Http.ArchiveAsync(Item.Id.Value)).Succeeded;
             Snackbar.Add(result ? "Deleted successfully" : "Archiving failed", result ? Severity.Success : Severity.Error);
             MudDialog.Close(DialogResult.Ok(result));
@@ -83,9 +79,7 @@
 
     readonly IList<IBrowserFile> _files = new List<IBrowserFile>();
     
-    private string? AmountTooLow(string s) {
-        return Decimal.Parse(s) < 100 ? "Amount must be more than 100" : null;
-    }
+    private static string? AmountTooLow(string s) => Decimal.Parse(s) < 100 ? "Amount must be more than 100" : null;
     
     private void UploadFiles(IReadOnlyList<IBrowserFile> files) {
         foreach (var file in files) {

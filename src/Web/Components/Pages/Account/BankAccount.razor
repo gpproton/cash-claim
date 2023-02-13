@@ -12,10 +12,10 @@
     bool _success;
     string[] _errors = { };
     MudForm? _form;
-    
-    private BankResponse? Bank { get; set; }
 
-    private BankAccountResponse? Item { get; set; } = new BankAccountResponse();
+    private BankResponse Bank { get; set; } = new BankResponse();
+
+    private BankAccountResponse Item { get; set; } = new BankAccountResponse();
     
     private async Task<IEnumerable<BankResponse>> SearchBank(string value) {
         var response = await BankService.GetAllAsync(new SearchFilter { Search = value });
@@ -27,7 +27,7 @@
         Loading = true;
         var result = await ProfileService.GetBankAccountAsync();
         if (result is { Succeeded: true, Data: { } }) {
-            Bank = result.Data.Bank;
+            Bank = result.Data.Bank!;
             Item = result.Data;
         }
         Loading = false;
@@ -37,15 +37,13 @@
         await _form!.Validate();
         if (!_success) return;
         
-        if (Item != null) {
-            Item.BankId = Bank?.Id;
-            var result = await ProfileService.UpdateBankAccountAsync(Item);
-            Snackbar.Clear();
-            await Task.Delay(500);
-            Snackbar.Add(result.Succeeded ? "Updated successfully.." : "Update failed..", result.Succeeded ? Severity.Success : Severity.Error);
-            if (result.Succeeded) {
-                Nav.NavigateBack();
-            }
+        Item.BankId = Bank?.Id;
+        var result = await ProfileService.UpdateBankAccountAsync(Item);
+        Snackbar.Clear();
+        await Task.Delay(500);
+        Snackbar.Add(result.Succeeded ? "Updated successfully.." : "Update failed..", result.Succeeded ? Severity.Success : Severity.Error);
+        if (result.Succeeded) {
+            Nav.NavigateBack();
         }
     }
 }
