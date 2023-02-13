@@ -11,6 +11,8 @@ public sealed class PaymentEntity : BaseEntity {
     public decimal Amount { get; set; }
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
+    public CompanyEntity? Company { get; set; }
+    public Guid? CompanyId { get; set; }
     public UserEntity? CreatedBy { get; set; }
     public Guid? CreatedById { get; set; }
     public DateTime? ConfirmedAt { get; set; }

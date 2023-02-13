@@ -8,6 +8,8 @@ public class PaymentResponse : BaseResponse {
     public string Notes { get; set; } = string.Empty;
     public UserResponse? Owner { get; set; }
     public Guid? OwnerId { get; set; }
+    public CompanyResponse? Company { get; set; }
+    public Guid? CompanyId { get; set; }
     public UserResponse? CreatedBy { get; set; }
     public Guid? CreatedById { get; set; }
     public DateTime? ConfirmedAt { get; set; }

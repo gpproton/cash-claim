@@ -12,6 +12,4 @@ public class PaymentStateResponse : BaseResponse {
     public DateTime? ConfirmedAt { get; set; }
     public bool Confirmed => ConfirmedAt != null;
     public int Count { get; set; }
-    public ICollection<ClaimResponse> Claims { get; set; } = default!;
-    public ICollection<FileResponse> Files { get; set; } = default!;
 }
