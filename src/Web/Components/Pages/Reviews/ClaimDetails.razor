@@ -24,6 +24,8 @@
     [Parameter]
     public ClaimStateResponse? Item { get; set; } = new ClaimStateResponse();
 
+    private bool IsOwner => Item.OwnerId == UserId;
+
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
         var user = await AuthState.GetAccount();
@@ -109,9 +111,11 @@
             } else {
                 @if (State == ActionState.None) {
                     <MudStack Row="true" Justify="Justify.SpaceEvenly">
-                        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="() => State = ActionState.Approve"
+                        <MudButton Disabled="IsOwner" Color="Color.Primary" Variant="Variant.Filled"
+                                   OnClick="() => State = ActionState.Approve"
                                    Size="Size.Large" Class="px-12 py-3">Approve</MudButton>
-                        <MudButton Color="Color.Primary" Variant="Variant.Text" OnClick="() => State = ActionState.Reject"
+                        <MudButton Disabled="IsOwner" Color="Color.Primary" Variant="Variant.Text"
+                                   OnClick="() => State = ActionState.Reject"
                                    Size="Size.Large" Class="px-12 py-3">Reject</MudButton>
                     </MudStack>
                 } else {
