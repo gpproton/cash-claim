@@ -11,6 +11,7 @@ using XClaim.Common.Wrappers;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Entities;
 using XClaim.Web.Server.Helpers;
+using XClaim.Web.Server.Modules.UserModule;
 
 namespace XClaim.Web.Server.Modules.ClaimModule;
 
@@ -57,7 +58,6 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
                        .Where(x => x.Id == id)
                        .Include(x => x.Payment)
                        .Include(x => x.Currency)
-                       .Include(x => x.Files)
                        .FirstOrDefaultAsync();
             var data = _mapper.Map<ClaimResponse>(item);
             response.Data = data;
@@ -74,14 +74,14 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
         var user = await _identity.GetUser();
         var response = new Response<ClaimResponse>();
         try {
-            var item = _mapper.Map<ClaimEntity>(value);
-            await _ctx.Set<ClaimEntity>().AddAsync(item);
+            var item = value.MapTo<ClaimEntity>();
             item.OwnerId = await _identity.GetId();
             item.CompanyId = await _identity.GetCompanyId();
+            await _ctx.Claims.AddAsync(item);
             await _ctx.SaveChangesAsync();
-            if (user is { Permission: <= UserPermission.Finance })
+            if (user is { Permission: <= UserPermission.Finance }) {
                 await this.ReviewValidateAsync(item.Id,  ClaimStatus.None, new CommentResponse { Content = "Confirmed by default."});
-                
+            }
             var data = _mapper.Map<ClaimResponse>(item);
             response = new Response<ClaimResponse>(data!) {
                 Succeeded = data != null
@@ -222,6 +222,69 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
             _logger.LogError(e.ToString());
         }
 
+        return response;
+    }
+    public async Task<PagedResponse<List<UserResponse>>> GetPendingClaimUserListAsync(UserFilter requestFilter) {
+        var response = new PagedResponse<List<UserResponse>>();
+        try {
+            var companyId = await _identity.GetCompanyId();
+            var claimUsers = await _ctx.Claims.Where(x => x.CompanyId == companyId)
+                 .Where(x => x.PaymentId == null)
+                 .Select(x => x.OwnerId)
+                 .Take(55)
+                 .ToListAsync();
+            var query = _ctx.Users
+                .Where(x => claimUsers.Contains(x.Id))
+                .ApplyFilter(requestFilter);
+            var count = await query.CountAsync();
+            var data = await query.ToListAsync();
+            var filter = requestFilter.MapTo<PaginationFilter>();
+            var result = data.MapTo<List<UserResponse>>();
+            response = new PagedResponse<List<UserResponse>>(result, count, filter) {
+                Succeeded = true
+            };
+        }
+        catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+
+        return response;
+    }
+
+    public async Task<Response<List<FileResponse>>> GetFileAsync(Guid claimId) {
+        var response = new Response<List<FileResponse>>();
+        try {
+            var item = await _ctx.Claims.Where(x => x.Id == claimId)
+                       .Include(x => x.Files)
+                       .Select(x => x.Files)
+                       .ToListAsync();
+            var data = item.MapTo<List<FileResponse>>();
+            response.Data = data;
+            response.Succeeded = true;
+        } catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+        
+        return response;
+    }
+    
+    public async Task<Response<List<CommentResponse>>> GetCommentAsync(Guid claimId) {
+        var response = new Response<List<CommentResponse>>();
+        try {
+            var item = await _ctx.Claims.Where(x => x.Id == claimId)
+                       .Include(x => x.Comments)
+                       .Select(x => x.Comments)
+                       .ToListAsync();
+            var data = item.MapTo<List<CommentResponse>>();
+            response.Data = data;
+            response.Succeeded = true;
+        } catch (Exception e) {
+            response.Errors = new[] { e.ToString() };
+            _logger.LogError(e.ToString());
+        }
+        
         return response;
     }
 }

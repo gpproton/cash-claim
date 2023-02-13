@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using XClaim.Common.Dtos;
 using XClaim.Common.Enums;
 using XClaim.Web.Server.Helpers;
+using XClaim.Web.Server.Modules.UserModule;
 using YamlDotNet.Core.Events;
 
 namespace XClaim.Web.Server.Modules.ClaimModule;
@@ -87,6 +88,21 @@ public class ClaimModule : IModule {
             var result = await sv.ReviewValidateAsync(id, ClaimStatus.Cancelled, null);
             return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"ReviewCancel{name}").WithOpenApi();
+        
+        group.MapGet("/pending-users", async (ClaimService sv, [AsParameters] UserFilter filter) =>
+        await sv.GetPendingClaimUserListAsync(filter))
+        .WithName($"GetAllPending{name}Users")
+        .WithOpenApi();
+        
+        group.MapGet("/file/{id:guid}", async (Guid id, ClaimService sv) => {
+            var result = await sv.GetFileAsync(id);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
+        }).WithName($"Review{name}Files").WithOpenApi();
+        
+        group.MapGet("/comment/{id:guid}", async (Guid id, ClaimService sv) => {
+            var result = await sv.GetCommentAsync(id);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
+        }).WithName($"Review{name}Comments").WithOpenApi();
 
         return group;
     }
