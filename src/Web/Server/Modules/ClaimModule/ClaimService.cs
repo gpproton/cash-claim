@@ -224,7 +224,7 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
 
         return response;
     }
-    public async Task<PagedResponse<List<UserResponse>>> GetPendingClaimUserListAsync(UserFilter requestFilter) {
+    public async Task<PagedResponse<List<UserResponse>>> GetPendingUserAsync(UserFilter requestFilter) {
         var response = new PagedResponse<List<UserResponse>>();
         try {
             var companyId = await _identity.GetCompanyId();
@@ -252,16 +252,20 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
         return response;
     }
 
-    public async Task<Response<List<FileResponse>>> GetFileAsync(Guid claimId) {
-        var response = new Response<List<FileResponse>>();
+    public async Task<PagedResponse<List<FileResponse>>> GetFileAsync(Guid claimId, PaginationFilterBase requestFilter) {
+        var response = new PagedResponse<List<FileResponse>>();
         try {
-            var item = await _ctx.Claims.Where(x => x.Id == claimId)
-                       .Include(x => x.Files)
-                       .Select(x => x.Files)
-                       .ToListAsync();
-            var data = item.MapTo<List<FileResponse>>();
-            response.Data = data;
-            response.Succeeded = true;
+            var query = _ctx.Claims.Where(x => x.Id == claimId)
+                   .ApplyFilter(requestFilter)
+                   .Include(x => x.Files)
+                   .Select(x => x.Files);
+            var count = await query.CountAsync();
+            var data = await query.ToListAsync();
+            var filter = requestFilter.MapTo<PaginationFilter>();
+            var result = data.MapTo<List<FileResponse>>();
+            response = new PagedResponse<List<FileResponse>>(result, count, filter) {
+                Succeeded = true
+            };
         } catch (Exception e) {
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());
@@ -270,8 +274,8 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
         return response;
     }
     
-    public async Task<Response<List<CommentResponse>>> GetCommentAsync(Guid claimId) {
-        var response = new Response<List<CommentResponse>>();
+    public async Task<PagedResponse<List<CommentResponse>>> GetCommentAsync(Guid claimId, PaginationFilterBase requestFilter) {
+        var response = new PagedResponse<List<CommentResponse>>();
         try {
             var item = await _ctx.Claims.Where(x => x.Id == claimId)
                        .Include(x => x.Comments)

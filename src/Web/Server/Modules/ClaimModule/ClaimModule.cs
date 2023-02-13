@@ -90,17 +90,17 @@ public class ClaimModule : IModule {
         }).WithName($"ReviewCancel{name}").WithOpenApi();
         
         group.MapGet("/pending-users", async (ClaimService sv, [AsParameters] UserFilter filter) =>
-        await sv.GetPendingClaimUserListAsync(filter))
+        await sv.GetPendingUserAsync(filter))
         .WithName($"GetAllPending{name}Users")
         .WithOpenApi();
         
-        group.MapGet("/file/{id:guid}", async (Guid id, ClaimService sv) => {
-            var result = await sv.GetFileAsync(id);
+        group.MapGet("/file/{id:guid}", async (Guid id, ClaimService sv, [AsParameters] GenericFilter filter) => {
+            var result = await sv.GetFileAsync(id, filter);
             return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Review{name}Files").WithOpenApi();
         
-        group.MapGet("/comment/{id:guid}", async (Guid id, ClaimService sv) => {
-            var result = await sv.GetCommentAsync(id);
+        group.MapGet("/comment/{id:guid}", async (Guid id, ClaimService sv, [AsParameters] GenericFilter filter) => {
+            var result = await sv.GetCommentAsync(id, filter);
             return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Review{name}Comments").WithOpenApi();
 

@@ -1,3 +1,4 @@
+using AutoFilterer.Types;
 using XClaim.Common.Dtos;
 using XClaim.Common.Enums;
 using XClaim.Common.Wrappers;
@@ -12,9 +13,9 @@ public interface IClaimService {
 
     Task<Response<ClaimStateResponse?>> ReviewValidateAsync(Guid id, ClaimStatus action, CommentResponse comment);
     
-    Task<PagedResponse<List<UserResponse>>> GetPendingClaimUserListAsync(UserFilter requestFilter);
+    Task<PagedResponse<List<UserResponse>>> GetPendingUserAsync(UserFilter requestFilter);
     
-    Task<Response<List<FileResponse>>> GetFileAsync(Guid claimId);
+    Task<PagedResponse<List<FileResponse>>> GetFileAsync(Guid claimId, PaginationFilterBase requestFilter);
     
-    Task<Response<List<CommentResponse>>> GetCommentAsync(Guid claimId);
+    Task<PagedResponse<List<CommentResponse>>> GetCommentAsync(Guid claimId, PaginationFilterBase requestFilter);
 }
