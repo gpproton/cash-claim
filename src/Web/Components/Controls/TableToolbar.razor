@@ -5,6 +5,7 @@
 @typeparam TValue
 
 @code {
+    #pragma warning disable BL0007
     string _search = string.Empty;
     
     [Parameter]
@@ -76,14 +77,16 @@
     }
 }
 
-<MudTextField @bind-Value="Search" Style="max-width: 300px" Variant="Variant.Outlined" DisableUnderLine="true" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
-<MudSpacer />
+<MudStack Row="true" Style="width: 100%"  Spacing="2" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+    <MudTextField @bind-Value="Search" Margin="Margin.None" Style="max-width: 260px" Variant="Variant.Outlined" DisableUnderLine="true" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    <MudStack Row="true" Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Spacing="1">
+        @ChildContent
+        @if (IsFilterActive) {
+            <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Tune" Variant="Variant.Outlined" OnClick="TriggerFilter" Color="Color.Primary" Size="Size.Large" />
+        }
+        @if (IsCreateActive) {
+            <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Add" OnClick="TriggerCreate" Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" />
+        }
+    </MudStack>
+</MudStack>
 
-@ChildContent
-
-@if (IsFilterActive) {
-    <MudIconButton Class="pa-2 mr-2" Icon="@Icons.Material.Filled.Tune" Variant="Variant.Outlined" OnClick="TriggerFilter" Color="Color.Primary" Size="Size.Large" />
-}
-@if (IsCreateActive) {
-    <MudIconButton Class="px-3 py-2" Icon="@Icons.Material.Filled.Add" OnClick="TriggerCreate" Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" />
-}
