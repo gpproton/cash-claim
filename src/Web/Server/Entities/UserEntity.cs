@@ -7,7 +7,7 @@ namespace XClaim.Web.Server.Entities;
 
 [Index(nameof(Email), IsUnique = true)]
 [Index(nameof(Identifier), IsUnique = true)]
-public sealed class UserEntity : BaseEntity {
+public sealed class UserEntity : TimedEntity {
     public string Identifier { get; set; } = string.Empty;
     [MaxLength(256)]
     public string Email { get; set; } = string.Empty;

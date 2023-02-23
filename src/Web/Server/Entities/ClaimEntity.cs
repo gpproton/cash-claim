@@ -4,7 +4,7 @@ using XClaim.Common.Enums;
 
 namespace XClaim.Web.Server.Entities;
 
-public sealed class ClaimEntity : BaseEntity {
+public sealed class ClaimEntity : TimedEntity {
     [Required]
     [MaxLength(256)]
     public string? Description { get; set; }

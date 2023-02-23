@@ -3,7 +3,7 @@ using XClaim.Common.Base;
 
 namespace XClaim.Web.Server.Entities;
 
-public sealed class CompanyEntity : BaseEntity {
+public sealed class CompanyEntity : TimedEntity {
     public bool Active { get; set; }
     [MaxLength(64)]
     public string ShortName { get; set; } = String.Empty;

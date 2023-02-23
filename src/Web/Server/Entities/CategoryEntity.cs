@@ -3,7 +3,7 @@ using XClaim.Common.Base;
 
 namespace XClaim.Web.Server.Entities;
 
-public sealed class CategoryEntity : BaseEntity {
+public sealed class CategoryEntity : TimedEntity {
     [MaxLength(128)]
     public string Name { get; set; } = string.Empty;
     public CompanyEntity? Company { get; set; }

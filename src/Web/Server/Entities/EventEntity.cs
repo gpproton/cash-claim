@@ -5,6 +5,7 @@ using XClaim.Common.Enums;
 namespace XClaim.Web.Server.Entities;
 
 public sealed class EventEntity : BaseEntity {
+    public DateTime CreatedAt { get; set; }
     public EventType Type { get; set; } = EventType.Claim;
     public ClaimEntity? Claim { get; set; }
     public Guid? ClaimId { get; set; }

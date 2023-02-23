@@ -3,7 +3,7 @@ using XClaim.Common.Enums;
 
 namespace XClaim.Web.Server.Entities;
 
-public class NotificationEntity : BaseEntity {
+public class NotificationEntity : TimedEntity {
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
     public bool Disabled { get; set; }

@@ -3,7 +3,7 @@ using XClaim.Common.Base;
 
 namespace XClaim.Web.Server.Entities;
 
-public sealed class FileEntity : BaseEntity {
+public sealed class FileEntity : TimedEntity {
     [MaxLength(256)]
     public string Name { get; set; } = string.Empty;
     [Required]

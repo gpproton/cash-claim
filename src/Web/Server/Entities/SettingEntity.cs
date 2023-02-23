@@ -3,7 +3,7 @@ using XClaim.Common.Enums;
 
 namespace XClaim.Web.Server.Entities;
 
-public class SettingEntity : BaseEntity {
+public class SettingEntity : TimedEntity {
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
     public bool DarkMode { get; set; }

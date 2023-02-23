@@ -3,7 +3,7 @@ using XClaim.Common.Base;
 
 namespace XClaim.Web.Server.Entities;
 
-public sealed class PaymentEntity : BaseEntity {
+public sealed class PaymentEntity : TimedEntity {
     [MaxLength(256)]
     public string? Description { get; set; }
     [MaxLength(1024)]

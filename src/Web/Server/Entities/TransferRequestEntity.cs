@@ -2,7 +2,7 @@ using XClaim.Common.Base;
 
 namespace XClaim.Web.Server.Entities;
 
-public class TransferRequestEntity : BaseEntity {
+public class TransferRequestEntity : TimedEntity {
     public UserEntity? User { get; set; }
     public Guid? UserId { get; set; }
     public CompanyEntity? Company { get; set; }

@@ -6,7 +6,7 @@ namespace XClaim.Web.Server.Entities;
 
 [Index(nameof(Name), IsUnique = true)]
 [Index(nameof(Code), IsUnique = true)]
-public class CurrencyEntity : BaseEntity {
+public class CurrencyEntity : TimedEntity {
     public string Name { get; set; } = string.Empty;
     [MaxLength(1)]
     public string? Symbol { get; set; } = string.Empty;
