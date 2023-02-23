@@ -16,11 +16,11 @@ public static class SoftDeleteQueryExtension {
         var filter = methodToCall?.Invoke(null, new object[] { });
         entityData.SetQueryFilter((LambdaExpression)filter!);
         entityData.AddIndex(entityData.
-            FindProperty(nameof(IBaseEntity.DeletedAt))!);
+            FindProperty(nameof(ITimedEntity.DeletedAt))!);
     }
 
     private static LambdaExpression GetSoftDeleteFilter<TEntity>()
-        where TEntity : class, IBaseEntity {
+        where TEntity : ITimedEntity {
         Expression<Func<TEntity, bool>> filter = x => x.DeletedAt == null;
         return filter;
     }

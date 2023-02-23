@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using XClaim.Common.Base;
 using XClaim.Common.Enums;
 using XClaim.Web.Server.Converters;
@@ -11,11 +10,11 @@ public partial class ServerContext : DbContext {
     public ServerContext(DbContextOptions<ServerContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder mx) {
-        // base.OnModelCreating(mx);
-
+        mx.EnableAutoHistory<AuditHistory>(o => { });
+        
         // Handle soft delete query filter
         foreach (var entityType in mx.Model.GetEntityTypes())
-            if (typeof(IBaseEntity).IsAssignableFrom(entityType.ClrType))
+            if (typeof(ITimedEntity).IsAssignableFrom(entityType.ClrType))
                 entityType.AddSoftDeleteQueryFilter();
 
         // User - Company (Manager) One to One
@@ -61,4 +60,5 @@ public partial class ServerContext : DbContext {
     public DbSet<FileEntity> Files { get; set; } = default!;
     public DbSet<PaymentEntity> Payments { get; set; } = default!;
     public DbSet<TransferRequestEntity> TransferRequests { get; set; } = default!;
+    public DbSet<AuditHistory> AuditHistories { get; set; } = default!;
 }

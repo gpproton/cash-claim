@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Base;
+using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Data;
 
@@ -7,6 +8,7 @@ public partial class ServerContext {
     // REF: https://threewill.com/how-to-auto-generate-created-updated-field-in-ef-core/
     public override int SaveChanges(bool acceptAllChangesOnSuccess) {
         OnBeforeSaving();
+        this.EnsureAutoHistory(() => new AuditHistory());
         return base.SaveChanges(acceptAllChangesOnSuccess);
     }
 
@@ -15,6 +17,7 @@ public partial class ServerContext {
        CancellationToken cancellationToken = default
     ) {
         OnBeforeSaving();
+        this.EnsureAutoHistory(() => new AuditHistory());
         return (await base.SaveChangesAsync(acceptAllChangesOnSuccess,
                       cancellationToken));
     }
@@ -24,7 +27,7 @@ public partial class ServerContext {
         var utcNow = DateTime.UtcNow;
 
         foreach (var entry in entries) {
-            if (entry.Entity is BaseEntity trackable) {
+            if (entry.Entity is TimedEntity trackable) {
                 switch (entry.State) {
                     case EntityState.Added:
                         entry.Property("DeletedAt").IsModified = false;
@@ -34,7 +37,7 @@ public partial class ServerContext {
                         entry.Property("CreatedAt").IsModified = false;
                         entry.Property("DeletedAt").IsModified = false;
                         trackable.ModifiedAt = utcNow;
-                        break;
+                    break;
                     case EntityState.Deleted:
                         entry.State = EntityState.Modified;
                         entry.References.All(e => e.IsModified = true);
