@@ -25,7 +25,7 @@ public abstract class GenericService<TContext, TEntity, TResponse> : IService<TC
 
     public virtual async Task<PagedResponse<List<TResponse>>> GetAllAsync(PaginationFilterBase responseFilter) {
         var result = new PagedResponse<List<TResponse>>();
-        var query = _ctx.Set<TEntity>().Where(x => x.DeletedAt == null);
+        var query = _ctx.Set<TEntity>();
         try {
             var count = await query.CountAsync();
             var data = await query.ApplyFilter(responseFilter).ToListAsync();
