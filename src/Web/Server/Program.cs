@@ -58,8 +58,9 @@ builder.Services.AddSession(options => {
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt => {
-    _ = opt.UseAutoFiltererParameters();
+    opt.UseAutoFiltererParameters();
     opt.SwaggerDoc("v1", new OpenApiInfo { Title = $"X-Claim", Version = "v1" });
+    opt.OperationFilter<FileUploadOperationFilter>();
 });
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddControllersWithViews();
@@ -84,16 +85,22 @@ using (var scope = app.Services.CreateScope()) {
     await context.Database.MigrateAsync();
 }
 
+const string swaggerTittle = "X-Claim V1 Docs";
+const string swaggerPath = "/swagger/v1/swagger.json";
+app.UseReDoc(c => {
+    c.DocumentTitle = swaggerTittle;
+    c.SpecUrl(swaggerPath);
+});
+
 if (app.Environment.IsDevelopment()) {
     app.UseWebAssemblyDebugging();
-    _ = app.UseSwagger();
-    _ = app.UseSwaggerUI(opt => {
-        const string path = "/swagger/v1/swagger.json";
-        opt.SwaggerEndpoint(path, "X-Claim V1 Docs");
-        opt.DefaultModelExpandDepth(3);
-        opt.EnableDeepLinking();
-        opt.DisplayRequestDuration();
-        opt.ShowExtensions();
+        app.UseSwagger();
+        app.UseSwaggerUI(opt => {
+            opt.SwaggerEndpoint(swaggerPath, swaggerTittle);
+            opt.DefaultModelExpandDepth(3);
+            opt.EnableDeepLinking();
+            opt.DisplayRequestDuration();
+            opt.ShowExtensions();
     });
 }
 else {

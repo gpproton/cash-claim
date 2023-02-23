@@ -12,7 +12,7 @@ public class FileUploadService {
 
     private static string StaticFolderName { get; set; } = "StaticFiles";
 
-    public async Task<List<FileResponse>> UploadFiles(IFormFileCollection files) {
+    public async Task<List<FileResponse>> UploadFiles(IEnumerable<IFormFile> files) {
         List<FileResponse> uploads = new List<FileResponse>();
 
         var storePath = GetUploadFullPath();
