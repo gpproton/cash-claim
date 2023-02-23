@@ -1,0 +1,35 @@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@inject IBankService BankService
+
+@code {
+    #pragma warning disable BL0007
+    
+    private BankResponse? _value;
+    
+    [Parameter]
+    public BankResponse? Value { get => _value; set {
+        if(value == _value) return;
+        _value = value;  
+        if(ValueChanged.HasDelegate)  ValueChanged.InvokeAsync(_value);
+    }}
+    
+    [Parameter]
+    public bool Disabled { get; set; }
+    
+    [Parameter]
+    public bool Required { get; set; }
+    
+    [Parameter]
+    public EventCallback<BankResponse?> ValueChanged { get; set; }
+
+    private async Task<IEnumerable<BankResponse>> Search(string value) {
+        var response = await BankService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<BankResponse>())!;
+    }
+}
+
+<MudAutocomplete T="BankResponse" Label="Bank" @bind-Value="Value" SearchFunc="@Search"
+                 Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Value = null"
+                 Clearable="true" ToStringFunc="@(e => e.Name)" Disabled="@Disabled"
+                 Required="@Required" RequiredError="Bank is required!" />

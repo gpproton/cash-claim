@@ -1,0 +1,35 @@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@inject ICategoryService CategoryService
+
+@code {
+    #pragma warning disable BL0007
+    
+    private CategoryResponse? _value;
+    
+    [Parameter]
+    public CategoryResponse? Value { get => _value; set {
+        if(value == _value) return;
+        _value = value;  
+        if(ValueChanged.HasDelegate)  ValueChanged.InvokeAsync(_value);
+    }}
+    
+    [Parameter]
+    public EventCallback<CategoryResponse?> ValueChanged { get; set; }
+    
+    [Parameter]
+    public bool Disabled { get; set; }
+    
+    [Parameter]
+    public bool Required { get; set; }
+
+    private async Task<IEnumerable<CategoryResponse>> Search(string value) {
+        var response = await CategoryService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<CategoryResponse>())!;
+    }
+}
+
+<MudAutocomplete T="CategoryResponse" Label="Category" @bind-Value="Value" SearchFunc="@Search"
+                 Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Value = null"
+                 Clearable="true" ToStringFunc="@(e => e.Name)" Disabled="@Disabled"
+                 Required="@Required" RequiredError="Category is required!" />
