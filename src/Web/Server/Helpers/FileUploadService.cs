@@ -10,7 +10,7 @@ public class FileUploadService {
         _config = config;
     }
 
-    private static string StaticFolderName { get; set; } = "StaticFiles";
+    private static string StaticFolderName { get; set; } = "static-files";
 
     public async Task<List<FileResponse>> UploadFiles(IEnumerable<IFormFile> files) {
         List<FileResponse> uploads = new List<FileResponse>();
