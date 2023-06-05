@@ -24,4 +24,10 @@ public interface IClaimService {
     Task<Response<ClaimStateResponse>> RejectReviewAsync(Guid id, string comment);
     
     Task<Response<ClaimStateResponse>> ValidateReviewAsync(Guid id, string comment);
+    
+    Task<PagedResponse<List<UserResponse>>> GetPendingUserAsync(object? query = null);
+
+    Task<PagedResponse<List<FileResponse>>> GetFileAsync(Guid claimId, object? query = null);
+    
+    Task<PagedResponse<List<CommentResponse>>> GetCommentAsync(Guid claimId, object? query = null);
 }

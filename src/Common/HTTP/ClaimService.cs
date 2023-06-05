@@ -49,4 +49,13 @@ public class ClaimService : IClaimService {
     var uri = $"{RootApi}/review/validate/{id}";
         return await _http.Put<Response<ClaimStateResponse>>(uri, new CommentResponse { Content = comment});
     }
+    public async Task<PagedResponse<List<UserResponse>>> GetPendingUserAsync(object? query = null) {
+        return await _http.Get<PagedResponse<List<UserResponse>>>($"{RootApi}/pending-users", query);
+    }
+    public async Task<PagedResponse<List<FileResponse>>> GetFileAsync(Guid claimId, object? query = null) {
+        return await _http.Get<PagedResponse<List<FileResponse>>>($"{RootApi}/file/{claimId}", query);
+    }
+    public async Task<PagedResponse<List<CommentResponse>>> GetCommentAsync(Guid claimId, object? query = null) {
+        return await _http.Get<PagedResponse<List<CommentResponse>>>($"{RootApi}/file/{claimId}", query);
+    }
 }
