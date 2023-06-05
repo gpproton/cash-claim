@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0-preview.4.23260.4" />
+    <PackageReference Include="Proton.Common.AspNet" Version="8.0.0-preview.8" />
+    <PackageReference Include="Proton.Common.EFCore" Version="8.0.0-preview.8" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\common\http\XClaim.Common.Http.csproj" />
+    <ProjectReference Include="..\common\shared\XClaim.Common.csproj" />
     <ProjectReference Include="..\web\client\XClaim.Web.Client.csproj" />
     <ProjectReference Include="..\web\shared\XClaim.Web.Shared.csproj" />
   </ItemGroup>

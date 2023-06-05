@@ -11,6 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\common\XClaim.Common.csproj" />
+    <ProjectReference Include="..\..\common\shared\XClaim.Common.csproj" />
   </ItemGroup>
 </Project>
