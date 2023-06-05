@@ -1,5 +1,6 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
+@using XClaim.Web.Components.Pages.Transactions.Components
 @inject IPaymentService Http
 @page "/app/transactions"
 @attribute [Authorize(Roles = "System, Administrator, Finance, Cashier")]
@@ -46,29 +47,32 @@
              Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
-        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" IsCreateActive="false" @bind-Value="DateRange" @bind-Search="Search">
-            <MudIconButton Class="pa-3 mr-2" Icon="@Icons.Material.Filled.Checklist" Variant="Variant.Filled" Color="Color.Primary" />
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateTransaction" IsFilterActive="true" IsCreateActive="true" @bind-Value="DateRange" @bind-Search="Search">
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                <MudIconButton Class="pa-3 mr-2" Icon="@Icons.Material.Filled.Downloading" Variant="Variant.Filled" Color="Color.Surface"/>
+                <MudIconButton Class="pa-3 mr-2" Icon="@Icons.Material.Filled.Checklist" Variant="Variant.Filled" Color="Color.Primary"/>
+            </MudHidden>
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>
-         <TableLoading></TableLoading>
+        <TableLoading></TableLoading>
     </LoadingContent>
     <Columns>
         <SelectColumn T="PaymentResponse" ShowInFooter="false" ShowInHeader="false" />
-        <Column T="PaymentResponse" Field="Description" />
-        <Column T="PaymentResponse" Field="Amount" />
-        <Column T="ClaimResponse" Field="Owner">
+        <Column T="PaymentResponse" Field="Description"/>
+        <Column T="PaymentResponse" Field="Amount"/>
+        <Column T="PaymentResponse" Field="Owner">
             <CellTemplate>
-                @context.Item.Owner?.FullName
+                @(context.Item.Owner!.FullName ?? "Missing")
             </CellTemplate>
         </Column>
-        <Column T="PaymentResponse" Field="Completed" />
+        <Column T="PaymentResponse" Field="Confirmed" />
         <Column T="PaymentResponse" Field="Claims">
             <CellTemplate>1</CellTemplate>
         </Column>
         <Column T="PaymentResponse">
             <CellTemplate>
-                <FormEditTrigger TForm="TransactionView" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
+                <FormEditTrigger TForm="DetailTransaction" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
             </CellTemplate>
         </Column>
     </Columns>

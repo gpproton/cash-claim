@@ -22,6 +22,8 @@
     
     private CurrencyResponse? Currency { get; set; }
     
+    IList<IBrowserFile> _files = new List<IBrowserFile>();
+    
     private async Task<IEnumerable<CategoryResponse>> SearchCategory(string value) {
         var response = await CategoryService.GetAllAsync(new SearchFilter { Search = value });
         return (response.Succeeded ? response.Data : new List<CategoryResponse>())!;
@@ -77,15 +79,7 @@
         }
     }
 
-    readonly IList<IBrowserFile> _files = new List<IBrowserFile>();
-    
-    private static string? AmountTooLow(string s) => Decimal.Parse(s) < 100 ? "Amount must be more than 100" : null;
-    
-    private void UploadFiles(IReadOnlyList<IBrowserFile> files) {
-        foreach (var file in files) {
-            this._files.Add(file);
-        }
-    }
+    private static string AmountTooLow(string s) => Decimal.Parse(s) < 100 ? "Amount must be more than 100" : string.Empty;
 }
 
 <MudDialog>
@@ -93,7 +87,7 @@
         <MudStack Row="true" Justify="@( Id == null ? Justify.Center : Justify.SpaceBetween)">
             <MudText Align="Align.Center" Typo="Typo.h5">@Title</MudText>
             @if (Id != null) {
-                <ConfirmationDialog ButtonText="true" OnTriggered="TriggerArchive"></ConfirmationDialog>
+                <ConfirmationDialog ButtonText="true" OnTriggered="TriggerArchive" />
             }
         </MudStack>
     </TitleContent>
@@ -114,21 +108,15 @@
                     </MudItem>
                     <MudItem xs="12">
                         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                            <MudAutocomplete T="CategoryResponse" Label="Category" @bind-Value="Category" SearchFunc="@SearchCategory"
-                                             Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Category = null"
-                                             Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.Name}")"
-                                             Required="true" RequiredError="Category is required!" />
-                            <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="UploadFiles">
-                                <ButtonTemplate>
-                                    <MudIconButton HtmlTag="label" Class="pa-3" Variant="Variant.Filled" Color="Color.Primary"
-                                                   Size="Size.Large" Icon="@Icons.Material.Filled.CloudUpload" for="@context"/>
-                                </ButtonTemplate>
-                            </MudFileUpload>
+                            <CategoryAutoComplete Required="true" @bind-Value="Category" />
                         </MudStack>
                     </MudItem>
                     <MudItem xs="12">
-                        <MudExpansionPanels MultiExpansion="true">
-                            <MudExpansionPanel Text="More Options" Icon="@Icons.Material.Filled.Filter4">
+                        <FileUpload @bind-Value="_files" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudExpansionPanels>
+                            <MudExpansionPanel Text="More Options" Icon="@Icons.Material.Filled.ArrowDropDown">
                                 <MudGrid>
                                     <MudItem xs="12">
                                         <MudSelect T="ClaimPriority" Label="Priority" Variant="Variant.Outlined" @bind-Value="Item.Priority"
@@ -139,42 +127,12 @@
                                         </MudSelect>
                                     </MudItem>
                                     <MudItem xs="12">
-                                        <MudAutocomplete T="CurrencyResponse" Label="Currency" @bind-Value="Currency" SearchFunc="@SearchCurrency"
-                                                         Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Currency = null"
-                                                         Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.Symbol} - {e.Name}")"
-                                                         Required="true" RequiredError="Currency selection is required!"/>
+                                        <CurrencyAutoComplete Required="true" @bind-Value="Currency" />
                                     </MudItem>
                                     <MudItem xs="12">
                                         <MudTextField Variant="Variant.Outlined" Lines="4" @bind-Value="Item.Notes" T="string" Label="Notes"/>
                                     </MudItem>
                                 </MudGrid>
-                            </MudExpansionPanel>
-                            <MudExpansionPanel Text="Files" Icon="@Icons.Material.Filled.FileCopy">
-                                <MudPaper>
-                                    @if (_files.Count > 0) {
-                                        <MudPaper Height="250" MaxHeight="250">
-                                            <MudStack Row="true" Justify="Justify.Center">
-                                                <MudText Typo="Typo.subtitle1">Uploads</MudText>
-                                            </MudStack>
-                                            <MudList Dense="true">
-                                                @foreach (var file in _files) {
-                                                    <MudListItem Dense="true" Icon="@Icons.Material.Filled.AttachFile">
-                                                        <MudStack Spacing="0" Row="true" Justify="Justify.SpaceBetween">
-                                                            <MudText>@file.Name - @(Math.Round(file.Size / (decimal)(1000 * 1000), 2))Mb</MudText>
-                                                            <MudIconButton Icon="@Icons.Material.Filled.Cancel" OnClick="() => _files.RemoveAt(_files.IndexOf(file))"/>
-                                                        </MudStack>
-                                                    </MudListItem>
-                                                    <MudDivider/>
-                                                }
-                                            </MudList>
-                                        </MudPaper>
-                                    }
-                                    else {
-                                        <MudStack Row="true" Justify="Justify.Center">
-                                            <MudText>No file uploaded.</MudText>
-                                        </MudStack>
-                                    }
-                                </MudPaper>
                             </MudExpansionPanel>
                         </MudExpansionPanels>
                     </MudItem>

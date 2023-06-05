@@ -24,7 +24,7 @@
     [Parameter]
     public ClaimStateResponse? Item { get; set; } = new ClaimStateResponse();
 
-    private bool IsOwner => Item.OwnerId == UserId;
+    private bool IsOwner => Item!.OwnerId == UserId;
 
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();

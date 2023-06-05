@@ -19,8 +19,6 @@
             Loading = true;
             var response = (await Http.GetByIdAsync(Id.Value)).Data;
             if (response != null) {
-                // Category = response.Category;
-                // response.Company = null;
                 Item = response;
             }
             Loading = false;
