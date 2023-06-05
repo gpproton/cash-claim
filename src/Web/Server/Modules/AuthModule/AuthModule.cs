@@ -15,14 +15,14 @@ public class AuthModule : IModule {
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
         const string name = "Authentication";
-        var url = $"/auth";
+        const string url = $"/auth";
         var group = endpoints.MapGroup(url).WithTags(name);
 
         group.MapGet("/sign-in", ([FromQuery] string? redirect) => {
-            var redirectValue = redirect.IsNullOrEmpty() ? WebConst.RootUri : redirect;
+            var redirectUri = Environment.GetEnvironmentVariable("ROOT_URI") ?? (redirect.IsNullOrEmpty() ? WebConst.RootUri : redirect);
             var props = new AuthenticationProperties {
                 IsPersistent = true,
-                RedirectUri = redirectValue
+                RedirectUri = redirectUri
             };
 
             return Results.Challenge(props, new[] { MicrosoftAccountDefaults.AuthenticationScheme });

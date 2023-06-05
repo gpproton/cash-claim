@@ -5,7 +5,7 @@
 @typeparam TValue
 
 @code {
-    // Search bindings
+    #pragma warning disable BL0007
     string _search = string.Empty;
     
     [Parameter]
@@ -18,7 +18,6 @@
     [Parameter]
     public EventCallback<string?> SearchChanged { get; set; }
     
-    // Date bindings
     [Parameter]
     public bool IsFilterActive { get; set; }
 
@@ -37,11 +36,9 @@
     [Parameter]
     public EventCallback<TValue?> ValueChanged { get; set; }
     
-    // Create click event callback
     [Parameter]
     public EventCallback<bool> OnCreateClicked { get; set; }
-
-    // Extra content
+    
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -52,27 +49,24 @@
     public string CreateTitle { get; set; } = "Create";
 
     [Parameter]
-    public DialogParameters DialogParameters { get; set; } = new() { };
+    public DialogParameters DialogParameters { get; set; } = new DialogParameters { };
 
     [Parameter]
-    public DialogOptions DialogOptions { get; set; } = new () { CloseButton = false, MaxWidth = MaxWidth.ExtraSmall };
+    public DialogOptions DialogOptions { get; set; } = new DialogOptions { CloseButton = false, MaxWidth = MaxWidth.ExtraSmall };
     
     [Parameter]
-    public DialogOptions CreateDialogOptions { get; set; } = new () { CloseButton = false, MaxWidth = MaxWidth.Medium };
+    public DialogOptions CreateDialogOptions { get; set; } = new DialogOptions { CloseButton = false, MaxWidth = MaxWidth.Medium };
     
-    async Task TriggerFilter()
-    {
+    async Task TriggerFilter() {
         var dialog = await DialogService.ShowAsync<TFilter>(FilterTitle, DialogParameters, DialogOptions);
         var result = await dialog.Result;
         if (!result.Canceled) Value = result.Data.As<TValue>();
     }
 
-    async Task TriggerCreate()
-    {
+    async Task TriggerCreate() {
         var dialog = await DialogService.ShowAsync<TCreate>(CreateTitle, DialogParameters, CreateDialogOptions);
         var result = await dialog.Result;
-        if (!result.Canceled)
-        {
+        if (!result.Canceled) {
             var value = result.Data.As<bool>();
             Snackbar.Clear();
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
@@ -83,14 +77,16 @@
     }
 }
 
-<MudTextField @bind-Value="Search" Style="max-width: 300px" Variant="Variant.Outlined" DisableUnderLine="true" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
-<MudSpacer />
+<MudStack Row="true" Style="width: 100%"  Spacing="2" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+    <MudTextField @bind-Value="Search" Margin="Margin.None" Style="max-width: 260px" Variant="Variant.Outlined" DisableUnderLine="true" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    <MudStack Row="true" Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Spacing="1">
+        @ChildContent
+        @if (IsFilterActive) {
+            <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Tune" Variant="Variant.Outlined" OnClick="TriggerFilter" Color="Color.Primary" Size="Size.Large" />
+        }
+        @if (IsCreateActive) {
+            <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Add" OnClick="TriggerCreate" Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" />
+        }
+    </MudStack>
+</MudStack>
 
-@ChildContent
-
-@if (IsFilterActive) {
-    <MudIconButton Class="pa-2 mr-2" Icon="@Icons.Material.Filled.Tune" Variant="Variant.Outlined" OnClick="TriggerFilter" Color="Color.Primary" Size="Size.Large" />
-}
-@if (IsCreateActive) {
-    <MudIconButton Class="px-3 py-2" Icon="@Icons.Material.Filled.Add" OnClick="TriggerCreate" Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" />
-}

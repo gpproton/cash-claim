@@ -4,6 +4,13 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>4102fda6-15af-4599-9d0f-a2916d92f41a</UserSecretsId>
+		<PublishProvider>FileSystem</PublishProvider>
+		<WebPublishMethod>FileSystem</WebPublishMethod>
+		<PublishUrl>published</PublishUrl>
+		<DeleteExistingFiles>true</DeleteExistingFiles>
+		<EnableSdkContainerSupport>false</EnableSdkContainerSupport>
+		<ContainerGenerateLabels>false</ContainerGenerateLabels>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,23 +25,29 @@
 		<PackageReference Include="AutoFilterer.Generators" Version="2.13.0" />
 		<PackageReference Include="AutoFilterer.Swagger" Version="2.13.0" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+		<PackageReference Include="EFCore.BulkExtensions" Version="7.0.1" />
 		<PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="7.0.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="7.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.AutoHistory" Version="6.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		  <PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
+		<PackageReference Include="Microsoft.NET.Build.Containers" Version="0.3.2" PrivateAssets="all" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.5.0" />
+		<PackageReference Include="SourceExpress.ShorterGuid" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -44,6 +57,12 @@
 
     <ItemGroup>
       <Folder Include="Migrations" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="config.ini">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 

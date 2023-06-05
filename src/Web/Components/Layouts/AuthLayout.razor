@@ -1,25 +1,28 @@
 @inherits LayoutComponentBase
-@inject NavigationManager Nav
+@inject AuthState AuthState
+@inject AppState AppState
+@inject Navigation Nav
 
-@code {
-    void SignIn() => Nav.NavigateTo($"{Nav.BaseUri}{WebConst.ApiAuth}", true);
-    void SignOut() => Console.WriteLine("Trigger SignOut");
-}
-
-<MudAppBar Elevation="1">
-    <MudText Typo="Typo.h5" Class="ml-3">X-Claim</MudText>
-    <MudSpacer />
-    <AuthorizeView>
-        <Authorized>
-            <MudButton Variant="Variant.Outlined" Class="px-12 px-4 white text-indigo" Size="Size.Large" OnClick="SignOut">Sign Out</MudButton>
-        </Authorized>
-        <NotAuthorized>
-            <MudButton Variant="Variant.Outlined" Class="px-12 px-4 white text-indigo" Size="Size.Large" OnClick="SignIn">Sign In</MudButton>
-        </NotAuthorized>
-    </AuthorizeView>
+<MudAppBar Color="Color.Transparent" Elevation="0">
+    <MudStack Row="true" AlignItems="AlignItems.Center" Style="cursor: pointer" @onclick='() => Nav.NavigateTo("/")'>
+        <MudAvatar Rounded="true" Size="Size.Medium" Color="Color.Primary">
+            <MudText Typo="Typo.h5" Style="font-weight: bold">X</MudText>
+        </MudAvatar>
+        <MudText Typo="Typo.h5" Color="Color.Primary" Style="font-weight: bold" Class="ml-3">@AppState.AppTitle</MudText>
+    </MudStack>
+    <MudSpacer/>
+    <MudStack Row="true" AlignItems="AlignItems.Center">
+        <MudIconButton Variant="Variant.Filled" Icon="@Icons.Material.Filled.Help" Color="Color.Primary"
+                       OnClick='() => Nav.NavigateTo("/app/help")' Class="mr-lg-3 mr-md-1 pa-2"></MudIconButton>
+        <AuthorizeView>
+            <Authorized>
+                <MudButton Variant="Variant.Outlined" Class="px-lg-8 px-lg-2 py-2" Color="Color.Primary" Size="Size.Small" OnClick="async () => await AuthState.TriggerSignOut()">Sign Out</MudButton>
+            </Authorized>
+        </AuthorizeView>
+    </MudStack>
 </MudAppBar>
 <MudMainContent>
-    <MudContainer>
+    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
         @Body
     </MudContainer>
 </MudMainContent>

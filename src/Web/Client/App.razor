@@ -1,29 +1,83 @@
-﻿@code { }
+﻿@using XClaim.Common.HTTP
+@inject NavigationManager Nav
+@inject AppState AppState
+@inject AuthState AuthState
+@inject ThemeState ThemeState
+@inject IServerService ServerService
+
+@code {
+    
+    private async Task OnNavigateAsync(NavigationContext args) {
+        var isRootPath = args.Path.Equals(string.Empty);
+        var isAuthPath = args.Path.Equals(WebConst.AppAuth);
+        var isRegistrationPath = args.Path.Equals(WebConst.AppRegister);
+        var session = await AuthState.GetSession();
+        var isAuth = await AuthState.IsAuth();
+
+        switch (isAuth) {
+            case true when !session!.Confirmed && !isRegistrationPath:
+                Nav.NavigateTo(WebConst.AppRegister, true);
+                break;
+            case false when isAuthPath:
+                break;
+            case true when isAuthPath || isRootPath || (isRegistrationPath && session.Confirmed):
+                Nav.NavigateTo(WebConst.AppHome, true);
+                break;
+            case false when isRootPath:
+                await AuthState.TriggerAuthentication();
+                if (isAuth) Nav.NavigateTo(!session!.Confirmed ? WebConst.AppRegister : WebConst.AppHome, true);
+                else {
+                    Nav.NavigateTo(WebConst.AppHome);
+                }
+                break;
+            case false: {
+                break;
+            }
+        }
+        
+        if (AppState.ServerState == null) {
+            var server = await ServerService.GetAsync();
+            AppState.LoadServerState(server.Data!);
+            if (isAuth) {
+                await AuthState.Refresh();
+                var user = await AuthState.GetAccount();
+                if (user != null) {
+                    var lightMode = user.Setting?.DarkMode ?? false;
+                    ThemeState.SetLightMode(!lightMode);
+                }
+            }
+        }
+    }
+}
 
 <RootLayout>
     <CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }">
+    <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }" OnNavigateAsync="OnNavigateAsync">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
-                     @if (context.User.Identity?.IsAuthenticated != true) {
-                         <RedirectToSignin />
-                     } else {
-                         <p role="alert">You are not authorized to access this resource.</p>
-                     }
+                    @if (context.User.Identity?.IsAuthenticated != true) {
+                        <RedirectToSignin/>
+                    } else {
+                        <NotAuthorized />
+                    }
                 </NotAuthorized>
-                <Authorizing>
-                    @* @if (Register) { *@
-                    @*     <RedirectToRegistration /> *@
-                    @* } *@
-                </Authorizing>
             </AuthorizeRouteView>
         </Found>
         <NotFound>
-            <PageTitle>Not found</PageTitle>
-            <LayoutView Layout="@typeof(AuthLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
-            </LayoutView>
+            <Title>Not Found</Title>
+            <AuthorizeView>
+                <Authorized>
+                    <LayoutView Layout="@typeof(MainLayout)">
+                        <ErrorFound />
+                    </LayoutView>
+                </Authorized>
+                <NotAuthorized>
+                    <LayoutView Layout="@typeof(AuthLayout)">
+                        <ErrorFound />
+                    </LayoutView>
+                </NotAuthorized>
+            </AuthorizeView>
         </NotFound>
     </Router>
     </CascadingAuthenticationState>

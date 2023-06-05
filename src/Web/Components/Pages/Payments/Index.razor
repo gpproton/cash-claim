@@ -1,5 +1,6 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
+@using XClaim.Web.Components.Pages.Transactions.Components
 @inject IPaymentService Http
 @page "/app/payments"
 @attribute [Authorize]
@@ -55,13 +56,13 @@
     <Columns>
         <Column T="PaymentResponse" Field="Description" />
         <Column T="PaymentResponse" Field="Amount" />
-        <Column T="PaymentResponse" Field="Completed" />
-        <Column T="PaymentResponse" Field="Claims">
+        <Column T="PaymentResponse" Field="Confirmed" />
+        <Column T="PaymentResponse" Field="Count" Title="Claims">
             <CellTemplate>1</CellTemplate>
         </Column>
         <Column T="PaymentResponse">
             <CellTemplate>
-                <FormEditTrigger TForm="PaymentView" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
+                <FormEditTrigger TForm="DetailTransaction" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
             </CellTemplate>
         </Column>
     </Columns>

@@ -1,0 +1,164 @@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Enums
+@using XClaim.Common.Helpers
+@using Nextended.Core.Extensions
+@inject IUserService Http
+@inject ICompanyService CompanyService
+@inject ITeamService TeamService
+@inject ISnackbar Snackbar
+@inject AuthState AuthState
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+    
+    [Parameter]
+    public Guid? Id { get; set; }
+    
+    private UserPermission AccountPermission { get; set; }
+    
+    private CompanyResponse? Company { get; set; }
+    
+    private TeamResponse? Team { get; set; }
+    
+    private async Task<IEnumerable<CompanyResponse>> SearchCompany(string value) {
+        var response = await CompanyService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<CompanyResponse> {})!;
+    }
+    
+    private async Task<IEnumerable<TeamResponse>> SearchTeam(string value) {
+        var response = await TeamService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<TeamResponse> {})!;
+    }
+    
+    private string ActionText => Id == null ? "Create" : "Update";
+
+    private bool Loading { get; set; }
+
+    private string Title => $"{ActionText} User";
+
+    private UserResponse Item { get; set; } = new UserResponse();
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        AccountPermission = await AuthState.GetPermission();
+        if (Id != null) {
+            Loading = true;
+            var res = await Http.GetByIdAsync(Id.Value);
+            if (res.Succeeded) {
+                var result = res.Data;
+                Company = result!.Company;
+                Team = result!.Team;
+                result.Company = null;
+                result.Team = null;
+                Item = result;
+            }
+            Loading = false;
+        }
+    }
+
+    async Task Submit() {
+        Item.CompanyId = Company?.Id;
+        Item.TeamId = Team?.Id;
+        var result = await  Http.UpdateAsync(Item);
+        if (result.Succeeded)
+            await AuthState.Refresh();
+        MudDialog.Close(DialogResult.Ok(result.Succeeded));
+    }
+
+    async Task TriggerArchive(bool state) {
+        if (Item?.Id != null && state) {
+            var result = (await Http.ArchiveAsync(Item.Id.Value)).Succeeded;
+            Snackbar.Add(result ? "Deleted successfully" : "Archiving failed", result ? Severity.Success : Severity.Error);
+            MudDialog.Close(DialogResult.Ok(result));
+        }
+    }
+}
+
+<MudDialog>
+    <TitleContent>
+        <MudStack Row="true" Justify="@( Id == null ? Justify.Center : Justify.SpaceBetween)">
+            <MudText Align="Align.Center" Typo="Typo.h5">@Title</MudText>
+            @if (Id != null) {
+                <ConfirmationDialog ButtonText="true" OnTriggered="TriggerArchive"></ConfirmationDialog>
+            }
+        </MudStack>
+    </TitleContent>
+    <DialogContent>
+        <MudOverlay Visible="Loading" DarkBackground="true" Absolute="true">
+            <MudProgressCircular Color="Color.Default" Style="height:96px;width:96px;" Indeterminate="true" />
+        </MudOverlay>
+        <MudContainer Class="my-4" MaxWidth="MaxWidth.Small">
+            <CascadingAuthenticationState>
+            <MudGrid Justify="Justify.Center">
+                <MudItem xs="12">
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudStack Row="true" Justify="Justify.Center">
+                                <MudBadge Color="Color.Warning" Origin="Origin.TopCenter" Icon="@Icons.Material.Filled.Add" Overlap="true" Bordered="true">
+                                    <MudAvatar Rounded="true" Style="height:75px; width:75px; font-size:2.2rem;">SA</MudAvatar>
+                                </MudBadge>
+                            </MudStack>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudTextField Disabled="Loading" Variant="Variant.Outlined" @bind-Value="Item.FirstName" T="string" Label="First Name"/>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudTextField Disabled="Loading" Variant="Variant.Outlined" @bind-Value="Item.LastName" T="string" Label="Last Name"/>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField Disabled="Loading" Variant="Variant.Outlined" @bind-Value="Item.Email" InputType="InputType.Email" T="string" Label="Email"/>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField Disabled="Loading" Variant="Variant.Outlined" @bind-Value="Item.Phone" InputType="InputType.Telephone" T="string" Label="Phone"/>
+                        </MudItem>
+                        <AuthorizeView Roles="System,Administrator">
+                            <Authorized>
+                                <MudItem xs="12">
+                                    <MudSelect Disabled="Loading" T="UserPermission" Label="Permission" Variant="Variant.Outlined" For="@(()=>Item.Permission)"
+                                               @bind-Value="Item.Permission" AnchorOrigin="Origin.BottomCenter">
+                                        @foreach (var p in Enum.GetValues<UserPermission>()) {
+                                            @switch (p) {
+                                                case UserPermission.System:
+                                                    @if (AccountPermission == UserPermission.System) {
+                                                        <MudSelectItem Value="@p">@p.ToDescriptionString().Capitalize()</MudSelectItem>
+                                                    }
+                                                    break;
+                                                case UserPermission.Administrator:
+                                                    @if (AccountPermission <= UserPermission.Administrator) {
+                                                        <MudSelectItem Value="@p">@p.ToDescriptionString().Capitalize()</MudSelectItem>
+                                                    }
+                                                    break;
+                                                default:
+                                                    <MudSelectItem Value="@p">@p.ToDescriptionString().Capitalize()</MudSelectItem>
+                                                    break;
+                                            }
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+                            </Authorized>
+                        </AuthorizeView>
+                        <MudItem xs="12">
+                            <MudAutocomplete Disabled="true" T="CompanyResponse" Label="Company" @bind-Value="Company" SearchFunc="@SearchCompany"
+                                             Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Company = null"
+                                             Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.FullName}")"/>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudAutocomplete Disabled="Loading" T="TeamResponse" Label="Team" @bind-Value="Team" SearchFunc="@SearchTeam"
+                                             Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Team = null"
+                                             Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.Name}")"/>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudSwitch Disabled="Loading" @bind-Checked="@Item.Active" Color="Color.Primary" Label="@(Item.Active ? "Enabled" : "Disabled")"/>
+                        </MudItem>
+                    </MudGrid>
+                </MudItem>
+            </MudGrid>
+            </CascadingAuthenticationState>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" Variant="Variant.Text" OnClick="() => MudDialog.Cancel()" Size="Size.Large" Class="px-12 py-3">Cancel</MudButton>
+        <MudButton Disabled="Loading" Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Size="Size.Large" Class="px-12 py-3">@ActionText</MudButton>
+    </DialogActions>
+</MudDialog>

@@ -63,7 +63,7 @@ public class ClaimDetailView : BaseView<ClaimDetailViewModel> {
                                             .Text("."),
                                         new Label { Padding = 1, Margin = 2 }
                                             .Font(size: 12)
-                                            .Text("Catgory")
+                                            .Text("Category")
                                             //.Bind(Label.TextProperty, "Item.Category")
                                     },
                                     new Label().Bind(Label.TextProperty, "Item.Notes")
@@ -72,7 +72,7 @@ public class ClaimDetailView : BaseView<ClaimDetailViewModel> {
                                 }.Margins(0, 0, 0, 24)
                                 .CenterHorizontal(),
                             new Label().Bind(Label.TextProperty, "Item.Amount",
-                                    convert: (decimal value) => AppConst.Naira + string.Format("{0:N0}", value))
+                                    convert: (decimal value) => $"{AppConst.Naira}{value:N0}")
                                 .Font(size: 32, family: "RobotoMedium")
                                 .CenterHorizontal()
                         }

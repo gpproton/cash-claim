@@ -30,6 +30,11 @@ public abstract class AbstractHttpService : IHttpService {
         var request = CreateRequest(HttpMethod.Post, uri, value);
         await SendRequest(request);
     }
+    
+    public async Task<T> Post<T>(string uri) {
+        var request = CreateRequest(HttpMethod.Post, uri);
+        return await SendRequest<T>(request);
+    }
 
     public async Task<T> Post<T>(string uri, object? value) {
         var request = CreateRequest(HttpMethod.Post, uri, value);
@@ -39,6 +44,11 @@ public abstract class AbstractHttpService : IHttpService {
     public async Task Put(string uri, object? value) {
         var request = CreateRequest(HttpMethod.Put, uri, value);
         await SendRequest(request);
+    }
+    
+    public async Task<T> Put<T>(string uri) {
+        var request = CreateRequest(HttpMethod.Put, uri);
+        return await SendRequest<T>(request);
     }
 
     public async Task<T> Put<T>(string uri, object? value) {
@@ -70,30 +80,40 @@ public abstract class AbstractHttpService : IHttpService {
 
     private async Task SendRequest(HttpRequestMessage request) {
         await AddJwtHeader(request);
-        using var response = await _http.SendAsync(request);
-        if (response.StatusCode == HttpStatusCode.Unauthorized) {
-            await SignOut();
-            return;
+        try {
+            using var response = await _http.SendAsync(request);
+            if (response.StatusCode == HttpStatusCode.Unauthorized) {
+                await SignOut();
+                return;
+            }
+            await HandleErrors(response);
         }
-
-        await HandleErrors(response);
+        catch (Exception) {
+            Console.WriteLine("A HTTP callback error occurred");
+        }
     }
 
     private async Task<T> SendRequest<T>(HttpRequestMessage request) {
         await AddJwtHeader(request);
-        using var response = await _http.SendAsync(request);
-        if (response.StatusCode == HttpStatusCode.Unauthorized) {
-            await SignOut();
-            return default!;
+        try {
+            using var response = await _http.SendAsync(request);
+            if (response.StatusCode == HttpStatusCode.Unauthorized) {
+                await SignOut();
+                return default!;
+            }
+            await HandleErrors(response);
+            var options = new JsonSerializerOptions {
+                PropertyNameCaseInsensitive = true
+            };
+            options.Converters.Add(new StringConverter());
+
+            return (await response.Content.ReadFromJsonAsync<T>(options))!;
+        }
+        catch (Exception) {
+            Console.WriteLine("A HTTP callback error occurred");
         }
 
-        await HandleErrors(response);
-        var options = new JsonSerializerOptions {
-            PropertyNameCaseInsensitive = true
-        };
-        options.Converters.Add(new StringConverter());
-
-        return (await response.Content.ReadFromJsonAsync<T>(options))!;
+        return default!;
     }
 
     protected abstract Task AddJwtHeader(HttpRequestMessage request);

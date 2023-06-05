@@ -4,9 +4,8 @@ using XClaim.Common.Base;
 namespace XClaim.Web.Server.Entities;
 
 [GenerateAutoFilter("XClaim.Web.Server.Filters")]
-public sealed class BankAccountEntity : BaseEntity {
+public sealed class BankAccountEntity : TimedEntity {
     public string FullName { get; set; } = string.Empty;
-    [Required]
     public BankEntity? Bank { get; set; }
     public Guid? BankId { get; set; }
     public UserEntity? Owner { get; set; }

@@ -4,7 +4,7 @@ using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.UserModule;
 
-public class UserFilter : GenericFilter {
+public sealed class UserFilter : GenericFilter {
     [CompareTo(nameof(UserEntity.FirstName), nameof(UserEntity.LastName), nameof(UserEntity.Email), CombineWith = CombineType.Or)]
     [ToLowerContainsComparison]
     public string? Search { get; set; }

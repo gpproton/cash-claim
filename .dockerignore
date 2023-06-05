@@ -1,0 +1,10 @@
+.idea
+.fleet
+.vscode
+*.sqlite3*
+StaticFiles
+**/wwwroot/lib
+bin
+obj
+secret.json
+published

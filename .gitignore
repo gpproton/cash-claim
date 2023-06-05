@@ -476,7 +476,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 .idea
-.config
 .fleet
 *.sqlite3*
-StaticFiles
+static-files
+**/wwwroot/lib
+secret.json
+published

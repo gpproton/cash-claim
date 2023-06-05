@@ -1,8 +1,9 @@
 @using XClaim.Common.Dtos
 @using XClaim.Common.Helpers
+@using XClaim.Web.Components.Pages.User.Components
 @page "/app/users"
 @inject IUserService Http
-@attribute [Authorize]
+@attribute [Authorize(Roles = "System, Administrator")]
 
 @code {
     private string Search { get; set; } = string.Empty;
@@ -10,7 +11,6 @@
     private int Current { get; set; } = 1;
     MudDataGrid<UserResponse>? _dataGrid;
     private HashSet<UserResponse> SelectedItems { get; set; } = new HashSet<UserResponse>();
-
     private Func<UserResponse, bool> Filter => x =>
     string.IsNullOrWhiteSpace(Search)
     || x.FullName.Contains(Search, StringComparison.OrdinalIgnoreCase)
@@ -55,7 +55,7 @@
              SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
     <ToolBarContent>
         <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateUser" IsFilterActive="true" IsCreateActive="false" @bind-Search="Search">
-            <ArchiveConfirmation Count="@SelectedItems.Count" OnArchived="ArchiveSelectedItems"></ArchiveConfirmation>
+            <ConfirmationDialog Count="@SelectedItems.Count" OnTriggered="ArchiveSelectedItems"></ConfirmationDialog>
         </TableToolbar>
     </ToolBarContent>
     <LoadingContent>

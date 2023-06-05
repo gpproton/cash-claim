@@ -1,8 +1,14 @@
-﻿namespace XClaim.Common.Enums;
+﻿using System.ComponentModel;
+
+namespace XClaim.Common.Enums;
 
 public enum EventType {
     Claim,
     Payment,
     Review,
-    Comment
+    Comment,
+    Reminder,
+    Announcement,
+    [Description("Weekly Status")]
+    WeeklyStatus
 }

@@ -2,8 +2,10 @@
 
 public enum ClaimStatus {
     Pending,
+    Rejected,
+    Cancelled,
     Reviewed,
     Confirmed,
     Approved,
-    Rejected
+    None
 }

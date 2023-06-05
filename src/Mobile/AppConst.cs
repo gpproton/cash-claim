@@ -6,7 +6,7 @@ public static class AppConst {
     public const string AppUId = "dev.gpproton.xclaim";
     public static readonly string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android
         ? "https://10.0.2.2:7001" : "https://localhost:7001";
-    public static readonly string AuthUri = $"{BaseAddress}/api/v1/auth/sign-in/mobile";
+    public static readonly string AuthUri = $"{BaseAddress}/auth/sign-in/mobile";
 
     // Shared constants
     public const string Naira = "₦";

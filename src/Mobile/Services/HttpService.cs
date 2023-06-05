@@ -1,11 +1,10 @@
-using JetBrains.Annotations;
 using XClaim.Common.Service;
 
 namespace XClaim.Mobile.Services;
 
 public class HttpService : AbstractHttpService {
 
-    public HttpService([NotNull] HttpClient http) : base(http) { }
+    public HttpService(HttpClient http) : base(http) { }
     protected override Task AddJwtHeader(HttpRequestMessage request) {
         throw new NotImplementedException();
     }

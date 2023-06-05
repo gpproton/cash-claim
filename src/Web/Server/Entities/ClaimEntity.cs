@@ -4,14 +4,15 @@ using XClaim.Common.Enums;
 
 namespace XClaim.Web.Server.Entities;
 
-public sealed class ClaimEntity : BaseEntity {
+public sealed class ClaimEntity : TimedEntity {
     [Required]
     [MaxLength(256)]
     public string? Description { get; set; }
     [MaxLength(1024)]
     public string? Notes { get; set; }
     public decimal Amount { get; set; }
-    public ClaimPriority Priority { get; set; } = ClaimPriority.Normal;
+    public CurrencyEntity? Currency { get; set; }
+    public Guid? CurrencyId { get; set; }
     public PaymentEntity? Payment { get; set; }
     public Guid? PaymentId { get; set; }
     [Required]
@@ -20,9 +21,9 @@ public sealed class ClaimEntity : BaseEntity {
     public CompanyEntity? Company { get; set; }
     public Guid? CompanyId { get; set; }
     public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
-    // [Required]
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
+    public DateTime? CancelledAt { get; set; }
     public UserEntity? ReviewedBy { get; set; }
     public Guid? ReviewedById { get; set; }
     public DateTime? ReviewedAt { get; set; }
@@ -32,6 +33,8 @@ public sealed class ClaimEntity : BaseEntity {
     public UserEntity? ApprovedBy { get; set; }
     public Guid? ApprovedById { get; set; }
     public DateTime? ApprovedAt { get; set; }
+    public Guid? RejectedById { get; set; }
+    public DateTime? RejectedAt { get; set; }
     public ICollection<FileEntity> Files { get; set; } = default!;
     public ICollection<CommentEntity> Comments { get; set; } = default!;
 }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using XClaim.Common.Enums;
+using SourceExpress.ShorterGuid;
+using XClaim.Common;
 using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Data;
@@ -32,18 +33,22 @@ public class DbInitializer {
         var domains = new List<DomainEntity> {
             new DomainEntity { Id = Guid.NewGuid(), CreatedAt = time, Address = "tolaram.com" },
             new DomainEntity { Id = Guid.NewGuid(), CreatedAt = time, Address = "dufil.com" },
-            new DomainEntity { Id = Guid.NewGuid(), CreatedAt = time, Address = "agboolas@outlook.com"}
+            new DomainEntity { Id = Guid.NewGuid(), CreatedAt = time, Address = "outlook.com"}
         };
 
         var currencies = new List<CurrencyEntity> {
-            new CurrencyEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Naira", Symbol = "₦" },
-            new CurrencyEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Dollar", Symbol = "$" }
+            new CurrencyEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Naira", Code = "NGN", Symbol = "₦" },
+            new CurrencyEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "US Dollar", Code = "USD", Symbol = "$" },
+            new CurrencyEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Euro", Code = "EUR", Symbol = "€" },
+            new CurrencyEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "British Pounds", Code = "GBP", Symbol = "£" },
+            new CurrencyEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Rupee", Code = "INR", Symbol = "₹" }
         };
 
         var companies = new List<CompanyEntity> {
-            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "BHN LTD", FullName = "MCPL LTD - BHN Division" },
+            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "BHN Logistics", FullName = "MCPL LTD - BHN Division" },
             new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "MCPL LTD", FullName = "Multi Consumer Product LTD" },
-            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "Dufil", FullName = "Dufil Prima Foods Plc" }
+            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "Dufil Prima", FullName = "Dufil Prima Foods Plc" },
+            new CompanyEntity() { Id = Guid.NewGuid(), CreatedAt = time, ShortName = "X-Claim", FullName = "X-Claim Instance Management" }
         };
 
         var categories = new List<CategoryEntity> {
@@ -56,13 +61,16 @@ public class DbInitializer {
         var teams = new List<TeamEntity> {
             new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Account Dept", CompanyId = companies[0].Id },
             new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Logistics Dept", CompanyId = companies[1].Id  },
-            new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "QA Dept", CompanyId = companies[2].Id  }
+            new TeamEntity { Id = Guid.NewGuid(), CreatedAt = time, Name = "Packaging Dept", CompanyId = companies[2].Id  }
         };
 
         var users = new List<UserEntity> {
-            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, Permission = UserPermission.Administrator, FirstName = "John", LastName = "Doe", Email = "john.doe@test.com", Phone = "+23401", TeamId = teams[0].Id,CompanyId = companies[0].Id },
-            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", Email = "jane.doe@test.com", Phone = "+23402", TeamId = teams[1].Id, CompanyId = companies[1].Id },
-            new UserEntity { Id = Guid.NewGuid(), CreatedAt = time, FirstName = "Johnny ", LastName = "Test", Email = "johnny.test@test.com", Phone = "+23403", TeamId = teams[2].Id, CompanyId = companies[2].Id },
+            new UserEntity { Id = Guid.NewGuid(), Identifier = Guid.NewGuid().ToLowerShorterString(), CreatedAt = time, FirstName = "John", LastName = "Doe", Email = "john.doe@tolaram.com", Phone = "+234012345567", TeamId = teams[0].Id, CompanyId = companies[0].Id },
+            new UserEntity { Id = Guid.NewGuid(), Identifier = Guid.NewGuid().ToLowerShorterString(), CreatedAt = time, FirstName = "Jane", LastName = "Doe", Email = "jane.doe@tolaram.com", Phone = "+234022424553", TeamId = teams[1].Id, CompanyId = companies[1].Id }
+        };
+
+        var server = new List<ServerEntity> {
+            new ServerEntity { Id = Guid.NewGuid(), AdminEmail = "admin@x-claim.dev", CurrencyId = currencies[0].Id, MaintenanceText = "In-Progress", ServiceName = SharedConst.ServiceName }
         };
 
         _modelBuilder.Entity<BankEntity>().HasData(banks);
@@ -72,5 +80,6 @@ public class DbInitializer {
         _modelBuilder.Entity<CategoryEntity>().HasData(categories);
         _modelBuilder.Entity<UserEntity>().HasData(users);
         _modelBuilder.Entity<TeamEntity>().HasData(teams);
+        _modelBuilder.Entity<ServerEntity>().HasData(server);
     }
 }

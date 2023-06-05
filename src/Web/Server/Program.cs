@@ -10,20 +10,22 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using XClaim.Web.Server;
 using XClaim.Web.Server.Data;
+using XClaim.Web.Server.Extensions;
 using XClaim.Web.Server.Helpers;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("Default");
-builder.Services.AddDbContext<ServerContext>(options => {
-    options.UseSqlite(connectionString).UseSnakeCaseNamingConvention();
+builder.Host.ConfigureServices((ctx, srv) => {
+    ConfigHelper.ApplyDefaultAppConfiguration(ctx, builder.Configuration, args);
 });
 
-builder.Services.Configure<JsonOptions>(options => {
+builder.Services.SetupDatabase(builder.Configuration)
+.Configure<JsonOptions>(options => {
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
 builder.Services.AddTransient<FileUploadService>();
+builder.Services.AddTransient<IdentityHelper>();
 
 builder.Services.Configure<CookiePolicyOptions>(options => {
     options.CheckConsentNeeded = _ => true;
@@ -32,89 +34,115 @@ builder.Services.Configure<CookiePolicyOptions>(options => {
 
 builder.Services.AddAuthentication("Cookies")
     .AddCookie(opt => {
-        opt.Cookie.Name = "AuthCookie";
+        opt.Cookie.Name = Constants.AppSessionName;
         opt.Cookie.IsEssential = true;
         opt.ExpireTimeSpan = TimeSpan.FromDays(7);
         opt.SlidingExpiration = true;
     })
     .AddMicrosoftAccount(opt => {
-        var clientId = builder.Configuration.GetValue<string>("Microsoft:ClientId") ?? "";
-        var clientSecret = builder.Configuration.GetValue<string>("Microsoft:ClientSecret") ?? "";
-
         opt.SignInScheme = "Cookies";
-        opt.ClientId = clientId;
-        opt.ClientSecret = clientSecret;
+        opt.ClientId = builder.Configuration.GetValue<string>("Microsoft:ClientId") ?? "client-id";
+        opt.ClientSecret = builder.Configuration.GetValue<string>("Microsoft:ClientSecret") ?? "client-secret";
         opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         opt.SaveTokens = true;
     });
 builder.Services.AddHttpContextAccessor(); ;
 builder.Services.AddAuthorization();
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(2);
+    options.Cookie.HttpOnly = false;
+    options.Cookie.IsEssential = true;
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt => {
     opt.UseAutoFiltererParameters();
     opt.SwaggerDoc("v1", new OpenApiInfo { Title = $"X-Claim", Version = "v1" });
+    opt.OperationFilter<FileUploadOperationFilter>();
 });
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.RegisterModules();
 
-var healthCheck = builder.Services.AddHealthChecks()
-    .AddApplicationStatus();
+
 builder.Services.AddHealthChecksUI()
     .AddInMemoryStorage();
-
-if (connectionString != null) {
-    healthCheck.AddSqlite(connectionString);
+IHealthChecksBuilder healthCheck = builder.Services.AddHealthChecks()
+.AddApplicationStatus();
+string? appConnectionString = builder.Configuration.GetConnectionString("Default");
+if (appConnectionString != null) {
+    _ = healthCheck.AddSqlite(appConnectionString);
 }
 
-var app = builder.Build();
+WebApplication app = builder.Build();
+
+using (var scope = app.Services.CreateScope()) {
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ServerContext>();    
+    await context.Database.MigrateAsync();
+}
+
+const string swaggerTittle = "X-Claim V1 Docs";
+const string swaggerPath = "/swagger/v1/swagger.json";
+app.UseReDoc(c => {
+    c.DocumentTitle = swaggerTittle;
+    c.SpecUrl(swaggerPath);
+});
+
 if (app.Environment.IsDevelopment()) {
     app.UseWebAssemblyDebugging();
-    app.UseSwagger();
-    app.UseSwaggerUI(opt => {
-        const string path = "/swagger/v1/swagger.json";
-        opt.SwaggerEndpoint(path, "X-Claim V1 Docs");
-        opt.DefaultModelExpandDepth(3);
-        opt.EnableDeepLinking();
-        opt.DisplayRequestDuration();
-        opt.ShowExtensions();
+        app.UseSwagger();
+        app.UseSwaggerUI(opt => {
+            opt.SwaggerEndpoint(swaggerPath, swaggerTittle);
+            opt.DefaultModelExpandDepth(3);
+            opt.EnableDeepLinking();
+            opt.DisplayRequestDuration();
+            opt.ShowExtensions();
     });
 }
-else
-    app.UseExceptionHandler("/Error");
-
+else {
+    _ = app.UseExceptionHandler("/Error");
+}
 
 app.UseCookiePolicy(new CookiePolicyOptions {
-    MinimumSameSitePolicy = SameSiteMode.Lax
+    MinimumSameSitePolicy = SameSiteMode.None
 });
-app.RegisterApiEndpoints();
+
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
-app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
+app.MapRazorPages();
+app.RegisterApiEndpoints();
 // INFO: Disabled due to mobile self signed certificate
 // app.UseHttpsRedirection();
 
-var uploadService = app.Services.GetService<FileUploadService>();
+FileUploadService? uploadService = app.Services.GetService<FileUploadService>();
 if (uploadService != null) {
-    var fullUploadPath = uploadService.GetUploadRootPath();
+    string fullUploadPath = uploadService.GetUploadRootPath();
     if (!Directory.Exists(fullUploadPath)) {
         Console.WriteLine("Creating static files directory");
-        Directory.CreateDirectory(fullUploadPath);
+        _ = Directory.CreateDirectory(fullUploadPath);
     }
-    app.UseStaticFiles();
+    _ = app.UseStaticFiles();
 
-    void OnPrepareResponse(StaticFileResponseContext ctx) {
-        if (!ctx.Context.Request.Path.StartsWithSegments("/static")) return;
+    static void OnPrepareResponse(StaticFileResponseContext ctx) {
+        if (!ctx.Context.Request.Path.StartsWithSegments("/static")) {
+            return;
+        }
 
         ctx.Context.Response.Headers.Add("Cache-Control", "no-store");
-        if (ctx.Context.User.Identity == null || ctx.Context.User.Identity.IsAuthenticated) return;
+        if (ctx.Context.User.Identity == null || ctx.Context.User.Identity.IsAuthenticated) {
+            return;
+        }
+
         ctx.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
         ctx.Context.Response.ContentLength = 0;
         ctx.Context.Response.Body = Stream.Null;
@@ -122,7 +150,7 @@ if (uploadService != null) {
         // JsonSerializer.Serialize(new { Status = 401, Message = "UnAuthorized file access" });
     }
 
-    app.UseStaticFiles(new StaticFileOptions {
+    _ = app.UseStaticFiles(new StaticFileOptions {
         FileProvider = new PhysicalFileProvider(fullUploadPath),
         RequestPath = new PathString("/static"),
         OnPrepareResponse = OnPrepareResponse

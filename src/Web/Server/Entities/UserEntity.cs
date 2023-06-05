@@ -6,7 +6,9 @@ using XClaim.Common.Enums;
 namespace XClaim.Web.Server.Entities;
 
 [Index(nameof(Email), IsUnique = true)]
-public sealed class UserEntity : BaseEntity {
+[Index(nameof(Identifier), IsUnique = true)]
+public sealed class UserEntity : TimedEntity {
+    public string Identifier { get; set; } = string.Empty;
     [MaxLength(256)]
     public string Email { get; set; } = string.Empty;
     public string? ProfileImage { get; set; }
@@ -27,7 +29,8 @@ public sealed class UserEntity : BaseEntity {
     public TeamEntity? TeamManaged { get; set; }
     public Guid? TeamManagedId { get; set; }
     public BankAccountEntity? BankAccount { get; set; }
-    public Guid? BankAccountId { get; set; }
+    public NotificationEntity? Notification { get; set; }
+    public SettingEntity? Setting { get; set; }
     public CurrencyEntity? Currency { get; set; }
     public Guid? CurrencyId { get; set; }
     public bool Active { get; set; }

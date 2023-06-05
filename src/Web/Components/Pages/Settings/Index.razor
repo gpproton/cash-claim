@@ -1,14 +1,15 @@
-@inject NavigationManager Nav
+@inject Navigation Nav
 @page "/app/settings"
 @attribute [Authorize]
 
 <Title>Settings</Title>
 
 @code {
-
     protected override void OnInitialized() {
         base.OnInitialized();
-        Nav.NavigateTo("/app/settings/teams");
+        if(Nav.CanNavigateBack)
+            Nav.NavigateBack();
+        else
+            Nav.NavigateTo(WebConst.AppHome);
     }
-
 }
