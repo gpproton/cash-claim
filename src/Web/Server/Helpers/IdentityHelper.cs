@@ -75,15 +75,13 @@ public sealed class IdentityHelper {
     }
 
     private async Task<UserResponse?> GetByIdentifierAsync(string identifier) {
-        var query = _ctx.Users.Where(x => x.DeletedAt == null)
-                    .Where(x => x.Identifier == identifier);
+        var query = _ctx.Users.Where(x => x.Identifier == identifier);
 
         return await this.GetUserEntity(query);
     }
     
     private async Task<UserResponse?> GetByIdAsync(Guid id) {
-        var query = _ctx.Users.Where(x => x.DeletedAt == null)
-        .Where(x => x.Id == id);
+        var query = _ctx.Users.Where(x => x.Id == id);
 
         return await this.GetUserEntity(query);
     }
