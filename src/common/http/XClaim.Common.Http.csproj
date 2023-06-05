@@ -1,14 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <RootNamespace>XClaim.Common.Http</RootNamespace>
+    <Title>XClaim.Common.Http</Title>
   </PropertyGroup>
 
+  <Import Project="..\..\..\Common.props" />
+
   <ItemGroup>
-    <PackageReference Include="Proton.Common.Http" Version="8.0.0-preview.8" />
+    <PackageReference Include="Proton.Common.Http" />
   </ItemGroup>
 
 </Project>
