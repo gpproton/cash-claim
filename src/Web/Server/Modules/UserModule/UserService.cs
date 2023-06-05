@@ -19,7 +19,6 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
 
     public async Task<Response<UserResponse?>> GetByEmailAsync(string email) {
         var item = await _ctx.Users
-                   .Where(x => x.DeletedAt == null)
                    .Where(x => x.Email == email)
                    .Include(x => x.Company)
                    .Include(x => x.Team)
@@ -36,7 +35,6 @@ public sealed class UserService : GenericService<ServerContext, UserEntity, User
     
     public async Task<Response<UserResponse?>> GetByIdentifierAsync(string? identifier) {
         var item = await _ctx.Users
-                   .Where(x => x.DeletedAt == null)
                    .Where(x => x.Identifier == identifier)
                    .Include(x => x.Company)
                    .Include(x => x.Team)

@@ -3,7 +3,6 @@ using XClaim.Common.Dtos;
 using XClaim.Common.Enums;
 using XClaim.Web.Server.Helpers;
 using XClaim.Web.Server.Modules.UserModule;
-using YamlDotNet.Core.Events;
 
 namespace XClaim.Web.Server.Modules.ClaimModule;
 
@@ -36,8 +35,7 @@ public class ClaimModule : IModule {
             return TypedResults.Created($"{url}/{value.Id}", response);
         }).WithName($"Create{name}").WithOpenApi();
 
-        group.MapPost("/upload/{id:guid}", async (Guid id, ClaimService sv, IFormFileCollection files, FileUploadService upload) => {
-            // TODO: Get claim and save in upload service
+        group.MapPost("/upload/{id:guid}", async (Guid id, ClaimService sv, FileUploadService upload, IFormFile[] files) => {
             var result = (await sv.GetByIdAsync(id));
             if (result.Data == null) return Results.NotFound(result);
             var uploads = await upload.UploadFiles(files);
@@ -46,10 +44,9 @@ public class ClaimModule : IModule {
             var update = await sv.UpdateAsync(data);
 
             return !update.Succeeded ? Results.BadRequest(update) : TypedResults.Ok(update);
-        })
-            .Accepts<IFormFileCollection>("multipart/form-data")
-            .Produces<List<FileResponse>>()
-            .WithName($"Upload{name}Files").WithOpenApi();
+        }).Accepts<IFormFile[]>("multipart/form-data")
+        .Produces<List<FileResponse>>()
+        .WithName($"Upload{name}Files").WithOpenApi();
 
         group.MapPut("/", async (ClaimResponse value, ClaimService sv) => {
             var result = await sv.UpdateAsync(value);

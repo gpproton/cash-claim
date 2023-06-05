@@ -27,8 +27,7 @@ public sealed class TeamService : GenericService<ServerContext, TeamEntity, Team
             var query = _ctx.Teams
             .Where(e => isSystemUser || e.CompanyId == current.CompanyId)
             .Include(e => e.Company)
-            .Include(e => e.Manager)
-            .Where(x => x.DeletedAt == null);
+            .Include(e => e.Manager);
             
             var count = await query.CountAsync();
             var data = await query.ApplyFilter(responseFilter).ToListAsync();

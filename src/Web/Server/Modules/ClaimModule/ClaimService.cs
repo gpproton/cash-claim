@@ -24,7 +24,7 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
     }
 
     private static Task<IIncludableQueryable<ClaimEntity, CurrencyEntity?>> ClaimPersonalQuery(IQueryable<ClaimEntity> queryable) {
-        return Task.FromResult(queryable.Where(x => x.DeletedAt == null)
+        return Task.FromResult(queryable
         .Include(x => x.Owner)
         .Include(x => x.Category)
         .Include(x => x.Currency));
@@ -229,10 +229,12 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
         try {
             var companyId = await _identity.GetCompanyId();
             var claimUsers = await _ctx.Claims.Where(x => x.CompanyId == companyId)
-                 .Where(x => x.PaymentId == null)
-                 .Select(x => x.OwnerId)
-                 .Take(55)
-                 .ToListAsync();
+                             .Where(x => x.Status == ClaimStatus.Approved)
+                             .Where(x => x.PaymentId == null)
+                             .AsNoTracking()
+                             .Select(x => x.OwnerId)
+                             .Take(55)
+                             .ToListAsync();
             var query = _ctx.Users
                 .Where(x => claimUsers.Contains(x.Id))
                 .ApplyFilter(requestFilter);
@@ -277,13 +279,17 @@ public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, Cl
     public async Task<PagedResponse<List<CommentResponse>>> GetCommentAsync(Guid claimId, PaginationFilterBase requestFilter) {
         var response = new PagedResponse<List<CommentResponse>>();
         try {
-            var item = await _ctx.Claims.Where(x => x.Id == claimId)
-                       .Include(x => x.Comments)
-                       .Select(x => x.Comments)
-                       .ToListAsync();
-            var data = item.MapTo<List<CommentResponse>>();
-            response.Data = data;
-            response.Succeeded = true;
+            var query = _ctx.Claims.Where(x => x.Id == claimId)
+            .ApplyFilter(requestFilter)
+            .Include(x => x.Comments)
+            .Select(x => x.Comments);
+            var count = await query.CountAsync();
+            var data = await query.ToListAsync();
+            var filter = requestFilter.MapTo<PaginationFilter>();
+            var result = data.MapTo<List<CommentResponse>>();
+            response = new PagedResponse<List<CommentResponse>>(result, count, filter) {
+                Succeeded = true
+            };
         } catch (Exception e) {
             response.Errors = new[] { e.ToString() };
             _logger.LogError(e.ToString());

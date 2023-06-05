@@ -24,22 +24,28 @@ public class PaymentModule : IModule {
             var result = await sv.GetByIdAsync(id);
             return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
         }).WithName($"Get{name}ById").WithOpenApi();
+        
+        group.MapPost("/transaction/create/{id:guid}", (Guid id, PaymentService sv) => 1
+        ).WithName($"Create{name}Transaction").WithOpenApi();
 
-        group.MapPost("/confirmation", async (PaymentResponse value, PaymentService sv) => {
-            value.ConfirmedAt = DateTime.Now;
-            var result = await sv.UpdateAsync(value);
+        group.MapPut("/transaction/confirm/{id:guid}", (Guid id, PaymentService sv) => 1
+        ).WithName($"Confirm{name}Transaction").WithOpenApi();
+
+        group.MapDelete("/transaction/cancel/{id:guid}", (Guid id, PaymentService sv) => 1
+        ).WithName($"Cancel{name}Transaction").WithOpenApi();
+
+        group.MapDelete("/", ([FromBody] List<Guid> ids, PaymentService sv) => 1
+        ).WithName($"RangedCancel{name}Transaction").WithOpenApi();
+        
+        group.MapGet("/file/{id:guid}", async (Guid id, PaymentService sv, [AsParameters] GenericFilter filter) => {
+            var result = await sv.GetFileAsync(id, filter);
             return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
-        }).WithName($"Confirm{name}").WithOpenApi();
-
-        group.MapPost("/cancel/{id:guid}", async (Guid id, PaymentService sv) => {
-            var item = await sv.DeleteAsync(id);
-            return !item.Succeeded ? Results.NotFound(item) : TypedResults.Ok(item);
-        }).WithName($"Cancel{name}").WithOpenApi();
-
-        group.MapDelete("/", async ([FromBody] List<Guid> ids, PaymentService sv) => {
-            var items = await sv.DeleteRangeAsync(ids);
-            return !items.Succeeded ? Results.NotFound(items) : TypedResults.Ok(items);
-        }).WithName($"RangeArchive{name}").WithOpenApi();
+        }).WithName($"Review{name}Files").WithOpenApi();
+        
+        group.MapGet("/comment/{id:guid}", async (Guid id, PaymentService sv, [AsParameters] GenericFilter filter) => {
+            var result = await sv.GetCommentAsync(id, filter);
+            return !result.Succeeded ? Results.NotFound(result) : TypedResults.Ok(result);
+        }).WithName($"Review{name}Comments").WithOpenApi();
 
         return group;
     }
