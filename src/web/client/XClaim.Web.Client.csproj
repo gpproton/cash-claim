@@ -3,6 +3,9 @@
   <PropertyGroup>
     <Title>XClaim.Web.Client</Title>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+    <WasmEnableWebcil>true</WasmEnableWebcil>
+    <PublishTrimmed>true</PublishTrimmed>
+    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
   <Import Project="..\..\..\Common.props" />

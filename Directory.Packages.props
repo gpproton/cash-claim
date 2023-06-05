@@ -1,29 +1,25 @@
 <Project>
-
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
-
   <!-- Shared packages -->
   <ItemGroup>
     <PackageVersion Include="Ardalis.SmartEnum" Version="$(ArdalisVersion)" />
     <PackageVersion Include="Ardalis.SmartEnum.SystemTextJson" Version="$(ArdalisVersion)" />
     <PackageVersion Include="Ardalis.Specification" Version="$(ArdalisVersion)" />
+    <PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0-preview.4.23261.6" />
     <PackageVersion Include="Nextended.Core" Version="$(NextendedVersion)" />
   </ItemGroup>
-
   <!-- EFCore packages -->
   <ItemGroup>
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfcoreVersion)" />
   </ItemGroup>
-
   <!-- Razor packages -->
   <ItemGroup>
     <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="$(AspCoreVersion)" />
   </ItemGroup>
-
   <!-- Asp.net packages -->
   <ItemGroup>
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspCoreVersion)" />
@@ -34,7 +30,6 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="$(AspCoreVersion)" />
   </ItemGroup>
-
   <!-- Proton.Common packages -->
   <ItemGroup>
     <PackageVersion Include="Proton.Common" Version="$(ProtonVersion)" />
@@ -43,7 +38,6 @@
     <PackageVersion Include="Proton.Common.EFCore" Version="$(ProtonVersion)" />
     <PackageVersion Include="Proton.Common.Razor" Version="$(ProtonVersion)" />
   </ItemGroup>
-
   <!-- Test packages -->
   <ItemGroup>
     <PackageVersion Include="AutoFixture" Version="4.11.0" />

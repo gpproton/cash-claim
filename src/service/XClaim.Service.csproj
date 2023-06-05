@@ -1,13 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <Title>XClaim.Web.Service</Title>
+    <Title>XClaim.Service</Title>
+    <RootNamespace>XClaim.Service</RootNamespace>
   </PropertyGroup>
 
   <Import Project="..\..\Common.props" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
     <PackageReference Include="Proton.Common.AspNet" />
     <PackageReference Include="Proton.Common.EFCore" />
   </ItemGroup>

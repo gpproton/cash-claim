@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Components", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Client", "src\web\client\XClaim.Web.Client.csproj", "{B68DC0CA-1F94-4093-96D7-3810EF75C50B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Service", "src\service\XClaim.Web.Service.csproj", "{F2A9BE66-65CF-4452-972E-1B06939E5C9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Service", "src\service\XClaim.Service.csproj", "{F2A9BE66-65CF-4452-972E-1B06939E5C9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
