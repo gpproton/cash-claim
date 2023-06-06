@@ -21,18 +21,21 @@ public static class DatabaseExtensions {
 
         services.AddDbContext<ServiceContext>(options => {
                 options.UseSnakeCaseNamingConvention();
-                var provider = config!.GetValue("provider", Sqlite.Name);
-
-                if (provider == Sqlite.Name) {
-                    options.UseSqlite(config!.GetConnectionString(Sqlite.Name)!, x => x.MigrationsAssembly(Sqlite.Assembly).UseRelationalNulls());
+                var provider = (config!.GetValue<string>("provider") ?? Sqlite.Name).ToLower();
+                if (provider == Sqlite.Name.ToLower()) {
+                    var mysql = config!.GetConnectionString(Sqlite.Name)!;
+                    options.UseSqlite(mysql, x => x.MigrationsAssembly(Sqlite.Assembly).UseRelationalNulls());
+                    return;
                 }
 
-                if (provider == Postgres.Name) {
-                    options.UseNpgsql(config!.GetConnectionString(Postgres.Name)!,  x => x.MigrationsAssembly(Postgres.Assembly).UseRelationalNulls());
+                if (provider == Postgres.Name.ToLower()) {
+                    var postgres = config!.GetConnectionString(Postgres.Name)!;
+                    options.UseNpgsql(postgres,  x => x.MigrationsAssembly(Postgres.Assembly).UseRelationalNulls());
+                    return;
                 }
 
-                if (provider == Mysql.Name) {
-                    var connectionString = config!.GetConnectionString(Postgres.Name)!;
+                if (provider == Mysql.Name.ToLower()) {
+                    var connectionString = config!.GetConnectionString(Mysql.Name)!;
                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), x => x.MigrationsAssembly(Mysql.Assembly).UseRelationalNulls());
                 }
             }
