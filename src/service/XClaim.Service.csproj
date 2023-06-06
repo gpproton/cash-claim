@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Title>XClaim.Service</Title>
     <UserSecretsId>4102fda6-15af-4599-9d0f-a2916d92f41a</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <Import Project="..\..\Common.props" />
@@ -24,9 +25,9 @@
   <ItemGroup>
     <ProjectReference Include="..\common\context\XClaim.Common.Context.csproj" />
     <ProjectReference Include="..\common\http\XClaim.Common.Http.csproj" />
-    <ProjectReference Include="..\migration\mysql\XClaim.Migration.Mysql.csproj" />
-    <ProjectReference Include="..\migration\postgres\XClaim.Migration.Postgres.csproj" />
-    <ProjectReference Include="..\migration\sqlite\XClaim.Migration.Sqlite.csproj" />
+    <ProjectReference Include="..\migration\mysql\XClaim.Entity.Mysql.csproj" />
+    <ProjectReference Include="..\migration\postgres\XClaim.Entity.Postgres.csproj" />
+    <ProjectReference Include="..\migration\sqlite\XClaim.Entity.Sqlite.csproj" />
     <ProjectReference Include="..\web\client\XClaim.Web.Client.csproj" />
     <ProjectReference Include="..\web\shared\XClaim.Web.Shared.csproj" />
   </ItemGroup>
@@ -38,6 +39,12 @@
     <Folder Include="Features\PaymentModule\" />
     <Folder Include="Features\ServerModule\" />
     <Folder Include="Features\SharedModule\Entities\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
   </ItemGroup>
   
 </Project>
