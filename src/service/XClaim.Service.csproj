@@ -33,15 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\AccountModule\" />
-    <Folder Include="Features\CategoryModule\" />
-    <Folder Include="Features\ClaimModule\" />
-    <Folder Include="Features\PaymentModule\" />
-    <Folder Include="Features\ServerModule\" />
-    <Folder Include="Features\SharedModule\Entities\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="..\..\.dockerignore">
       <Link>.dockerignore</Link>
     </Content>

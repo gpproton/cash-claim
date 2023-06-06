@@ -9,9 +9,10 @@
 // limitations under the License.
 
 using Axolotl.Response;
+using XClaim.Common.Base;
 
 namespace XClaim.Common.Responses {
-    public class User : AuditResponse<Guid> {
+    public sealed class User : AuditableResponse<Guid> {
         public string Identifier { get; set; } = string.Empty;
         public string Email { get; set; } = String.Empty;
         public string Phone { get; set; } = String.Empty;
