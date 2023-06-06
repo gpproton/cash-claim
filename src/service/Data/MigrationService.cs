@@ -9,6 +9,7 @@
 // limitations under the License.
 
 using Microsoft.EntityFrameworkCore;
+using XClaim.Common.Context;
 
 namespace XClaim.Service.Data;
 

@@ -1,6 +1,7 @@
 using Axolotl.AspNet;
 using Axolotl.EFCore;
 using DotNetEd.CoreAdmin;
+using XClaim.Common.Context;
 using XClaim.Service.Data;
 
 var builder = WebApplication.CreateBuilder(args);

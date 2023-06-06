@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Entity;
 using XClaim.Common.Enums;
 
-namespace XClaim.Service.Data;
+namespace XClaim.Common.Context;
 
 public class ServiceContext : AbstractDbContext {
     private static DbContextOptions<TContext> ChangeOptionsType<TContext>(DbContextOptions options) where TContext : DbContext
@@ -32,6 +32,20 @@ public class ServiceContext : AbstractDbContext {
         modelBuilder.EnableAutoHistory<AuditEntity>(o => { });
         modelBuilder.RegisterEnumConverters<NotificationChannels>(typeof(ICollection<NotificationChannels>));
         modelBuilder.RegisterEnumConverters<EventType>(typeof(ICollection<EventType>));
+
+        // User - Company (Manager) One to One
+        modelBuilder.Entity<CompanyEntity>()
+            .HasOne(c => c.Manager)
+            .WithOne(u => u.CompanyManaged)
+            .HasForeignKey<CompanyEntity>(c => c.ManagerId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // User - Team (Manager) One to One
+        modelBuilder.Entity<TeamEntity>()
+            .HasOne(t => t.Manager)
+            .WithOne(u => u.TeamManaged)
+            .HasForeignKey<TeamEntity>(t => t.ManagerId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 
     public DbSet<ServerEntity> Server { get; set; } = default!;

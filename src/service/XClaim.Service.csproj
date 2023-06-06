@@ -16,14 +16,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\common\entity\XClaim.Common.Entity.csproj" />
+    <ProjectReference Include="..\common\context\XClaim.Common.Context.csproj" />
     <ProjectReference Include="..\common\http\XClaim.Common.Http.csproj" />
-    <ProjectReference Include="..\common\shared\XClaim.Common.csproj" />
     <ProjectReference Include="..\migration\mysql\XClaim.Migration.Mysql.csproj" />
     <ProjectReference Include="..\migration\postgres\XClaim.Migration.Postgres.csproj" />
     <ProjectReference Include="..\migration\sqlite\XClaim.Migration.Sqlite.csproj" />

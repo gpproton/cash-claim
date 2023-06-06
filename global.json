@@ -9,7 +9,7 @@
     "ci": "dotnet r build && dotnet r test",
     "r:aspnet": "dotnet run -f net8.0 --project src/service",
     "m:clean": "rm -rf src/service/Migrations/* && rm ./**/*.sqlite*",
-    "m:sqlite": "dotnet ef migrations add Initial --project ./src/common/migration/XClaim.Migration.Sqlite.csproj -- --provider Sqlite",
+    "m:sqlite": "dotnet-ef migrations add --project ./src/common/migration/XClaim.Migration.Sqlite.csproj Initial -- --provider Sqlite",
     "m:postgres": "dotnet ef migrations add Initial --project ./src/common/migration/XClaim.Migration.Postgres.csproj -- --provider Postgres",
     "m:mysql": "dotnet ef migrations add Initial --project ./src/common/migration/XClaim.Migration.Mysql.csproj -- --provider Mysql",
     "m:all": "dotnet r m:sqlite && dotnet r m:postgres && dotnet r m:mysql"

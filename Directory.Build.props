@@ -31,4 +31,8 @@
     <EfcoreVersion>8.0.0-preview.4.23259.3</EfcoreVersion>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>$(MSBuildProjectDirectory)/obj/</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
 </Project>
