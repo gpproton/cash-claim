@@ -16,8 +16,10 @@ namespace XClaim.Common.Entity;
 public class BankAccountEntity : AuditableEntity<Guid> {
     public string FullName { get; set; } = string.Empty;
     public BankEntity? Bank { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? BankId { get; set; }
     public UserEntity? Owner { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? OwnerId { get; set; }
     [Required]
     [MaxLength(20)]

@@ -22,11 +22,12 @@ public class PaymentEntity : AuditableEntity<Guid> {
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
     public CompanyEntity? Company { get; set; }
-    public Guid? CompanyId { get; set; }
+    [Display(AutoGenerateField = false)]
+    public int? CompanyId { get; set; }
     public DateTime? ConfirmedAt { get; set; }
     public bool Confirmed => ConfirmedAt != null;
     public int Count { get; set; }
-    public ICollection<ClaimEntity> Claims { get; set; } = default!;
-    public ICollection<FileEntity> Files { get; set; } = default!;
-    public ICollection<CommentEntity> Comments { get; set; } = default!;
+    public ICollection<ClaimEntity>? Claims { get; set; }
+    public ICollection<FileEntity>? Files { get; set; }
+    public ICollection<CommentEntity>? Comments { get; set; }
 }

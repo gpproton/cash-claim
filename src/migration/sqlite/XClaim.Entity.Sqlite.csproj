@@ -15,8 +15,4 @@
     <ProjectReference Include="..\..\common\entity\XClaim.Common.Entity.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

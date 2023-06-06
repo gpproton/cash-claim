@@ -8,14 +8,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 
 namespace XClaim.Common.Entity;
 
 public class TransferRequestEntity : AuditableEntity<Guid> {
     public UserEntity? User { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? UserId { get; set; }
     public CompanyEntity? Company { get; set; }
-    public Guid? CompanyId { get; set; }
+    [Display(AutoGenerateField = false)]
+    public int? CompanyId { get; set; }
     public bool Completed { get; set; }
 }

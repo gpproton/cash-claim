@@ -22,8 +22,10 @@ public class FileEntity : BaseEntity<Guid> {
     [MaxLength(8)]
     public string? Extension { get; set; }
     public UserEntity? Owner { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? OwnerId { get; set; }
     public ClaimEntity? Claim { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? ClaimId { get; set; }
     public PaymentEntity? Payment { get; set; }
     public Guid? PaymentId { get; set; }

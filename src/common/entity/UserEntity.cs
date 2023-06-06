@@ -31,18 +31,23 @@ public class UserEntity : AuditableEntity<Guid> {
     public decimal Balance { get; set; }
     public UserPermission Permission { get; set; } = UserPermission.Standard;
     public CompanyEntity? Company { get; set; }
-    public Guid? CompanyId { get; set; }
+    [Display(AutoGenerateField = false)]
+    public int? CompanyId { get; set; }
     public CompanyEntity? CompanyManaged { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? CompanyManagedId { get; set; }
     public TeamEntity? Team { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? TeamId { get; set; }
     public TeamEntity? TeamManaged { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? TeamManagedId { get; set; }
     public BankAccountEntity? BankAccount { get; set; }
     public NotificationEntity? Notification { get; set; }
     public SettingsEntity? Setting { get; set; }
     public CurrencyEntity? Currency { get; set; }
-    public Guid? CurrencyId { get; set; }
+    [Display(AutoGenerateField = false)]
+    public int? CurrencyId { get; set; }
     public bool Active { get; set; }
     [MaxLength(128)]
     public string? Token { get; set; }

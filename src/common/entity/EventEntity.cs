@@ -18,8 +18,10 @@ public class EventEntity : BaseEntity<Guid> {
     public DateTime CreatedAt { get; set; }
     public EventType Type { get; set; } = EventType.Claim;
     public ClaimEntity? Claim { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? ClaimId { get; set; }
     public PaymentEntity? Payment { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? PaymentId { get; set; }
     [MaxLength(512)]
     public string Description { get; set; } = string.Empty;

@@ -22,29 +22,37 @@ public class ClaimEntity : AuditableEntity<Guid> {
     public string? Notes { get; set; }
     public decimal Amount { get; set; }
     public CurrencyEntity? Currency { get; set; }
-    public Guid? CurrencyId { get; set; }
+    [Display(AutoGenerateField = false)]
+    public int? CurrencyId { get; set; }
     public PaymentEntity? Payment { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? PaymentId { get; set; }
     [Required]
     public CategoryEntity? Category { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? CategoryId { get; set; }
     public CompanyEntity? Company { get; set; }
-    public Guid? CompanyId { get; set; }
+    [Display(AutoGenerateField = false)]
+    public int? CompanyId { get; set; }
     public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
     public DateTime? CancelledAt { get; set; }
     public UserEntity? ReviewedBy { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? ReviewedById { get; set; }
     public DateTime? ReviewedAt { get; set; }
     public UserEntity? ConfirmedBy { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? ConfirmedById { get; set; }
     public DateTime? ConfirmedAt { get; set; }
     public UserEntity? ApprovedBy { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? ApprovedById { get; set; }
     public DateTime? ApprovedAt { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? RejectedById { get; set; }
     public DateTime? RejectedAt { get; set; }
-    public ICollection<FileEntity> Files { get; set; } = default!;
-    public ICollection<CommentEntity> Comments { get; set; } = default!;
+    public ICollection<FileEntity>? Files { get; set; }
+    public ICollection<CommentEntity>? Comments { get; set; }
 }

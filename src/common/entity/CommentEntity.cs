@@ -17,8 +17,10 @@ public class CommentEntity : BaseEntity<Guid> {
     public UserEntity? Owner { get; set; }
     public Guid? OwnerId { get; set; }
     public ClaimEntity? Claim { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? ClaimId { get; set; }
     public PaymentEntity? Payment { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? PaymentId { get; set; }
     [MaxLength(1024)]
     public string? Content { get; set; }

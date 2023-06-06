@@ -8,6 +8,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 using XClaim.Common.Enums;
 
@@ -15,8 +16,9 @@ namespace XClaim.Common.Entity;
 
 public class NotificationEntity : AuditableEntity<Guid> {
     public UserEntity? Owner { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? OwnerId { get; set; }
     public bool Disabled { get; set; }
-    public ICollection<NotificationChannels> Channels { get; set; } = default!;
-    public ICollection<EventType> Types { get; set; } = default!;
+    public ICollection<NotificationChannels>? Channels { get; set; }
+    public ICollection<EventType>? Types { get; set; }
 }

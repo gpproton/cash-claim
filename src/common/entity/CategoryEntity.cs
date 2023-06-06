@@ -17,7 +17,8 @@ public class CategoryEntity : AuditableEntity<Guid> {
     [MaxLength(128)]
     public string Name { get; set; } = string.Empty;
     public CompanyEntity? Company { get; set; }
-    public Guid? CompanyId { get; set; }
+    [Display(AutoGenerateField = false)]
+    public int? CompanyId { get; set; }
     [MaxLength(1024)]
     public string? Description { get; set; } = string.Empty;
     public bool Active { get; set; }

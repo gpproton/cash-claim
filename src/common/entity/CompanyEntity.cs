@@ -13,7 +13,7 @@ using Axolotl.EFCore.Base;
 
 namespace XClaim.Common.Entity;
 
-public class CompanyEntity : BaseEntity<Guid> {
+public class CompanyEntity : BaseEntity<int> {
     public bool Active { get; set; }
     [MaxLength(64)]
     public string ShortName { get; set; } = String.Empty;
@@ -23,6 +23,7 @@ public class CompanyEntity : BaseEntity<Guid> {
     [MaxLength(256)]
     public string AdminEmail { get; set; } = String.Empty;
     public UserEntity? Manager { get; set; }
+    [Display(AutoGenerateField = false)]
     public Guid? ManagerId { get; set; }
-    public ICollection<UserEntity> Members { get; set; } = default!;
+    public ICollection<UserEntity>? Members { get; set; }
 }

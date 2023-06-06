@@ -8,15 +8,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 
 namespace XClaim.Common.Entity;
 
-public class ServerEntity : BaseEntity<Guid> {
-    public string ServiceName { get; set; } = string.Empty;
-    public string AdminEmail { get; set; } = string.Empty;
-    public bool MaintenanceMode { get; set; }
-    public string MaintenanceText { get; set; } = string.Empty;
+public class ServerEntity : BaseEntity<int> {
+    public string? ServiceName { get; set; }
+    public string? AdminEmail { get; set; }
+    public bool MaintenanceActive { get; set; }
+    public string? MaintenanceText { get; set; }
     public CurrencyEntity? Currency { get; set; }
-    public Guid? CurrencyId { get; set; }
+    [Display(AutoGenerateField = false)]
+    public int? CurrencyId { get; set; }
 }
