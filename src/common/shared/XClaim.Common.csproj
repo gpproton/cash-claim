@@ -7,7 +7,7 @@
   <Import Project="..\..\..\Common.props" />
 
   <ItemGroup>
-    <PackageReference Include="Proton.Common" />
+    <PackageReference Include="Axolotl" />
   </ItemGroup>
 
 </Project>

@@ -21,8 +21,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" />
-    <PackageReference Include="Proton.Common.AspNet" />
-    <PackageReference Include="Proton.Common.EFCore" />
+    <PackageReference Include="Axolotl.AspNet" />
+    <PackageReference Include="Axolotl.EFCore" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" />
   </ItemGroup>

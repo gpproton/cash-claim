@@ -46,13 +46,13 @@
     <PackageVersion Include="Swashbuckle.AspNetCore.ReDoc" Version="6.5.0" />
   </ItemGroup>
 
-  <!-- Proton.Common packages -->
+  <!-- Axolotl packages -->
   <ItemGroup>
-    <PackageVersion Include="Proton.Common" Version="$(ProtonVersion)" />
-    <PackageVersion Include="Proton.Common.Http" Version="$(ProtonVersion)" />
-    <PackageVersion Include="Proton.Common.AspNet" Version="$(ProtonVersion)" />
-    <PackageVersion Include="Proton.Common.EFCore" Version="$(ProtonVersion)" />
-    <PackageVersion Include="Proton.Common.Razor" Version="$(ProtonVersion)" />
+    <PackageVersion Include="Axolotl" Version="$(AxolotlVersion)" />
+    <PackageVersion Include="Axolotl.Http" Version="$(AxolotlVersion)" />
+    <PackageVersion Include="Axolotl.AspNet" Version="$(AxolotlVersion)" />
+    <PackageVersion Include="Axolotl.EFCore" Version="$(AxolotlVersion)" />
+    <PackageVersion Include="Axolotl.Razor" Version="$(AxolotlVersion)" />
   </ItemGroup>
 
   <!-- MAUI packages -->
