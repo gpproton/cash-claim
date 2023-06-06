@@ -8,31 +8,36 @@
   <Import Project="..\..\Common.props" />
 
   <ItemGroup>
+    <PackageReference Include="Axolotl.AspNet" />
+    <PackageReference Include="Axolotl.EFCore" />
+    <PackageReference Include="CoreAdmin" />
+    <PackageReference Include="EFCore.NamingConventions" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.AutoHistory" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" />
-    <PackageReference Include="Axolotl.AspNet" />
-    <PackageReference Include="Axolotl.EFCore" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\common\entity\XClaim.Common.Entity.csproj" />
     <ProjectReference Include="..\common\http\XClaim.Common.Http.csproj" />
     <ProjectReference Include="..\common\shared\XClaim.Common.csproj" />
+    <ProjectReference Include="..\migration\mysql\XClaim.Migration.Mysql.csproj" />
+    <ProjectReference Include="..\migration\postgres\XClaim.Migration.Postgres.csproj" />
+    <ProjectReference Include="..\migration\sqlite\XClaim.Migration.Sqlite.csproj" />
     <ProjectReference Include="..\web\client\XClaim.Web.Client.csproj" />
     <ProjectReference Include="..\web\shared\XClaim.Web.Shared.csproj" />
   </ItemGroup>
 
-
+  <ItemGroup>
+    <Folder Include="Features\AccountModule\" />
+    <Folder Include="Features\CategoryModule\" />
+    <Folder Include="Features\ClaimModule\" />
+    <Folder Include="Features\PaymentModule\" />
+    <Folder Include="Features\ServerModule\" />
+    <Folder Include="Features\SharedModule\Entities\" />
+  </ItemGroup>
+  
 </Project>
