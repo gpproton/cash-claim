@@ -4,6 +4,8 @@
     <RootNamespace>XClaim.Common.Entity</RootNamespace>
   </PropertyGroup>
 
+  <Import Project="..\..\..\Common.props" />
+
   <ItemGroup>
     <PackageReference Include="Axolotl.EFCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />

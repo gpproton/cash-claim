@@ -17,13 +17,14 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Context;
 
 public class ServiceContext : AbstractDbContext {
-    private static DbContextOptions<TContext> ChangeOptionsType<TContext>(DbContextOptions options) where TContext : DbContext
-        => (DbContextOptions<TContext>)options;
-    public ServiceContext(DbContextOptions<ServiceContext> options) : base(ChangeOptionsType<ServiceContext>(options)) { }
+    public ServiceContext() { }
+    protected override void OnConfiguring(DbContextOptionsBuilder options) { }
 
+    public ServiceContext(DbContextOptions<ServiceContext> options) : base(ChangeOptionsType<ServiceContext>(options)) { }
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
-        if (Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite") modelBuilder.DateTimeOffsetToBinary();
+        if (Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite")
+            modelBuilder.DateTimeOffsetToBinary();
 
         var entitiesAssembly = typeof (ServiceContext).Assembly;
         modelBuilder.RegisterAllEntities<BaseEntity<Guid>>(entitiesAssembly);
@@ -63,5 +64,5 @@ public class ServiceContext : AbstractDbContext {
     public DbSet<FileEntity> Files { get; set; } = default!;
     public DbSet<PaymentEntity> Payments { get; set; } = default!;
     public DbSet<TransferRequestEntity> TransferRequests { get; set; } = default!;
-    public DbSet<AuditEntity> AuditHistories { get; set; } = default!;
+    public DbSet<AuditEntity> AuditLogs { get; set; } = default!;
 }

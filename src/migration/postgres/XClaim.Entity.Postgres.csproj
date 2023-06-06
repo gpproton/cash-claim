@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <RootNamespace>XClaim.Migration.Mysql</RootNamespace>
-  </PropertyGroup>
+  <Import Project="..\..\..\Common.props" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
@@ -10,7 +8,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
 
   <ItemGroup>

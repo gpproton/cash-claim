@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <RootNamespace>XClaim.Migration.Sqlite</RootNamespace>
-  </PropertyGroup>
+  <Import Project="..\..\..\Common.props" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
