@@ -19,6 +19,7 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfcoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.4" />
     <PackageVersion Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
   </ItemGroup>
@@ -42,7 +43,6 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspCoreVersion)" />
-    <PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0-preview.4.23261.6" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore.ReDoc" Version="6.5.0" />
   </ItemGroup>
@@ -58,14 +58,14 @@
 
   <!-- MAUI packages -->
   <ItemGroup>
-    <PackageVersion Include="BindableProps" Version="1.3.7" />
-    <PackageVersion Include="CommunityToolkit.Maui.Markup" Version="3.0.0" />
-    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.1.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="$(DotnetVersion)" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="$(DotnetVersion)" />
-    <PackageVersion Include="Microsoft.Identity.Client" Version="4.54.1" />
-    <PackageVersion Include="UraniumUI.Icons.FontAwesome" Version="2.5.0" />
-    <PackageVersion Include="UraniumUI.Material" Version="2.5.01" />
+<!--    <PackageVersion Include="BindableProps" Version="1.3.7" />-->
+<!--    <PackageVersion Include="CommunityToolkit.Maui.Markup" Version="3.0.0" />-->
+<!--    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.1.0" />-->
+<!--    <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="$(DotnetVersion)" />-->
+<!--    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="$(DotnetVersion)" />-->
+<!--    <PackageVersion Include="Microsoft.Identity.Client" Version="4.54.1" />-->
+<!--    <PackageVersion Include="UraniumUI.Icons.FontAwesome" Version="2.5.0" />-->
+<!--    <PackageVersion Include="UraniumUI.Material" Version="2.5.01" />-->
   </ItemGroup>
 
   <!-- Test packages -->
