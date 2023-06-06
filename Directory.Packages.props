@@ -8,6 +8,7 @@
     <PackageVersion Include="Ardalis.SmartEnum" Version="$(ArdalisVersion)" />
     <PackageVersion Include="Ardalis.SmartEnum.SystemTextJson" Version="$(ArdalisVersion)" />
     <PackageVersion Include="Ardalis.Specification" Version="$(ArdalisVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(DotnetVersion)" />
     <PackageVersion Include="Nextended.Core" Version="$(NextendedVersion)" />
   </ItemGroup>
 
@@ -21,7 +22,7 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.4" />
-    <PackageVersion Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+    <PackageVersion Include="MySql.EntityFrameworkCore" Version="7.0.2" />
   </ItemGroup>
 
   <!-- Razor packages -->
