@@ -8,16 +8,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Axolotl.Response;
+using XClaim.Common.Base;
 
 namespace XClaim.Common.Responses;
 
-public class Company : BaseResponse<int> {
-    public bool Active { get; set; }
-    public string ShortName { get; set; } = String.Empty;
-    public string FullName { get; set; } = String.Empty;
-    public string AdminEmail { get; set; } = String.Empty;
-    public User? Manager { get; set; }
-    public Guid? ManagerId { get; set; }
-    public ICollection<User>? Members { get; set; }
+public class BankAccount : AuditableResponse<Guid> {
+    public string FullName { get; set; } = string.Empty;
+    public Bank? Bank { get; set; }
+    public Guid? BankId { get; set; }
+    public User? Owner { get; set; }
+    public Guid? OwnerId { get; set; }
+    public string? Number { get; set; }
+    public string? Description { get; set; }
 }

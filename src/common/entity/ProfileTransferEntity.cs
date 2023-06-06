@@ -8,16 +8,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Axolotl.Response;
+using System.ComponentModel.DataAnnotations;
+using Axolotl.EFCore.Base;
 
-namespace XClaim.Common.Responses;
+namespace XClaim.Common.Entity;
 
-public class Company : BaseResponse<int> {
-    public bool Active { get; set; }
-    public string ShortName { get; set; } = String.Empty;
-    public string FullName { get; set; } = String.Empty;
-    public string AdminEmail { get; set; } = String.Empty;
-    public User? Manager { get; set; }
-    public Guid? ManagerId { get; set; }
-    public ICollection<User>? Members { get; set; }
+public class ProfileTransferEntity : AuditableEntity<Guid> {
+    public UserEntity? User { get; set; }
+    [Display(AutoGenerateField = false)]
+    public Guid? UserId { get; set; }
+    public CompanyEntity? Company { get; set; }
+    [Display(AutoGenerateField = false)]
+    public int? CompanyId { get; set; }
+    public bool Completed { get; set; }
 }

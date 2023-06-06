@@ -8,17 +8,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
-using Axolotl.EFCore.Base;
+using XClaim.Common.Base;
 
-namespace XClaim.Common.Entity;
+namespace XClaim.Common.Responses;
 
-public class TransferRequestEntity : AuditableEntity<Guid> {
-    public UserEntity? User { get; set; }
-    [Display(AutoGenerateField = false)]
-    public Guid? UserId { get; set; }
-    public CompanyEntity? Company { get; set; }
-    [Display(AutoGenerateField = false)]
+public class Category : AuditableResponse<Guid> {
+    public string Name { get; set; } = string.Empty;
+    public Company? Company { get; set; }
     public int? CompanyId { get; set; }
-    public bool Completed { get; set; }
+    public string? Description { get; set; } = string.Empty;
+    public bool Active { get; set; }
+    public string? Icon { get; set; } = string.Empty;
 }

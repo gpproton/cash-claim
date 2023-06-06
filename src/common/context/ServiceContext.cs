@@ -63,6 +63,6 @@ public class ServiceContext : AbstractDbContext {
     public DbSet<ClaimEntity> Claims { get; set; } = default!;
     public DbSet<FileEntity> Files { get; set; } = default!;
     public DbSet<PaymentEntity> Payments { get; set; } = default!;
-    public DbSet<TransferRequestEntity> TransferRequests { get; set; } = default!;
+    public DbSet<ProfileTransferEntity> TransferRequests { get; set; } = default!;
     public DbSet<AuditEntity> AuditLogs { get; set; } = default!;
 }

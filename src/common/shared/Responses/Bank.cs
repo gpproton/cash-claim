@@ -12,12 +12,9 @@ using Axolotl.Response;
 
 namespace XClaim.Common.Responses;
 
-public class Company : BaseResponse<int> {
+public class Bank : BaseResponse<int> {
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string SwiftCode { get; set; } = string.Empty;
     public bool Active { get; set; }
-    public string ShortName { get; set; } = String.Empty;
-    public string FullName { get; set; } = String.Empty;
-    public string AdminEmail { get; set; } = String.Empty;
-    public User? Manager { get; set; }
-    public Guid? ManagerId { get; set; }
-    public ICollection<User>? Members { get; set; }
 }

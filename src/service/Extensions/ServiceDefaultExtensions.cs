@@ -53,9 +53,9 @@ public static class ServiceDefaultExtensions {
         app.UseSession();
         app.MapRazorPages();
         app.MapControllers();
+        app.RegisterFeatureEndpoints();
         app.UseCoreAdminCustomUrl("admin");
         app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
-
         app.MapFallbackToPage("/_Host");
         return app;
     }

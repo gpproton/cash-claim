@@ -8,16 +8,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Axolotl.Response;
+using XClaim.Common.Base;
+using XClaim.Common.Enums;
 
 namespace XClaim.Common.Responses;
 
-public class Company : BaseResponse<int> {
-    public bool Active { get; set; }
-    public string ShortName { get; set; } = String.Empty;
-    public string FullName { get; set; } = String.Empty;
-    public string AdminEmail { get; set; } = String.Empty;
-    public User? Manager { get; set; }
-    public Guid? ManagerId { get; set; }
-    public ICollection<User>? Members { get; set; }
+public class Settings : AuditableResponse<Guid> {
+    public User? Owner { get; set; }
+    public Guid? OwnerId { get; set; }
+    public bool DarkMode { get; set; }
+    public AppLanguage Language { get; set; } = AppLanguage.English;
 }
