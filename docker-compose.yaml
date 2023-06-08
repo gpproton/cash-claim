@@ -16,7 +16,7 @@ services:
       - POSTGRES_USER=x-claim
       - POSTGRES_PASSWORD=x-claim
     volumes:
-      - .postgres:/var/lib/postgresql/data/
+      - postgres:/var/lib/postgresql/data/
 
   mysql:
     image: mysql:8.0
