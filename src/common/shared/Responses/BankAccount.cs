@@ -16,8 +16,8 @@ public class BankAccount : AuditableResponse<Guid> {
     public string FullName { get; set; } = string.Empty;
     public Bank? Bank { get; set; }
     public Guid? BankId { get; set; }
-    public User? Owner { get; set; }
-    public Guid? OwnerId { get; set; }
+    public User? User { get; set; }
+    public Guid? UserId { get; set; }
     public string? Number { get; set; }
     public string? Description { get; set; }
 }

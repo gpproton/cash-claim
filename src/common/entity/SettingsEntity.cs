@@ -15,9 +15,9 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Entity;
 
 public class SettingsEntity : AuditableEntity<Guid> {
-    public UserEntity? Owner { get; set; }
+    public UserEntity? User { get; set; }
     [Display(AutoGenerateField = false)]
-    public Guid? OwnerId { get; set; }
+    public Guid? UserId { get; set; }
     public bool DarkMode { get; set; }
     public AppLanguage Language { get; set; } = AppLanguage.English;
 }

@@ -19,8 +19,8 @@ public class PaymentEntity : AuditableEntity<Guid> {
     [MaxLength(1024)]
     public string? Notes { get; set; }
     public decimal Amount { get; set; }
-    public UserEntity? Owner { get; set; }
-    public Guid? OwnerId { get; set; }
+    public UserEntity? User { get; set; }
+    public Guid? UserId { get; set; }
     public CompanyEntity? Company { get; set; }
     [Display(AutoGenerateField = false)]
     public int? CompanyId { get; set; }

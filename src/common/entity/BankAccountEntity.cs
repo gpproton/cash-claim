@@ -18,9 +18,9 @@ public class BankAccountEntity : AuditableEntity<Guid> {
     public BankEntity? Bank { get; set; }
     [Display(AutoGenerateField = false)]
     public Guid? BankId { get; set; }
-    public UserEntity? Owner { get; set; }
+    public UserEntity? User { get; set; }
     [Display(AutoGenerateField = false)]
-    public Guid? OwnerId { get; set; }
+    public Guid? UserId { get; set; }
     [Required]
     [MaxLength(20)]
     public string? Number { get; set; }

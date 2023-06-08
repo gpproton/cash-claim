@@ -26,8 +26,8 @@ public class ClaimResponse : AuditableResponse<Guid> {
     public Company? Company { get; set; }
     public int? CompanyId { get; set; }
     public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
-    public User? Owner { get; set; }
-    public Guid? OwnerId { get; set; }
+    public User? User { get; set; }
+    public Guid? UserId { get; set; }
     public DateTime? CancelledAt { get; set; }
     public User? ReviewedBy { get; set; }
     public Guid? ReviewedById { get; set; }

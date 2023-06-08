@@ -15,9 +15,9 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Entity;
 
 public class NotificationEntity : AuditableEntity<Guid> {
-    public UserEntity? Owner { get; set; }
+    public UserEntity? User { get; set; }
     [Display(AutoGenerateField = false)]
-    public Guid? OwnerId { get; set; }
+    public Guid? UserId { get; set; }
     public bool Disabled { get; set; }
     public ICollection<NotificationChannels>? Channels { get; set; }
     public ICollection<EventType>? Types { get; set; }

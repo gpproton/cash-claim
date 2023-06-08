@@ -14,8 +14,8 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Responses;
 
 public class Settings : AuditableResponse<Guid> {
-    public User? Owner { get; set; }
-    public Guid? OwnerId { get; set; }
+    public User? User { get; set; }
+    public Guid? UserId { get; set; }
     public bool DarkMode { get; set; }
     public AppLanguage Language { get; set; } = AppLanguage.English;
 }

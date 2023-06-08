@@ -16,8 +16,8 @@ public class Payment : AuditableResponse<Guid> {
     public string? Description { get; set; }
     public string? Notes { get; set; }
     public decimal Amount { get; set; }
-    public User? Owner { get; set; }
-    public Guid? OwnerId { get; set; }
+    public User? User { get; set; }
+    public Guid? UserId { get; set; }
     public Company? Company { get; set; }
     public int? CompanyId { get; set; }
     public DateTime? ConfirmedAt { get; set; }

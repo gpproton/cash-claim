@@ -35,8 +35,8 @@ public class ClaimEntity : AuditableEntity<Guid> {
     [Display(AutoGenerateField = false)]
     public int? CompanyId { get; set; }
     public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
-    public UserEntity? Owner { get; set; }
-    public Guid? OwnerId { get; set; }
+    public UserEntity? User { get; set; }
+    public Guid? UserId { get; set; }
     public DateTime? CancelledAt { get; set; }
     public UserEntity? ReviewedBy { get; set; }
     [Display(AutoGenerateField = false)]
