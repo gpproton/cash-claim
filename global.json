@@ -7,7 +7,7 @@
     "b": "dotnet build --configuration Debug",
     "test": "dotnet test --configuration Release",
     "ci": "dotnet r build && dotnet r test",
-    "r:aspnet": "dotnet run -f net8.0 --project src/service",
+    "service": "dotnet run --project ./src/service",
     "m:clean": "rm -rf src/service/Migrations/* && rm ./**/*.sqlite*",
     "m:sqlite": "dotnet-ef migrations add Initial -s ./src/service/XClaim.Service.csproj -p ./src/migration/sqlite/XClaim.Entity.Sqlite.csproj --verbose -- --provider sqlite",
     "m:postgres": "dotnet-ef migrations add Initial -s ./src/service/XClaim.Service.csproj -p ./src/migration/postgres/XClaim.Entity.Postgres.csproj --verbose -- --provider postgres",
