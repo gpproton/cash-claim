@@ -8,18 +8,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Axolotl.AspNet.Feature;
+using Axolotl.Response;
 
-namespace XClaim.Service.Features.ReportModule;
+namespace XClaim.Common.Responses;
 
-public class ReportFeature : IFeature {
-    public IServiceCollection RegisterModule(IServiceCollection services) {
-
-        return services;
-    }
-
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-
-        return endpoints;
-    }
+public class Domain : BaseResponse<int> {
+    public string Address { get; set; } = string.Empty;
+    public bool Active { get; set; }
+    public string Description { get; set; } = string.Empty;
 }

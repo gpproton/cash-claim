@@ -9,24 +9,17 @@
 // limitations under the License.
 
 using Axolotl.AspNet.Feature;
-using Axolotl.Enums;
 using XClaim.Common.Entity;
 using XClaim.Common.Responses;
 
 namespace XClaim.Service.Features.ServerModule;
 
-public class DomainFeature : GenericFeature<DomainFeature> {
+public class ServerOptionFeature : GenericFeature<ServerOptionFeature> {
     public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        var group = SetupGroup<DomainFeature, DomainEntity, Domain, int>(
+        var group = SetupGroup<ServerOptionFeature, ServerEntity, Server, int>(
             endpoints,
             new FeatureState(
-                new List<RouteState> {
-                    new (RouteType.GetAll),
-                    new (RouteType.GetById),
-                    new (RouteType.Create),
-                    new (RouteType.Update),
-                    new (RouteType.Delete)
-                }));
+                new List<RouteState>()));
 
         return group;
     }

@@ -22,11 +22,8 @@ public class CategoryFeature : GenericFeature<CategoryFeature> {
             new (RouteType.GetAll),
             new (RouteType.GetById),
             new (RouteType.Create),
-            // new (RouteType.CreateRange),
             new (RouteType.Update),
-            // new (RouteType.UpdateRange),
-            new (RouteType.Delete),
-            // new (RouteType.DeleteRange)
+            new (RouteType.Delete)
         }));
 
         return group;

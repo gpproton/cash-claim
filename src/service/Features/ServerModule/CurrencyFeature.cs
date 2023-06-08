@@ -8,8 +8,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace XClaim.Service.Features.ServerModule {
-    public class CurrencyFeature {
+using Axolotl.AspNet.Feature;
+using Axolotl.Enums;
+using XClaim.Common.Entity;
+using XClaim.Common.Responses;
 
+namespace XClaim.Service.Features.ServerModule;
+
+public class CurrencyFeature : GenericFeature<CurrencyFeature> {
+    public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+        var group = SetupGroup<CurrencyFeature, CurrencyEntity, Currency, int>(
+            endpoints,
+            new FeatureState(
+                new List<RouteState> {
+                    new (RouteType.GetAll),
+                    new (RouteType.GetById),
+                    new (RouteType.Create),
+                    new (RouteType.Update),
+                    new (RouteType.Delete)
+                }));
+
+        return group;
     }
 }

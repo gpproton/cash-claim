@@ -19,6 +19,5 @@ public class ServerEntity : BaseEntity<int> {
     public bool MaintenanceActive { get; set; }
     public string? MaintenanceText { get; set; }
     public CurrencyEntity? Currency { get; set; }
-    [Display(AutoGenerateField = false)]
     public int? CurrencyId { get; set; }
 }

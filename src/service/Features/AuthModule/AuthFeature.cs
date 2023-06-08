@@ -1,5 +1,5 @@
 // Copyright 2023 - 2023 Godwin peter .O (me@godwin.dev)
-// 
+//
 // Licensed under the MIT License;
 // you may not use this file except in compliance with the License.
 // Unless required by applicable law or agreed to in writing, software
@@ -8,8 +8,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace XClaim.Service.Features.AuthModule {
-    public class AuthFeature {
-        
+using Axolotl.AspNet.Feature;
+
+namespace XClaim.Service.Features.AuthModule;
+
+public class AuthFeature : IFeature {
+    public IServiceCollection RegisterModule(IServiceCollection services) {
+
+        return services;
+    }
+
+    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+
+        return endpoints;
     }
 }

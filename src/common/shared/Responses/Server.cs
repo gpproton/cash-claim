@@ -1,5 +1,5 @@
 // Copyright 2023 - 2023 Godwin peter .O (me@godwin.dev)
-// 
+//
 // Licensed under the MIT License;
 // you may not use this file except in compliance with the License.
 // Unless required by applicable law or agreed to in writing, software
@@ -8,8 +8,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace XClaim.Service.Features.ServerModule {
-    public class ServerFeature {
-        
-    }
+using Axolotl.Response;
+
+namespace XClaim.Common.Responses;
+
+public class Server : BaseResponse<int> {
+    public string? ServiceName { get; set; }
+    public string? AdminEmail { get; set; }
+    public bool MaintenanceActive { get; set; }
+    public string? MaintenanceText { get; set; }
+    public Currency? Currency { get; set; }
+    public int? CurrencyId { get; set; }
 }

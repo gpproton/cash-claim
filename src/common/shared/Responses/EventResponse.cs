@@ -8,18 +8,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Axolotl.AspNet.Feature;
+using Axolotl.Response;
+using XClaim.Common.Enums;
 
-namespace XClaim.Service.Features.ReportModule;
+namespace XClaim.Common.Responses;
 
-public class ReportFeature : IFeature {
-    public IServiceCollection RegisterModule(IServiceCollection services) {
-
-        return services;
-    }
-
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-
-        return endpoints;
-    }
+public class EventResponse : BaseResponse<Guid> {
+    public DateTime CreatedAt { get; set; }
+    public EventType Type { get; set; } = EventType.Claim;
+    public ClaimResponse? Claim { get; set; }
+    public Guid? ClaimId { get; set; }
+    public Payment? Payment { get; set; }
+    public Guid? PaymentId { get; set; }
+    public string Description { get; set; } = string.Empty;
 }
