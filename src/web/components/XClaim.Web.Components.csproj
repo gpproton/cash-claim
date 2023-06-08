@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <Title>XClaim.Web.Components</Title>
+  </PropertyGroup>
+
+  <Import Project="..\..\..\Common.props" />
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="Axolotl.Razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\common\http\XClaim.Common.Http.csproj" />
+    <ProjectReference Include="..\..\common\shared\XClaim.Common.csproj" />
+    <ProjectReference Include="..\shared\XClaim.Web.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

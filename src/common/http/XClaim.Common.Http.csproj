@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Title>XClaim.Common.Http</Title>
+  </PropertyGroup>
+
+  <Import Project="..\..\..\Common.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Axolotl.Http" />
+  </ItemGroup>
+
+</Project>
