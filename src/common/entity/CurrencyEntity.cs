@@ -18,7 +18,6 @@ namespace XClaim.Common.Entity;
 [Index(nameof(Code), IsUnique = true)]
 public sealed class CurrencyEntity : BaseEntity<int> {
     public string Name { get; set; } = string.Empty;
-    [MaxLength(1)]
     public string? Symbol { get; set; } = string.Empty;
     [MaxLength(3)]
     public string Code { get; set; } = string.Empty;

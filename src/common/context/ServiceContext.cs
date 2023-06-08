@@ -59,6 +59,7 @@ public class ServiceContext : AbstractDbContext {
     public DbSet<CompanyEntity> Companies { get; set; } = default!;
     public DbSet<CategoryEntity> Categories { get; set; } = default!;
     public DbSet<CommentEntity> Comments { get; set; } = default!;
+    public DbSet<CurrencyEntity> Currencies { get; set; } = default!;
     public DbSet<EventEntity> Events { get; set; } = default!;
     public DbSet<ClaimEntity> Claims { get; set; } = default!;
     public DbSet<FileEntity> Files { get; set; } = default!;
