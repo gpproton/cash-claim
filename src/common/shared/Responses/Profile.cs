@@ -10,6 +10,7 @@
 
 using Axolotl.Response;
 
-namespace XClaim.Common.Responses;
-
-public class Profile : BaseResponse<Guid> { }
+namespace XClaim.Common.Responses {
+    public class Profile : BaseResponse<Guid> {
+    }
+}

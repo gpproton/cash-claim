@@ -12,13 +12,12 @@ using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace XClaim.Common.Entity;
-
-[Index(nameof(Name), IsUnique = true)]
-public class BankEntity : BaseEntity<Guid> {
-    [MaxLength(128)]
-    public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public string SwiftCode { get; set; } = string.Empty;
-    public bool Active { get; set; }
+namespace XClaim.Common.Entity {
+    [Index(nameof(Name), IsUnique = true)]
+    public class BankEntity : BaseEntity<Guid> {
+        [MaxLength(128)] public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string SwiftCode { get; set; } = string.Empty;
+        public bool Active { get; set; }
+    }
 }

@@ -4,6 +4,7 @@
 @inject AuthState AuthState
 
 @code {
+
     [Parameter]
     public bool SideBarOpen { get; set; } = true;
 
@@ -11,30 +12,33 @@
 
     record MenuLink(string Title, string Icon, string Path, List<MenuLink>? Child = null);
 
-    private List<MenuLink> _links = new List<MenuLink> {
-        new MenuLink("Overview", Icons.Material.Filled.Dashboard, "/app/overview"),
-        new MenuLink("Claims", Icons.Material.Filled.Money, "/app/claims"),
-        new MenuLink("Payments", Icons.Material.Filled.CreditCard, "/app/payments"),
-        new MenuLink("Reviews", Icons.Material.Filled.Reviews, "/app/reviews"),
-        new MenuLink("Transactions", Icons.Material.Filled.SendTimeExtension, "/app/transactions")
+    private List<MenuLink> _links = new() {
+        new("Overview", Icons.Material.Filled.Dashboard, "/app/overview"),
+        new("Claims", Icons.Material.Filled.Money, "/app/claims"),
+        new("Payments", Icons.Material.Filled.CreditCard, "/app/payments"),
+        new("Reviews", Icons.Material.Filled.Reviews, "/app/reviews"),
+        new("Transactions", Icons.Material.Filled.SendTimeExtension, "/app/transactions")
     };
 
-    private List<MenuLink> _secondaryLinks = new List<MenuLink> {
+    private List<MenuLink> _secondaryLinks = new() {
         new MenuLink("Users", Icons.Material.Filled.People, "/app/users"),
         new MenuLink("Manage", Icons.Material.Filled.SettingsApplications, "/app/manage")
     };
 
-    async Task SignOut() => await AuthState.TriggerSignOut();
+    async Task SignOut() {
+        await AuthState.TriggerSignOut();
+    }
 
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
-        if(await AuthState.IsAuth())
-            _profile = ((await AuthState.GetSession())!).Data;
+        if (await AuthState.IsAuth())
+            _profile = (await AuthState.GetSession())!.Data;
     }
 
     private string ProfileInitials => StringHelpers.GetInitialsText(new[] {
         _profile?.FirstName, _profile?.LastName
     });
+
 }
 
 <MudDrawer @bind-Open="SideBarOpen" Elevation="1">
@@ -63,18 +67,18 @@
 
         <MudDivider Class="mb-2"/>
         <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
-            @foreach (var link in _links) {
+            @foreach (MenuLink? link in _links) {
                 <MudNavLink Href="@link.Path" Icon="@link.Icon" Class="nav_link">@link.Title</MudNavLink>
             }
         </MudNavMenu>
     </div>
     <div class="mt-4">
         <MudDivider Class="mb-2"/>
-        @foreach (var link in _secondaryLinks) {
+        @foreach (MenuLink? link in _secondaryLinks) {
             <MudNavMenu href="@link.Path" Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">
                 @if (link.Child is not null) {
                     <MudNavGroup Class="nav_link" Title="@link.Title" Icon="@Icons.Material.Filled.Settings" Expanded="false">
-                        @foreach (var subLink in link.Child) {
+                        @foreach (MenuLink? subLink in link.Child) {
                             <MudNavLink Href="@subLink.Path" Icon="@subLink.Icon" Class="nav_link">@subLink.Title</MudNavLink>
                         }
                     </MudNavGroup>

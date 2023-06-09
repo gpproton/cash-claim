@@ -10,14 +10,14 @@
 
 using Axolotl.Response;
 
-namespace XClaim.Common.Responses;
-
-public class Company : BaseResponse<int> {
-    public bool Active { get; set; }
-    public string ShortName { get; set; } = String.Empty;
-    public string FullName { get; set; } = String.Empty;
-    public string AdminEmail { get; set; } = String.Empty;
-    public User? Manager { get; set; }
-    public Guid? ManagerId { get; set; }
-    public ICollection<User>? Members { get; set; }
+namespace XClaim.Common.Responses {
+    public class Company : BaseResponse<int> {
+        public bool Active { get; set; }
+        public string ShortName { get; set; } = String.Empty;
+        public string FullName { get; set; } = String.Empty;
+        public string AdminEmail { get; set; } = String.Empty;
+        public User? Manager { get; set; }
+        public Guid? ManagerId { get; set; }
+        public ICollection<User>? Members { get; set; }
+    }
 }

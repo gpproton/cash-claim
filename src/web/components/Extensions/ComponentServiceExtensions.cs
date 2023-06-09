@@ -1,11 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace XClaim.Web.Components.Extensions;
+namespace XClaim.Web.Components.Extensions {
+    public static class ComponentServiceExtensions {
+        public static IServiceCollection UseComponentsExtensions(this IServiceCollection services) {
+            services.AddSingleton<Navigation>();
 
-public static class ComponentServiceExtensions {
-    public static IServiceCollection UseComponentsExtensions(this IServiceCollection services) {
-        services.AddSingleton<Navigation>();
-
-        return services;
+            return services;
+        }
     }
 }

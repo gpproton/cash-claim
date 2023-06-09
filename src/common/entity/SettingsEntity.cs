@@ -12,12 +12,11 @@ using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 using XClaim.Common.Enums;
 
-namespace XClaim.Common.Entity;
-
-public class SettingsEntity : AuditableEntity<Guid> {
-    public UserEntity? User { get; set; }
-    [Display(AutoGenerateField = false)]
-    public Guid? UserId { get; set; }
-    public bool DarkMode { get; set; }
-    public AppLanguage Language { get; set; } = AppLanguage.English;
+namespace XClaim.Common.Entity {
+    public class SettingsEntity : AuditableEntity<Guid> {
+        public UserEntity? User { get; set; }
+        [Display(AutoGenerateField = false)] public Guid? UserId { get; set; }
+        public bool DarkMode { get; set; }
+        public AppLanguage Language { get; set; } = AppLanguage.English;
+    }
 }

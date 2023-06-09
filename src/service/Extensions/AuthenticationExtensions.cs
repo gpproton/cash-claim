@@ -10,45 +10,46 @@
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace XClaim.Service.Extensions;
+namespace XClaim.Service.Extensions {
+    public static class AuthenticationExtensions {
+        public static IServiceCollection RegisterAuthenticationService(this IServiceCollection services) {
+            ServiceProvider? sp = services.BuildServiceProvider();
+            IConfiguration? config = sp.GetRequiredService<IConfiguration>();
 
-public static class AuthenticationExtensions {
-    public static IServiceCollection RegisterAuthenticationService(this IServiceCollection services) {
-        var sp = services.BuildServiceProvider();
-        var config = sp.GetRequiredService<IConfiguration>();
+            // TODO: Re-create as IdentityProvider
+            // services.AddTransient<IdentityHelper>();
 
-        // TODO: Re-create as IdentityProvider
-        // services.AddTransient<IdentityHelper>();
-
-        services.Configure<CookiePolicyOptions>(options => {
-            options.CheckConsentNeeded = _ => true;
-            options.MinimumSameSitePolicy = SameSiteMode.None;
-        });
-
-        services.AddAuthentication("Cookies")
-            .AddCookie(opt => {
-                opt.Cookie.Name = Constants.AppSessionName;
-                opt.Cookie.IsEssential = true;
-                opt.ExpireTimeSpan = TimeSpan.FromDays(7);
-                opt.SlidingExpiration = true;
-            })
-            .AddMicrosoftAccount(opt => {
-                opt.SignInScheme = "Cookies";
-                opt.ClientId = config.GetValue<string>("Microsoft:ClientId") ?? "client-id";
-                opt.ClientSecret = config.GetValue<string>("Microsoft:ClientSecret") ?? "client-secret";
-                opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                opt.SaveTokens = true;
+            services.Configure<CookiePolicyOptions>(options => {
+                options.CheckConsentNeeded = _ => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-        services.AddHttpContextAccessor(); ;
-        services.AddAuthorization();
-        services.AddDistributedMemoryCache();
-        services.AddSession(options => {
-            options.IdleTimeout = TimeSpan.FromMinutes(2);
-            options.Cookie.HttpOnly = false;
-            options.Cookie.IsEssential = true;
-        });
+            services.AddAuthentication("Cookies")
+                .AddCookie(opt => {
+                    opt.Cookie.Name = Constants.AppSessionName;
+                    opt.Cookie.IsEssential = true;
+                    opt.ExpireTimeSpan = TimeSpan.FromDays(7);
+                    opt.SlidingExpiration = true;
+                })
+                .AddMicrosoftAccount(opt => {
+                    opt.SignInScheme = "Cookies";
+                    opt.ClientId = config.GetValue<string>("Microsoft:ClientId") ?? "client-id";
+                    opt.ClientSecret = config.GetValue<string>("Microsoft:ClientSecret") ?? "client-secret";
+                    opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    opt.SaveTokens = true;
+                });
 
-        return services;
+            services.AddHttpContextAccessor();
+            ;
+            services.AddAuthorization();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(2);
+                options.Cookie.HttpOnly = false;
+                options.Cookie.IsEssential = true;
+            });
+
+            return services;
+        }
     }
 }

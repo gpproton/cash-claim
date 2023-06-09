@@ -11,37 +11,40 @@
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Context;
 
-namespace XClaim.Service.Data;
+namespace XClaim.Service.Data {
+    public class MigrationService : BackgroundService {
+        private readonly ILogger<MigrationService> _logger;
+        private readonly IServiceScopeFactory _scopeFactory;
 
-public class MigrationService : BackgroundService {
-    private readonly ILogger<MigrationService> _logger;
-    private readonly IServiceScopeFactory _scopeFactory;
-
-    public MigrationService(ILogger<MigrationService> logger, IServiceScopeFactory factory) {
-        _logger = logger;
-        _scopeFactory = factory;
-    }
-
-    protected override async Task ExecuteAsync(CancellationToken cancellationToken) {
-        _logger.LogInformation("Starting migration...");
-        var sp = _scopeFactory.CreateScope().ServiceProvider;
-
-        await using var context = sp.GetService<ServiceContext>();
-        if (context is null) return;
-
-        if (context.Database.IsRelational())
-            await context.Database.MigrateAsync(cancellationToken);
-
-        using (var any = context.Server.AnyAsync(cancellationToken)) {
-            if (!(await any)) {
-                _logger.LogInformation("Starting seeding...");
-
-                // await context.Posts.AddRangeAsync(posts, cancellationToken);
-                await context.SaveChangesAsync(cancellationToken);
-                _logger.LogInformation("Completed seeding...");
-            }
+        public MigrationService(ILogger<MigrationService> logger, IServiceScopeFactory factory) {
+            _logger = logger;
+            _scopeFactory = factory;
         }
 
-        _logger.LogInformation("Completed migration...");
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken) {
+            _logger.LogInformation("Starting migration...");
+            IServiceProvider? sp = _scopeFactory.CreateScope().ServiceProvider;
+
+            await using ServiceContext? context = sp.GetService<ServiceContext>();
+            if (context is null) {
+                return;
+            }
+
+            if (context.Database.IsRelational()) {
+                await context.Database.MigrateAsync(cancellationToken);
+            }
+
+            using (Task<bool>? any = context.Server.AnyAsync(cancellationToken)) {
+                if (!await any) {
+                    _logger.LogInformation("Starting seeding...");
+
+                    // await context.Posts.AddRangeAsync(posts, cancellationToken);
+                    await context.SaveChangesAsync(cancellationToken);
+                    _logger.LogInformation("Completed seeding...");
+                }
+            }
+
+            _logger.LogInformation("Completed migration...");
+        }
     }
 }

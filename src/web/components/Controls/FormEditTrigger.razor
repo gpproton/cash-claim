@@ -3,6 +3,7 @@
 @typeparam TForm where TForm : ComponentBase
 
 @code {
+
     [Parameter]
     public Guid Id { get; set; }
 
@@ -14,17 +15,17 @@
 
     [Parameter]
     public Color ButtonColor { get; set; } = Color.Warning;
-    
+
     [Parameter]
     public EventCallback<bool> OnTriggered { get; set; }
-    
+
     private async Task TriggerEdit() {
-        var parameters = new DialogParameters { { "Id", Id } };
-        var dialog = await DialogService.ShowAsync<TForm>(string.Empty, parameters);
-        var result = await dialog.Result;
+        DialogParameters? parameters = new DialogParameters { { "Id", Id } };
+        IDialogReference? dialog = await DialogService.ShowAsync<TForm>(string.Empty, parameters);
+        DialogResult? result = await dialog.Result;
         if (!result.Canceled) {
-            var value = result.Data.As<bool>();
-            
+            bool value = result.Data.As<bool>();
+
             await OnTriggered.InvokeAsync(value);
             Snackbar.Clear();
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
@@ -32,6 +33,7 @@
             else Snackbar.Add("Failed..", Severity.Error);
         }
     }
+
 }
 
-<MudIconButton Class="pa-2" Icon="@Icon" Size="@(Small ? Size.Small : Size.Medium)" Variant="Variant.Filled" OnClick="TriggerEdit" Color="@ButtonColor" />
+<MudIconButton Class="pa-2" Icon="@Icon" Size="@(Small ? Size.Small : Size.Medium)" Variant="Variant.Filled" OnClick="TriggerEdit" Color="@ButtonColor"/>

@@ -10,15 +10,15 @@
 
 using Axolotl.Response;
 
-namespace XClaim.Common.Responses;
-
-public class AuthResponse : IResponse {
-    public bool Confirmed { get; set; }
-    public DateTime? ExpiryTimeStamp { get; set; }
-    public int ExpiresIn { get; set; }
-    public string? Token { get; set; }
-    public string Message { get; set; } = string.Empty;
-    public string UserName { get; set; } = string.Empty;
-    public string Role { get; set; } = string.Empty;
-    public User? Data { get; set; }
+namespace XClaim.Common.Responses {
+    public class AuthResponse : IResponse {
+        public bool Confirmed { get; set; }
+        public DateTime? ExpiryTimeStamp { get; set; }
+        public int ExpiresIn { get; set; }
+        public string? Token { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+        public User? Data { get; set; }
+    }
 }

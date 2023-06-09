@@ -11,17 +11,13 @@
 using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 
-namespace XClaim.Common.Entity;
-
-public class CategoryEntity : AuditableEntity<Guid> {
-    [MaxLength(128)]
-    public string Name { get; set; } = string.Empty;
-    public CompanyEntity? Company { get; set; }
-    [Display(AutoGenerateField = false)]
-    public int? CompanyId { get; set; }
-    [MaxLength(1024)]
-    public string? Description { get; set; } = string.Empty;
-    public bool Active { get; set; }
-    [MaxLength(64)]
-    public string? Icon { get; set; } = string.Empty;
+namespace XClaim.Common.Entity {
+    public class CategoryEntity : AuditableEntity<Guid> {
+        [MaxLength(128)] public string Name { get; set; } = string.Empty;
+        public CompanyEntity? Company { get; set; }
+        [Display(AutoGenerateField = false)] public int? CompanyId { get; set; }
+        [MaxLength(1024)] public string? Description { get; set; } = string.Empty;
+        public bool Active { get; set; }
+        [MaxLength(64)] public string? Icon { get; set; } = string.Empty;
+    }
 }

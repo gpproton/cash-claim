@@ -10,13 +10,13 @@
 
 using XClaim.Common.Base;
 
-namespace XClaim.Common.Responses;
-
-public class Category : AuditableResponse<Guid> {
-    public string Name { get; set; } = string.Empty;
-    public Company? Company { get; set; }
-    public int? CompanyId { get; set; }
-    public string? Description { get; set; } = string.Empty;
-    public bool Active { get; set; }
-    public string? Icon { get; set; } = string.Empty;
+namespace XClaim.Common.Responses {
+    public class Category : AuditableResponse<Guid> {
+        public string Name { get; set; } = string.Empty;
+        public Company? Company { get; set; }
+        public int? CompanyId { get; set; }
+        public string? Description { get; set; } = string.Empty;
+        public bool Active { get; set; }
+        public string? Icon { get; set; } = string.Empty;
+    }
 }

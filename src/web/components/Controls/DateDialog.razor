@@ -1,11 +1,15 @@
 @code {
+
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; } = default!;
 
     [Parameter]
     public DateRange DateRange { get; set; } = WebConst.AppDateRange;
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(DateRange));
+    void Submit() {
+        MudDialog.Close(DialogResult.Ok(DateRange));
+    }
+
 }
 
 <MudDialog>

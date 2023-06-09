@@ -10,10 +10,10 @@
 
 using Axolotl.Response;
 
-namespace XClaim.Common.Responses;
-
-public class Domain : BaseResponse<int> {
-    public string Address { get; set; } = string.Empty;
-    public bool Active { get; set; }
-    public string Description { get; set; } = string.Empty;
+namespace XClaim.Common.Responses {
+    public class Domain : BaseResponse<int> {
+        public string Address { get; set; } = string.Empty;
+        public bool Active { get; set; }
+        public string Description { get; set; } = string.Empty;
+    }
 }

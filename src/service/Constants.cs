@@ -8,10 +8,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace XClaim.Service;
-
-public static class Constants {
-    public const string RootApi = "/api/v1";
-    public const string AppUri = "xclaim";
-    public const string AppSessionName = "AuthCookie";
+namespace XClaim.Service {
+    public static class Constants {
+        public const string RootApi = "/api/v1";
+        public const string AppUri = "xclaim";
+        public const string AppSessionName = "AuthCookie";
+    }
 }

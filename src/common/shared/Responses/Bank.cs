@@ -10,11 +10,11 @@
 
 using Axolotl.Response;
 
-namespace XClaim.Common.Responses;
-
-public class Bank : BaseResponse<int> {
-    public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public string SwiftCode { get; set; } = string.Empty;
-    public bool Active { get; set; }
+namespace XClaim.Common.Responses {
+    public class Bank : BaseResponse<int> {
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string SwiftCode { get; set; } = string.Empty;
+        public bool Active { get; set; }
+    }
 }

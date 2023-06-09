@@ -12,36 +12,37 @@ using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Context;
 using static XClaim.Service.Data.Provider;
 
-namespace XClaim.Service.Data;
+namespace XClaim.Service.Data {
+    public static class DatabaseExtensions {
+        public static IServiceCollection RegisterDataContext(this IServiceCollection services) {
+            ServiceProvider? sp = services.BuildServiceProvider();
+            IConfiguration? config = sp.GetService<IConfiguration>();
+            string? provider = (config!.GetValue<string>("provider") ?? Sqlite.Name).ToLower();
 
-public static class DatabaseExtensions {
+            services.AddDbContext<ServiceContext>(options => {
+                    options.UseSnakeCaseNamingConvention();
 
-    public static IServiceCollection RegisterDataContext(this IServiceCollection services) {
-        var sp = services.BuildServiceProvider();
-        var config = sp.GetService<IConfiguration>();
-        var provider = (config!.GetValue<string>("provider") ?? Sqlite.Name).ToLower();
+                    if (provider.Contains(Sqlite.Name.ToLower())) {
+                        string? sqliteString = config!.GetConnectionString(Sqlite.Name)!;
+                        options.UseSqlite(sqliteString,
+                            x => x.MigrationsAssembly(Sqlite.Assembly).UseRelationalNulls());
+                    }
 
-        services.AddDbContext<ServiceContext>(options => {
-                options.UseSnakeCaseNamingConvention();
+                    if (provider.Contains(Postgres.Name.ToLower())) {
+                        string? postgresString = config!.GetConnectionString(Postgres.Name)!;
+                        options.UseNpgsql(postgresString,
+                            x => x.MigrationsAssembly(Postgres.Assembly).UseRelationalNulls());
+                    }
 
-                if (provider.Contains(Sqlite.Name.ToLower())) {
-                    var sqliteString = config!.GetConnectionString(Sqlite.Name)!;
-                    options.UseSqlite(sqliteString, x => x.MigrationsAssembly(Sqlite.Assembly).UseRelationalNulls());
+                    // TODO: Enable mysql
+                    // if (!provider.Contains(Mysql.Name.ToLower())) {
+                    //     var mysqlString = config!.GetConnectionString(Mysql.Name)!;
+                    //     options.UseMySql(mysqlString, ServerVersion.AutoDetect(mysqlString), x => x.MigrationsAssembly(Mysql.Assembly).UseRelationalNulls());
+                    // }
                 }
+            );
 
-                if (provider.Contains(Postgres.Name.ToLower())) {
-                    var postgresString = config!.GetConnectionString(Postgres.Name)!;
-                    options.UseNpgsql(postgresString,  x => x.MigrationsAssembly(Postgres.Assembly).UseRelationalNulls());
-                }
-
-                // TODO: Enable mysql
-                // if (!provider.Contains(Mysql.Name.ToLower())) {
-                //     var mysqlString = config!.GetConnectionString(Mysql.Name)!;
-                //     options.UseMySql(mysqlString, ServerVersion.AutoDetect(mysqlString), x => x.MigrationsAssembly(Mysql.Assembly).UseRelationalNulls());
-                // }
-            }
-        );
-
-        return services;
+            return services;
+        }
     }
 }

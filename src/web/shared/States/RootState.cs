@@ -1,7 +1,9 @@
-namespace XClaim.Web.Shared.States;
+namespace XClaim.Web.Shared.States {
+    public abstract class RootState {
+        public event Action? OnChange;
 
-public abstract class RootState {
-    public event Action? OnChange;
-
-    protected void NotifyStateChanged() => OnChange?.Invoke();
+        protected void NotifyStateChanged() {
+            OnChange?.Invoke();
+        }
+    }
 }

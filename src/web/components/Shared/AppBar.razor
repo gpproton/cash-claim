@@ -3,6 +3,7 @@
 @inject ThemeState ThemeState
 
 @code {
+
     protected override void OnInitialized() {
         base.OnInitialized();
         AppState.OnChange += StateHasChanged;
@@ -13,15 +14,17 @@
         AppState.OnChange -= StateHasChanged;
         ThemeState.OnChange -= StateHasChanged;
     }
+
 }
 
 <MudAppBar Elevation="0" Color="Color.Transparent">
-    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Primary" Edge="Edge.Start" OnClick="AppState.ToggleSidebar" />
+    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Primary" Edge="Edge.Start" OnClick="AppState.ToggleSidebar"/>
     <MudText Color="Color.Primary" Typo="Typo.h5" Inline="true">@AppState.LayoutTitle</MudText>
-    <MudSpacer />
+    <MudSpacer/>
     @if (ThemeState.IsLightMode) {
-        <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="Color.Primary" OnClick="ThemeState.ToggleTheme" />
-    } else {
-        <MudIconButton Icon="@Icons.Material.Filled.Brightness5" Color="Color.Primary" OnClick="ThemeState.ToggleTheme" />
+        <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="Color.Primary" OnClick="ThemeState.ToggleTheme"/>
+    }
+    else {
+        <MudIconButton Icon="@Icons.Material.Filled.Brightness5" Color="Color.Primary" OnClick="ThemeState.ToggleTheme"/>
     }
 </MudAppBar>

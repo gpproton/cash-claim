@@ -3,20 +3,24 @@
 @inject ThemeState ThemeState
 
 @code {
+
     protected override void OnInitialized() {
         base.OnInitialized();
         ThemeState.OnChange += StateHasChanged;
     }
 
-    public void Dispose() => ThemeState.OnChange -= StateHasChanged;
+    public void Dispose() {
+        ThemeState.OnChange -= StateHasChanged;
+    }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
 }
 
-<MudThemeProvider Theme="ThemeState.CurrentTheme" />
-<MudDialogProvider />
-<MudSnackbarProvider />
+<MudThemeProvider Theme="ThemeState.CurrentTheme"/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
 
 <CascadingValue Value="this">
     <MudLayout>

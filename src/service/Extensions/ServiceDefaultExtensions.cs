@@ -15,48 +15,48 @@ using XClaim.Common.Context;
 using XClaim.Service.Data;
 using XClaim.Service.Helpers;
 
-namespace XClaim.Service.Extensions;
+namespace XClaim.Service.Extensions {
+    public static class ServiceDefaultExtensions {
+        public static IServiceCollection RegisterDefaultService(this IServiceCollection services) {
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.RegisterDataContext();
+            services.RegisterGenericRepositories(typeof(GenericRepository<>));
+            services.RegisterGenericServices();
+            services.RegisterFeatures(typeof(Program).Assembly);
+            services.AddHostedService<MigrationService>();
+            services.AddCoreAdmin(new CoreAdminOptions {
+                Title = "x-claim",
+                ShowPageSizes = true,
+                PageSizes = new Dictionary<int, string>() {
+                    { 25, "25" },
+                    { 100, "100" },
+                    { 0, "All" }
+                },
+                IgnoreEntityTypes = new List<Type> { }
+            });
 
-public static class ServiceDefaultExtensions {
-    public static IServiceCollection RegisterDefaultService(this IServiceCollection services) {
-        services.AddControllersWithViews();
-        services.AddRazorPages();
-        services.RegisterDataContext();
-        services.RegisterGenericRepositories(typeof(GenericRepository<>));
-        services.RegisterGenericServices();
-        services.RegisterFeatures(typeof(Program).Assembly);
-        services.AddHostedService<MigrationService>();
-        services.AddCoreAdmin(new CoreAdminOptions {
-            Title = "x-claim",
-            ShowPageSizes = true,
-            PageSizes = new Dictionary<int, string>() {
-                { 25, "25"},
-                { 100, "100"},
-                { 0, "All"}
-            },
-            IgnoreEntityTypes = new List<Type> { }
-        });
+            services.AddTransient<FileUploadService>();
 
-        services.AddTransient<FileUploadService>();
+            return services;
+        }
 
-        return services;
-    }
-
-    public static WebApplication RegisterDefaultService(this WebApplication app) {
-        app.UseHttpsRedirection();
-        app.MapDefaultControllerRoute();
-        app.UseRouting();
-        app.UseStaticFiles();
-        app.UseBlazorFrameworkFiles();
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.UseSession();
-        app.MapRazorPages();
-        app.MapControllers();
-        app.RegisterFeatureEndpoints();
-        app.UseCoreAdminCustomUrl("admin");
-        app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
-        app.MapFallbackToPage("/_Host");
-        return app;
+        public static WebApplication RegisterDefaultService(this WebApplication app) {
+            app.UseHttpsRedirection();
+            app.MapDefaultControllerRoute();
+            app.UseRouting();
+            app.UseStaticFiles();
+            app.UseBlazorFrameworkFiles();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseSession();
+            app.MapRazorPages();
+            app.MapControllers();
+            app.RegisterFeatureEndpoints();
+            app.UseCoreAdminCustomUrl("admin");
+            app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
+            app.MapFallbackToPage("/_Host");
+            return app;
+        }
     }
 }

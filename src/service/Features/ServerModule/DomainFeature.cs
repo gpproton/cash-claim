@@ -13,21 +13,21 @@ using Axolotl.Enums;
 using XClaim.Common.Entity;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service.Features.ServerModule;
+namespace XClaim.Service.Features.ServerModule {
+    public class DomainFeature : GenericFeature<DomainFeature> {
+        public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+            IEndpointRouteBuilder? group = SetupGroup<DomainFeature, DomainEntity, Domain, int>(
+                endpoints,
+                new FeatureState(
+                    new List<RouteState> {
+                        new(RouteType.GetAll),
+                        new(RouteType.GetById),
+                        new(RouteType.Create),
+                        new(RouteType.Update),
+                        new(RouteType.Delete)
+                    }));
 
-public class DomainFeature : GenericFeature<DomainFeature> {
-    public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        var group = SetupGroup<DomainFeature, DomainEntity, Domain, int>(
-            endpoints,
-            new FeatureState(
-                new List<RouteState> {
-                    new (RouteType.GetAll),
-                    new (RouteType.GetById),
-                    new (RouteType.Create),
-                    new (RouteType.Update),
-                    new (RouteType.Delete)
-                }));
-
-        return group;
+            return group;
+        }
     }
 }

@@ -8,10 +8,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace XClaim.Common.Enums;
-
-public enum AppLanguage {
-    English,
-    French,
-    Spanish
+namespace XClaim.Common.Enums {
+    public enum AppLanguage {
+        English,
+        French,
+        Spanish
+    }
 }

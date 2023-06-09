@@ -11,14 +11,12 @@
 using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 
-namespace XClaim.Common.Entity;
-
-public class ProfileTransferEntity : AuditableEntity<Guid> {
-    public UserEntity? User { get; set; }
-    [Display(AutoGenerateField = false)]
-    public Guid? UserId { get; set; }
-    public CompanyEntity? Company { get; set; }
-    [Display(AutoGenerateField = false)]
-    public int? CompanyId { get; set; }
-    public bool Completed { get; set; }
+namespace XClaim.Common.Entity {
+    public class ProfileTransferEntity : AuditableEntity<Guid> {
+        public UserEntity? User { get; set; }
+        [Display(AutoGenerateField = false)] public Guid? UserId { get; set; }
+        public CompanyEntity? Company { get; set; }
+        [Display(AutoGenerateField = false)] public int? CompanyId { get; set; }
+        public bool Completed { get; set; }
+    }
 }

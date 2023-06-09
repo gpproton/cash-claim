@@ -11,8 +11,10 @@
 using Axolotl.EFCore.Interfaces;
 using Axolotl.EFCore.Repository;
 
-namespace XClaim.Common.Context;
-
-public class GenericRepository<TEntity> : GenericBaseRepository<TEntity, ServiceContext> where TEntity : class, IAggregateRoot, IHasKey {
-    public GenericRepository(ServiceContext context) : base(context) { }
+namespace XClaim.Common.Context {
+    public class GenericRepository<TEntity> : GenericBaseRepository<TEntity, ServiceContext>
+        where TEntity : class, IAggregateRoot, IHasKey {
+        public GenericRepository(ServiceContext context) : base(context) {
+        }
+    }
 }

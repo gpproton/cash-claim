@@ -11,49 +11,62 @@
 using Microsoft.Net.Http.Headers;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service.Helpers;
+namespace XClaim.Service.Helpers {
+    public class FileUploadService {
+        private readonly IConfiguration _config;
 
-public class FileUploadService {
-    private readonly IConfiguration _config;
-
-    public FileUploadService(IConfiguration config) {
-        _config = config;
-    }
-
-    private static string StaticFolderName { get; set; } = "static-files";
-    public async Task<List<FileResponse>> UploadFiles(IEnumerable<IFormFile> files) {
-        List<FileResponse> uploads = new();
-        var storePath = GetUploadFullPath();
-
-        foreach (var file in files) {
-            if (file.Length <= 0) continue;
-            var extension = Path.GetExtension(file.FileName);
-            var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim().ToString();
-            var saveName = Guid.NewGuid() + extension;
-            var filePath = Path.Combine(GetDatePath(), saveName);
-
-            if (!Directory.Exists(storePath)) Directory.CreateDirectory(storePath);
-            var savePath = Path.Combine(storePath, saveName);
-            await using var stream = File.Create(savePath);
-            await file.CopyToAsync(stream);
-            var response = new FileResponse {
-                Name = fileName,
-                Path = filePath,
-                Extension = extension
-            };
-            uploads.Add(response);
+        public FileUploadService(IConfiguration config) {
+            _config = config;
         }
 
-        return uploads;
-    }
+        private static string StaticFolderName { get; set; } = "static-files";
 
-    private static string GetDatePath() => Path.Combine(DateTime.UtcNow.ToString("yyyy"), DateTime.UtcNow.ToString("MMMM"), DateTime.UtcNow.ToString("dd"));
+        public async Task<List<FileResponse>> UploadFiles(IEnumerable<IFormFile> files) {
+            List<FileResponse> uploads = new();
+            string? storePath = GetUploadFullPath();
 
-    private string GetUploadFullPath() => Path.Combine(GetUploadRootPath(), GetDatePath());
+            foreach (IFormFile? file in files) {
+                if (file.Length <= 0) {
+                    continue;
+                }
 
-    public string GetUploadRootPath() {
-        var filesUploadPath = _config.GetValue<string>("UploadPath");
+                string? extension = Path.GetExtension(file.FileName);
+                string? fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim()
+                    .ToString();
+                string? saveName = Guid.NewGuid() + extension;
+                string? filePath = Path.Combine(GetDatePath(), saveName);
 
-        return filesUploadPath ?? Path.Combine(Directory.GetCurrentDirectory(), StaticFolderName);
+                if (!Directory.Exists(storePath)) {
+                    Directory.CreateDirectory(storePath);
+                }
+
+                string? savePath = Path.Combine(storePath, saveName);
+                await using FileStream? stream = File.Create(savePath);
+                await file.CopyToAsync(stream);
+                FileResponse? response = new FileResponse {
+                    Name = fileName,
+                    Path = filePath,
+                    Extension = extension
+                };
+                uploads.Add(response);
+            }
+
+            return uploads;
+        }
+
+        private static string GetDatePath() {
+            return Path.Combine(DateTime.UtcNow.ToString("yyyy"), DateTime.UtcNow.ToString("MMMM"),
+                DateTime.UtcNow.ToString("dd"));
+        }
+
+        private string GetUploadFullPath() {
+            return Path.Combine(GetUploadRootPath(), GetDatePath());
+        }
+
+        public string GetUploadRootPath() {
+            string? filesUploadPath = _config.GetValue<string>("UploadPath");
+
+            return filesUploadPath ?? Path.Combine(Directory.GetCurrentDirectory(), StaticFolderName);
+        }
     }
 }

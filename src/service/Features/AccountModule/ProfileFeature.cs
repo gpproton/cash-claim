@@ -13,15 +13,15 @@ using Axolotl.Enums;
 using XClaim.Common.Entity;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service.Features.AccountModule;
-
+namespace XClaim.Service.Features.AccountModule {
     public class ProfileFeature : GenericFeature<ProfileFeature> {
-    public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        var group = SetupGroup<ProfileFeature, UserEntity, User, Guid>(endpoints,
-            new FeatureState(new List<RouteState> { }, Name: "Profile", Path: "account/profile"));
+        public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+            IEndpointRouteBuilder? group = SetupGroup<ProfileFeature, UserEntity, User, Guid>(endpoints,
+                new FeatureState(new List<RouteState> { }, Name: "Profile", Path: "account/profile"));
 
-        AddGetById<UserEntity, User, Guid>(new RouteState(RouteType.Any, Name: "GetProfileById"));
+            AddGetById<UserEntity, User, Guid>(new RouteState(RouteType.Any, Name: "GetProfileById"));
 
-        return group;
+            return group;
+        }
     }
 }

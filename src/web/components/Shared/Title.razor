@@ -3,6 +3,7 @@
 @inject AppState AppState;
 
 @code{
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -15,11 +16,14 @@
     protected override void OnParametersSet() {
         base.OnParametersSet();
         AppState.SetLayoutTitle(Content = ChildContent ?? Content);
-        if(AppTitle != null) AppState.SetAppTitle(AppTitle);
+        if (AppTitle != null) AppState.SetAppTitle(AppTitle);
         AppState.OnChange += StateHasChanged;
     }
-    
-    public void Dispose() => AppState.OnChange -= StateHasChanged;
+
+    public void Dispose() {
+        AppState.OnChange -= StateHasChanged;
+    }
+
 }
 
 <PageTitle>@AppState.LayoutTitle :: @AppState.AppTitle</PageTitle>

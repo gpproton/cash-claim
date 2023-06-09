@@ -10,13 +10,13 @@
 
 using Axolotl.Response;
 
-namespace XClaim.Common.Responses;
-
-public class Currency : BaseResponse<int> {
-    public string Name { get; set; } = string.Empty;
-    public string? Symbol { get; set; } = string.Empty;
-    public string Code { get; set; } = string.Empty;
-    public decimal Rate { get; set; }
-    public string Description { get; set; } = string.Empty;
-    public bool Active { get; set; }
+namespace XClaim.Common.Responses {
+    public class Currency : BaseResponse<int> {
+        public string Name { get; set; } = string.Empty;
+        public string? Symbol { get; set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
+        public decimal Rate { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public bool Active { get; set; }
+    }
 }

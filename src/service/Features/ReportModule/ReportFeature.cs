@@ -10,16 +10,14 @@
 
 using Axolotl.AspNet.Feature;
 
-namespace XClaim.Service.Features.ReportModule;
+namespace XClaim.Service.Features.ReportModule {
+    public class ReportFeature : IFeature {
+        public IServiceCollection RegisterModule(IServiceCollection services) {
+            return services;
+        }
 
-public class ReportFeature : IFeature {
-    public IServiceCollection RegisterModule(IServiceCollection services) {
-
-        return services;
-    }
-
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-
-        return endpoints;
+        public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+            return endpoints;
+        }
     }
 }

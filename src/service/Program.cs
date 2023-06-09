@@ -1,16 +1,17 @@
 using XClaim.Service.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
 builder.Services.RegisterDefaultService();
 builder.Services.RegisterSwaggerService();
 builder.Services.RegisterAuthenticationService();
 
-var app = builder.Build();
+WebApplication? app = builder.Build();
 
 if (app.Environment.IsDevelopment()) {
     app.UseWebAssemblyDebugging();
-} else {
+}
+else {
     app.UseExceptionHandler("/Error");
 }
 

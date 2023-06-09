@@ -11,18 +11,15 @@
 using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 
-namespace XClaim.Common.Entity;
-
-public class TeamEntity : AuditableEntity<Guid> {
-    [MaxLength(128)]
-    public string Name { get; set; } = string.Empty;
-    public bool Active { get; set; }
-    public string Description { get; set; } = string.Empty;
-    public CompanyEntity? Company { get; set; }
-    [Display(AutoGenerateField = false)]
-    public int? CompanyId { get; set; }
-    public UserEntity? Manager { get; set; }
-    [Display(AutoGenerateField = false)]
-    public Guid? ManagerId { get; set; }
-    public ICollection<UserEntity>? Members { get; set; }
+namespace XClaim.Common.Entity {
+    public class TeamEntity : AuditableEntity<Guid> {
+        [MaxLength(128)] public string Name { get; set; } = string.Empty;
+        public bool Active { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public CompanyEntity? Company { get; set; }
+        [Display(AutoGenerateField = false)] public int? CompanyId { get; set; }
+        public UserEntity? Manager { get; set; }
+        [Display(AutoGenerateField = false)] public Guid? ManagerId { get; set; }
+        public ICollection<UserEntity>? Members { get; set; }
+    }
 }
