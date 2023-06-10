@@ -8,15 +8,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using XClaim.Web.Client;
 using XClaim.Web.Components.Extensions;
 using XClaim.Web.Shared;
 
-WebAssemblyHostBuilder? builder = WebAssemblyHostBuilder.CreateDefault(args);
+WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-// builder.RootComponents.Add<App>("#app");
+// builder.RootComponents.Add<BlazorApp>("#app");
 // builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

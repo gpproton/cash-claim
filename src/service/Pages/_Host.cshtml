@@ -1,6 +1,6 @@
 @page "/"
 @using Microsoft.AspNetCore.Components.Web
-@using XClaim.Web.Client
+@using XClaim.Web.Components
 
 @namespace XClaim.Service.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
@@ -22,7 +22,7 @@
   <component type="typeof(HeadOutlet)" render-mode="WebAssemblyPrerendered"/>
 </head>
 <body>
-<component type="typeof(App)" render-mode="WebAssemblyPrerendered"/>
+<component type="typeof(BlazorApp)" render-mode="WebAssemblyPrerendered"/>
 <persist-component-state/>
 <div id="blazor-error-ui">
   <environment include="Staging,Production">

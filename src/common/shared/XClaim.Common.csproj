@@ -1,13 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Title>XClaim.Common</Title>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Title>XClaim.Common</Title>
+    </PropertyGroup>
 
-  <Import Project="..\..\..\Common.props" />
+    <Import Project="..\..\..\Common.props"/>
 
-  <ItemGroup>
-    <PackageReference Include="Axolotl" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Axolotl"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Interfaces\"/>
+        <Folder Include="Services\"/>
+    </ItemGroup>
 
 </Project>
