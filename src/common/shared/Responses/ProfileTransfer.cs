@@ -10,12 +10,12 @@
 
 using Axolotl.Response;
 
-namespace XClaim.Common.Responses {
-    public class ProfileTransfer : BaseResponse<Guid> {
-        public User? User { get; set; }
-        public Guid? UserId { get; set; }
-        public Company? Company { get; set; }
-        public int? CompanyId { get; set; }
-        public bool Completed { get; set; }
-    }
+namespace XClaim.Common.Responses; 
+
+public class ProfileTransfer : BaseResponse<Guid> {
+    public User? User { get; set; }
+    public Guid? UserId { get; set; }
+    public Company? Company { get; set; }
+    public int? CompanyId { get; set; }
+    public bool Completed { get; set; }
 }

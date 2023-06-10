@@ -10,20 +10,20 @@
 
 using XClaim.Common.Base;
 
-namespace XClaim.Common.Responses {
-    public class Payment : AuditableResponse<Guid> {
-        public string? Description { get; set; }
-        public string? Notes { get; set; }
-        public decimal Amount { get; set; }
-        public User? User { get; set; }
-        public Guid? UserId { get; set; }
-        public Company? Company { get; set; }
-        public int? CompanyId { get; set; }
-        public DateTime? ConfirmedAt { get; set; }
-        public bool Confirmed => ConfirmedAt != null;
-        public int Count { get; set; }
-        public ICollection<ClaimResponse>? Claims { get; set; }
-        public ICollection<FileResponse>? Files { get; set; }
-        public ICollection<Comment>? Comments { get; set; }
-    }
+namespace XClaim.Common.Responses; 
+
+public class Payment : AuditableResponse<Guid> {
+    public string? Description { get; set; }
+    public string? Notes { get; set; }
+    public decimal Amount { get; set; }
+    public User? User { get; set; }
+    public Guid? UserId { get; set; }
+    public Company? Company { get; set; }
+    public int? CompanyId { get; set; }
+    public DateTime? ConfirmedAt { get; set; }
+    public bool Confirmed => ConfirmedAt != null;
+    public int Count { get; set; }
+    public ICollection<ClaimResponse>? Claims { get; set; }
+    public ICollection<FileResponse>? Files { get; set; }
+    public ICollection<Comment>? Comments { get; set; }
 }

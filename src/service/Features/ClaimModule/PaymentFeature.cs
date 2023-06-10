@@ -13,20 +13,20 @@ using Axolotl.Enums;
 using XClaim.Common.Entity;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service.Features.ClaimModule {
-    public class PaymentFeature : GenericFeature<PaymentFeature> {
-        public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-            IEndpointRouteBuilder? group = SetupGroup<PaymentFeature, PaymentEntity, Payment, Guid>(
-                endpoints,
-                new FeatureState(
-                    new List<RouteState> {
-                        new(RouteType.GetAll),
-                        new(RouteType.GetById),
-                        new(RouteType.Create),
-                        new(RouteType.Update)
-                    }));
+namespace XClaim.Service.Features.ClaimModule; 
 
-            return group;
-        }
+public class PaymentFeature : GenericFeature<PaymentFeature> {
+    public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+        IEndpointRouteBuilder? group = SetupGroup<PaymentFeature, PaymentEntity, Payment, Guid>(
+            endpoints,
+            new FeatureState(
+                new List<RouteState> {
+                    new(RouteType.GetAll),
+                    new(RouteType.GetById),
+                    new(RouteType.Create),
+                    new(RouteType.Update)
+                }));
+
+        return group;
     }
 }

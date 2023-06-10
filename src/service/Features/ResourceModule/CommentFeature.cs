@@ -13,18 +13,18 @@ using Axolotl.Enums;
 using XClaim.Common.Entity;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service.Features.ResourceModule {
-    public class CommentFeature : GenericFeature<CommentFeature> {
-        public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-            IEndpointRouteBuilder? group = SetupGroup<CommentFeature, CommentEntity, Comment, Guid>(
-                endpoints,
-                new FeatureState(
-                    new List<RouteState> {
-                        new(RouteType.GetById),
-                        new(RouteType.Delete)
-                    }));
+namespace XClaim.Service.Features.ResourceModule; 
 
-            return group;
-        }
+public class CommentFeature : GenericFeature<CommentFeature> {
+    public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+        IEndpointRouteBuilder? group = SetupGroup<CommentFeature, CommentEntity, Comment, Guid>(
+            endpoints,
+            new FeatureState(
+                new List<RouteState> {
+                    new(RouteType.GetById),
+                    new(RouteType.Delete)
+                }));
+
+        return group;
     }
 }

@@ -10,14 +10,14 @@
 
 using XClaim.Common.Base;
 
-namespace XClaim.Common.Responses {
-    public class Comment : AuditableResponse<Guid> {
-        public User? User { get; set; }
-        public Guid? UserId { get; set; }
-        public ClaimResponse? Claim { get; set; }
-        public Guid? ClaimId { get; set; }
-        public Payment? Payment { get; set; }
-        public Guid? PaymentId { get; set; }
-        public string? Content { get; set; }
-    }
+namespace XClaim.Common.Responses; 
+
+public class Comment : AuditableResponse<Guid> {
+    public User? User { get; set; }
+    public Guid? UserId { get; set; }
+    public ClaimResponse? Claim { get; set; }
+    public Guid? ClaimId { get; set; }
+    public Payment? Payment { get; set; }
+    public Guid? PaymentId { get; set; }
+    public string? Content { get; set; }
 }

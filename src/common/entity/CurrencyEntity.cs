@@ -12,15 +12,15 @@ using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace XClaim.Common.Entity {
-    [Index(nameof(Name), IsUnique = true)]
-    [Index(nameof(Code), IsUnique = true)]
-    public sealed class CurrencyEntity : BaseEntity<int> {
-        public string Name { get; set; } = string.Empty;
-        public string? Symbol { get; set; } = string.Empty;
-        [MaxLength(3)] public string Code { get; set; } = string.Empty;
-        public decimal Rate { get; set; }
-        public string Description { get; set; } = string.Empty;
-        public bool Active { get; set; }
-    }
+namespace XClaim.Common.Entity; 
+
+[Index(nameof(Name), IsUnique = true)]
+[Index(nameof(Code), IsUnique = true)]
+public sealed class CurrencyEntity : BaseEntity<int> {
+    public string Name { get; set; } = string.Empty;
+    public string? Symbol { get; set; } = string.Empty;
+    [MaxLength(3)] public string Code { get; set; } = string.Empty;
+    public decimal Rate { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public bool Active { get; set; }
 }

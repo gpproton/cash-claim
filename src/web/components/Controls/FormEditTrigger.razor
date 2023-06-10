@@ -20,7 +20,7 @@
     public EventCallback<bool> OnTriggered { get; set; }
 
     private async Task TriggerEdit() {
-        DialogParameters? parameters = new DialogParameters { { "Id", Id } };
+        DialogParameters? parameters = new() { { "Id", Id } };
         IDialogReference? dialog = await DialogService.ShowAsync<TForm>(string.Empty, parameters);
         DialogResult? result = await dialog.Result;
         if (!result.Canceled) {

@@ -12,15 +12,15 @@ using Axolotl.AspNet.Feature;
 using XClaim.Common.Entity;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service.Features.ServerModule {
-    public class ServerOptionFeature : GenericFeature<ServerOptionFeature> {
-        public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-            IEndpointRouteBuilder? group = SetupGroup<ServerOptionFeature, ServerEntity, Server, int>(
-                endpoints,
-                new FeatureState(
-                    new List<RouteState>()));
+namespace XClaim.Service.Features.ServerModule; 
 
-            return group;
-        }
+public class ServerOptionFeature : GenericFeature<ServerOptionFeature> {
+    public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+        IEndpointRouteBuilder? group = SetupGroup<ServerOptionFeature, ServerEntity, Server, int>(
+            endpoints,
+            new FeatureState(
+                new List<RouteState>()));
+
+        return group;
     }
 }

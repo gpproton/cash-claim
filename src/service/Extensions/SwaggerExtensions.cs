@@ -11,40 +11,40 @@
 using Microsoft.OpenApi.Models;
 using XClaim.Service.Helpers;
 
-namespace XClaim.Service.Extensions {
-    public static class SwaggerExtensions {
-        public static IServiceCollection RegisterSwaggerService(this IServiceCollection services) {
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(opt => {
-                opt.SwaggerDoc("v1", new OpenApiInfo { Title = $"x-claim", Version = "v1" });
-                opt.OperationFilter<FileUploadOperationFilter>();
-            });
+namespace XClaim.Service.Extensions;
 
-            return services;
-        }
+public static class SwaggerExtensions {
+    public static IServiceCollection RegisterSwaggerService(this IServiceCollection services) {
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(opt => {
+            opt.SwaggerDoc("v1", new OpenApiInfo { Title = $"x-claim", Version = "v1" });
+            opt.OperationFilter<FileUploadOperationFilter>();
+        });
 
-        public static WebApplication RegisterSwaggerService(this WebApplication app) {
-            const string swaggerTittle = "x-claim V1";
-            const string swaggerPath = "/swagger/v1/swagger.json";
-            app.UseReDoc(c => {
-                c.DocumentTitle = swaggerTittle;
-                c.SpecUrl(swaggerPath);
-            });
+        return services;
+    }
 
-            if (!app.Environment.IsDevelopment()) {
-                return app;
-            }
+    public static WebApplication RegisterSwaggerService(this WebApplication app) {
+        const string swaggerTittle = "x-claim V1";
+        const string swaggerPath = "/swagger/v1/swagger.json";
+        app.UseReDoc(c => {
+            c.DocumentTitle = swaggerTittle;
+            c.SpecUrl(swaggerPath);
+        });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(opt => {
-                opt.SwaggerEndpoint(swaggerPath, swaggerTittle);
-                opt.DefaultModelExpandDepth(3);
-                opt.EnableDeepLinking();
-                opt.DisplayRequestDuration();
-                opt.ShowExtensions();
-            });
-
+        if (!app.Environment.IsDevelopment()) {
             return app;
         }
+
+        app.UseSwagger();
+        app.UseSwaggerUI(opt => {
+            opt.SwaggerEndpoint(swaggerPath, swaggerTittle);
+            opt.DefaultModelExpandDepth(3);
+            opt.EnableDeepLinking();
+            opt.DisplayRequestDuration();
+            opt.ShowExtensions();
+        });
+
+        return app;
     }
 }

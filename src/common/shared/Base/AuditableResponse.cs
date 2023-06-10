@@ -10,16 +10,16 @@
 
 using System.Text.Json.Serialization;
 
-namespace XClaim.Common.Base {
-    public abstract class AuditableResponse : BaseResponse {
-        public DateTime? CreatedAt { get; set; }
-        [JsonIgnore] public DateTime? UpdatedAt { get; set; }
-        [JsonIgnore] public DateTime? DeletedAt { get; set; }
-    }
+namespace XClaim.Common.Base; 
 
-    public abstract class AuditableResponse<TKey> : BaseResponse<TKey> where TKey : notnull {
-        public DateTime? CreatedAt { get; set; }
-        [JsonIgnore] public DateTime? UpdatedAt { get; set; }
-        [JsonIgnore] public DateTime? DeletedAt { get; set; }
-    }
+public abstract class AuditableResponse : BaseResponse {
+    public DateTime? CreatedAt { get; set; }
+    [JsonIgnore] public DateTime? UpdatedAt { get; set; }
+    [JsonIgnore] public DateTime? DeletedAt { get; set; }
+}
+
+public abstract class AuditableResponse<TKey> : BaseResponse<TKey> where TKey : notnull {
+    public DateTime? CreatedAt { get; set; }
+    [JsonIgnore] public DateTime? UpdatedAt { get; set; }
+    [JsonIgnore] public DateTime? DeletedAt { get; set; }
 }

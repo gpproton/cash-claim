@@ -13,21 +13,21 @@ using Axolotl.Enums;
 using XClaim.Common.Entity;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service.Features.ServerModule {
-    public class CurrencyFeature : GenericFeature<CurrencyFeature> {
-        public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-            IEndpointRouteBuilder? group = SetupGroup<CurrencyFeature, CurrencyEntity, Currency, int>(
-                endpoints,
-                new FeatureState(
-                    new List<RouteState> {
-                        new(RouteType.GetAll),
-                        new(RouteType.GetById),
-                        new(RouteType.Create),
-                        new(RouteType.Update),
-                        new(RouteType.Delete)
-                    }));
+namespace XClaim.Service.Features.ServerModule; 
 
-            return group;
-        }
+public class CurrencyFeature : GenericFeature<CurrencyFeature> {
+    public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+        IEndpointRouteBuilder? group = SetupGroup<CurrencyFeature, CurrencyEntity, Currency, int>(
+            endpoints,
+            new FeatureState(
+                new List<RouteState> {
+                    new(RouteType.GetAll),
+                    new(RouteType.GetById),
+                    new(RouteType.Create),
+                    new(RouteType.Update),
+                    new(RouteType.Delete)
+                }));
+
+        return group;
     }
 }

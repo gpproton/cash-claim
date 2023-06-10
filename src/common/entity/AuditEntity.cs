@@ -10,7 +10,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace XClaim.Common.Entity {
-    public class AuditEntity : AutoHistory {
-    }
+namespace XClaim.Common.Entity; 
+
+public class AuditEntity : AutoHistory {
 }

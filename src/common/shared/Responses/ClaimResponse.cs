@@ -11,35 +11,35 @@
 using XClaim.Common.Base;
 using XClaim.Common.Enums;
 
-namespace XClaim.Common.Responses {
-    public class ClaimResponse : AuditableResponse<Guid> {
-        public string? Description { get; set; }
-        public string? Notes { get; set; }
-        public decimal Amount { get; set; }
-        public Currency? Currency { get; set; }
-        public int? CurrencyId { get; set; }
-        public Payment? Payment { get; set; }
-        public Guid? PaymentId { get; set; }
-        public Category? Category { get; set; }
-        public Guid? CategoryId { get; set; }
-        public Company? Company { get; set; }
-        public int? CompanyId { get; set; }
-        public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
-        public User? User { get; set; }
-        public Guid? UserId { get; set; }
-        public DateTime? CancelledAt { get; set; }
-        public User? ReviewedBy { get; set; }
-        public Guid? ReviewedById { get; set; }
-        public DateTime? ReviewedAt { get; set; }
-        public User? ConfirmedBy { get; set; }
-        public Guid? ConfirmedById { get; set; }
-        public DateTime? ConfirmedAt { get; set; }
-        public User? ApprovedBy { get; set; }
-        public Guid? ApprovedById { get; set; }
-        public DateTime? ApprovedAt { get; set; }
-        public Guid? RejectedById { get; set; }
-        public DateTime? RejectedAt { get; set; }
-        public ICollection<FileResponse>? Files { get; set; }
-        public ICollection<Comment>? Comments { get; set; }
-    }
+namespace XClaim.Common.Responses; 
+
+public class ClaimResponse : AuditableResponse<Guid> {
+    public string? Description { get; set; }
+    public string? Notes { get; set; }
+    public decimal Amount { get; set; }
+    public Currency? Currency { get; set; }
+    public int? CurrencyId { get; set; }
+    public Payment? Payment { get; set; }
+    public Guid? PaymentId { get; set; }
+    public Category? Category { get; set; }
+    public Guid? CategoryId { get; set; }
+    public Company? Company { get; set; }
+    public int? CompanyId { get; set; }
+    public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
+    public User? User { get; set; }
+    public Guid? UserId { get; set; }
+    public DateTime? CancelledAt { get; set; }
+    public User? ReviewedBy { get; set; }
+    public Guid? ReviewedById { get; set; }
+    public DateTime? ReviewedAt { get; set; }
+    public User? ConfirmedBy { get; set; }
+    public Guid? ConfirmedById { get; set; }
+    public DateTime? ConfirmedAt { get; set; }
+    public User? ApprovedBy { get; set; }
+    public Guid? ApprovedById { get; set; }
+    public DateTime? ApprovedAt { get; set; }
+    public Guid? RejectedById { get; set; }
+    public DateTime? RejectedAt { get; set; }
+    public ICollection<FileResponse>? Files { get; set; }
+    public ICollection<Comment>? Comments { get; set; }
 }

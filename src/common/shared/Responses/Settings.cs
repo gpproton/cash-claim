@@ -11,11 +11,11 @@
 using XClaim.Common.Base;
 using XClaim.Common.Enums;
 
-namespace XClaim.Common.Responses {
-    public class Settings : AuditableResponse<Guid> {
-        public User? User { get; set; }
-        public Guid? UserId { get; set; }
-        public bool DarkMode { get; set; }
-        public AppLanguage Language { get; set; } = AppLanguage.English;
-    }
+namespace XClaim.Common.Responses; 
+
+public class Settings : AuditableResponse<Guid> {
+    public User? User { get; set; }
+    public Guid? UserId { get; set; }
+    public bool DarkMode { get; set; }
+    public AppLanguage Language { get; set; } = AppLanguage.English;
 }

@@ -10,15 +10,15 @@
 
 using Axolotl.Response;
 
-namespace XClaim.Common.Responses {
-    public class Team : BaseResponse<Guid> {
-        public string Name { get; set; } = string.Empty;
-        public bool Active { get; set; }
-        public string Description { get; set; } = string.Empty;
-        public Company? Company { get; set; }
-        public int? CompanyId { get; set; }
-        public User? Manager { get; set; }
-        public Guid? ManagerId { get; set; }
-        public ICollection<User>? Members { get; set; }
-    }
+namespace XClaim.Common.Responses; 
+
+public class Team : BaseResponse<Guid> {
+    public string Name { get; set; } = string.Empty;
+    public bool Active { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public Company? Company { get; set; }
+    public int? CompanyId { get; set; }
+    public User? Manager { get; set; }
+    public Guid? ManagerId { get; set; }
+    public ICollection<User>? Members { get; set; }
 }

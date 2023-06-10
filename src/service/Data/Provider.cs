@@ -8,15 +8,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace XClaim.Service.Data {
-    public record Provider(string Name, string Assembly) {
-        public static readonly Provider Sqlite = new(nameof(Sqlite),
-            typeof(Entity.Sqlite.Marker).Assembly.GetName().Name!);
+namespace XClaim.Service.Data; 
 
-        public static readonly Provider Postgres = new(nameof(Postgres),
-            typeof(Entity.Postgres.Marker).Assembly.GetName().Name!);
+public record Provider(string Name, string Assembly) {
+    public static readonly Provider Sqlite = new(nameof(Sqlite),
+        typeof(Entity.Sqlite.Marker).Assembly.GetName().Name!);
 
-        public static readonly Provider
-            Mysql = new(nameof(Mysql), typeof(Entity.Mysql.Marker).Assembly.GetName().Name!);
-    }
+    public static readonly Provider Postgres = new(nameof(Postgres),
+        typeof(Entity.Postgres.Marker).Assembly.GetName().Name!);
+
+    public static readonly Provider
+        Mysql = new(nameof(Mysql), typeof(Entity.Mysql.Marker).Assembly.GetName().Name!);
 }

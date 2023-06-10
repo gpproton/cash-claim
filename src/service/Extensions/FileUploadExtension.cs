@@ -13,46 +13,46 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using XClaim.Service.Helpers;
 
-namespace XClaim.Service.Extensions {
-    public static class FileUploadExtension {
-        public static WebApplication RegisterFileUploadService(this WebApplication app) {
-            FileUploadService? uploadService = app.Services.GetService<FileUploadService>();
-            if (uploadService == null) {
-                return app;
-            }
+namespace XClaim.Service.Extensions;
 
-            string fullUploadPath = uploadService.GetUploadRootPath();
-            if (!Directory.Exists(fullUploadPath)) {
-                Console.WriteLine("Creating static files directory");
-                _ = Directory.CreateDirectory(fullUploadPath);
-            }
-
-            _ = app.UseStaticFiles();
-
-            static void OnPrepareResponse(StaticFileResponseContext ctx) {
-                if (!ctx.Context.Request.Path.StartsWithSegments("/static")) {
-                    return;
-                }
-
-                ctx.Context.Response.Headers.Add("Cache-Control", "no-store");
-                if (ctx.Context.User.Identity == null || ctx.Context.User.Identity.IsAuthenticated) {
-                    return;
-                }
-
-                ctx.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                ctx.Context.Response.ContentLength = 0;
-                ctx.Context.Response.Body = Stream.Null;
-                // TODO: Use better response
-                // JsonSerializer.Serialize(new { Status = 401, Message = "UnAuthorized file access" });
-            }
-
-            _ = app.UseStaticFiles(new StaticFileOptions {
-                FileProvider = new PhysicalFileProvider(fullUploadPath),
-                RequestPath = new PathString("/static"),
-                OnPrepareResponse = OnPrepareResponse
-            });
-
+public static class FileUploadExtension {
+    public static WebApplication RegisterFileUploadService(this WebApplication app) {
+        FileUploadService? uploadService = app.Services.GetService<FileUploadService>();
+        if (uploadService == null) {
             return app;
         }
+
+        string fullUploadPath = uploadService.GetUploadRootPath();
+        if (!Directory.Exists(fullUploadPath)) {
+            Console.WriteLine("Creating static files directory");
+            _ = Directory.CreateDirectory(fullUploadPath);
+        }
+
+        _ = app.UseStaticFiles();
+
+        static void OnPrepareResponse(StaticFileResponseContext ctx) {
+            if (!ctx.Context.Request.Path.StartsWithSegments("/static")) {
+                return;
+            }
+
+            ctx.Context.Response.Headers.Add("Cache-Control", "no-store");
+            if (ctx.Context.User.Identity == null || ctx.Context.User.Identity.IsAuthenticated) {
+                return;
+            }
+
+            ctx.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            ctx.Context.Response.ContentLength = 0;
+            ctx.Context.Response.Body = Stream.Null;
+            // TODO: Use better response
+            // JsonSerializer.Serialize(new { Status = 401, Message = "UnAuthorized file access" });
+        }
+
+        _ = app.UseStaticFiles(new StaticFileOptions {
+            FileProvider = new PhysicalFileProvider(fullUploadPath),
+            RequestPath = new PathString("/static"),
+            OnPrepareResponse = OnPrepareResponse
+        });
+
+        return app;
     }
 }

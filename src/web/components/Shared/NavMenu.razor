@@ -13,11 +13,11 @@
     record MenuLink(string Title, string Icon, string Path, List<MenuLink>? Child = null);
 
     private List<MenuLink> _links = new() {
-        new("Overview", Icons.Material.Filled.Dashboard, "/app/overview"),
-        new("Claims", Icons.Material.Filled.Money, "/app/claims"),
-        new("Payments", Icons.Material.Filled.CreditCard, "/app/payments"),
-        new("Reviews", Icons.Material.Filled.Reviews, "/app/reviews"),
-        new("Transactions", Icons.Material.Filled.SendTimeExtension, "/app/transactions")
+        new MenuLink("Overview", Icons.Material.Filled.Dashboard, "/app/overview"),
+        new MenuLink("Claims", Icons.Material.Filled.Money, "/app/claims"),
+        new MenuLink("Payments", Icons.Material.Filled.CreditCard, "/app/payments"),
+        new MenuLink("Reviews", Icons.Material.Filled.Reviews, "/app/reviews"),
+        new MenuLink("Transactions", Icons.Material.Filled.SendTimeExtension, "/app/transactions")
     };
 
     private List<MenuLink> _secondaryLinks = new() {

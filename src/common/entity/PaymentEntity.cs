@@ -11,20 +11,20 @@
 using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 
-namespace XClaim.Common.Entity {
-    public class PaymentEntity : AuditableEntity<Guid> {
-        [MaxLength(256)] public string? Description { get; set; }
-        [MaxLength(1024)] public string? Notes { get; set; }
-        public decimal Amount { get; set; }
-        public UserEntity? User { get; set; }
-        public Guid? UserId { get; set; }
-        public CompanyEntity? Company { get; set; }
-        [Display(AutoGenerateField = false)] public int? CompanyId { get; set; }
-        public DateTime? ConfirmedAt { get; set; }
-        public bool Confirmed => ConfirmedAt != null;
-        public int Count { get; set; }
-        public ICollection<ClaimEntity>? Claims { get; set; }
-        public ICollection<FileEntity>? Files { get; set; }
-        public ICollection<CommentEntity>? Comments { get; set; }
-    }
+namespace XClaim.Common.Entity; 
+
+public class PaymentEntity : AuditableEntity<Guid> {
+    [MaxLength(256)] public string? Description { get; set; }
+    [MaxLength(1024)] public string? Notes { get; set; }
+    public decimal Amount { get; set; }
+    public UserEntity? User { get; set; }
+    public Guid? UserId { get; set; }
+    public CompanyEntity? Company { get; set; }
+    [Display(AutoGenerateField = false)] public int? CompanyId { get; set; }
+    public DateTime? ConfirmedAt { get; set; }
+    public bool Confirmed => ConfirmedAt != null;
+    public int Count { get; set; }
+    public ICollection<ClaimEntity>? Claims { get; set; }
+    public ICollection<FileEntity>? Files { get; set; }
+    public ICollection<CommentEntity>? Comments { get; set; }
 }

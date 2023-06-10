@@ -11,62 +11,62 @@
 using Microsoft.Net.Http.Headers;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service.Helpers {
-    public class FileUploadService {
-        private readonly IConfiguration _config;
+namespace XClaim.Service.Helpers;
 
-        public FileUploadService(IConfiguration config) {
-            _config = config;
-        }
+public class FileUploadService {
+    private readonly IConfiguration _config;
 
-        private static string StaticFolderName { get; set; } = "static-files";
+    public FileUploadService(IConfiguration config) {
+        _config = config;
+    }
 
-        public async Task<List<FileResponse>> UploadFiles(IEnumerable<IFormFile> files) {
-            List<FileResponse> uploads = new();
-            string? storePath = GetUploadFullPath();
+    private static string StaticFolderName { get; set; } = "static-files";
 
-            foreach (IFormFile? file in files) {
-                if (file.Length <= 0) {
-                    continue;
-                }
+    public async Task<List<FileResponse>> UploadFiles(IEnumerable<IFormFile> files) {
+        List<FileResponse> uploads = new();
+        string? storePath = GetUploadFullPath();
 
-                string? extension = Path.GetExtension(file.FileName);
-                string? fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim()
-                    .ToString();
-                string? saveName = Guid.NewGuid() + extension;
-                string? filePath = Path.Combine(GetDatePath(), saveName);
-
-                if (!Directory.Exists(storePath)) {
-                    Directory.CreateDirectory(storePath);
-                }
-
-                string? savePath = Path.Combine(storePath, saveName);
-                await using FileStream? stream = File.Create(savePath);
-                await file.CopyToAsync(stream);
-                FileResponse? response = new FileResponse {
-                    Name = fileName,
-                    Path = filePath,
-                    Extension = extension
-                };
-                uploads.Add(response);
+        foreach (IFormFile? file in files) {
+            if (file.Length <= 0) {
+                continue;
             }
 
-            return uploads;
+            string? extension = Path.GetExtension(file.FileName);
+            string? fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim()
+                .ToString();
+            string? saveName = Guid.NewGuid() + extension;
+            string? filePath = Path.Combine(GetDatePath(), saveName);
+
+            if (!Directory.Exists(storePath)) {
+                Directory.CreateDirectory(storePath);
+            }
+
+            string? savePath = Path.Combine(storePath, saveName);
+            await using FileStream? stream = File.Create(savePath);
+            await file.CopyToAsync(stream);
+            FileResponse? response = new() {
+                Name = fileName,
+                Path = filePath,
+                Extension = extension
+            };
+            uploads.Add(response);
         }
 
-        private static string GetDatePath() {
-            return Path.Combine(DateTime.UtcNow.ToString("yyyy"), DateTime.UtcNow.ToString("MMMM"),
-                DateTime.UtcNow.ToString("dd"));
-        }
+        return uploads;
+    }
 
-        private string GetUploadFullPath() {
-            return Path.Combine(GetUploadRootPath(), GetDatePath());
-        }
+    private static string GetDatePath() {
+        return Path.Combine(DateTime.UtcNow.ToString("yyyy"), DateTime.UtcNow.ToString("MMMM"),
+            DateTime.UtcNow.ToString("dd"));
+    }
 
-        public string GetUploadRootPath() {
-            string? filesUploadPath = _config.GetValue<string>("UploadPath");
+    private string GetUploadFullPath() {
+        return Path.Combine(GetUploadRootPath(), GetDatePath());
+    }
 
-            return filesUploadPath ?? Path.Combine(Directory.GetCurrentDirectory(), StaticFolderName);
-        }
+    public string GetUploadRootPath() {
+        string? filesUploadPath = _config.GetValue<string>("UploadPath");
+
+        return filesUploadPath ?? Path.Combine(Directory.GetCurrentDirectory(), StaticFolderName);
     }
 }

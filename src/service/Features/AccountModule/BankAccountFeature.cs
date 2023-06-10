@@ -13,19 +13,19 @@ using Axolotl.Enums;
 using XClaim.Common.Entity;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service.Features.AccountModule {
-    public class BankAccountFeature : GenericFeature<BankAccountFeature> {
-        public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-            IEndpointRouteBuilder? group = SetupGroup<BankAccountFeature, BankAccountEntity, BankAccount, Guid>(
-                endpoints,
-                new FeatureState(new List<RouteState> {
-                        new(RouteType.GetById),
-                        new(RouteType.Update)
-                    },
-                    Name: "BankAccount",
-                    Path: "account/bank-account"));
+namespace XClaim.Service.Features.AccountModule;
 
-            return group;
-        }
+public class BankAccountFeature : GenericFeature<BankAccountFeature> {
+    public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+        IEndpointRouteBuilder? group = SetupGroup<BankAccountFeature, BankAccountEntity, BankAccount, Guid>(
+            endpoints,
+            new FeatureState(new List<RouteState> {
+                    new(RouteType.GetById),
+                    new(RouteType.Update)
+                },
+                Name: "BankAccount",
+                Path: "account/bank-account"));
+
+        return group;
     }
 }

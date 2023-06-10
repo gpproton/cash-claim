@@ -11,14 +11,14 @@
 using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 
-namespace XClaim.Common.Entity {
-    public class CommentEntity : BaseEntity<Guid> {
-        public UserEntity? User { get; set; }
-        public Guid? UserId { get; set; }
-        public ClaimEntity? Claim { get; set; }
-        [Display(AutoGenerateField = false)] public Guid? ClaimId { get; set; }
-        public PaymentEntity? Payment { get; set; }
-        [Display(AutoGenerateField = false)] public Guid? PaymentId { get; set; }
-        [MaxLength(1024)] public string? Content { get; set; }
-    }
+namespace XClaim.Common.Entity; 
+
+public class CommentEntity : BaseEntity<Guid> {
+    public UserEntity? User { get; set; }
+    public Guid? UserId { get; set; }
+    public ClaimEntity? Claim { get; set; }
+    [Display(AutoGenerateField = false)] public Guid? ClaimId { get; set; }
+    public PaymentEntity? Payment { get; set; }
+    [Display(AutoGenerateField = false)] public Guid? PaymentId { get; set; }
+    [MaxLength(1024)] public string? Content { get; set; }
 }

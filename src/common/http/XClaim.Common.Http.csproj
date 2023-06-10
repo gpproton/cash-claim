@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Title>XClaim.Common.Http</Title>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Title>XClaim.Common.Http</Title>
+    </PropertyGroup>
 
-  <Import Project="..\..\..\Common.props" />
+    <Import Project="..\..\..\Common.props"/>
 
-  <ItemGroup>
-    <PackageReference Include="Axolotl.Http" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Axolotl.Http"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\shared\XClaim.Common.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\shared\XClaim.Common.csproj"/>
+    </ItemGroup>
 
 </Project>

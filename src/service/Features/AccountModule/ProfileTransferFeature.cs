@@ -13,24 +13,24 @@ using Axolotl.Enums;
 using XClaim.Common.Entity;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service.Features.AccountModule {
-    public class ProfileTransferFeature : GenericFeature<ProfileTransferFeature> {
-        public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-            IEndpointRouteBuilder? group =
-                SetupGroup<ProfileTransferFeature, ProfileTransferEntity, ProfileTransfer, Guid>(
-                    endpoints,
-                    new FeatureState(
-                        new List<RouteState> {
-                            new(RouteType.GetAll),
-                            new(RouteType.GetById),
-                            new(RouteType.Create),
-                            new(RouteType.Update)
-                        },
-                        Name: "ProfileTransfer",
-                        Path: "account/transfer"
-                    ));
+namespace XClaim.Service.Features.AccountModule;
 
-            return group;
-        }
+public class ProfileTransferFeature : GenericFeature<ProfileTransferFeature> {
+    public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
+        IEndpointRouteBuilder? group =
+            SetupGroup<ProfileTransferFeature, ProfileTransferEntity, ProfileTransfer, Guid>(
+                endpoints,
+                new FeatureState(
+                    new List<RouteState> {
+                        new(RouteType.GetAll),
+                        new(RouteType.GetById),
+                        new(RouteType.Create),
+                        new(RouteType.Update)
+                    },
+                    Name: "ProfileTransfer",
+                    Path: "account/transfer"
+                ));
+
+        return group;
     }
 }

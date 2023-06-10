@@ -11,14 +11,14 @@
 using Axolotl.Response;
 using XClaim.Common.Enums;
 
-namespace XClaim.Common.Responses {
-    public class EventResponse : BaseResponse<Guid> {
-        public DateTime CreatedAt { get; set; }
-        public EventType Type { get; set; } = EventType.Claim;
-        public ClaimResponse? Claim { get; set; }
-        public Guid? ClaimId { get; set; }
-        public Payment? Payment { get; set; }
-        public Guid? PaymentId { get; set; }
-        public string Description { get; set; } = string.Empty;
-    }
+namespace XClaim.Common.Responses; 
+
+public class EventResponse : BaseResponse<Guid> {
+    public DateTime CreatedAt { get; set; }
+    public EventType Type { get; set; } = EventType.Claim;
+    public ClaimResponse? Claim { get; set; }
+    public Guid? ClaimId { get; set; }
+    public Payment? Payment { get; set; }
+    public Guid? PaymentId { get; set; }
+    public string Description { get; set; } = string.Empty;
 }

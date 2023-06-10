@@ -11,13 +11,13 @@
 using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
 
-namespace XClaim.Common.Entity {
-    public class ServerEntity : BaseEntity<int> {
-        public string? ServiceName { get; set; }
-        public string? AdminEmail { get; set; }
-        public bool MaintenanceActive { get; set; }
-        public string? MaintenanceText { get; set; }
-        public CurrencyEntity? Currency { get; set; }
-        public int? CurrencyId { get; set; }
-    }
+namespace XClaim.Common.Entity; 
+
+public class ServerEntity : BaseEntity<int> {
+    public string? ServiceName { get; set; }
+    public string? AdminEmail { get; set; }
+    public bool MaintenanceActive { get; set; }
+    public string? MaintenanceText { get; set; }
+    public CurrencyEntity? Currency { get; set; }
+    public int? CurrencyId { get; set; }
 }
