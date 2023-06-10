@@ -5,7 +5,7 @@
 @code {
 
     [CascadingParameter]
-    RootLayout Layout { get; set; } = default!;
+    RootWrapper Wrapper { get; set; } = default!;
 
     protected override void OnInitialized() {
         base.OnInitialized();
@@ -15,7 +15,6 @@
     public void Dispose() {
         AppState.OnChange -= StateHasChanged;
     }
-
 }
 
 <AppBar/>

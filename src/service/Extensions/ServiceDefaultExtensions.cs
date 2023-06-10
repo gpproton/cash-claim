@@ -56,6 +56,8 @@ public static class ServiceDefaultExtensions {
         app.RegisterFeatureEndpoints();
         app.UseCoreAdminCustomUrl("admin");
         app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
+        // TODO: Blazor client temporary under review
+        // app.MapFallbackToFile("index.html");
         app.MapFallbackToPage("/_Host");
         return app;
     }

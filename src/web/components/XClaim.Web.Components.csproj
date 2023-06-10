@@ -4,22 +4,22 @@
         <Title>XClaim.Web.Components</Title>
     </PropertyGroup>
 
-    <Import Project="..\..\..\Common.props"/>
+    <Import Project="..\..\..\Common.props" />
 
     <ItemGroup>
-        <SupportedPlatform Include="browser"/>
+        <SupportedPlatform Include="browser" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web"/>
-        <PackageReference Include="Microsoft.Web.LibraryManager.Build"/>
-        <PackageReference Include="Axolotl.Razor"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+        <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
+        <PackageReference Include="Axolotl.Razor" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\common\http\XClaim.Common.Http.csproj"/>
-        <ProjectReference Include="..\..\common\shared\XClaim.Common.csproj"/>
-        <ProjectReference Include="..\shared\XClaim.Web.Shared.csproj"/>
+        <ProjectReference Include="..\..\common\http\XClaim.Common.Http.csproj" />
+        <ProjectReference Include="..\..\common\shared\XClaim.Common.csproj" />
+        <ProjectReference Include="..\shared\XClaim.Web.Shared.csproj" />
     </ItemGroup>
 
 </Project>

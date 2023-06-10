@@ -21,15 +21,15 @@ namespace XClaim.Web.Shared.States;
 
 public class AuthState : RootState {
     private readonly NavigationManager _nav;
-    private readonly IProfileService _profileService;
+    // private readonly IProfileService _profileService;
     private readonly AuthenticationStateProvider _authProvider;
     private readonly ISessionStorageService _sessionStorage;
 
-    public AuthState(AuthenticationStateProvider authProvider, NavigationManager nav, IProfileService profile,
+    public AuthState(AuthenticationStateProvider authProvider, NavigationManager nav,
         ISessionStorageService sessionStorage) {
         _authProvider = authProvider;
         _nav = nav;
-        _profileService = profile;
+        // _profileService = profile;
         _sessionStorage = sessionStorage;
     }
 
@@ -48,10 +48,10 @@ public class AuthState : RootState {
     }
 
     public async Task Refresh() {
-        AuthResponse? auth = (await _profileService.GetAccountAsync()).Data;
-        if (auth != null) {
-            await Profile.RefreshAuthenticationState(auth);
-        }
+        // AuthResponse? auth = (await _profileService.GetAccountAsync()).Data;
+        // if (auth != null) {
+        //     await Profile.RefreshAuthenticationState(auth);
+        // }
     }
 
     public async Task<UserPermission> GetPermission() {
@@ -67,13 +67,13 @@ public class AuthState : RootState {
     }
 
     public async Task TriggerAuthentication() {
-        Response<AuthResponse?>? response = await _profileService.GetAccountAsync();
-        if (response is { Data: not null, Success: true }) {
-            await Profile.UpdateAuthenticationState(response.Data);
-        }
-        else {
-            await Profile.ClearAuthInfo();
-        }
+        // Response<AuthResponse?>? response = await _profileService.GetAccountAsync();
+        // if (response is { Data: not null, Success: true }) {
+        //     await Profile.UpdateAuthenticationState(response.Data);
+        // }
+        // else {
+        //     await Profile.ClearAuthInfo();
+        // }
     }
 
     public void TriggerApiAuth() {
@@ -81,8 +81,8 @@ public class AuthState : RootState {
     }
 
     public async Task TriggerSignOut() {
-        await _profileService.SignOutAsync();
-        await Profile.ClearAuthInfo();
-        _nav.NavigateTo(WebConst.AppAuth, true);
+        // await _profileService.SignOutAsync();
+        // await Profile.ClearAuthInfo();
+        // _nav.NavigateTo(WebConst.AppAuth, true);
     }
 }
