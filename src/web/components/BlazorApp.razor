@@ -1,29 +1,18 @@
 ﻿@code {
-
-    private async Task OnNavigateAsync(NavigationContext args) { }
-
+    private void OnNavigateAsync(NavigationContext args) { }
 }
 
 <RootWrapper>
     <CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(BlazorApp).Assembly" AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }" OnNavigateAsync="OnNavigateAsync">
+    <Router AppAssembly="@typeof(BlazorApp).Assembly" OnNavigateAsync="OnNavigateAsync">
         <Found Context="routeData">
             <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
         </Found>
         <NotFound>
             <Title>Not Found</Title>
-            <AuthorizeView>
-                <Authorized>
-                    <LayoutView Layout="@typeof(MainLayout)">
-                        <ErrorFound />
-                    </LayoutView>
-                </Authorized>
-                <NotAuthorized>
-                    <LayoutView Layout="@typeof(AuthLayout)">
-                        <ErrorFound />
-                    </LayoutView>
-                </NotAuthorized>
-            </AuthorizeView>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <ErrorFound />
+            </LayoutView>
         </NotFound>
     </Router>
     </CascadingAuthenticationState>

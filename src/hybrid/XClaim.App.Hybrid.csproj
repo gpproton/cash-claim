@@ -14,7 +14,7 @@
         <ApplicationTitle>x-claim</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>app.x-claim.hybrid</ApplicationId>
+        <ApplicationId>dev.proton.xclaim.hybrid</ApplicationId>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>

@@ -1,5 +1,5 @@
 ﻿<RootWrapper>
-    <Router AppAssembly="@typeof(Main).Assembly" AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }" PreferExactMatches="true">
+    <Router AppAssembly="@typeof(Main).Assembly" AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }">
         <Found Context="routeData">
             <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
         </Found>

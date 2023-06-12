@@ -46,7 +46,7 @@ public class AuthState : RootState {
         return (await GetState()).User;
     }
 
-    public async Task Refresh() {
+    public void Refresh() {
         // AuthResponse? auth = (await _profileService.GetAccountAsync()).Data;
         // if (auth != null) {
         //     await Profile.RefreshAuthenticationState(auth);
