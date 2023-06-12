@@ -14,11 +14,9 @@ using XClaim.Web.Shared;
 
 WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-// builder.RootComponents.Add<BlazorApp>("#app");
-// builder.RootComponents.Add<HeadOutlet>("head::after");
-
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.RegisterSharedBlazorServices();
 builder.Services.RegisterComponentsExtensions();
+builder.Services.RegisterAppState();
 
 await builder.Build().RunAsync();
