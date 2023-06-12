@@ -1,7 +1,7 @@
 @inherits LayoutComponentBase
-@inject AuthState AuthState
-@inject AppState AppState
 @inject Navigation Nav
+@inject AppState AppState
+@inject AuthState AuthState
 
 <MudAppBar Color="Color.Transparent" Elevation="0">
     <MudStack Row="true" AlignItems="AlignItems.Center" Style="cursor: pointer" @onclick='() => Nav.NavigateTo("/")'>
