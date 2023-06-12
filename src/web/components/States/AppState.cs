@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Components;
 using XClaim.Common;
 using XClaim.Common.Responses;
 
-namespace XClaim.Web.Shared.States; 
+namespace XClaim.Web.Components.States;
 
 public class AppState : RootState {
     public RenderFragment? LayoutTitle { get; private set; }

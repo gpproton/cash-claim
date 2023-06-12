@@ -9,15 +9,14 @@
 // limitations under the License.
 
 using System.Security.Claims;
-using Axolotl.Response;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using XClaim.Common.Responses;
 using XClaim.Common.Enums;
-using XClaim.Common.Http.Account;
+using XClaim.Common.Responses;
+using XClaim.Web.Shared;
 
-namespace XClaim.Web.Shared.States;
+namespace XClaim.Web.Components.States;
 
 public class AuthState : RootState {
     private readonly NavigationManager _nav;

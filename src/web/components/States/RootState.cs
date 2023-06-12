@@ -8,7 +8,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace XClaim.Web.Shared.States;
+namespace XClaim.Web.Components.States;
 
 public abstract class RootState {
     public event Action? OnChange;

@@ -10,7 +10,7 @@
 
 using MudBlazor;
 
-namespace XClaim.Web.Shared.States;
+namespace XClaim.Web.Components.States;
 
 public class ThemeState : RootState {
     public bool IsLightMode { get; private set; } = true;
