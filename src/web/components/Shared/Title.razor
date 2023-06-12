@@ -1,6 +1,5 @@
-@using XClaim.Web.Shared.States
 @implements IDisposable
-@inject AppState AppState;
+@inject AppState AppState
 
 @code{
 
@@ -20,8 +19,8 @@
         AppState.OnChange += StateHasChanged;
     }
 
-    public void Dispose() {
-        AppState.OnChange -= StateHasChanged;
+    public void Dispose()
+    {
     }
 
 }

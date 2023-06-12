@@ -1,7 +1,6 @@
 ﻿@using XClaim.Common.Responses
 @using Axolotl.Helpers
 @using Axolotl.Extensions
-@inject AuthState AuthState
 
 @code {
     [Parameter]
@@ -25,13 +24,13 @@
     };
 
     async Task SignOut() {
-        await AuthState.TriggerSignOut();
+        // await AuthState.TriggerSignOut();
     }
 
     protected override async Task OnInitializedAsync() {
         await base.OnInitializedAsync();
-        if (await AuthState.IsAuth())
-            _profile = (await AuthState.GetSession())!.Data;
+        // if (await AuthState.IsAuth())
+        //     _profile = (await AuthState.GetSession())!.Data;
     }
 
     private string ProfileInitials => StringHelpers.GetInitialsText(new[] {
