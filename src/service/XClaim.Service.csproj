@@ -37,5 +37,18 @@
       <Link>.dockerignore</Link>
     </Content>
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <Folder Include="Features\AccountModule\Repositories\" />
+    <Folder Include="Features\AccountModule\Services\" />
+    <Folder Include="Features\ClaimModule\Repositories\" />
+    <Folder Include="Features\ClaimModule\Services\" />
+    <Folder Include="Features\GroupModule\Repositories\" />
+    <Folder Include="Features\GroupModule\Services\" />
+    <Folder Include="Features\ResourceModule\Repositories\" />
+    <Folder Include="Features\ResourceModule\Services\" />
+    <Folder Include="Features\ServerModule\Repositories\" />
+    <Folder Include="Features\ServerModule\Services\" />
+  </ItemGroup>
+
 </Project>
