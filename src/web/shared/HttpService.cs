@@ -8,29 +8,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Net.Http.Headers;
 using Axolotl.Http;
-using XClaim.Common.Responses;
-using XClaim.Web.Shared.States;
 
 namespace XClaim.Web.Shared;
 
 public class HttpService : AbstractHttpService {
-    private readonly Lazy<AuthState> _state;
+    // private readonly Lazy<AuthState> _state;
 
-    public HttpService(HttpClient http, Lazy<AuthState> state) : base(http) {
-        _state = state;
+    public HttpService(HttpClient http) : base(http) {
+        // _state = state;
     }
 
     protected override async Task AddJwtHeader(HttpRequestMessage request) {
-        AuthResponse? user = await _state.Value.GetSession();
-        bool isApiUrl = !request!.RequestUri!.IsAbsoluteUri;
-        if (user != null && isApiUrl) {
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-        }
+        // AuthResponse? user = await _state.Value.GetSession();
+        // bool isApiUrl = !request!.RequestUri!.IsAbsoluteUri;
+        // if (user != null && isApiUrl) {
+        //     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+        // }
     }
 
     protected override async Task SignOut() {
-        await _state.Value.TriggerSignOut();
+        // await _state.Value.TriggerSignOut();
     }
 }

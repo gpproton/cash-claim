@@ -10,7 +10,7 @@
 
 using MudBlazor;
 
-namespace XClaim.Web.Shared; 
+namespace XClaim.Web.Shared;
 
 public static class WebConst {
     public const string RootApi = "/api/v1";
@@ -21,6 +21,6 @@ public static class WebConst {
     public const string AppRegister = "app/registration";
     public const string SessionKey = "UserSession";
     public static readonly DateRange AppDateRange = new(DateTime.Now.AddDays(-7), DateTime.Now);
-    public static readonly int[] AppPaged = { 25, 100, 250, 2000 };
+    public static readonly int[] AppPaged = { 100, 250, 2000 };
     public const string TableHeight = "calc(100vh - 224px)";
 }
