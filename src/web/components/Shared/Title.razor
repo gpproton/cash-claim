@@ -1,5 +1,5 @@
-@implements IDisposable
-@inject AppState AppState
+@* @implements IDisposable *@
+@* @inject AppState AppState *@
 
 @code{
 
@@ -14,15 +14,15 @@
 
     protected override void OnParametersSet() {
         base.OnParametersSet();
-        AppState.SetLayoutTitle(Content = ChildContent ?? Content);
-        if (AppTitle != null) AppState.SetAppTitle(AppTitle);
-        AppState.OnChange += StateHasChanged;
+        // AppState.SetLayoutTitle(Content = ChildContent ?? Content);
+        // if (AppTitle != null) AppState.SetAppTitle(AppTitle);
+        // AppState.OnChange += StateHasChanged;
     }
 
-    public void Dispose()
-    {
-    }
+    // public void Dispose()
+    // {
+    // }
 
 }
 
-<PageTitle>@AppState.LayoutTitle :: @AppState.AppTitle</PageTitle>
+@* <PageTitle>@AppState.LayoutTitle :: @AppState.AppTitle</PageTitle> *@

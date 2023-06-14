@@ -14,6 +14,7 @@ using DotNetEd.CoreAdmin;
 using XClaim.Common.Context;
 using XClaim.Service.Data;
 using XClaim.Service.Helpers;
+using XClaim.Web.Components;
 
 namespace XClaim.Service.Extensions;
 
@@ -38,6 +39,7 @@ public static class ServiceDefaultExtensions {
         });
 
         services.AddTransient<FileUploadService>();
+        services.AddRazorComponents().AddServerComponents();
 
         return services;
     }
@@ -56,9 +58,7 @@ public static class ServiceDefaultExtensions {
         app.RegisterFeatureEndpoints();
         app.UseCoreAdminCustomUrl("admin");
         app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
-        // TODO: Blazor client temporary under review
-        // app.MapFallbackToFile("index.html");
-        app.MapFallbackToPage("/_Host");
+        app.MapRazorComponents<ServerApp>();
         return app;
     }
 }

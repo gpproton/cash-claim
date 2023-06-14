@@ -1,5 +1,5 @@
 // Copyright 2023 - 2023 Godwin peter .O (me@godwin.dev)
-//
+// 
 // Licensed under the MIT License;
 // you may not use this file except in compliance with the License.
 // Unless required by applicable law or agreed to in writing, software
@@ -8,10 +8,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace XClaim.Web.Components.States;
+namespace XClaim.Web.Components; 
 
-public abstract class RootState {
-    public event Action? OnChange;
-
-    protected void NotifyStateChanged() => OnChange?.Invoke();
+public class AppInitialization {
+    
 }

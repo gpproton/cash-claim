@@ -1,7 +1,7 @@
 @inherits LayoutComponentBase
 @inject Navigation Nav
-@inject AppState AppState
-@inject AuthState AuthState
+@* @inject AppState AppState *@
+@* @inject AuthState AuthState *@
 
 @code {
     bool _drawerOpen = true;
@@ -19,21 +19,21 @@
         <MudAvatar Rounded="true" Size="Size.Medium" Color="Color.Primary">
             <MudText Typo="Typo.h5" Style="font-weight: bold">X</MudText>
         </MudAvatar>
-        <MudText Typo="Typo.h5" Color="Color.Primary" Style="font-weight: bold" Class="ml-3">@AppState.AppTitle</MudText>
+        @* <MudText Typo="Typo.h5" Color="Color.Primary" Style="font-weight: bold" Class="ml-3">@AppState.AppTitle</MudText> *@
     </MudStack>
     <MudSpacer/>
     <AuthorizeView>
         <NotAuthorized>
-            <MudButton Variant="Variant.Outlined" Class="px-6 px-4" Color="Color.Primary" Size="Size.Large"
-                       OnClick="() => AuthState.TriggerApiAuth()">
-                Sign In
-            </MudButton>
+            @* <MudButton Variant="Variant.Outlined" Class="px-6 px-4" Color="Color.Primary" Size="Size.Large" *@
+            @*            OnClick="() => AuthState.TriggerApiAuth()"> *@
+            @*     Sign In *@
+            @* </MudButton> *@
         </NotAuthorized>
         <Authorized>
-            <MudButton Variant="Variant.Outlined" Class="px-6 px-4" Color="Color.Primary" Size="Size.Large"
-                       OnClick="async () => await AuthState.TriggerSignOut()">
-                Sign Out
-            </MudButton>
+            @* <MudButton Variant="Variant.Outlined" Class="px-6 px-4" Color="Color.Primary" Size="Size.Large" *@
+            @*            OnClick="async () => await AuthState.TriggerSignOut()"> *@
+            @*     Sign Out *@
+            @* </MudButton> *@
         </Authorized>
     </AuthorizeView>
 </MudAppBar>
