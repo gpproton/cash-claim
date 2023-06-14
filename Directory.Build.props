@@ -26,9 +26,10 @@
     <PropertyGroup>
         <ArdalisVersion>7.0.0</ArdalisVersion>
         <AxolotlVersion>8.0-preview.18</AxolotlVersion>
-        <AspCoreVersion>8.0.0-preview.4.23260.4</AspCoreVersion>
-        <DotnetVersion>8.0.0-preview.4.23259.5</DotnetVersion>
-        <EfcoreVersion>8.0.0-preview.4.23259.3</EfcoreVersion>
+        <AspCoreVersion>8.0.0-preview.5.23302.2</AspCoreVersion>
+        <DotnetVersion>8.0.0-preview.5.23280.8</DotnetVersion>
+        <EfcoreVersion>8.0.0-preview.5.23280.1</EfcoreVersion>
+        <MauiVersion>8.0.0-preview.5.8529</MauiVersion>
     </PropertyGroup>
 
     <PropertyGroup>
