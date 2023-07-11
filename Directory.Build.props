@@ -33,8 +33,4 @@
     <MauiVersion>8.0.0-preview.6.8686</MauiVersion>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <BaseIntermediateOutputPath>$(MSBuildProjectDirectory)/obj/</BaseIntermediateOutputPath>
-  </PropertyGroup>
-
 </Project>
