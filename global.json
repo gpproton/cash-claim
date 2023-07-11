@@ -1,6 +1,6 @@
 {
   "sdk": {
-    "version": "8.0.100-preview.5.23303.2",
+    "version": "8.0.100-preview.6.23330.14",
     "rollForward": "latestFeature"
   },
   "scripts": {
@@ -11,7 +11,6 @@
     "m:clean": "rm -rf src/service/Migrations/* && rm ./**/*.sqlite*",
     "m:sqlite": "dotnet-ef migrations add Initial -s ./src/service/XClaim.Service.csproj -p ./src/migration/sqlite/XClaim.Entity.Sqlite.csproj --verbose -- --provider sqlite",
     "m:postgres": "dotnet-ef migrations add Initial -s ./src/service/XClaim.Service.csproj -p ./src/migration/postgres/XClaim.Entity.Postgres.csproj --verbose -- --provider postgres",
-    "m:mysql": "dotnet-ef migrations add Initial -s ./src/service/XClaim.Service.csproj -p ./src/migration/mysql/XClaim.Entity.Mysql.csproj --verbose -- --provider mysql",
     "m:all": "dotnet r m:sqlite && dotnet r m:postgres && dotnet r m:mysql"
   }
 }

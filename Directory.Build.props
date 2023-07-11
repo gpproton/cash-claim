@@ -1,39 +1,40 @@
 <Project>
-    <PropertyGroup>
-        <Title>x-claim</Title>
-        <Version>0.1-preview.1</Version>
-        <Authors>Godwin peter .O</Authors>
-        <Description>An IOU payment management system</Description>
-        <RepositoryType>git</RepositoryType>
-        <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
-        <RepositoryUrl>https://github.com/gpproton/x-claim</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/gpproton/x-claim</PackageProjectUrl>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <LicenseFile>$(MSBuildThisFileDirectory)LICENSE</LicenseFile>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Copyright>© x-claim Contributors. All rights reserved.</Copyright>
-        <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">True</ContinuousIntegrationBuild>
-    </PropertyGroup>
+  <PropertyGroup>
+    <Title>x-claim</Title>
+    <Version>0.1-preview.1</Version>
+    <Authors>Godwin peter .O</Authors>
+    <Description>An IOU payment management system</Description>
+    <RepositoryType>git</RepositoryType>
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+    <RepositoryUrl>https://github.com/gpproton/x-claim</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/gpproton/x-claim</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <LicenseFile>$(MSBuildThisFileDirectory)LICENSE</LicenseFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>© x-claim Contributors. All rights reserved.</Copyright>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">True</ContinuousIntegrationBuild>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <LangVersion>preview</LangVersion>
-        <UseArtifactsOutput>true</UseArtifactsOutput>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <!-- TODO: Enable when in public release -->
+    <!-- <UseArtifactsOutput>true</UseArtifactsOutput> -->
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <ArdalisVersion>7.0.0</ArdalisVersion>
-        <AxolotlVersion>8.0-preview.18</AxolotlVersion>
-        <AspCoreVersion>8.0.0-preview.5.23302.2</AspCoreVersion>
-        <DotnetVersion>8.0.0-preview.5.23280.8</DotnetVersion>
-        <EfcoreVersion>8.0.0-preview.5.23280.1</EfcoreVersion>
-        <MauiVersion>8.0.0-preview.5.8529</MauiVersion>
-    </PropertyGroup>
+  <PropertyGroup>
+    <ArdalisVersion>7.0.0</ArdalisVersion>
+    <AxolotlVersion>8.0-preview.19</AxolotlVersion>
+    <AspCoreVersion>8.0.0-preview.6.23329.11</AspCoreVersion>
+    <DotnetVersion>8.0.0-preview.6.23329.7</DotnetVersion>
+    <EfcoreVersion>8.0.0-preview.6.23329.4</EfcoreVersion>
+    <MauiVersion>8.0.0-preview.6.8686</MauiVersion>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <BaseIntermediateOutputPath>$(MSBuildProjectDirectory)/obj/</BaseIntermediateOutputPath>
-    </PropertyGroup>
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>$(MSBuildProjectDirectory)/obj/</BaseIntermediateOutputPath>
+  </PropertyGroup>
 
 </Project>
