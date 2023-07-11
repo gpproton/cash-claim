@@ -11,20 +11,13 @@
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Context;
 
-namespace XClaim.Service.Data; 
+namespace XClaim.Service.Data;
 
-public class MigrationService : BackgroundService {
-    private readonly ILogger<MigrationService> _logger;
-    private readonly IServiceScopeFactory _scopeFactory;
-
-    public MigrationService(ILogger<MigrationService> logger, IServiceScopeFactory factory) {
-        _logger = logger;
-        _scopeFactory = factory;
-    }
+public class MigrationService(ILogger<MigrationService> logger, IServiceScopeFactory factory) : BackgroundService {
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken) {
-        _logger.LogInformation("Starting migration...");
-        IServiceProvider? sp = _scopeFactory.CreateScope().ServiceProvider;
+        logger.LogInformation("Starting migration...");
+        IServiceProvider? sp = factory.CreateScope().ServiceProvider;
 
         await using ServiceContext? context = sp.GetService<ServiceContext>();
         if (context is null) {
@@ -37,14 +30,14 @@ public class MigrationService : BackgroundService {
 
         using (Task<bool>? any = context.Server.AnyAsync(cancellationToken)) {
             if (!await any) {
-                _logger.LogInformation("Starting seeding...");
+                logger.LogInformation("Starting seeding...");
 
                 // await context.Posts.AddRangeAsync(posts, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
-                _logger.LogInformation("Completed seeding...");
+                logger.LogInformation("Completed seeding...");
             }
         }
 
-        _logger.LogInformation("Completed migration...");
+        logger.LogInformation("Completed migration...");
     }
 }

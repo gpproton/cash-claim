@@ -9,6 +9,7 @@
 // limitations under the License.
 
 using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using XClaim.Service.Helpers;
@@ -35,7 +36,7 @@ public static class FileUploadExtension {
                 return;
             }
 
-            ctx.Context.Response.Headers.Add("Cache-Control", "no-store");
+            ctx.Context.Response.Headers.Append("Cache-Control", "no-store");
             if (ctx.Context.User.Identity == null || ctx.Context.User.Identity.IsAuthenticated) {
                 return;
             }
@@ -44,7 +45,7 @@ public static class FileUploadExtension {
             ctx.Context.Response.ContentLength = 0;
             ctx.Context.Response.Body = Stream.Null;
             // TODO: Use better response
-            // JsonSerializer.Serialize(new { Status = 401, Message = "UnAuthorized file access" });
+            JsonSerializer.Serialize(new { Status = 401, Message = "UnAuthorized file access" });
         }
 
         _ = app.UseStaticFiles(new StaticFileOptions {
