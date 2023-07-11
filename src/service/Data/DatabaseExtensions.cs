@@ -19,18 +19,19 @@ public static class DatabaseExtensions {
         ServiceProvider? sp = services.BuildServiceProvider();
         IConfiguration? config = sp.GetService<IConfiguration>();
         string? provider = (config!.GetValue<string>("provider") ?? Sqlite.Name).ToLower();
+        string? defaultConfig = config!.GetConnectionString("Default");
 
         services.AddDbContext<ServiceContext>(options => {
             options.UseSnakeCaseNamingConvention();
 
             if (provider.Contains(Sqlite.Name, StringComparison.CurrentCultureIgnoreCase)) {
-                string? sqliteString = config!.GetConnectionString(Sqlite.Name)!;
+                string? sqliteString = config!.GetConnectionString(Sqlite.Name) ?? defaultConfig;
                 options.UseSqlite(sqliteString,
                     x => x.MigrationsAssembly(Sqlite.Assembly).UseRelationalNulls());
             }
 
             if (provider.Contains(Postgres.Name, StringComparison.CurrentCultureIgnoreCase)) {
-                string? postgresString = config!.GetConnectionString(Postgres.Name)!;
+                string? postgresString = config!.GetConnectionString(Postgres.Name) ?? defaultConfig;
                 options.UseNpgsql(postgresString,
                     x => x.MigrationsAssembly(Postgres.Assembly).UseRelationalNulls());
             }
