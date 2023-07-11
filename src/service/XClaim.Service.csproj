@@ -25,7 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\common\context\XClaim.Common.Context.csproj" />
     <ProjectReference Include="..\common\http\XClaim.Common.Http.csproj" />
-    <ProjectReference Include="..\migration\mysql\XClaim.Entity.Mysql.csproj" />
     <ProjectReference Include="..\migration\postgres\XClaim.Entity.Postgres.csproj" />
     <ProjectReference Include="..\migration\sqlite\XClaim.Entity.Sqlite.csproj" />
     <ProjectReference Include="..\web\components\XClaim.Web.Components.csproj" />
