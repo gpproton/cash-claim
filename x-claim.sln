@@ -25,9 +25,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Service.IntegrationT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migration", "migration", "{7865201A-ED3E-4897-8755-6E34E4937EBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Entity.Postgres", "src\migration\postgres\XClaim.Entity.Postgres.csproj", "{A9DF20DD-DDA0-47DB-AE52-6A2731E735F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Migration.Postgres", "src\migration\postgres\XClaim.Migration.Postgres.csproj", "{A9DF20DD-DDA0-47DB-AE52-6A2731E735F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Entity.Sqlite", "src\migration\sqlite\XClaim.Entity.Sqlite.csproj", "{1D4B311E-ECBC-43F1-8221-72899A15C366}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Migration.Sqlite", "src\migration\sqlite\XClaim.Migration.Sqlite.csproj", "{1D4B311E-ECBC-43F1-8221-72899A15C366}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Common.Entity", "src\common\entity\XClaim.Common.Entity.csproj", "{4F2EE3D5-EDA7-4B38-AA24-F2041566BD35}"
 EndProject

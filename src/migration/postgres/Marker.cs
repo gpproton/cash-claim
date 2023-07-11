@@ -8,7 +8,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace XClaim.Entity.Postgres; 
+namespace XClaim.Migration.Postgres; 
 
 public abstract class Marker {
 }
