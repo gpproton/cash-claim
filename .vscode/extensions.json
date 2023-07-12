@@ -1,0 +1,13 @@
+{
+    "recommendations": [
+        "ms-dotnettools.blazorwasm-companion",
+        "ms-dotnettools.dotnet-maui",
+        "editorconfig.editorconfig",
+        "github.vscode-github-actions",
+        "ms-dotnettools.vscodeintellicode-csharp",
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.csharp",
+        "wayou.vscode-todo-highlight",
+        "ms-azuretools.vscode-docker"
+    ]
+}

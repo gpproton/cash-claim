@@ -30,7 +30,6 @@
     <AspCoreVersion>8.0.0-preview.6.23329.11</AspCoreVersion>
     <DotnetVersion>8.0.0-preview.6.23329.7</DotnetVersion>
     <EfcoreVersion>8.0.0-preview.6.23329.4</EfcoreVersion>
-    <MauiVersion>8.0.0-preview.6.8686</MauiVersion>
   </PropertyGroup>
 
 </Project>
