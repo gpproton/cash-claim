@@ -16,9 +16,9 @@ namespace XClaim.Service.Data;
 
 public static class DatabaseExtensions {
     public static IServiceCollection RegisterDataContext(this IServiceCollection services) {
-        ServiceProvider? sp = services.BuildServiceProvider();
+        ServiceProvider sp = services.BuildServiceProvider();
         IConfiguration? config = sp.GetService<IConfiguration>();
-        string? provider = (config!.GetValue<string>("provider") ?? Sqlite.Name).ToLower();
+        string provider = (config!.GetValue<string>("provider") ?? Sqlite.Name).ToLower();
         string? defaultConfig = config!.GetConnectionString("Default");
 
         services.AddDbContext<ServiceContext>(options => {

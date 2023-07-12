@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <Title>XClaim.Service</Title>
+    <RazorLangVersion>8.0</RazorLangVersion>
+    <WasmEnableWebcil>true</WasmEnableWebcil>
     <UserSecretsId>4102fda6-15af-4599-9d0f-a2916d92f41a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
@@ -13,9 +15,13 @@
     <PackageReference Include="Axolotl.EFCore" />
     <PackageReference Include="CoreAdmin" />
     <PackageReference Include="EFCore.NamingConventions" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Identity.Web" />
+    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
     <PackageReference Include="Swashbuckle.AspNetCore" />

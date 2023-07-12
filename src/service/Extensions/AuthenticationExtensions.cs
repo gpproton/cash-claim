@@ -9,23 +9,25 @@
 // limitations under the License.
 
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using XClaim.Common.Context;
 
 namespace XClaim.Service.Extensions;
 
 public static class AuthenticationExtensions {
     public static IServiceCollection RegisterAuthenticationService(this IServiceCollection services) {
-        ServiceProvider? sp = services.BuildServiceProvider();
-        IConfiguration? config = sp.GetRequiredService<IConfiguration>();
+        ServiceProvider sp = services.BuildServiceProvider();
+        IConfiguration config = sp.GetRequiredService<IConfiguration>();
 
-        // TODO: Re-create as IdentityProvider
+        // TODO: Re-create as IdentityProvider`
         // services.AddTransient<IdentityHelper>();
-
         services.Configure<CookiePolicyOptions>(options => {
             options.CheckConsentNeeded = _ => true;
             options.MinimumSameSitePolicy = SameSiteMode.None;
         });
 
-        services.AddAuthentication("Cookies")
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddCookie(opt => {
                 opt.Cookie.Name = Constants.AppSessionName;
                 opt.Cookie.IsEssential = true;
@@ -40,8 +42,8 @@ public static class AuthenticationExtensions {
                 opt.SaveTokens = true;
             });
 
+        services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<ServiceContext>();
         services.AddHttpContextAccessor();
-        ;
         services.AddAuthorization();
         services.AddDistributedMemoryCache();
         services.AddSession(options => {

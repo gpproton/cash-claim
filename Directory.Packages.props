@@ -39,10 +39,6 @@
   <!-- Asp.net packages -->
   <ItemGroup Label="AspNet">
     <PackageVersion Include="CoreAdmin" Version="2.7.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer"
-      Version="$(AspCoreVersion)" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount"
-      Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"
@@ -52,6 +48,20 @@
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspCoreVersion)" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore.ReDoc" Version="6.5.0" />
+  </ItemGroup>
+
+  <!-- AsptNet Auth -->
+  <ItemGroup Label="Auth">
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer"
+      Version="$(AspCoreVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect"
+      Version="$(AspCoreVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount"
+      Version="$(AspCoreVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"
+      Version="$(AspCoreVersion)" />
+    <PackageVersion Include="Microsoft.Identity.Web" Version="2.10.0" />
+    <PackageVersion Include="Microsoft.Identity.Web.DownstreamApi" Version="2.10.0" />
   </ItemGroup>
 
   <!-- Axolotl packages -->
@@ -74,8 +84,9 @@
     <PackageVersion Include="UraniumUI.Icons.FontAwesome" Version="2.5.1" />
     <PackageVersion Include="UraniumUI.Material" Version="2.5.1" />
   </ItemGroup>
+
   <!-- Test packages -->
-  <ItemGroup>
+  <ItemGroup Label="Test">
     <PackageVersion Include="AutoFixture" Version="4.11.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(DotnetVersion)" />

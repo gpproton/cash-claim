@@ -8,9 +8,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Security.Claims;
 using Axolotl.AspNet;
 using Axolotl.EFCore;
 using DotNetEd.CoreAdmin;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Identity;
 using XClaim.Common.Context;
 using XClaim.Service.Data;
 using XClaim.Service.Helpers;
@@ -38,27 +42,48 @@ public static class ServiceDefaultExtensions {
             IgnoreEntityTypes = new List<Type> { }
         });
 
+        // TODO: Review dependency injection
+        services.AddSingleton<HttpClient>(sp => {
+            var server = sp.GetRequiredService<IServer>();
+            var addressFeature = server.Features.Get<IServerAddressesFeature>();
+            string baseAddress = addressFeature!.Addresses.First();
+            return new HttpClient { BaseAddress = new Uri(baseAddress) };
+        });
+
         services.AddTransient<FileUploadService>();
-        services.AddRazorComponents().AddServerComponents();
+        services.AddRazorComponents().AddServerComponents().AddWebAssemblyComponents();
 
         return services;
     }
 
     public static WebApplication RegisterDefaultService(this WebApplication app) {
+        if (app.Environment.IsDevelopment())
+            app.UseWebAssemblyDebugging();
+        else {
+            app.UseExceptionHandler("/Error");
+        }
+
         app.UseHttpsRedirection();
-        app.MapDefaultControllerRoute();
         app.UseRouting();
-        app.UseStaticFiles();
-        app.UseBlazorFrameworkFiles();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.MapDefaultControllerRoute();
+        app.UseStaticFiles();
+        app.UseBlazorFrameworkFiles();
         app.UseSession();
         app.MapRazorPages();
         app.MapControllers();
         app.RegisterFeatureEndpoints();
         app.UseCoreAdminCustomUrl("admin");
         app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
-        app.MapRazorComponents<ServerApp>();
+        app.MapRazorComponents<ServerApp>()
+            .AddServerRenderMode()
+            .AddWebAssemblyRenderMode();
+
+        app.MapGroup("/identity").MapIdentityApi<IdentityUser>();
+        app.MapGet("/requires-auth", (ClaimsPrincipal user) => $"Hello, {user.Identity?.Name}!").RequireAuthorization();
+
+
         return app;
     }
 }
