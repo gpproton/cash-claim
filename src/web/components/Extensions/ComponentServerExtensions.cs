@@ -4,7 +4,7 @@ namespace XClaim.Web.Components.Extensions;
 
 public static class ComponentServerExtensions {
     public static IServiceCollection RegisterServerRazorExtensions(this IServiceCollection services) {
-        services.AddSingleton<Navigation>();
+        services.AddScoped<Navigation>();
 
         return services;
     }
