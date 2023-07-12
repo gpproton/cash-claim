@@ -19,7 +19,8 @@ builder.Services.RegisterDefaultService();
 builder.Services.RegisterSwaggerService();
 builder.Services.RegisterAuthenticationService();
 builder.Services.RegisterSharedBlazorServices();
-builder.Services.RegisterAppState();
+builder.Services.RegisterServerRazorExtensions();
+builder.Services.RegisterServerBlazorState();
 
 WebApplication app = builder.Build();
 
