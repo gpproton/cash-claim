@@ -1,5 +1,9 @@
-﻿@code {
+﻿@using System.Reflection
+@code {
     private void OnNavigateAsync() { }
+
+    private readonly Assembly _rootAssembly = typeof(ServerApp).Assembly;
+    private readonly Assembly[] _extraAssembly = { typeof(MainLayout).Assembly };
 }
 
 <!DOCTYPE html>
@@ -38,8 +42,8 @@
   <RootWrapper>
       <CascadingAuthenticationState>
           <Router
-              AppAssembly="@typeof(ServerApp).Assembly"
-              AdditionalAssemblies="new[] { typeof(MainLayout).Assembly }"
+              AppAssembly="@_rootAssembly"
+              AdditionalAssemblies="@_extraAssembly"
               OnNavigateAsync="OnNavigateAsync">
               <Found Context="routeData">
                   <RouteView
