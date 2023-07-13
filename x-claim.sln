@@ -7,41 +7,40 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E951E5CA-262
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{83E1A852-4301-4BE5-8E04-16AC81D93DBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Common", "src\common\shared\XClaim.Common.csproj", "{1F6A1B7E-7AD8-4DBF-AB43-68B05F10BB91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Common", "src\common\shared\XClaim.Common.csproj", "{1F6A1B7E-7AD8-4DBF-AB43-68B05F10BB91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Common.Http", "src\common\http\XClaim.Common.Http.csproj", "{D45E9EA0-1429-4067-A53E-21B807085089}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Common.Http", "src\common\http\XClaim.Common.Http.csproj", "{D45E9EA0-1429-4067-A53E-21B807085089}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{17A5B8A1-71DE-4EEB-B38D-3105F4D272A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Shared", "src\web\shared\XClaim.Web.Shared.csproj", "{3B780DA4-36C8-4A79-B1EC-B91F542996DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Shared", "src\web\shared\XClaim.Web.Shared.csproj", "{3B780DA4-36C8-4A79-B1EC-B91F542996DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Web.Components", "src\web\components\XClaim.Web.Components.csproj", "{BF024320-1799-4080-8F93-4E00F1C1AAB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Components", "src\web\components\XClaim.Web.Components.csproj", "{BF024320-1799-4080-8F93-4E00F1C1AAB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Service", "src\service\XClaim.Service.csproj", "{F2A9BE66-65CF-4452-972E-1B06939E5C9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Service", "src\service\XClaim.Service.csproj", "{F2A9BE66-65CF-4452-972E-1B06939E5C9F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6F416836-E8ED-4FE4-BF3A-0DE6CDD0BDC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Service.IntegrationTests", "tests\service\XClaim.Service.IntegrationTests.csproj", "{34D4E5A2-404D-4638-A331-C53C03593D00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Service.IntegrationTests", "tests\service\XClaim.Service.IntegrationTests.csproj", "{34D4E5A2-404D-4638-A331-C53C03593D00}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migration", "migration", "{7865201A-ED3E-4897-8755-6E34E4937EBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Migration.Postgres", "src\migration\postgres\XClaim.Migration.Postgres.csproj", "{A9DF20DD-DDA0-47DB-AE52-6A2731E735F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Migration.Postgres", "src\migration\postgres\XClaim.Migration.Postgres.csproj", "{A9DF20DD-DDA0-47DB-AE52-6A2731E735F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Migration.Sqlite", "src\migration\sqlite\XClaim.Migration.Sqlite.csproj", "{1D4B311E-ECBC-43F1-8221-72899A15C366}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Migration.Sqlite", "src\migration\sqlite\XClaim.Migration.Sqlite.csproj", "{1D4B311E-ECBC-43F1-8221-72899A15C366}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Common.Entity", "src\common\entity\XClaim.Common.Entity.csproj", "{4F2EE3D5-EDA7-4B38-AA24-F2041566BD35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Common.Entity", "src\common\entity\XClaim.Common.Entity.csproj", "{4F2EE3D5-EDA7-4B38-AA24-F2041566BD35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.Common.Context", "src\common\context\XClaim.Common.Context.csproj", "{78073E0A-CBA4-43B5-BC94-1235CEC8D321}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Common.Context", "src\common\context\XClaim.Common.Context.csproj", "{78073E0A-CBA4-43B5-BC94-1235CEC8D321}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XClaim.App.Hybrid", "src\hybrid\XClaim.App.Hybrid.csproj", "{0CF48E46-0CFE-43F3-A2F1-A12D55E71827}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.App.Hybrid", "src\hybrid\XClaim.App.Hybrid.csproj", "{0CF48E46-0CFE-43F3-A2F1-A12D55E71827}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.App.Native", "src\native\XClaim.App.Native.csproj", "{F08CC2D7-9BEF-49D7-911D-568707AF1DC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1F6A1B7E-7AD8-4DBF-AB43-68B05F10BB91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -86,9 +85,17 @@ Global
 		{78073E0A-CBA4-43B5-BC94-1235CEC8D321}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0CF48E46-0CFE-43F3-A2F1-A12D55E71827}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CF48E46-0CFE-43F3-A2F1-A12D55E71827}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CF48E46-0CFE-43F3-A2F1-A12D55E71827}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{0CF48E46-0CFE-43F3-A2F1-A12D55E71827}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CF48E46-0CFE-43F3-A2F1-A12D55E71827}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CF48E46-0CFE-43F3-A2F1-A12D55E71827}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F08CC2D7-9BEF-49D7-911D-568707AF1DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F08CC2D7-9BEF-49D7-911D-568707AF1DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F08CC2D7-9BEF-49D7-911D-568707AF1DC6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F08CC2D7-9BEF-49D7-911D-568707AF1DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F08CC2D7-9BEF-49D7-911D-568707AF1DC6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{83E1A852-4301-4BE5-8E04-16AC81D93DBA} = {E951E5CA-2621-440D-AB78-DD6BE449128F}
@@ -105,5 +112,6 @@ Global
 		{4F2EE3D5-EDA7-4B38-AA24-F2041566BD35} = {83E1A852-4301-4BE5-8E04-16AC81D93DBA}
 		{78073E0A-CBA4-43B5-BC94-1235CEC8D321} = {83E1A852-4301-4BE5-8E04-16AC81D93DBA}
 		{0CF48E46-0CFE-43F3-A2F1-A12D55E71827} = {E951E5CA-2621-440D-AB78-DD6BE449128F}
+		{F08CC2D7-9BEF-49D7-911D-568707AF1DC6} = {E951E5CA-2621-440D-AB78-DD6BE449128F}
 	EndGlobalSection
 EndGlobal

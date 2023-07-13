@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\Native.props"/>
+
+  <PropertyGroup>
+    <RootNamespace>XClaim.App.Native</RootNamespace>
+    <!-- Display name -->
+    <ApplicationTitle>x-claim</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>dev.godwin.xclaim</ApplicationId>
+  </PropertyGroup>
+
+</Project>
