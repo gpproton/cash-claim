@@ -8,13 +8,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Security.Claims;
 using Axolotl.AspNet;
 using Axolotl.EFCore;
 using DotNetEd.CoreAdmin;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using XClaim.Common.Context;
 using XClaim.Service.Data;
 using XClaim.Service.Helpers;
@@ -80,10 +79,13 @@ public static class ServiceDefaultExtensions {
             .AddServerRenderMode()
             .AddWebAssemblyRenderMode();
 
-        app.MapGroup("/identity").MapIdentityApi<IdentityUser>();
-        app.MapGet("/requires-auth", (ClaimsPrincipal user) => $"Hello, {user.Identity?.Name}!").RequireAuthorization();
-
+        app.MapPost("/dev-post", ([FromForm] ICollection<IFormFile>? files, [FromForm] IFormCollection form) => Results.Ok());
 
         return app;
     }
+}
+
+class DevAccess {
+    public int Count { get; set; }
+    public string? Name { get; set; }
 }

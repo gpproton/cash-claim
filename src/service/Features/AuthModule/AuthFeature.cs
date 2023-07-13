@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Axolotl.AspNet.Feature;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Nextended.Core.Extensions;
 
@@ -79,6 +80,9 @@ public class AuthFeature : IFeature {
                 return Results.Ok(true);
             }).WithName("SignOut")
             .WithOpenApi();
+
+        group.MapGroup("/identity").MapIdentityApi<IdentityUser>();
+        group.MapGet("/requires-auth", (ClaimsPrincipal user) => $"Hello, {user.Identity?.Name}!").RequireAuthorization();
 
         return group;
     }

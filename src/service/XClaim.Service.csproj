@@ -31,8 +31,8 @@
   <ItemGroup>
     <ProjectReference Include="..\common\context\XClaim.Common.Context.csproj" />
     <ProjectReference Include="..\common\http\XClaim.Common.Http.csproj" />
-    <ProjectReference Include="..\migration\postgres\XClaim.Migration.Postgres.csproj" />
-    <ProjectReference Include="..\migration\sqlite\XClaim.Migration.Sqlite.csproj" />
+    <ProjectReference Include="..\migration\postgres\XClaim.Migrate.Postgres.csproj" />
+    <ProjectReference Include="..\migration\sqlite\XClaim.Migrate.Sqlite.csproj" />
     <ProjectReference Include="..\web\components\XClaim.Web.Components.csproj" />
     <ProjectReference Include="..\web\shared\XClaim.Web.Shared.csproj" />
   </ItemGroup>

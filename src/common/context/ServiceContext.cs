@@ -8,9 +8,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Reflection;
 using Axolotl.EFCore.Base;
 using Axolotl.EFCore.Context;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Entity;
 using XClaim.Common.Enums;
@@ -18,11 +18,9 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Context;
 
 public class ServiceContext : AbstractDbContext {
-    public ServiceContext() {
-    }
+    public ServiceContext() { }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options) {
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder options) { }
 
     public ServiceContext(DbContextOptions<ServiceContext> options) : base(
         ChangeOptionsType<ServiceContext>(options)) {
@@ -30,11 +28,10 @@ public class ServiceContext : AbstractDbContext {
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
-        if (Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite") {
+        if (Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite")
             modelBuilder.DateTimeOffsetToBinary();
-        }
 
-        Assembly? entitiesAssembly = typeof(ServiceContext).Assembly;
+        var entitiesAssembly = typeof(ServiceContext).Assembly;
         modelBuilder.RegisterAllEntities<BaseEntity<Guid>>(entitiesAssembly);
         modelBuilder.RegisterAllEntities<AuditableEntity<Guid>>(entitiesAssembly);
         modelBuilder.RegisterSoftDeleteFilter();
@@ -58,6 +55,7 @@ public class ServiceContext : AbstractDbContext {
     }
 
     public DbSet<ServerEntity> Server { get; set; } = default!;
+    public DbSet<IdentityUser> Identities { get; set; } = default!;
     public DbSet<UserEntity> Users { get; set; } = default!;
     public DbSet<NotificationEntity> UserNotifications { get; set; } = default!;
     public DbSet<SettingsEntity> UserSetting { get; set; } = default!;

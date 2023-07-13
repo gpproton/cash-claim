@@ -7,6 +7,8 @@
     <Import Project="..\..\..\Common.props"/>
 
     <ItemGroup>
+        <PackageReference Include="Axolotl.EFCore" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.EntityFrameworkCore"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational"/>
         <PackageReference Include="Microsoft.Extensions.Configuration"/>

@@ -25,18 +25,17 @@ public static class DatabaseExtensions {
             options.UseSnakeCaseNamingConvention();
 
             if (provider.Contains(Sqlite.Name, StringComparison.CurrentCultureIgnoreCase)) {
-                string? sqliteString = config!.GetConnectionString(Sqlite.Name) ?? defaultConfig;
+                string? sqliteString = defaultConfig ?? config!.GetConnectionString(Sqlite.Name);
                 options.UseSqlite(sqliteString,
                     x => x.MigrationsAssembly(Sqlite.Assembly).UseRelationalNulls());
             }
 
             if (provider.Contains(Postgres.Name, StringComparison.CurrentCultureIgnoreCase)) {
-                string? postgresString = config!.GetConnectionString(Postgres.Name) ?? defaultConfig;
+                string? postgresString = defaultConfig ?? config!.GetConnectionString(Postgres.Name);
                 options.UseNpgsql(postgresString,
                     x => x.MigrationsAssembly(Postgres.Assembly).UseRelationalNulls());
             }
-        }
-        );
+        });
 
         return services;
     }
