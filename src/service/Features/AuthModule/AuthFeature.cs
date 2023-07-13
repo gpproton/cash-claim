@@ -26,13 +26,14 @@ public class AuthFeature : IFeature {
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
         const string name = "Authentication";
-        const string url = $"/auth";
+        const string url = $"/identity";
         RouteGroupBuilder? group = endpoints.MapGroup(url).WithTags(name);
 
-        group.MapGet("/sign-in", ([FromQuery] string? redirect) => {
+        group.MapGroup("/").MapIdentityApi<IdentityUser>();
+        group.MapGet("/microsoft", ([FromQuery] string? redirect) => {
                 string? redirectUri = Environment.GetEnvironmentVariable("ROOT_URI") ??
                                       (redirect.IsNullOrEmpty() ? Constants.RootApi : redirect);
-                AuthenticationProperties? props = new() {
+                AuthenticationProperties props = new() {
                     IsPersistent = true,
                     RedirectUri = redirectUri
                 };
@@ -41,7 +42,13 @@ public class AuthFeature : IFeature {
             }).WithName("SignIn")
             .WithOpenApi();
 
-        group.MapGet("/sign-in/mobile", async (HttpRequest request, [FromQuery] string? scheme) => {
+        group.MapPost("/sign-out", async (HttpRequest request) => {
+                await request.HttpContext.SignOutAsync();
+                return Results.Ok(true);
+            }).WithName("SignOut")
+            .WithOpenApi();
+
+        group.MapGet("/microsoft-mobile", async (HttpRequest request, [FromQuery] string? scheme) => {
             string? schemeValue = scheme.IsNullOrEmpty() ? "Microsoft" : scheme;
             AuthenticateResult? auth = await request.HttpContext.AuthenticateAsync(schemeValue);
             const string callbackScheme = "xclaim";
@@ -75,14 +82,7 @@ public class AuthFeature : IFeature {
             }
         }).WithName("MobileSignIn").WithOpenApi();
 
-        group.MapPost("/sign-out", async (HttpRequest request) => {
-                await request.HttpContext.SignOutAsync();
-                return Results.Ok(true);
-            }).WithName("SignOut")
-            .WithOpenApi();
-
-        group.MapGroup("/identity").MapIdentityApi<IdentityUser>();
-        group.MapGet("/requires-auth", (ClaimsPrincipal user) => $"Hello, {user.Identity?.Name}!").RequireAuthorization();
+        group.MapGet("/test-auth", (ClaimsPrincipal user) => $"Hello, {user.Identity?.Name}!").RequireAuthorization();
 
         return group;
     }
