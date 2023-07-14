@@ -9,6 +9,7 @@
 // limitations under the License.
 
 using Microsoft.Extensions.DependencyInjection;
+using XClaim.Web.Components.States;
 
 namespace XClaim.Web.Components.Extensions;
 
@@ -19,7 +20,10 @@ public static class ComponentClientExtensions {
         return services;
     }
 
-    public static IServiceCollection RegisterBlazorAppState(this IServiceCollection services) {
+    public static IServiceCollection RegisterBlazorClientState(this IServiceCollection services) {
+        services.AddSingleton<AppState>();
+        // services.AddSingleton<AuthState>();
+        services.AddScoped<ThemeState>();
 
         return services;
     }

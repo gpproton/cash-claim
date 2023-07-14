@@ -13,7 +13,6 @@ using Axolotl.EFCore;
 using DotNetEd.CoreAdmin;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Mvc;
 using XClaim.Common.Context;
 using XClaim.Service.Data;
 using XClaim.Service.Helpers;
@@ -38,7 +37,7 @@ public static class ServiceDefaultExtensions {
                 { 100, "100" },
                 { 0, "All" }
             },
-            IgnoreEntityTypes = new List<Type> { }
+            IgnoreEntityTypes = new List<Type> ()
         });
 
         // TODO: Review dependency injection
@@ -50,7 +49,7 @@ public static class ServiceDefaultExtensions {
         });
 
         services.AddTransient<FileUploadService>();
-        services.AddRazorComponents().AddServerComponents().AddWebAssemblyComponents();
+        services.AddRazorComponents(); //.AddServerComponents().AddWebAssemblyComponents();
 
         return services;
     }
@@ -58,9 +57,7 @@ public static class ServiceDefaultExtensions {
     public static WebApplication RegisterDefaultService(this WebApplication app) {
         if (app.Environment.IsDevelopment())
             app.UseWebAssemblyDebugging();
-        else {
-            app.UseExceptionHandler("/Error");
-        }
+        else app.UseExceptionHandler("/Error");
 
         app.UseHttpsRedirection();
         app.UseRouting();
@@ -68,18 +65,13 @@ public static class ServiceDefaultExtensions {
         app.UseAuthorization();
         app.MapDefaultControllerRoute();
         app.UseStaticFiles();
-        app.UseBlazorFrameworkFiles();
         app.UseSession();
         app.MapRazorPages();
         app.MapControllers();
         app.RegisterFeatureEndpoints();
         app.UseCoreAdminCustomUrl("admin");
         app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
-        app.MapRazorComponents<ServerApp>()
-            .AddServerRenderMode()
-            .AddWebAssemblyRenderMode();
-
-        app.MapPost("/dev-post", ([FromForm] ICollection<IFormFile>? files, [FromForm] IFormCollection form) => Results.Ok());
+        app.MapRazorComponents<ServerApp>();
 
         return app;
     }

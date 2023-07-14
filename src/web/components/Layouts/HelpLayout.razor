@@ -1,15 +1,11 @@
 @inherits LayoutComponentBase
 @inject Navigation Nav
-@* @inject AppState AppState *@
+@inject AppState AppState
 @* @inject AuthState AuthState *@
 
 @code {
     bool _drawerOpen = true;
-
-    void DrawerToggle() {
-        _drawerOpen = !_drawerOpen;
-    }
-
+    void DrawerToggle() => _drawerOpen = !_drawerOpen;
 }
 
 <MudAppBar Elevation="1" Color="Color.Transparent">
@@ -19,29 +15,29 @@
         <MudAvatar Rounded="true" Size="Size.Medium" Color="Color.Primary">
             <MudText Typo="Typo.h5" Style="font-weight: bold">X</MudText>
         </MudAvatar>
-        @* <MudText Typo="Typo.h5" Color="Color.Primary" Style="font-weight: bold" Class="ml-3">@AppState.AppTitle</MudText> *@
+        <MudText Typo="Typo.h5" Color="Color.Primary" Style="font-weight: bold" Class="ml-3">@AppState.AppTitle</MudText>
     </MudStack>
     <MudSpacer/>
     <AuthorizeView>
         <NotAuthorized>
-            @* <MudButton Variant="Variant.Outlined" Class="px-6 px-4" Color="Color.Primary" Size="Size.Large" *@
-            @*            OnClick="() => AuthState.TriggerApiAuth()"> *@
-            @*     Sign In *@
-            @* </MudButton> *@
+            <MudButton Variant="Variant.Outlined" Class="px-6 px-4" Color="Color.Primary" Size="Size.Large"
+                       OnClick='() => Nav.NavigateTo("/identity/sign-in")'>
+                Sign In
+            </MudButton>
         </NotAuthorized>
         <Authorized>
-            @* <MudButton Variant="Variant.Outlined" Class="px-6 px-4" Color="Color.Primary" Size="Size.Large" *@
-            @*            OnClick="async () => await AuthState.TriggerSignOut()"> *@
-            @*     Sign Out *@
-            @* </MudButton> *@
+            <MudButton Variant="Variant.Outlined" Class="px-6 px-4" Color="Color.Primary" Size="Size.Large"
+                       OnClick="() => { }">
+                Sign Out
+            </MudButton>
         </Authorized>
     </AuthorizeView>
 </MudAppBar>
 <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="0">
     <div>
-        <MudDivider Class="my-8"/>
+        <div class="my-8"></div>
         <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Dense="true" Class="pa-2">
-            <MudNavLink Href="/app/help" Class="nav_link">Get Started</MudNavLink>
+            <MudNavLink Href="/help" Class="nav_link">Get Started</MudNavLink>
             <MudNavLink Href="#" Class="nav_link">Basic Usage</MudNavLink>
             <MudNavLink Href="#" Class="nav_link">Claims</MudNavLink>
         </MudNavMenu>
@@ -54,7 +50,7 @@
 </MudDrawer>
 
 <MudMainContent>
-    <MudContainer Class="px-lg-12 px-sm-0">
+    <MudContainer Class="ma-4 px-lg-12 px-sm-0">
         @Body
     </MudContainer>
 </MudMainContent>

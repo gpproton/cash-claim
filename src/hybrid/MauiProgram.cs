@@ -24,7 +24,7 @@ public static class MauiProgram {
         builder.Services.AddMauiBlazorWebView();
         builder.Services.RegisterSharedBlazorServices();
         builder.Services.RegisterComponentsExtensions();
-        builder.Services.RegisterBlazorAppState();
+        builder.Services.RegisterBlazorClientState();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
