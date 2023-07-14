@@ -8,11 +8,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Reflection;
 using Axolotl.AspNet;
 using Axolotl.EFCore;
 using DotNetEd.CoreAdmin;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Mvc;
 using XClaim.Common.Context;
 using XClaim.Service.Data;
 using XClaim.Service.Helpers;
@@ -72,11 +74,29 @@ public static class ServiceDefaultExtensions {
         app.UseCoreAdminCustomUrl("admin");
         app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
 
+        app.MapPost("/sample-upload-files", ([FromForm] FileAccess check, IFormFileCollection files, [FromServices] ILogger<Program> logger) => {
+            var name = check.Name;
+            var count = check.Count;
+
+            logger.LogInformation("<<======>> :: {Name} :: {Count} ---> Files: {Counts}", name, count, files.Count);
+            return Results.Ok(name);
+        }).Accepts<FileAccess>("multipart/form-data");
+
         return app;
     }
 }
 
-class DevAccess {
+class FileAccess {
+    public static ValueTask<FileAccess?> BindAsync(HttpContext httpContext, ParameterInfo parameter)
+    {
+        int.TryParse(httpContext.Request.Form["Count"], out var count);
+        return ValueTask.FromResult<FileAccess?>(
+            new FileAccess {
+                Count = count,
+                Name = httpContext.Request.Form["Name"]
+            }
+        );
+    }
     public int Count { get; set; }
     public string? Name { get; set; }
 }
