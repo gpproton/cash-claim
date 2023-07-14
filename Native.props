@@ -11,6 +11,8 @@
     <OutputType>Exe</OutputType>
     <UseMaui>true</UseMaui>
     <SingleProject>true</SingleProject>
+    <RazorLangVersion>8.0</RazorLangVersion>
+    <WasmEnableWebcil>true</WasmEnableWebcil>
     <EnableDefaultCssItems>false</EnableDefaultCssItems>
 
     <!-- Versions -->
