@@ -8,13 +8,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Interfaces;
 using Axolotl.Response;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using XClaim.Common.Enums;
 
 namespace XClaim.Common.Entity;
 
+[Index(nameof(Email), IsUnique = true)]
+[Index(nameof(Identifier), IsUnique = true)]
 public class AccountEntity : IdentityUser, IAuditableEntity<Guid>, IAggregateRoot, IResponse {
+    public string Identifier { get; set; } = string.Empty;
+    public string? ProfileImage { get; set; }
+    [MaxLength(128)] public string FirstName { get; set; } = string.Empty;
+    [MaxLength(128)] public string LastName { get; set; } = string.Empty;
+    public decimal Balance { get; set; }
+    public UserPermission Permission { get; set; } = UserPermission.Standard;
     public Guid CreatedBy { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public Guid UpdatedBy { get; set; }

@@ -10,22 +10,11 @@
 
 using System.ComponentModel.DataAnnotations;
 using Axolotl.EFCore.Base;
-using Microsoft.EntityFrameworkCore;
-using XClaim.Common.Enums;
 
-namespace XClaim.Common.Entity; 
+namespace XClaim.Common.Entity;
 
-[Index(nameof(Email), IsUnique = true)]
-[Index(nameof(Identifier), IsUnique = true)]
 public class UserEntity : AuditableEntity<Guid> {
-    public string Identifier { get; set; } = string.Empty;
-    [MaxLength(256)] public string Email { get; set; } = string.Empty;
-    public string? ProfileImage { get; set; }
-    [MaxLength(64)] public string Phone { get; set; } = string.Empty;
-    [MaxLength(128)] public string FirstName { get; set; } = string.Empty;
-    [MaxLength(128)] public string LastName { get; set; } = string.Empty;
-    public decimal Balance { get; set; }
-    public UserPermission Permission { get; set; } = UserPermission.Standard;
+    public AccountEntity? Account { get; set; }
     public CompanyEntity? Company { get; set; }
     [Display(AutoGenerateField = false)] public int? CompanyId { get; set; }
     public CompanyEntity? CompanyManaged { get; set; }
