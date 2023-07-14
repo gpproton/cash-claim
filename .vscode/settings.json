@@ -1,3 +1,6 @@
 {
-  "dotnet.defaultSolution": "x-claim.sln"
+  "dotnet.defaultSolution": "x-claim.sln",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.formatOnSave": true
 }
