@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Nextended.Core.Extensions;
+using XClaim.Common.Entity;
 
 namespace XClaim.Service.Features.AuthModule;
 
@@ -29,7 +30,7 @@ public class AuthFeature : IFeature {
         const string url = $"/identity";
         RouteGroupBuilder? group = endpoints.MapGroup(url).WithTags(name);
 
-        group.MapGroup("/").MapIdentityApi<IdentityUser>();
+        group.MapGroup("/").MapIdentityApi<AccountEntity>();
         group.MapGet("/microsoft", ([FromQuery] string? redirect) => {
                 string? redirectUri = Environment.GetEnvironmentVariable("ROOT_URI") ??
                                       (redirect.IsNullOrEmpty() ? Constants.RootApi : redirect);

@@ -10,6 +10,7 @@
     <PackageVersion Include="Ardalis.SmartEnum.SystemTextJson" Version="$(ArdalisVersion)" />
     <PackageVersion Include="Ardalis.Specification" Version="$(ArdalisVersion)" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(DotnetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="$(DotnetVersion)" />
     <PackageVersion Include="Nextended.Core" Version="$(NextendedVersion)" />
   </ItemGroup>
 
@@ -44,6 +45,8 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server"
+      Version="$(AspCoreVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspCoreVersion)" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />

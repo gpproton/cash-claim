@@ -55,7 +55,7 @@ public class ServiceContext : AbstractDbContext {
     }
 
     public DbSet<ServerEntity> Server { get; set; } = default!;
-    public DbSet<IdentityUser> Identities { get; set; } = default!;
+    public DbSet<AccountEntity> Accounts { get; set; } = default!;
     public DbSet<UserEntity> Users { get; set; } = default!;
     public DbSet<NotificationEntity> UserNotifications { get; set; } = default!;
     public DbSet<SettingsEntity> UserSetting { get; set; } = default!;

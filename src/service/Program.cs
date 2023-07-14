@@ -8,19 +8,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using XClaim.Service.Extensions;
 using XClaim.Web.Components.Extensions;
 using XClaim.Web.Shared;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-builder.Services.Configure<KestrelServerOptions>(options => {
-    options.AllowSynchronousIO = true;
-});
-builder.Services.Configure<IISServerOptions>(options => {
-    options.AllowSynchronousIO = true;
-});
 
 builder.Services.AddTransient(typeof(Lazy<>), typeof(Lazy<>));
 builder.Services.RegisterDefaultService();

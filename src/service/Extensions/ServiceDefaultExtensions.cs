@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using XClaim.Common.Context;
 using XClaim.Service.Data;
 using XClaim.Service.Helpers;
-using XClaim.Web.Components;
 
 namespace XClaim.Service.Extensions;
 
@@ -49,7 +48,6 @@ public static class ServiceDefaultExtensions {
         });
 
         services.AddTransient<FileUploadService>();
-        services.AddRazorComponents(); //.AddServerComponents().AddWebAssemblyComponents();
 
         return services;
     }
@@ -64,14 +62,15 @@ public static class ServiceDefaultExtensions {
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapDefaultControllerRoute();
+        app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
         app.UseSession();
         app.MapRazorPages();
         app.MapControllers();
+        app.MapFallbackToFile("index.html");
         app.RegisterFeatureEndpoints();
         app.UseCoreAdminCustomUrl("admin");
         app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
-        app.MapRazorComponents<ServerApp>();
 
         return app;
     }
