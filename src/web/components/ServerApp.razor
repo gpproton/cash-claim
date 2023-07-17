@@ -1,0 +1,70 @@
+﻿@using System.Reflection
+
+@code {
+    private void OnNavigateAsync() { }
+    private readonly Assembly _rootAssembly = typeof(ServerApp).Assembly;
+    private readonly Assembly[] _extraAssembly = { typeof(EmptyLayout).Assembly };
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>x-claim</title>
+    <base href="/" />
+    <link rel="_content/XClaim.Web.Components/lib/roboto/latin.css" />
+    <link rel="icon" type="image/png" href="_content/XClaim.Web.Components/favicon.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="_content/XClaim.Web.Components/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="_content/XClaim.Web.Components/icon-192.png" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <link href="_content/XClaim.Web.Components/css/app.css" rel="manifest" />
+    <link rel="icon" type="image/png" href="_content/XClaim.Web.Components/favicon.png" />
+    <link href="XClaim.Service.styles.css" rel="stylesheet" />
+    <HeadOutlet />
+</head>
+
+<body>
+    <RootWrapper>
+        <CascadingAuthenticationState>
+            <Router AppAssembly="@_rootAssembly" AdditionalAssemblies="@_extraAssembly"
+                OnNavigateAsync="OnNavigateAsync">
+                <Found Context="routeData">
+                    <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                        <NotAuthorized>
+                            <ErrorUnAuthorized />
+                        </NotAuthorized>
+                    </AuthorizeRouteView>
+                </Found>
+                <NotFound>
+                    <Title>Not Found</Title>
+                    <AuthorizeView>
+                        <Authorized>
+                            <LayoutView Layout="@typeof(MainLayout)">
+                                <ErrorNotFound />
+                            </LayoutView>
+                        </Authorized>
+                        <NotAuthorized>
+                            <LayoutView Layout="@typeof(AuthLayout)">
+                                <ErrorNotFound />
+                            </LayoutView>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </NotFound>
+            </Router>
+        </CascadingAuthenticationState>
+    </RootWrapper>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.web.js" suppress-error="BL9992"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+</body>
+
+</html>
+
+

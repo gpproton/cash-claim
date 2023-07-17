@@ -1,0 +1,35 @@
+@* @using XClaim.Common.Responses *@
+@* @using Axolotl.Filters *@
+@* @inject IBankService BankService *@
+@* *@
+@* @code { *@
+@*     #pragma warning disable BL0007 *@
+@* *@
+@*     private Bank? _value; *@
+@* *@
+@*     [Parameter] *@
+@*     public  Bank? Value { get => _value; set { *@
+@*         if(value == _value) return; *@
+@*         _value = value; *@
+@*         if(ValueChanged.HasDelegate)  ValueChanged.InvokeAsync(_value); *@
+@*     }} *@
+@* *@
+@*     [Parameter] *@
+@*     public bool Disabled { get; set; } *@
+@* *@
+@*     [Parameter] *@
+@*     public bool Required { get; set; } *@
+@* *@
+@*     [Parameter] *@
+@*     public EventCallback< Bank?> ValueChanged { get; set; } *@
+@* *@
+@*     private async Task<IEnumerable< Bank>> Search(string value) { *@
+@*         var response = await BankService.GetAllAsync(new PageFilter { Search = value }); *@
+@*         return (response.Succeeded ? response.Data : new List< Bank>())!; *@
+@*     } *@
+@* } *@
+@* *@
+@* <MudAutocomplete T=" Bank" Label="Bank" @bind-Value="Value" SearchFunc="@Search" *@
+@*                  Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Value = null" *@
+@*                  Clearable="true" ToStringFunc="@(e => e.Name)" Disabled="@Disabled" *@
+@*                  Required="@Required" RequiredError="Bank is required!" /> *@

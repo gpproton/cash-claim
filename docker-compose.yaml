@@ -1,56 +1,34 @@
-version: '3.9'
+version: '3.8'
 
 volumes:
-  db:
-  service-files:
+  postgres:
+    driver: local
+  # mysql:
+  #   driver: local
 
 services:
-  service:
-    image: gpproton/x-claim:latest
-    restart: unless-stopped
-    depends_on:
-      - db
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8000:80"
-    environment:
-      USER_SECRETS_ID: 836b9b8b-fd89-4aff-9286-809bda60998f
-      ROOT_URI: "http://localhost:8000"
-      # postgres | mysql | sqlite
-      DB_TYPE: postgres
-      DB_CONNECTION_STRING: "host=postgres_image;port=5432;database=x-claim;username=x-claim;password=x-claim"
-      ASPNETCORE_URLS: "https://+:443;http://+:80"
-#      ASPNETCORE_Kestrel__Certificates__Default__Password: dev
-#      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
-    volumes:
-      - service-files:/app/StaticFiles/
-      - ~/.aspnet/https:/https:ro
-      - ./secret.json:"/root/.microsoft/usersecrets/${USER_SECRETS_ID}/secret.json:ro"
-    deploy:
-      mode: replicated
-      resources:
-        limits:
-          memory: 256M
-        reservations:
-          memory: 64M
-
-  db:
+  postgres:
     image: postgres:15-alpine
-    restart: unless-stopped
-    volumes:
-      - db:/var/lib/postgresql/data
     ports:
-      - "45432:5432"
+      - 5436:5432
     environment:
-      POSTGRES_USER: x-claim
-      POSTGRES_PASSWORD: x-claim
-      POSTGRES_DB: x-claim
-    deploy:
-      mode: replicated
-      resources:
-        limits:
-          memory: 256M
-        reservations:
-          memory: 64M
+      - POSTGRES_DB=x-claim
+      - POSTGRES_USER=x-claim
+      - POSTGRES_PASSWORD=x-claim
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+
+  # mysql:
+  #   image: mysql:8.0
+  #   cap_add:
+  #     - SYS_NICE
+  #   restart: always
+  #   environment:
+  #     - MYSQL_DATABASE=x-claim
+  #     - MYSQL_USER=x-claim
+  #     - MYSQL_PASSWORD=x-claim
+  #     - MYSQL_ROOT_PASSWORD=x-claim
+  #   ports:
+  #     - 3306:3306
+  #   volumes:
+  #     - mysql:/var/lib/mysql

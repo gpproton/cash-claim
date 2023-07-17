@@ -1,0 +1,98 @@
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@typeparam TFilter where TFilter : ComponentBase
+@typeparam TCreate where TCreate : ComponentBase
+@typeparam TValue
+
+@code {
+#pragma warning disable BL0007
+    string _search = string.Empty;
+
+    [Parameter]
+    public string Search {
+        get => _search;
+        set {
+            if (value == _search) return;
+            _search = value;
+            if (SearchChanged.HasDelegate) SearchChanged.InvokeAsync(_search);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<string?> SearchChanged { get; set; }
+
+    [Parameter]
+    public bool IsFilterActive { get; set; }
+
+    [Parameter]
+    public bool IsCreateActive { get; set; } = true;
+
+    TValue? _value;
+
+    [Parameter]
+    public TValue? Value {
+        get => _value;
+        set {
+            if (Equals(value, _value)) return;
+            _value = value;
+            if (ValueChanged.HasDelegate) ValueChanged.InvokeAsync(_value);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<TValue?> ValueChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnCreateClicked { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string FilterTitle { get; set; } = "Filter";
+
+    [Parameter]
+    public string CreateTitle { get; set; } = "Create";
+
+    [Parameter]
+    public DialogParameters DialogParameters { get; set; } = new() { };
+
+    [Parameter]
+    public DialogOptions DialogOptions { get; set; } = new() { CloseButton = false, MaxWidth = MaxWidth.ExtraSmall };
+
+    [Parameter]
+    public DialogOptions CreateDialogOptions { get; set; } = new() { CloseButton = false, MaxWidth = MaxWidth.Medium };
+
+    async Task TriggerFilter() {
+        IDialogReference? dialog = await DialogService.ShowAsync<TFilter>(FilterTitle, DialogParameters, DialogOptions);
+        DialogResult? result = await dialog.Result;
+        if (!result.Canceled) Value = result.Data.As<TValue>();
+    }
+
+    async Task TriggerCreate() {
+        IDialogReference? dialog = await DialogService.ShowAsync<TCreate>(CreateTitle, DialogParameters, CreateDialogOptions);
+        DialogResult? result = await dialog.Result;
+        if (!result.Canceled) {
+            bool value = result.Data.As<bool>();
+            Snackbar.Clear();
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
+            if (value) Snackbar.Add("Saved successfully", Severity.Success);
+            else Snackbar.Add("Failed..", Severity.Error);
+            await OnCreateClicked.InvokeAsync(value);
+        }
+    }
+
+}
+
+<MudStack Row="true" Style="width: 100%" Spacing="2" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+    <MudTextField @bind-Value="Search" Margin="Margin.None" Style="max-width: 260px" Variant="Variant.Outlined" DisableUnderLine="true" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    <MudStack Row="true" Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Spacing="1">
+        @ChildContent
+        @if (IsFilterActive) {
+            <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Tune" Variant="Variant.Outlined" OnClick="TriggerFilter" Color="Color.Primary" Size="Size.Large"/>
+        }
+        @if (IsCreateActive) {
+            <MudIconButton Class="pa-2" Icon="@Icons.Material.Filled.Add" OnClick="TriggerCreate" Variant="Variant.Filled" Color="Color.Success" Size="Size.Large"/>
+        }
+    </MudStack>
+</MudStack>

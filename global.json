@@ -1,15 +1,16 @@
 {
   "sdk": {
-    "version": "7.0.*",
-    "rollForward": "latestPatch"
+    "version": "8.0.100-preview.6.23330.14",
+    "rollForward": "latestFeature"
   },
   "scripts": {
-    "build": "dotnet build --configuration Debug",
-    "build:web": "dotnet build src/Web/Server/",
-    "build:app": "dotnet build src/Mobile/XClaim.Mobile.csproj",
-    "format": "dotnet format ./XClaim.sln",
-    "web": "dotnet watch --project src/Web/Server/",
-    "dev:blazor": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet watch --project src/Web/Client/",
-    "dev:web": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet r web"
+    "b": "dotnet build --configuration Debug",
+    "test": "dotnet test --configuration Release",
+    "ci": "dotnet r build && dotnet r test",
+    "service": "dotnet run --project ./src/service",
+    "m:clean": "rm -rf src/service/Migrations/* && rm ./**/*.sqlite*",
+    "m:sqlite": "dotnet-ef migrations add Initial --output-dir Setup -s ./src/service/XClaim.Service.csproj -p ./src/migration/sqlite/XClaim.Migrate.Sqlite.csproj --verbose -- --provider sqlite",
+    "m:postgres": "dotnet-ef migrations add Initial --output-dir Setup -s ./src/service/XClaim.Service.csproj -p ./src/migration/postgres/XClaim.Migrate.Postgres.csproj --verbose -- --provider postgres",
+    "m:all": "dotnet r m:sqlite; dotnet r m:postgres"
   }
 }

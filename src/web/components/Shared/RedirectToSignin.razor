@@ -1,0 +1,12 @@
+@inject NavigationManager Nav
+
+@code {
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        if (Nav.Uri != $"{Nav.BaseUri}{WebConst.AppAuth}") {
+            Nav.NavigateTo(WebConst.AppAuth);
+        }
+    }
+
+}
