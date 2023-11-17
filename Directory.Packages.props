@@ -16,14 +16,14 @@
 
   <!-- EFCore packages -->
   <ItemGroup Label="EFCore">
-    <PackageVersion Include="EFCore.NamingConventions" Version="7.0.2" />
+    <PackageVersion Include="EFCore.NamingConventions" Version="8.0.0-rc.2" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.AutoHistory" Version="6.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(EfcoreVersion)" />
-    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.4" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-rc.2" />
   </ItemGroup>
 
   <!-- Razor packages -->
@@ -57,10 +57,9 @@
   <ItemGroup Label="Auth">
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer"
       Version="$(AspCoreVersion)" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect"
-      Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount"
       Version="$(AspCoreVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.Identity.Web" Version="2.10.0" />
@@ -74,18 +73,6 @@
     <PackageVersion Include="Axolotl.AspNet" Version="$(AxolotlVersion)" />
     <PackageVersion Include="Axolotl.EFCore" Version="$(AxolotlVersion)" />
     <PackageVersion Include="Axolotl.Razor" Version="$(AxolotlVersion)" />
-  </ItemGroup>
-
-  <!-- MAUI packages -->
-  <ItemGroup Label="MAUI">
-    <!-- <PackageVersion Include="BindableProps" Version="1.3.7" /> -->
-    <!-- <PackageVersion Include="CommunityToolkit.Maui.Markup" Version="3.2.0" /> -->
-    <!-- <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.1" /> -->
-    <!-- <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets"
-      Version="$(DotnetVersion)" /> -->
-    <!-- <PackageVersion Include="Microsoft.Identity.Client" Version="4.54.1" /> -->
-    <!-- <PackageVersion Include="UraniumUI.Icons.FontAwesome" Version="2.5.1" /> -->
-    <!-- <PackageVersion Include="UraniumUI.Material" Version="2.5.1" /> -->
   </ItemGroup>
 
   <!-- Test packages -->
