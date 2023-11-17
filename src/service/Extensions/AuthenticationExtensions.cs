@@ -19,44 +19,35 @@ public static class AuthenticationExtensions {
     public static IServiceCollection RegisterAuthenticationService(this IServiceCollection services) {
         ServiceProvider sp = services.BuildServiceProvider();
         IConfiguration config = sp.GetRequiredService<IConfiguration>();
-
-        // TODO: Re-create as IdentityProvider`
+        // TODO: Re-create as IdentityProvider
         // services.AddTransient<IdentityHelper>();
 
-        services.Configure<CookiePolicyOptions>(options => {
-            options.CheckConsentNeeded = _ => true;
-            options.MinimumSameSitePolicy = SameSiteMode.None;
+        services.AddAuthentication(IdentityConstants.ApplicationScheme)
+        .AddMicrosoftAccount(opt => {
+            opt.SignInScheme = "Cookies";
+            opt.ClientId = config.GetValue<string>("Microsoft:ClientId") ?? "client-id";
+            opt.ClientSecret = config.GetValue<string>("Microsoft:ClientSecret") ?? "client-secret";
+            opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            opt.SaveTokens = true;
+        }).AddIdentityCookies();
+        services.RegisterEntityIdentity();
+
+        services.Configure<IdentityOptions>(options => {
+            options.SignIn.RequireConfirmedEmail = false;
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequiredLength = 6;
+            options.Password.RequiredUniqueChars = 1;
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            options.Lockout.MaxFailedAccessAttempts = 5;
+            options.Lockout.AllowedForNewUsers = true;
         });
-
-        services.AddAuthentication()
-            .AddIdentityBearerToken<AccountEntity>()
-            .AddCookie(opt => {
-                opt.Cookie.Name = Constants.AppSessionName;
-                opt.Cookie.IsEssential = true;
-                opt.ExpireTimeSpan = TimeSpan.FromDays(7);
-                opt.SlidingExpiration = true;
-            })
-            .AddMicrosoftAccount(opt => {
-                opt.SignInScheme = "Cookies";
-                opt.ClientId = config.GetValue<string>("Microsoft:ClientId") ?? "client-id";
-                opt.ClientSecret = config.GetValue<string>("Microsoft:ClientSecret") ?? "client-secret";
-                opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                opt.SaveTokens = true;
-            });
-
-        services.AddAuthorizationBuilder();
-        services.AddIdentityCore<AccountEntity>()
-        .AddEntityFrameworkStores<ServiceContext>()
-        .AddApiEndpoints();
 
         services.AddHttpContextAccessor();
         services.AddAuthorization();
         services.AddDistributedMemoryCache();
-        services.AddSession(options => {
-            options.IdleTimeout = TimeSpan.FromMinutes(2);
-            options.Cookie.HttpOnly = false;
-            options.Cookie.IsEssential = true;
-        });
 
         return services;
     }

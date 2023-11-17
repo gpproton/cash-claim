@@ -10,15 +10,15 @@
 
 using Axolotl.EFCore.Base;
 using Axolotl.EFCore.Context;
-using Microsoft.AspNetCore.Identity;
+using Axolotl.EFCore.Interfaces;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using XClaim.Common.Entity;
 using XClaim.Common.Enums;
 
 namespace XClaim.Common.Context;
 
-public class ServiceContext : AbstractDbContext {
-    public ServiceContext() { }
+public class ServiceContext : IdentityDbContext<AccountEntity> {
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) { }
 
@@ -54,9 +54,9 @@ public class ServiceContext : AbstractDbContext {
             .OnDelete(DeleteBehavior.SetNull);
     }
 
-    public DbSet<ServerEntity> Server { get; set; } = default!;
-    public DbSet<AccountEntity> Accounts { get; set; } = default!;
-    public DbSet<UserEntity> Users { get; set; } = default!;
+    public DbSet<ServerEntity> Server { get; set; }
+    public override DbSet<AccountEntity> Users { get; set; }
+    public DbSet<ProfileEntity> Profiles { get; set; }
     public DbSet<NotificationEntity> UserNotifications { get; set; } = default!;
     public DbSet<SettingsEntity> UserSetting { get; set; } = default!;
     public DbSet<BankAccountEntity> UserBankAccount { get; set; } = default!;
@@ -72,4 +72,58 @@ public class ServiceContext : AbstractDbContext {
     public DbSet<PaymentEntity> Payments { get; set; } = default!;
     public DbSet<ProfileTransferEntity> TransferRequests { get; set; } = default!;
     public DbSet<AuditEntity> AuditLogs { get; set; } = default!;
+
+
+    // TODO: Check things around
+    // Review later
+    protected static DbContextOptions<TContext> ChangeOptionsType<TContext>(DbContextOptions options) where TContext : DbContext
+        => (DbContextOptions<TContext>)options;
+
+    public override int SaveChanges(bool acceptAllChangesOnSuccess) {
+        OnBeforeSaving();
+        return base.SaveChanges(acceptAllChangesOnSuccess);
+    }
+
+    public override async Task<int> SaveChangesAsync(
+        bool acceptAllChangesOnSuccess,
+        CancellationToken cancellationToken = default
+    ) {
+        OnBeforeSaving();
+        return (await base.SaveChangesAsync(acceptAllChangesOnSuccess,
+            cancellationToken));
+    }
+
+    private void OnBeforeSaving() {
+        var entries = ChangeTracker.Entries();
+        var utcNow = DateTimeOffset.UtcNow;
+
+        foreach (var entry in entries) {
+            if (entry.Entity is IAuditableEntity trackable) {
+                switch (entry.State) {
+                    case EntityState.Added:
+                        entry.Property("UpdatedAt").IsModified = false;
+                        entry.Property("DeletedAt").IsModified = false;
+                        trackable.CreatedAt = utcNow;
+                        break;
+                    case EntityState.Modified:
+                        entry.Property("CreatedAt").IsModified = false;
+                        entry.Property("DeletedAt").IsModified = false;
+                        trackable.UpdatedAt = utcNow;
+                        break;
+                    case EntityState.Deleted:
+                        entry.State = EntityState.Modified;
+                        // ReSharper disable once UnusedVariable
+                        bool all = entry.References.All(e => e.IsModified = true);
+                        entry.Property("CreatedAt").IsModified = false;
+                        entry.Property("UpdatedAt").IsModified = false;
+                        trackable.DeletedAt = utcNow;
+                        break;
+                    case EntityState.Detached:
+                    case EntityState.Unchanged:
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 }

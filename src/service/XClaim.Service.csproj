@@ -2,10 +2,13 @@
 
   <PropertyGroup>
     <Title>XClaim.Service</Title>
+    <AssemblyName>x-claim</AssemblyName>
     <RazorLangVersion>8.0</RazorLangVersion>
     <WasmEnableWebcil>true</WasmEnableWebcil>
     <UserSecretsId>4102fda6-15af-4599-9d0f-a2916d92f41a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+<!--    <InvariantGlobalization>true</InvariantGlobalization>-->
+<!--    <PublishTrimmed>true</PublishTrimmed>-->
   </PropertyGroup>
 
   <Import Project="..\..\Common.props" />
@@ -18,10 +21,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
-    <PackageReference Include="Microsoft.Identity.Web" />
-    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
@@ -41,19 +42,6 @@
     <Content Include="..\..\.dockerignore">
       <Link>.dockerignore</Link>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\AccountModule\Repositories\" />
-    <Folder Include="Features\AccountModule\Services\" />
-    <Folder Include="Features\ClaimModule\Repositories\" />
-    <Folder Include="Features\ClaimModule\Services\" />
-    <Folder Include="Features\GroupModule\Repositories\" />
-    <Folder Include="Features\GroupModule\Services\" />
-    <Folder Include="Features\ResourceModule\Repositories\" />
-    <Folder Include="Features\ResourceModule\Services\" />
-    <Folder Include="Features\ServerModule\Repositories\" />
-    <Folder Include="Features\ServerModule\Services\" />
   </ItemGroup>
 
 </Project>

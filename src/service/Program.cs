@@ -8,19 +8,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using XClaim.Common;
+using XClaim.Service.Data;
 using XClaim.Service.Extensions;
-using XClaim.Web.Components.Extensions;
-using XClaim.Web.Shared;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient(typeof(Lazy<>), typeof(Lazy<>));
-builder.Services.RegisterDefaultService();
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.ConfigureHttpJsonOptions(options => {
+    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
+});
+
+builder.Services.RegisterDataContext();
+// TODO: restore migration service
+// builder.Services.AddHostedService<MigrationService>();
 builder.Services.RegisterSwaggerService();
+builder.Services.RegisterDefaultService();
 builder.Services.RegisterAuthenticationService();
-builder.Services.RegisterSharedBlazorServices();
-builder.Services.RegisterServerRazorExtensions();
-builder.Services.RegisterServerBlazorState();
+// builder.Services.RegisterSharedBlazorServices();
+// builder.Services.RegisterServerRazorExtensions();
+// builder.Services.RegisterServerBlazorState();
 
 WebApplication app = builder.Build();
 

@@ -8,15 +8,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Reflection;
 using Axolotl.AspNet;
 using Axolotl.EFCore;
 using DotNetEd.CoreAdmin;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Mvc;
 using XClaim.Common.Context;
-using XClaim.Service.Data;
+using XClaim.Common.Entity;
 using XClaim.Service.Helpers;
 
 namespace XClaim.Service.Extensions;
@@ -24,12 +22,9 @@ namespace XClaim.Service.Extensions;
 public static class ServiceDefaultExtensions {
     public static IServiceCollection RegisterDefaultService(this IServiceCollection services) {
         services.AddControllersWithViews();
-        services.AddRazorPages();
-        services.RegisterDataContext();
         services.RegisterGenericRepositories(typeof(GenericRepository<>));
         services.RegisterGenericServices();
         services.RegisterFeatures(typeof(Program).Assembly);
-        services.AddHostedService<MigrationService>();
         services.AddCoreAdmin(new CoreAdminOptions {
             Title = "x-claim",
             ShowPageSizes = true,
@@ -55,48 +50,24 @@ public static class ServiceDefaultExtensions {
     }
 
     public static WebApplication RegisterDefaultService(this WebApplication app) {
-        if (app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment()) {
             app.UseWebAssemblyDebugging();
-        else app.UseExceptionHandler("/Error");
+            app.UseMigrationsEndPoint();
+        } else {
+            app.UseExceptionHandler("/Error", createScopeForErrors: true);
+        }
 
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.MapDefaultControllerRoute();
-        app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
-        app.UseSession();
-        app.MapRazorPages();
-        app.MapControllers();
-        app.MapFallbackToFile("index.html");
+        app.UseAntiforgery();
         app.RegisterFeatureEndpoints();
+        // app.MapIdentityApi<AccountEntity>();
         app.UseCoreAdminCustomUrl("admin");
         app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
 
-        app.MapPost("/sample-upload-files", ([FromForm] FileAccess check, IFormFileCollection files, [FromServices] ILogger<Program> logger) => {
-            var name = check.Name;
-            var count = check.Count;
-
-            logger.LogInformation("<<======>> :: {Name} :: {Count} ---> Files: {Counts}", name, count, files.Count);
-            return Results.Ok(name);
-        }).Accepts<FileAccess>("multipart/form-data");
-
         return app;
     }
-}
-
-class FileAccess {
-    public static ValueTask<FileAccess?> BindAsync(HttpContext httpContext, ParameterInfo parameter)
-    {
-        int.TryParse(httpContext.Request.Form["Count"], out var count);
-        return ValueTask.FromResult<FileAccess?>(
-            new FileAccess {
-                Count = count,
-                Name = httpContext.Request.Form["Name"]
-            }
-        );
-    }
-    public int Count { get; set; }
-    public string? Name { get; set; }
 }

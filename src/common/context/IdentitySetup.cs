@@ -8,18 +8,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Axolotl.AspNet.Feature;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using XClaim.Common.Entity;
 
-namespace XClaim.Service.Features.AuthModule;
+namespace XClaim.Common.Context;
 
-public class AuthFeature : IFeature {
-    public IServiceCollection RegisterModule(IServiceCollection services) => services;
+public static class IdentitySetup {
+    public static IServiceCollection RegisterEntityIdentity(this IServiceCollection services) {
+        services.AddIdentityCore<AccountEntity>()
+            .AddEntityFrameworkStores<ServiceContext>()
+            .AddApiEndpoints();
 
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        var group = endpoints.MapGroup("/identity").WithTags("Identity");
-        group.MapIdentityApi<AccountEntity>();
-
-        return group;
+        return services;
     }
 }
