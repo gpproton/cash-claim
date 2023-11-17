@@ -14,7 +14,7 @@ using Axolotl.EFCore.Base;
 namespace XClaim.Common.Entity; 
 
 public class CommentEntity : BaseEntity<Guid> {
-    public UserEntity? User { get; set; }
+    public ProfileEntity? User { get; set; }
     public Guid? UserId { get; set; }
     public ClaimEntity? Claim { get; set; }
     [Display(AutoGenerateField = false)] public Guid? ClaimId { get; set; }

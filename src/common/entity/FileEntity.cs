@@ -17,7 +17,7 @@ public class FileEntity : BaseEntity<Guid> {
     [MaxLength(256)] public string Name { get; set; } = string.Empty;
     [Required] [MaxLength(1024)] public string? Path { get; set; }
     [MaxLength(8)] public string? Extension { get; set; }
-    public UserEntity? User { get; set; }
+    public ProfileEntity? User { get; set; }
     [Display(AutoGenerateField = false)] public Guid? UserId { get; set; }
     public ClaimEntity? Claim { get; set; }
     [Display(AutoGenerateField = false)] public Guid? ClaimId { get; set; }

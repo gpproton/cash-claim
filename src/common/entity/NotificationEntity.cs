@@ -15,7 +15,7 @@ using XClaim.Common.Enums;
 namespace XClaim.Common.Entity; 
 
 public class NotificationEntity : AuditableEntity<Guid> {
-    public UserEntity? User { get; set; }
+    public ProfileEntity? User { get; set; }
     [Display(AutoGenerateField = false)] public Guid? UserId { get; set; }
     public bool Disabled { get; set; }
     public ICollection<NotificationChannels>? Channels { get; set; }

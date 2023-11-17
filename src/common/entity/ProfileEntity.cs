@@ -13,7 +13,7 @@ using Axolotl.EFCore.Base;
 
 namespace XClaim.Common.Entity;
 
-public class UserEntity : AuditableEntity<Guid> {
+public class ProfileEntity : AuditableEntity<Guid> {
     public AccountEntity? Account { get; set; }
     public CompanyEntity? Company { get; set; }
     [Display(AutoGenerateField = false)] public int? CompanyId { get; set; }

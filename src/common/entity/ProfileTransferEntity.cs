@@ -14,7 +14,7 @@ using Axolotl.EFCore.Base;
 namespace XClaim.Common.Entity; 
 
 public class ProfileTransferEntity : AuditableEntity<Guid> {
-    public UserEntity? User { get; set; }
+    public ProfileEntity? User { get; set; }
     [Display(AutoGenerateField = false)] public Guid? UserId { get; set; }
     public CompanyEntity? Company { get; set; }
     [Display(AutoGenerateField = false)] public int? CompanyId { get; set; }

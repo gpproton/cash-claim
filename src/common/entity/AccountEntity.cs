@@ -19,7 +19,7 @@ namespace XClaim.Common.Entity;
 
 [Index(nameof(Email), IsUnique = true)]
 [Index(nameof(Identifier), IsUnique = true)]
-public class AccountEntity : IdentityUser, IAuditableEntity<Guid>, IAggregateRoot, IResponse {
+public sealed class AccountEntity : IdentityUser, IAuditableEntity<Guid>, IAggregateRoot, IResponse {
     public string Identifier { get; set; } = string.Empty;
     public string? ProfileImage { get; set; }
     [MaxLength(128)] public string FirstName { get; set; } = string.Empty;

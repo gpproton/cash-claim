@@ -18,7 +18,7 @@ public class CompanyEntity : BaseEntity<int> {
     [MaxLength(64)] public string ShortName { get; set; } = String.Empty;
     [MaxLength(128)] public string FullName { get; set; } = String.Empty;
     [Required] [MaxLength(256)] public string AdminEmail { get; set; } = String.Empty;
-    public UserEntity? Manager { get; set; }
+    public ProfileEntity? Manager { get; set; }
     [Display(AutoGenerateField = false)] public Guid? ManagerId { get; set; }
-    public ICollection<UserEntity>? Members { get; set; }
+    public ICollection<ProfileEntity>? Members { get; set; }
 }
