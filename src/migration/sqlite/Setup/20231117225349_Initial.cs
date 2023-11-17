@@ -12,20 +12,40 @@ namespace XClaim.Migrate.Sqlite.Setup
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "accounts",
+                name: "AspNetRoles",
                 columns: table => new
                 {
                     id = table.Column<string>(type: "TEXT", nullable: false),
+                    name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    normalized_name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    concurrency_stamp = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_asp_net_roles", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "TEXT", nullable: false),
+                    identifier = table.Column<string>(type: "TEXT", nullable: false),
+                    profile_image = table.Column<string>(type: "TEXT", nullable: true),
+                    first_name = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
+                    last_name = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
+                    balance = table.Column<decimal>(type: "TEXT", nullable: false),
+                    permission = table.Column<int>(type: "INTEGER", nullable: false),
                     created_by = table.Column<Guid>(type: "TEXT", nullable: false),
                     created_at = table.Column<long>(type: "INTEGER", nullable: false),
                     updated_by = table.Column<Guid>(type: "TEXT", nullable: false),
                     updated_at = table.Column<long>(type: "INTEGER", nullable: true),
                     deleted_by = table.Column<Guid>(type: "TEXT", nullable: false),
                     deleted_at = table.Column<long>(type: "INTEGER", nullable: true),
-                    user_name = table.Column<string>(type: "TEXT", nullable: true),
-                    normalized_user_name = table.Column<string>(type: "TEXT", nullable: true),
-                    email = table.Column<string>(type: "TEXT", nullable: true),
-                    normalized_email = table.Column<string>(type: "TEXT", nullable: true),
+                    user_name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    normalized_user_name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    normalized_email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     email_confirmed = table.Column<bool>(type: "INTEGER", nullable: false),
                     password_hash = table.Column<string>(type: "TEXT", nullable: true),
                     security_stamp = table.Column<string>(type: "TEXT", nullable: true),
@@ -39,7 +59,7 @@ namespace XClaim.Migrate.Sqlite.Setup
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_accounts", x => x.id);
+                    table.PrimaryKey("pk_asp_net_users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,6 +110,112 @@ namespace XClaim.Migrate.Sqlite.Setup
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_currencies", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    role_id = table.Column<string>(type: "TEXT", nullable: false),
+                    claim_type = table.Column<string>(type: "TEXT", nullable: true),
+                    claim_value = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_asp_net_role_claims", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_asp_net_role_claims_asp_net_roles_role_id",
+                        column: x => x.role_id,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_id = table.Column<string>(type: "TEXT", nullable: false),
+                    claim_type = table.Column<string>(type: "TEXT", nullable: true),
+                    claim_value = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_asp_net_user_claims", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_asp_net_user_claims_asp_net_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    login_provider = table.Column<string>(type: "TEXT", nullable: false),
+                    provider_key = table.Column<string>(type: "TEXT", nullable: false),
+                    provider_display_name = table.Column<string>(type: "TEXT", nullable: true),
+                    user_id = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_asp_net_user_logins", x => new { x.login_provider, x.provider_key });
+                    table.ForeignKey(
+                        name: "fk_asp_net_user_logins_asp_net_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    user_id = table.Column<string>(type: "TEXT", nullable: false),
+                    role_id = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_asp_net_user_roles", x => new { x.user_id, x.role_id });
+                    table.ForeignKey(
+                        name: "fk_asp_net_user_roles_asp_net_roles_role_id",
+                        column: x => x.role_id,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_asp_net_user_roles_asp_net_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    user_id = table.Column<string>(type: "TEXT", nullable: false),
+                    login_provider = table.Column<string>(type: "TEXT", nullable: false),
+                    name = table.Column<string>(type: "TEXT", nullable: false),
+                    value = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_asp_net_user_tokens", x => new { x.user_id, x.login_provider, x.name });
+                    table.ForeignKey(
+                        name: "fk_asp_net_user_tokens_asp_net_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -292,6 +418,47 @@ namespace XClaim.Migrate.Sqlite.Setup
                 });
 
             migrationBuilder.CreateTable(
+                name: "profiles",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    account_id = table.Column<string>(type: "TEXT", nullable: true),
+                    company_id = table.Column<int>(type: "INTEGER", nullable: true),
+                    company_managed_id = table.Column<Guid>(type: "TEXT", nullable: true),
+                    team_id = table.Column<Guid>(type: "TEXT", nullable: true),
+                    team_managed_id = table.Column<Guid>(type: "TEXT", nullable: true),
+                    currency_id = table.Column<int>(type: "INTEGER", nullable: true),
+                    active = table.Column<bool>(type: "INTEGER", nullable: false),
+                    token = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
+                    image = table.Column<string>(type: "TEXT", nullable: true),
+                    created_by = table.Column<Guid>(type: "TEXT", nullable: false),
+                    created_at = table.Column<long>(type: "INTEGER", nullable: false),
+                    updated_by = table.Column<Guid>(type: "TEXT", nullable: false),
+                    updated_at = table.Column<long>(type: "INTEGER", nullable: true),
+                    deleted_by = table.Column<Guid>(type: "TEXT", nullable: false),
+                    deleted_at = table.Column<long>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_profiles", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_profiles_companies_company_id",
+                        column: x => x.company_id,
+                        principalTable: "companies",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "fk_profiles_currencies_currency_id",
+                        column: x => x.currency_id,
+                        principalTable: "currencies",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "fk_profiles_users_account_id",
+                        column: x => x.account_id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "teams",
                 columns: table => new
                 {
@@ -316,54 +483,12 @@ namespace XClaim.Migrate.Sqlite.Setup
                         column: x => x.company_id,
                         principalTable: "companies",
                         principalColumn: "id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "users",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    identifier = table.Column<string>(type: "TEXT", nullable: false),
-                    email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
-                    profile_image = table.Column<string>(type: "TEXT", nullable: true),
-                    phone = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
-                    first_name = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    last_name = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    balance = table.Column<decimal>(type: "TEXT", nullable: false),
-                    permission = table.Column<int>(type: "INTEGER", nullable: false),
-                    company_id = table.Column<int>(type: "INTEGER", nullable: true),
-                    company_managed_id = table.Column<Guid>(type: "TEXT", nullable: true),
-                    team_id = table.Column<Guid>(type: "TEXT", nullable: true),
-                    team_managed_id = table.Column<Guid>(type: "TEXT", nullable: true),
-                    currency_id = table.Column<int>(type: "INTEGER", nullable: true),
-                    active = table.Column<bool>(type: "INTEGER", nullable: false),
-                    token = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
-                    image = table.Column<string>(type: "TEXT", nullable: true),
-                    created_by = table.Column<Guid>(type: "TEXT", nullable: false),
-                    created_at = table.Column<long>(type: "INTEGER", nullable: false),
-                    updated_by = table.Column<Guid>(type: "TEXT", nullable: false),
-                    updated_at = table.Column<long>(type: "INTEGER", nullable: true),
-                    deleted_by = table.Column<Guid>(type: "TEXT", nullable: false),
-                    deleted_at = table.Column<long>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_users", x => x.id);
                     table.ForeignKey(
-                        name: "fk_users_companies_company_id",
-                        column: x => x.company_id,
-                        principalTable: "companies",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "fk_users_currencies_currency_id",
-                        column: x => x.currency_id,
-                        principalTable: "currencies",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "fk_users_teams_team_id",
-                        column: x => x.team_id,
-                        principalTable: "teams",
-                        principalColumn: "id");
+                        name: "fk_teams_profiles_manager_id",
+                        column: x => x.manager_id,
+                        principalTable: "profiles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -390,9 +515,9 @@ namespace XClaim.Migrate.Sqlite.Setup
                         principalTable: "companies",
                         principalColumn: "id");
                     table.ForeignKey(
-                        name: "fk_transfer_requests_users_user_id",
+                        name: "fk_transfer_requests_profiles_user_id",
                         column: x => x.user_id,
-                        principalTable: "users",
+                        principalTable: "profiles",
                         principalColumn: "id");
                 });
 
@@ -422,9 +547,9 @@ namespace XClaim.Migrate.Sqlite.Setup
                         principalTable: "banks",
                         principalColumn: "id");
                     table.ForeignKey(
-                        name: "fk_user_bank_account_users_user_id",
+                        name: "fk_user_bank_account_profiles_user_id",
                         column: x => x.user_id,
-                        principalTable: "users",
+                        principalTable: "profiles",
                         principalColumn: "id");
                 });
 
@@ -448,9 +573,9 @@ namespace XClaim.Migrate.Sqlite.Setup
                 {
                     table.PrimaryKey("pk_user_notifications", x => x.id);
                     table.ForeignKey(
-                        name: "fk_user_notifications_users_user_id",
+                        name: "fk_user_notifications_profiles_user_id",
                         column: x => x.user_id,
-                        principalTable: "users",
+                        principalTable: "profiles",
                         principalColumn: "id");
                 });
 
@@ -473,16 +598,65 @@ namespace XClaim.Migrate.Sqlite.Setup
                 {
                     table.PrimaryKey("pk_user_setting", x => x.id);
                     table.ForeignKey(
-                        name: "fk_user_setting_users_user_id",
+                        name: "fk_user_setting_profiles_user_id",
                         column: x => x.user_id,
-                        principalTable: "users",
+                        principalTable: "profiles",
                         principalColumn: "id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_accounts_deleted_at",
-                table: "accounts",
+                name: "ix_asp_net_role_claims_role_id",
+                table: "AspNetRoleClaims",
+                column: "role_id");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "normalized_name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_asp_net_user_claims_user_id",
+                table: "AspNetUserClaims",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_asp_net_user_logins_user_id",
+                table: "AspNetUserLogins",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_asp_net_user_roles_role_id",
+                table: "AspNetUserRoles",
+                column: "role_id");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "normalized_email");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_asp_net_users_deleted_at",
+                table: "AspNetUsers",
                 column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_asp_net_users_email",
+                table: "AspNetUsers",
+                column: "email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_asp_net_users_identifier",
+                table: "AspNetUsers",
+                column: "identifier",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "normalized_user_name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_banks_name",
@@ -619,6 +793,31 @@ namespace XClaim.Migrate.Sqlite.Setup
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_profiles_account_id",
+                table: "profiles",
+                column: "account_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_profiles_company_id",
+                table: "profiles",
+                column: "company_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_profiles_currency_id",
+                table: "profiles",
+                column: "currency_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_profiles_deleted_at",
+                table: "profiles",
+                column: "deleted_at");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_profiles_team_id",
+                table: "profiles",
+                column: "team_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_server_currency_id",
                 table: "server",
                 column: "currency_id");
@@ -692,38 +891,6 @@ namespace XClaim.Migrate.Sqlite.Setup
                 column: "user_id",
                 unique: true);
 
-            migrationBuilder.CreateIndex(
-                name: "ix_users_company_id",
-                table: "users",
-                column: "company_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_users_currency_id",
-                table: "users",
-                column: "currency_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_users_deleted_at",
-                table: "users",
-                column: "deleted_at");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_users_email",
-                table: "users",
-                column: "email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "ix_users_identifier",
-                table: "users",
-                column: "identifier",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "ix_users_team_id",
-                table: "users",
-                column: "team_id");
-
             migrationBuilder.AddForeignKey(
                 name: "fk_categories_companies_company_id",
                 table: "categories",
@@ -746,31 +913,31 @@ namespace XClaim.Migrate.Sqlite.Setup
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "fk_claims_users_approved_by_id",
+                name: "fk_claims_profiles_approved_by_id",
                 table: "claims",
                 column: "approved_by_id",
-                principalTable: "users",
+                principalTable: "profiles",
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "fk_claims_users_confirmed_by_id",
+                name: "fk_claims_profiles_confirmed_by_id",
                 table: "claims",
                 column: "confirmed_by_id",
-                principalTable: "users",
+                principalTable: "profiles",
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "fk_claims_users_reviewed_by_id",
+                name: "fk_claims_profiles_reviewed_by_id",
                 table: "claims",
                 column: "reviewed_by_id",
-                principalTable: "users",
+                principalTable: "profiles",
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "fk_claims_users_user_id",
+                name: "fk_claims_profiles_user_id",
                 table: "claims",
                 column: "user_id",
-                principalTable: "users",
+                principalTable: "profiles",
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
@@ -781,17 +948,17 @@ namespace XClaim.Migrate.Sqlite.Setup
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "fk_comments_users_user_id",
+                name: "fk_comments_profiles_user_id",
                 table: "comments",
                 column: "user_id",
-                principalTable: "users",
+                principalTable: "profiles",
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "fk_companies_users_manager_id",
+                name: "fk_companies_profiles_manager_id",
                 table: "companies",
                 column: "manager_id",
-                principalTable: "users",
+                principalTable: "profiles",
                 principalColumn: "id",
                 onDelete: ReferentialAction.SetNull);
 
@@ -810,49 +977,64 @@ namespace XClaim.Migrate.Sqlite.Setup
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "fk_files_users_user_id",
+                name: "fk_files_profiles_user_id",
                 table: "files",
                 column: "user_id",
-                principalTable: "users",
+                principalTable: "profiles",
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "fk_payments_users_user_id",
+                name: "fk_payments_profiles_user_id",
                 table: "payments",
                 column: "user_id",
-                principalTable: "users",
+                principalTable: "profiles",
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "fk_teams_users_manager_id",
-                table: "teams",
-                column: "manager_id",
-                principalTable: "users",
-                principalColumn: "id",
-                onDelete: ReferentialAction.SetNull);
+                name: "fk_profiles_teams_team_id",
+                table: "profiles",
+                column: "team_id",
+                principalTable: "teams",
+                principalColumn: "id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "fk_profiles_users_account_id",
+                table: "profiles");
+
+            migrationBuilder.DropForeignKey(
+                name: "fk_profiles_companies_company_id",
+                table: "profiles");
+
+            migrationBuilder.DropForeignKey(
                 name: "fk_teams_companies_company_id",
                 table: "teams");
 
             migrationBuilder.DropForeignKey(
-                name: "fk_users_companies_company_id",
-                table: "users");
+                name: "fk_profiles_currencies_currency_id",
+                table: "profiles");
 
             migrationBuilder.DropForeignKey(
-                name: "fk_users_currencies_currency_id",
-                table: "users");
-
-            migrationBuilder.DropForeignKey(
-                name: "fk_teams_users_manager_id",
+                name: "fk_teams_profiles_manager_id",
                 table: "teams");
 
             migrationBuilder.DropTable(
-                name: "accounts");
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
                 name: "audit_logs");
@@ -882,6 +1064,9 @@ namespace XClaim.Migrate.Sqlite.Setup
                 name: "user_setting");
 
             migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "claims");
 
             migrationBuilder.DropTable(
@@ -894,13 +1079,16 @@ namespace XClaim.Migrate.Sqlite.Setup
                 name: "payments");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "companies");
 
             migrationBuilder.DropTable(
                 name: "currencies");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "profiles");
 
             migrationBuilder.DropTable(
                 name: "teams");

@@ -8,7 +8,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace XClaim.Migrate.Sqlite; 
+namespace XClaim.Migrate.Sqlite;
 
-public abstract class Marker {
-}
+public abstract class Marker { }

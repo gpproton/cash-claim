@@ -11,14 +11,174 @@ using XClaim.Common.Context;
 namespace XClaim.Migrate.Sqlite.Setup
 {
     [DbContext(typeof(ServiceContext))]
-    [Migration("20230714150515_Initial")]
+    [Migration("20231117225349_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.0-preview.6.23329.4");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("concurrency_stamp");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("name");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("normalized_name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_roles");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("claim_type");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("claim_value");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("role_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_role_claims");
+
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_asp_net_role_claims_role_id");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("claim_type");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("claim_value");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_user_claims");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_asp_net_user_claims_user_id");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("login_provider");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("provider_key");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("provider_display_name");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("LoginProvider", "ProviderKey")
+                        .HasName("pk_asp_net_user_logins");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_asp_net_user_logins_user_id");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("role_id");
+
+                    b.HasKey("UserId", "RoleId")
+                        .HasName("pk_asp_net_user_roles");
+
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_asp_net_user_roles_role_id");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("login_provider");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name")
+                        .HasName("pk_asp_net_user_tokens");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
 
             modelBuilder.Entity("XClaim.Common.Entity.AccountEntity", b =>
                 {
@@ -30,7 +190,12 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasColumnType("INTEGER")
                         .HasColumnName("access_failed_count");
 
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("balance");
+
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("TEXT")
                         .HasColumnName("concurrency_stamp");
 
@@ -51,12 +216,30 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasColumnName("deleted_by");
 
                     b.Property<string>("Email")
+                        .HasMaxLength(256)
                         .HasColumnType("TEXT")
                         .HasColumnName("email");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER")
                         .HasColumnName("email_confirmed");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("first_name");
+
+                    b.Property<string>("Identifier")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("identifier");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("last_name");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER")
@@ -67,16 +250,22 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasColumnName("lockout_end");
 
                     b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
                         .HasColumnType("TEXT")
                         .HasColumnName("normalized_email");
 
                     b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
                         .HasColumnType("TEXT")
                         .HasColumnName("normalized_user_name");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT")
                         .HasColumnName("password_hash");
+
+                    b.Property<int>("Permission")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("permission");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("TEXT")
@@ -85,6 +274,10 @@ namespace XClaim.Migrate.Sqlite.Setup
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER")
                         .HasColumnName("phone_number_confirmed");
+
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("profile_image");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT")
@@ -103,16 +296,32 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasColumnName("updated_by");
 
                     b.Property<string>("UserName")
+                        .HasMaxLength(256)
                         .HasColumnType("TEXT")
                         .HasColumnName("user_name");
 
                     b.HasKey("Id")
-                        .HasName("pk_accounts");
+                        .HasName("pk_asp_net_users");
 
                     b.HasIndex("DeletedAt")
-                        .HasDatabaseName("ix_accounts_deleted_at");
+                        .HasDatabaseName("ix_asp_net_users_deleted_at");
 
-                    b.ToTable("accounts", (string)null);
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("ix_asp_net_users_email");
+
+                    b.HasIndex("Identifier")
+                        .IsUnique()
+                        .HasDatabaseName("ix_asp_net_users_identifier");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("XClaim.Common.Entity.AuditEntity", b =>
@@ -838,6 +1047,96 @@ namespace XClaim.Migrate.Sqlite.Setup
                     b.ToTable("payments", (string)null);
                 });
 
+            modelBuilder.Entity("XClaim.Common.Entity.ProfileEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("id")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("AccountId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("account_id");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("active");
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("company_id");
+
+                    b.Property<Guid?>("CompanyManagedId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("company_managed_id");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("created_by");
+
+                    b.Property<int?>("CurrencyId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("currency_id");
+
+                    b.Property<long?>("DeletedAt")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<Guid>("DeletedBy")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("deleted_by");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("image");
+
+                    b.Property<Guid?>("TeamId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("team_id");
+
+                    b.Property<Guid?>("TeamManagedId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("team_managed_id");
+
+                    b.Property<string>("Token")
+                        .HasMaxLength(128)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("token");
+
+                    b.Property<long?>("UpdatedAt")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("updated_by");
+
+                    b.HasKey("Id")
+                        .HasName("pk_profiles");
+
+                    b.HasIndex("AccountId")
+                        .HasDatabaseName("ix_profiles_account_id");
+
+                    b.HasIndex("CompanyId")
+                        .HasDatabaseName("ix_profiles_company_id");
+
+                    b.HasIndex("CurrencyId")
+                        .HasDatabaseName("ix_profiles_currency_id");
+
+                    b.HasIndex("DeletedAt")
+                        .HasDatabaseName("ix_profiles_deleted_at");
+
+                    b.HasIndex("TeamId")
+                        .HasDatabaseName("ix_profiles_team_id");
+
+                    b.ToTable("profiles", (string)null);
+                });
+
             modelBuilder.Entity("XClaim.Common.Entity.ProfileTransferEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1062,136 +1361,61 @@ namespace XClaim.Migrate.Sqlite.Setup
                     b.ToTable("teams", (string)null);
                 });
 
-            modelBuilder.Entity("XClaim.Common.Entity.UserEntity", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("id")
-                        .HasColumnOrder(1);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("active");
-
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("balance");
-
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("company_id");
-
-                    b.Property<Guid?>("CompanyManagedId")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("company_managed_id");
-
-                    b.Property<long>("CreatedAt")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("created_at");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("created_by");
-
-                    b.Property<int?>("CurrencyId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("currency_id");
-
-                    b.Property<long?>("DeletedAt")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<Guid>("DeletedBy")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("deleted_by");
-
-                    b.Property<string>("Email")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("email");
+                        .HasConstraintName("fk_asp_net_role_claims_asp_net_roles_role_id");
+                });
 
-                    b.Property<string>("FirstName")
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("XClaim.Common.Entity.AccountEntity", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("first_name");
+                        .HasConstraintName("fk_asp_net_user_claims_asp_net_users_user_id");
+                });
 
-                    b.Property<string>("Identifier")
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("XClaim.Common.Entity.AccountEntity", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("identifier");
+                        .HasConstraintName("fk_asp_net_user_logins_asp_net_users_user_id");
+                });
 
-                    b.Property<string>("Image")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("image");
-
-                    b.Property<string>("LastName")
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("last_name");
+                        .HasConstraintName("fk_asp_net_user_roles_asp_net_roles_role_id");
 
-                    b.Property<int>("Permission")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("permission");
-
-                    b.Property<string>("Phone")
+                    b.HasOne("XClaim.Common.Entity.AccountEntity", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("phone");
+                        .HasConstraintName("fk_asp_net_user_roles_asp_net_users_user_id");
+                });
 
-                    b.Property<string>("ProfileImage")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("profile_image");
-
-                    b.Property<Guid?>("TeamId")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("team_id");
-
-                    b.Property<Guid?>("TeamManagedId")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("team_managed_id");
-
-                    b.Property<string>("Token")
-                        .HasMaxLength(128)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("token");
-
-                    b.Property<long?>("UpdatedAt")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("updated_at");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("updated_by");
-
-                    b.HasKey("Id")
-                        .HasName("pk_users");
-
-                    b.HasIndex("CompanyId")
-                        .HasDatabaseName("ix_users_company_id");
-
-                    b.HasIndex("CurrencyId")
-                        .HasDatabaseName("ix_users_currency_id");
-
-                    b.HasIndex("DeletedAt")
-                        .HasDatabaseName("ix_users_deleted_at");
-
-                    b.HasIndex("Email")
-                        .IsUnique()
-                        .HasDatabaseName("ix_users_email");
-
-                    b.HasIndex("Identifier")
-                        .IsUnique()
-                        .HasDatabaseName("ix_users_identifier");
-
-                    b.HasIndex("TeamId")
-                        .HasDatabaseName("ix_users_team_id");
-
-                    b.ToTable("users", (string)null);
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("XClaim.Common.Entity.AccountEntity", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("XClaim.Common.Entity.BankAccountEntity", b =>
@@ -1201,10 +1425,10 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasForeignKey("BankId")
                         .HasConstraintName("fk_user_bank_account_banks_bank_id");
 
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "User")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "User")
                         .WithOne("BankAccount")
                         .HasForeignKey("XClaim.Common.Entity.BankAccountEntity", "UserId")
-                        .HasConstraintName("fk_user_bank_account_users_user_id");
+                        .HasConstraintName("fk_user_bank_account_profiles_user_id");
 
                     b.Navigation("Bank");
 
@@ -1223,10 +1447,10 @@ namespace XClaim.Migrate.Sqlite.Setup
 
             modelBuilder.Entity("XClaim.Common.Entity.ClaimEntity", b =>
                 {
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "ApprovedBy")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "ApprovedBy")
                         .WithMany()
                         .HasForeignKey("ApprovedById")
-                        .HasConstraintName("fk_claims_users_approved_by_id");
+                        .HasConstraintName("fk_claims_profiles_approved_by_id");
 
                     b.HasOne("XClaim.Common.Entity.CategoryEntity", "Category")
                         .WithMany()
@@ -1240,10 +1464,10 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasForeignKey("CompanyId")
                         .HasConstraintName("fk_claims_companies_company_id");
 
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "ConfirmedBy")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "ConfirmedBy")
                         .WithMany()
                         .HasForeignKey("ConfirmedById")
-                        .HasConstraintName("fk_claims_users_confirmed_by_id");
+                        .HasConstraintName("fk_claims_profiles_confirmed_by_id");
 
                     b.HasOne("XClaim.Common.Entity.CurrencyEntity", "Currency")
                         .WithMany()
@@ -1255,15 +1479,15 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasForeignKey("PaymentId")
                         .HasConstraintName("fk_claims_payments_payment_id");
 
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "ReviewedBy")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "ReviewedBy")
                         .WithMany()
                         .HasForeignKey("ReviewedById")
-                        .HasConstraintName("fk_claims_users_reviewed_by_id");
+                        .HasConstraintName("fk_claims_profiles_reviewed_by_id");
 
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "User")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_claims_users_user_id");
+                        .HasConstraintName("fk_claims_profiles_user_id");
 
                     b.Navigation("ApprovedBy");
 
@@ -1294,10 +1518,10 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasForeignKey("PaymentId")
                         .HasConstraintName("fk_comments_payments_payment_id");
 
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "User")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_comments_users_user_id");
+                        .HasConstraintName("fk_comments_profiles_user_id");
 
                     b.Navigation("Claim");
 
@@ -1308,11 +1532,11 @@ namespace XClaim.Migrate.Sqlite.Setup
 
             modelBuilder.Entity("XClaim.Common.Entity.CompanyEntity", b =>
                 {
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "Manager")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "Manager")
                         .WithOne("CompanyManaged")
                         .HasForeignKey("XClaim.Common.Entity.CompanyEntity", "ManagerId")
                         .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("fk_companies_users_manager_id");
+                        .HasConstraintName("fk_companies_profiles_manager_id");
 
                     b.Navigation("Manager");
                 });
@@ -1346,10 +1570,10 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasForeignKey("PaymentId")
                         .HasConstraintName("fk_files_payments_payment_id");
 
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "User")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_files_users_user_id");
+                        .HasConstraintName("fk_files_profiles_user_id");
 
                     b.Navigation("Claim");
 
@@ -1360,10 +1584,10 @@ namespace XClaim.Migrate.Sqlite.Setup
 
             modelBuilder.Entity("XClaim.Common.Entity.NotificationEntity", b =>
                 {
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "User")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "User")
                         .WithOne("Notification")
                         .HasForeignKey("XClaim.Common.Entity.NotificationEntity", "UserId")
-                        .HasConstraintName("fk_user_notifications_users_user_id");
+                        .HasConstraintName("fk_user_notifications_profiles_user_id");
 
                     b.Navigation("User");
                 });
@@ -1375,14 +1599,45 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasForeignKey("CompanyId")
                         .HasConstraintName("fk_payments_companies_company_id");
 
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "User")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_payments_users_user_id");
+                        .HasConstraintName("fk_payments_profiles_user_id");
 
                     b.Navigation("Company");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("XClaim.Common.Entity.ProfileEntity", b =>
+                {
+                    b.HasOne("XClaim.Common.Entity.AccountEntity", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .HasConstraintName("fk_profiles_users_account_id");
+
+                    b.HasOne("XClaim.Common.Entity.CompanyEntity", "Company")
+                        .WithMany("Members")
+                        .HasForeignKey("CompanyId")
+                        .HasConstraintName("fk_profiles_companies_company_id");
+
+                    b.HasOne("XClaim.Common.Entity.CurrencyEntity", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .HasConstraintName("fk_profiles_currencies_currency_id");
+
+                    b.HasOne("XClaim.Common.Entity.TeamEntity", "Team")
+                        .WithMany("Members")
+                        .HasForeignKey("TeamId")
+                        .HasConstraintName("fk_profiles_teams_team_id");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("XClaim.Common.Entity.ProfileTransferEntity", b =>
@@ -1392,10 +1647,10 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasForeignKey("CompanyId")
                         .HasConstraintName("fk_transfer_requests_companies_company_id");
 
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "User")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_transfer_requests_users_user_id");
+                        .HasConstraintName("fk_transfer_requests_profiles_user_id");
 
                     b.Navigation("Company");
 
@@ -1414,10 +1669,10 @@ namespace XClaim.Migrate.Sqlite.Setup
 
             modelBuilder.Entity("XClaim.Common.Entity.SettingsEntity", b =>
                 {
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "User")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "User")
                         .WithOne("Setting")
                         .HasForeignKey("XClaim.Common.Entity.SettingsEntity", "UserId")
-                        .HasConstraintName("fk_user_setting_users_user_id");
+                        .HasConstraintName("fk_user_setting_profiles_user_id");
 
                     b.Navigation("User");
                 });
@@ -1429,39 +1684,15 @@ namespace XClaim.Migrate.Sqlite.Setup
                         .HasForeignKey("CompanyId")
                         .HasConstraintName("fk_teams_companies_company_id");
 
-                    b.HasOne("XClaim.Common.Entity.UserEntity", "Manager")
+                    b.HasOne("XClaim.Common.Entity.ProfileEntity", "Manager")
                         .WithOne("TeamManaged")
                         .HasForeignKey("XClaim.Common.Entity.TeamEntity", "ManagerId")
                         .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("fk_teams_users_manager_id");
+                        .HasConstraintName("fk_teams_profiles_manager_id");
 
                     b.Navigation("Company");
 
                     b.Navigation("Manager");
-                });
-
-            modelBuilder.Entity("XClaim.Common.Entity.UserEntity", b =>
-                {
-                    b.HasOne("XClaim.Common.Entity.CompanyEntity", "Company")
-                        .WithMany("Members")
-                        .HasForeignKey("CompanyId")
-                        .HasConstraintName("fk_users_companies_company_id");
-
-                    b.HasOne("XClaim.Common.Entity.CurrencyEntity", "Currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyId")
-                        .HasConstraintName("fk_users_currencies_currency_id");
-
-                    b.HasOne("XClaim.Common.Entity.TeamEntity", "Team")
-                        .WithMany("Members")
-                        .HasForeignKey("TeamId")
-                        .HasConstraintName("fk_users_teams_team_id");
-
-                    b.Navigation("Company");
-
-                    b.Navigation("Currency");
-
-                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("XClaim.Common.Entity.ClaimEntity", b =>
@@ -1485,12 +1716,7 @@ namespace XClaim.Migrate.Sqlite.Setup
                     b.Navigation("Files");
                 });
 
-            modelBuilder.Entity("XClaim.Common.Entity.TeamEntity", b =>
-                {
-                    b.Navigation("Members");
-                });
-
-            modelBuilder.Entity("XClaim.Common.Entity.UserEntity", b =>
+            modelBuilder.Entity("XClaim.Common.Entity.ProfileEntity", b =>
                 {
                     b.Navigation("BankAccount");
 
@@ -1501,6 +1727,11 @@ namespace XClaim.Migrate.Sqlite.Setup
                     b.Navigation("Setting");
 
                     b.Navigation("TeamManaged");
+                });
+
+            modelBuilder.Entity("XClaim.Common.Entity.TeamEntity", b =>
+                {
+                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }
