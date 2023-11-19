@@ -42,6 +42,15 @@ public static class ServiceDefaultExtensions {
             options.Level = CompressionLevel.Fastest;
         });
 
+        services.AddCors(options => {
+            options.AddDefaultPolicy(
+                policy => {
+                    policy.AllowAnyOrigin();
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                });
+        });
+
         return services;
     }
 
@@ -64,6 +73,7 @@ public static class ServiceDefaultExtensions {
         app.UseStaticFiles();
         app.UseAntiforgery();
         app.UseResponseCompression();
+        app.UseCors();
         app.RegisterFeatureEndpoints();
 
         return app;
