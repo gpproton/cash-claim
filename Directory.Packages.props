@@ -34,7 +34,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
-    <PackageVersion Include="MudBlazor" Version="6.7.0" />
+    <PackageVersion Include="MudBlazor" Version="6.11.0" />
   </ItemGroup>
 
   <!-- Asp.net packages -->
@@ -55,15 +55,12 @@
 
   <!-- AsptNet Auth -->
   <ItemGroup Label="Auth">
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer"
-      Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.Identity.Web" Version="2.10.0" />
-    <PackageVersion Include="Microsoft.Identity.Web.DownstreamApi" Version="2.10.0" />
   </ItemGroup>
 
   <!-- Axolotl packages -->
