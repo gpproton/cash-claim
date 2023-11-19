@@ -1,0 +1,35 @@
+@using System.Reflection
+@using XClaim.Web.Components.Pages
+
+@code {
+    private void OnNavigateAsync() { }
+    private readonly Assembly _rootAssembly = typeof(Home).Assembly;
+    private readonly Assembly[] _extraAssembly = { typeof(EmptyLayout).Assembly };
+}
+
+<Router AppAssembly="@_rootAssembly" AdditionalAssemblies="@_extraAssembly"
+        OnNavigateAsync="OnNavigateAsync">
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <NotAuthorized>
+                <ErrorUnAuthorized />
+                @* <RedirectToLogin /> *@
+            </NotAuthorized>
+        </AuthorizeRouteView>
+    </Found>
+    <NotFound>
+        <Title>Not Found</Title>
+        <AuthorizeView>
+            <Authorized>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <ErrorNotFound />
+                </LayoutView>
+            </Authorized>
+            <NotAuthorized>
+                <LayoutView Layout="@typeof(AuthLayout)">
+                    <ErrorNotFound />
+                </LayoutView>
+            </NotAuthorized>
+        </AuthorizeView>
+    </NotFound>
+</Router>

@@ -8,24 +8,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using XClaim.Service.Components;
+using XClaim.Service.Data;
 using XClaim.Service.Extensions;
 using XClaim.Web.Components.Extensions;
+using XClaim.Web.Components.Pages;
 using XClaim.Web.Shared;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddTransient(typeof(Lazy<>), typeof(Lazy<>));
-builder.Services.RegisterDefaultService();
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.RegisterDataContext();
+builder.Services.AddHostedService<MigrationService>();
 builder.Services.RegisterSwaggerService();
+builder.Services.RegisterDefaultService();
 builder.Services.RegisterAuthenticationService();
+builder.Services.RegisterCoreAdmin();
 builder.Services.RegisterSharedBlazorServices();
 builder.Services.RegisterServerRazorExtensions();
 builder.Services.RegisterServerBlazorState();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
 
 WebApplication app = builder.Build();
-
 app.RegisterSwaggerService();
 app.RegisterDefaultService();
 app.RegisterFileUploadService();
+app.RegisterCoreAdmin();
+app.MapRazorComponents<ServerApp>()
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(Home).Assembly);
 
 app.Run();

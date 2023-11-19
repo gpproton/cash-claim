@@ -30,7 +30,7 @@
   <ItemGroup Label="SharedPackages">
     <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.0-preview.6.8686" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="$(DotnetVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(DotnetVersion)" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(DotnetVersion)" />

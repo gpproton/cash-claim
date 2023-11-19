@@ -13,19 +13,14 @@ using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using XClaim.Common.Responses;
 
-namespace XClaim.Web.Shared; 
+namespace XClaim.Web.Shared;
 
-public class AuthProvider : AuthenticationStateProvider {
-    private readonly ISessionStorageService _sessionStorage;
+public class AuthProvider(ISessionStorageService sessionStorage) : AuthenticationStateProvider {
     private readonly ClaimsPrincipal _anonymous = new(new ClaimsIdentity());
-
-    public AuthProvider(ISessionStorageService sessionStorage) {
-        _sessionStorage = sessionStorage;
-    }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
         try {
-            AuthResponse? userSession = await _sessionStorage.GetAsync<AuthResponse>(WebConst.SessionKey);
+            AuthResponse? userSession = await sessionStorage.GetAsync<AuthResponse>(WebConst.SessionKey);
             if (userSession == null) {
                 return await Task.FromResult(new AuthenticationState(_anonymous));
             }
@@ -51,18 +46,18 @@ public class AuthProvider : AuthenticationStateProvider {
                 new(ClaimTypes.Role, userSession.Role)
             }));
             userSession.ExpiryTimeStamp = DateTime.Now.AddSeconds(userSession.ExpiresIn);
-            await _sessionStorage.SaveAsync(WebConst.SessionKey, userSession);
+            await sessionStorage.SaveAsync(WebConst.SessionKey, userSession);
         }
         else {
             claimsPrincipal = _anonymous;
-            await _sessionStorage.RemoveItemAsync(WebConst.SessionKey);
+            await sessionStorage.RemoveItemAsync(WebConst.SessionKey);
         }
 
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
     }
 
     public async Task RefreshAuthenticationState(AuthResponse userSession) {
-        await _sessionStorage.SaveAsync(WebConst.SessionKey, userSession);
+        await sessionStorage.SaveAsync(WebConst.SessionKey, userSession);
     }
 
     public async Task ClearAuthInfo() {
@@ -72,7 +67,7 @@ public class AuthProvider : AuthenticationStateProvider {
     public async Task<string?> GetToken() {
         string? result = string.Empty;
         try {
-            AuthResponse? userSession = await _sessionStorage.GetAsync<AuthResponse>(WebConst.SessionKey);
+            AuthResponse? userSession = await sessionStorage.GetAsync<AuthResponse>(WebConst.SessionKey);
             if (userSession != null && DateTime.Now < userSession.ExpiryTimeStamp) {
                 result = userSession.Token;
             }

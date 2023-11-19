@@ -1,0 +1,6 @@
+﻿services:
+  xclaim.service:
+    image: xclaim.service
+    build:
+      context: .
+      dockerfile: src/service/Dockerfile

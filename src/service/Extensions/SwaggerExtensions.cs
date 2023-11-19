@@ -27,16 +27,14 @@ public static class SwaggerExtensions {
     public static WebApplication RegisterSwaggerService(this WebApplication app) {
         const string swaggerTittle = "x-claim V1";
         const string swaggerPath = "/swagger/v1/swagger.json";
+        app.UseSwagger();
         app.UseReDoc(c => {
             c.DocumentTitle = swaggerTittle;
             c.SpecUrl(swaggerPath);
         });
 
-        if (!app.Environment.IsDevelopment()) {
-            return app;
-        }
-
-        app.UseSwagger();
+        if (!app.Environment.IsDevelopment()) return app;
+        #if  DEBUG
         app.UseSwaggerUI(opt => {
             opt.SwaggerEndpoint(swaggerPath, swaggerTittle);
             opt.DefaultModelExpandDepth(3);
@@ -44,7 +42,7 @@ public static class SwaggerExtensions {
             opt.DisplayRequestDuration();
             opt.ShowExtensions();
         });
-
+        #endif
         return app;
     }
 }

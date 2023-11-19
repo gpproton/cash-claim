@@ -27,16 +27,16 @@ public class ClaimEntity : AuditableEntity<Guid> {
     public CompanyEntity? Company { get; set; }
     [Display(AutoGenerateField = false)] public int? CompanyId { get; set; }
     public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
-    public UserEntity? User { get; set; }
+    public ProfileEntity? User { get; set; }
     public Guid? UserId { get; set; }
     public DateTime? CancelledAt { get; set; }
-    public UserEntity? ReviewedBy { get; set; }
+    public ProfileEntity? ReviewedBy { get; set; }
     [Display(AutoGenerateField = false)] public Guid? ReviewedById { get; set; }
     public DateTime? ReviewedAt { get; set; }
-    public UserEntity? ConfirmedBy { get; set; }
+    public ProfileEntity? ConfirmedBy { get; set; }
     [Display(AutoGenerateField = false)] public Guid? ConfirmedById { get; set; }
     public DateTime? ConfirmedAt { get; set; }
-    public UserEntity? ApprovedBy { get; set; }
+    public ProfileEntity? ApprovedBy { get; set; }
     [Display(AutoGenerateField = false)] public Guid? ApprovedById { get; set; }
     public DateTime? ApprovedAt { get; set; }
     [Display(AutoGenerateField = false)] public Guid? RejectedById { get; set; }

@@ -8,8 +8,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using MudBlazor;
-
 namespace XClaim.Web.Shared;
 
 public static class WebConst {
@@ -20,7 +18,6 @@ public static class WebConst {
     public const string AppAuth = "app/auth";
     public const string AppRegister = "app/registration";
     public const string SessionKey = "UserSession";
-    public static readonly DateRange AppDateRange = new(DateTime.Now.AddDays(-7), DateTime.Now);
     public static readonly int[] AppPaged = { 100, 250, 2000 };
     public const string TableHeight = "calc(100vh - 224px)";
 }

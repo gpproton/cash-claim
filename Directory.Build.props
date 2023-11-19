@@ -26,10 +26,10 @@
 
   <PropertyGroup>
     <ArdalisVersion>7.0.0</ArdalisVersion>
-    <AxolotlVersion>8.0-preview.19</AxolotlVersion>
-    <AspCoreVersion>8.0.0-preview.6.23329.11</AspCoreVersion>
-    <DotnetVersion>8.0.0-preview.6.23329.7</DotnetVersion>
-    <EfcoreVersion>8.0.0-preview.6.23329.4</EfcoreVersion>
+    <AxolotlVersion>8.0-rc.1</AxolotlVersion>
+    <AspCoreVersion>8.0.0</AspCoreVersion>
+    <DotnetVersion>8.0.0</DotnetVersion>
+    <EfcoreVersion>8.0.0</EfcoreVersion>
   </PropertyGroup>
 
 </Project>

@@ -17,7 +17,7 @@ namespace XClaim.Service.Features.AccountModule;
 
 public class AccountFeature : GenericFeature<AccountFeature> {
     public override IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        IEndpointRouteBuilder? group = SetupGroup<AccountFeature, UserEntity, User, Guid>(
+        IEndpointRouteBuilder? group = SetupGroup<AccountFeature, ProfileEntity, User, Guid>(
             endpoints,
             new FeatureState(
                 new List<RouteState> {

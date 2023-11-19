@@ -12,8 +12,7 @@ using Axolotl.Response;
 
 namespace XClaim.Common.Base;
 
-public abstract class BaseResponse : IResponse {
-}
+public abstract class BaseResponse : IResponse { }
 
 public abstract class BaseResponse<TKey> : IResponse where TKey : notnull {
     public TKey? Id { get; set; }

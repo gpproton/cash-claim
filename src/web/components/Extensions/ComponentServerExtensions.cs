@@ -13,7 +13,7 @@ public static class ComponentServerExtensions {
     public static IServiceCollection RegisterServerBlazorState(this IServiceCollection services) {
         services.AddScoped<AppState>();
         // services.AddScoped<AuthState>();
-        services.AddScoped<ThemeState>();
+        // services.AddScoped<ThemeState>();
 
         return services;
     }

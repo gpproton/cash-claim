@@ -19,7 +19,7 @@ public class TeamEntity : AuditableEntity<Guid> {
     public string Description { get; set; } = string.Empty;
     public CompanyEntity? Company { get; set; }
     [Display(AutoGenerateField = false)] public int? CompanyId { get; set; }
-    public UserEntity? Manager { get; set; }
+    public ProfileEntity? Manager { get; set; }
     [Display(AutoGenerateField = false)] public Guid? ManagerId { get; set; }
-    public ICollection<UserEntity>? Members { get; set; }
+    public ICollection<ProfileEntity>? Members { get; set; }
 }

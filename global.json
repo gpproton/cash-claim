@@ -1,10 +1,12 @@
 {
   "sdk": {
-    "version": "8.0.100-preview.6.23330.14",
+    "version": "8.0.100",
     "rollForward": "latestFeature"
   },
   "scripts": {
+    "c": "rm -rf ./**/{bin,obj}",
     "b": "dotnet build --configuration Debug",
+    "p": "dotnet publish ./src/service -p:PublishDir=output --os linux",
     "test": "dotnet test --configuration Release",
     "ci": "dotnet r build && dotnet r test",
     "service": "dotnet run --project ./src/service",

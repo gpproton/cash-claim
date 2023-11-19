@@ -8,16 +8,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
-using Axolotl.EFCore.Base;
-using XClaim.Common.Enums;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using XClaim.Common.Entity;
 
-namespace XClaim.Common.Entity; 
+namespace XClaim.Common.Context;
 
-public class NotificationEntity : AuditableEntity<Guid> {
-    public ProfileEntity? User { get; set; }
-    [Display(AutoGenerateField = false)] public Guid? UserId { get; set; }
-    public bool Disabled { get; set; }
-    public ICollection<NotificationChannels>? Channels { get; set; }
-    public ICollection<EventType>? Types { get; set; }
+public static class IdentitySetup {
+    public static IServiceCollection RegisterEntityIdentity(this IServiceCollection services) {
+        services.AddIdentityCore<AccountEntity>()
+            .AddEntityFrameworkStores<ServiceContext>()
+            .AddApiEndpoints();
+
+        return services;
+    }
 }

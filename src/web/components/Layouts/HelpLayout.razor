@@ -8,57 +8,7 @@
     void DrawerToggle() => _drawerOpen = !_drawerOpen;
 }
 
-<MudAppBar Elevation="1" Color="Color.Transparent">
-    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
-                   OnClick="@((e) => DrawerToggle())"/>
-    <MudStack Row="true" Class="ml-4" Style="cursor: pointer" AlignItems="AlignItems.Center" @onclick='() => Nav.NavigateTo("/")'>
-        <MudAvatar Rounded="true" Size="Size.Medium" Color="Color.Primary">
-            <MudText Typo="Typo.h5" Style="font-weight: bold">X</MudText>
-        </MudAvatar>
-        <MudText Typo="Typo.h5" Color="Color.Primary" Style="font-weight: bold" Class="ml-3">@AppState.AppTitle</MudText>
-    </MudStack>
-    <MudSpacer/>
-    <AuthorizeView>
-        <NotAuthorized>
-            <MudButton Variant="Variant.Outlined" Class="px-6 px-4" Color="Color.Primary" Size="Size.Large"
-                       OnClick='() => Nav.NavigateTo("/identity/sign-in")'>
-                Sign In
-            </MudButton>
-        </NotAuthorized>
-        <Authorized>
-            <MudButton Variant="Variant.Outlined" Class="px-6 px-4" Color="Color.Primary" Size="Size.Large"
-                       OnClick="() => { }">
-                Sign Out
-            </MudButton>
-        </Authorized>
-    </AuthorizeView>
-</MudAppBar>
-<MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="0">
-    <div>
-        <div class="my-8"></div>
-        <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Dense="true" Class="pa-2">
-            <MudNavLink Href="/help" Class="nav_link">Get Started</MudNavLink>
-            <MudNavLink Href="#" Class="nav_link">Basic Usage</MudNavLink>
-            <MudNavLink Href="#" Class="nav_link">Claims</MudNavLink>
-        </MudNavMenu>
-        <MudDivider Class="my-4"/>
-        <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Primary" Dense="true" Class="pa-2">
-            <MudNavLink Href="#" Class="nav_link">Admin</MudNavLink>
-            <MudNavLink Href="#" Class="nav_link">Support</MudNavLink>
-        </MudNavMenu>
-    </div>
-</MudDrawer>
-
-<MudMainContent>
-    <MudContainer Class="ma-4 px-lg-12 px-sm-0">
-        @Body
-    </MudContainer>
-</MudMainContent>
-
-<style>
-.nav_link {
-    font-family: 'Roboto', serif;
-    font-size: 1.1rem;
-    font-weight: 300
-}
-</style>
+<div>
+    Help Layout
+    @Body
+</div>
