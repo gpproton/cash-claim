@@ -8,7 +8,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using XClaim.Common;
+using XClaim.Service;
 using XClaim.Service.Components;
 using XClaim.Service.Data;
 using XClaim.Service.Extensions;
@@ -18,9 +18,6 @@ using XClaim.Web.Shared;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton(TimeProvider.System);
-builder.Services.ConfigureHttpJsonOptions(options => {
-    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
-});
 builder.Services.RegisterDataContext();
 builder.Services.AddHostedService<MigrationService>();
 builder.Services.RegisterSwaggerService();
