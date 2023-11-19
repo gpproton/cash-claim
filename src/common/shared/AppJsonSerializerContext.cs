@@ -9,27 +9,53 @@
 // limitations under the License.
 
 using System.Text.Json.Serialization;
+using Axolotl.Response;
+using Microsoft.AspNetCore.Identity.Data;
 using XClaim.Common.Responses;
 
 namespace XClaim.Common;
 
-[JsonSerializable(typeof(AuthResponse))]
-[JsonSerializable(typeof(Bank))]
-[JsonSerializable(typeof(BankAccount))]
-[JsonSerializable(typeof(Category))]
-[JsonSerializable(typeof(ClaimResponse))]
-[JsonSerializable(typeof(Comment))]
-[JsonSerializable(typeof(Company))]
-[JsonSerializable(typeof(Currency))]
-[JsonSerializable(typeof(Domain))]
-[JsonSerializable(typeof(EventResponse))]
-[JsonSerializable(typeof(FileResponse))]
-[JsonSerializable(typeof(Notification))]
-[JsonSerializable(typeof(Payment))]
-[JsonSerializable(typeof(Profile))]
-[JsonSerializable(typeof(ProfileTransfer))]
-[JsonSerializable(typeof(Server))]
-[JsonSerializable(typeof(Settings))]
-[JsonSerializable(typeof(Team))]
-[JsonSerializable(typeof(User))]
+// Bank
+[JsonSerializable(typeof(Response<Bank>))]
+[JsonSerializable(typeof(PagedResponse<Bank>))]
+// Category
+[JsonSerializable(typeof(Response<Category>))]
+[JsonSerializable(typeof(PagedResponse<Category>))]
+// Claim Response
+[JsonSerializable(typeof(Response<ClaimResponse>))]
+[JsonSerializable(typeof(PagedResponse<ClaimResponse>))]
+// Comment
+[JsonSerializable(typeof(Response<Comment>))]
+[JsonSerializable(typeof(PagedResponse<Comment>))]
+// Company
+[JsonSerializable(typeof(Response<Company>))]
+[JsonSerializable(typeof(PagedResponse<Company>))]
+// Currency
+[JsonSerializable(typeof(Response<Currency>))]
+[JsonSerializable(typeof(PagedResponse<Currency>))]
+// Domain
+[JsonSerializable(typeof(Response<Domain>))]
+[JsonSerializable(typeof(PagedResponse<Domain>))]
+// Event Response
+[JsonSerializable(typeof(Response<EventResponse>))]
+[JsonSerializable(typeof(PagedResponse<EventResponse>))]
+// User Identity
+[JsonSerializable(typeof(ForgotPasswordRequest))]
+// Payment
+[JsonSerializable(typeof(Response<Payment>))]
+[JsonSerializable(typeof(PagedResponse<Payment>))]
+// Team
+[JsonSerializable(typeof(Response<Team>))]
+[JsonSerializable(typeof(PagedResponse<Team>))]
+// User Account
+[JsonSerializable(typeof(Response<User>))]
+[JsonSerializable(typeof(PagedResponse<User>))]
+[JsonSerializable(typeof(Response<BankAccount>))]
+[JsonSerializable(typeof(Response<Settings>))]
+[JsonSerializable(typeof(PagedResponse<ProfileTransfer>))]
+[JsonSerializable(typeof(Response<ProfileTransfer>))]
+// Server Options
+[JsonSerializable(typeof(Response<Server>))]
+[JsonSerializable(typeof(Response<Notification>))]
+[JsonSerializable(typeof(PagedResponse<Notification>))]
 public partial class AppJsonSerializerContext : JsonSerializerContext { }
