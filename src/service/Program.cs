@@ -9,30 +9,39 @@
 // limitations under the License.
 
 using XClaim.Common;
+using XClaim.Service.Components;
 using XClaim.Service.Data;
 using XClaim.Service.Extensions;
+using XClaim.Web.Components.Extensions;
+using XClaim.Web.Components.Pages;
+using XClaim.Web.Shared;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.ConfigureHttpJsonOptions(options => {
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
 });
-
 builder.Services.RegisterDataContext();
-// TODO: restore migration service
-// builder.Services.AddHostedService<MigrationService>();
+builder.Services.AddHostedService<MigrationService>();
 builder.Services.RegisterSwaggerService();
 builder.Services.RegisterDefaultService();
 builder.Services.RegisterAuthenticationService();
-// builder.Services.RegisterSharedBlazorServices();
-// builder.Services.RegisterServerRazorExtensions();
-// builder.Services.RegisterServerBlazorState();
+builder.Services.RegisterCoreAdmin();
+builder.Services.RegisterSharedBlazorServices();
+builder.Services.RegisterServerRazorExtensions();
+builder.Services.RegisterServerBlazorState();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
 
 WebApplication app = builder.Build();
-
 app.RegisterSwaggerService();
 app.RegisterDefaultService();
 app.RegisterFileUploadService();
+app.RegisterCoreAdmin();
+app.MapRazorComponents<ServerApp>()
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(Home).Assembly);
 
 app.Run();

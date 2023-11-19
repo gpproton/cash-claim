@@ -8,34 +8,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO.Compression;
 using Axolotl.AspNet;
 using Axolotl.EFCore;
-using DotNetEd.CoreAdmin;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.ResponseCompression;
 using XClaim.Common.Context;
-using XClaim.Common.Entity;
 using XClaim.Service.Helpers;
 
 namespace XClaim.Service.Extensions;
 
 public static class ServiceDefaultExtensions {
     public static IServiceCollection RegisterDefaultService(this IServiceCollection services) {
-        services.AddControllersWithViews();
+        services.AddAntiforgery();
         services.RegisterGenericRepositories(typeof(GenericRepository<>));
         services.RegisterGenericServices();
         services.RegisterFeatures(typeof(Program).Assembly);
-        services.AddCoreAdmin(new CoreAdminOptions {
-            Title = "x-claim",
-            ShowPageSizes = true,
-            PageSizes = new Dictionary<int, string>() {
-                { 25, "25" },
-                { 100, "100" },
-                { 0, "All" }
-            },
-            IgnoreEntityTypes = new List<Type> ()
-        });
-
+        services.AddTransient<FileUploadService>();
         // TODO: Review dependency injection
         services.AddSingleton<HttpClient>(sp => {
             var server = sp.GetRequiredService<IServer>();
@@ -44,17 +34,26 @@ public static class ServiceDefaultExtensions {
             return new HttpClient { BaseAddress = new Uri(baseAddress) };
         });
 
-        services.AddTransient<FileUploadService>();
+        services.AddResponseCompression(options => {
+            options.Providers.Add<GzipCompressionProvider>();
+        });
+
+        services.Configure<GzipCompressionProviderOptions>(options => {
+            options.Level = CompressionLevel.Fastest;
+        });
 
         return services;
     }
 
     public static WebApplication RegisterDefaultService(this WebApplication app) {
-        if (app.Environment.IsDevelopment()) {
-            app.UseWebAssemblyDebugging();
-            app.UseMigrationsEndPoint();
-        } else {
-            app.UseExceptionHandler("/Error", createScopeForErrors: true);
+        switch (app.Environment.IsDevelopment()) {
+            case true:
+                app.UseMigrationsEndPoint();
+                break;
+            case false:
+                app.UseHsts();
+                app.UseExceptionHandler("/Error", createScopeForErrors: true);
+                break;
         }
 
         app.UseHttpsRedirection();
@@ -63,10 +62,8 @@ public static class ServiceDefaultExtensions {
         app.UseAuthorization();
         app.UseStaticFiles();
         app.UseAntiforgery();
+        app.UseResponseCompression();
         app.RegisterFeatureEndpoints();
-        // app.MapIdentityApi<AccountEntity>();
-        app.UseCoreAdminCustomUrl("admin");
-        app.UseCoreAdminCustomAuth((_) => Task.FromResult(true));
 
         return app;
     }

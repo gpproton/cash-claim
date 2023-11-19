@@ -4,11 +4,21 @@
     <Title>XClaim.Service</Title>
     <AssemblyName>x-claim</AssemblyName>
     <RazorLangVersion>8.0</RazorLangVersion>
-    <WasmEnableWebcil>true</WasmEnableWebcil>
     <UserSecretsId>4102fda6-15af-4599-9d0f-a2916d92f41a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-<!--    <InvariantGlobalization>true</InvariantGlobalization>-->
-<!--    <PublishTrimmed>true</PublishTrimmed>-->
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <!-- Trim mode filters -->
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>link</TrimMode>
+    <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <DebuggerSupport>false</DebuggerSupport>
+    <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
+    <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
+    <EventSourceSupport>false</EventSourceSupport>
+    <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
+    <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+    <StackTraceSupport>false</StackTraceSupport>
   </PropertyGroup>
 
   <Import Project="..\..\Common.props" />
@@ -19,7 +29,6 @@
     <PackageReference Include="CoreAdmin" />
     <PackageReference Include="EFCore.NamingConventions" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
@@ -34,7 +43,7 @@
     <ProjectReference Include="..\common\http\XClaim.Common.Http.csproj" />
     <ProjectReference Include="..\migration\postgres\XClaim.Migrate.Postgres.csproj" />
     <ProjectReference Include="..\migration\sqlite\XClaim.Migrate.Sqlite.csproj" />
-    <ProjectReference Include="..\web\client\XClaim.Web.Client.csproj" />
+    <ProjectReference Include="..\web\components\XClaim.Web.Components.csproj" />
     <ProjectReference Include="..\web\shared\XClaim.Web.Shared.csproj" />
   </ItemGroup>
 

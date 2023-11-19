@@ -17,7 +17,7 @@ public class AuthFeature : IFeature {
     public IServiceCollection RegisterModule(IServiceCollection services) => services;
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        var group = endpoints.MapGroup("/identity").WithTags("Identity");
+        var group = endpoints.MapGroup("/account").WithTags("Account");
         group.MapIdentityApi<AccountEntity>();
 
         return group;
