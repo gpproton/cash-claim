@@ -5,12 +5,12 @@
     public RenderFragment? ChildContent { get; set; }
 }
 
-<MudThemeProvider />
-<MudDialogProvider/>
-<MudSnackbarProvider/>
+@* <MudThemeProvider /> *@
+@* <MudDialogProvider/> *@
+@* <MudSnackbarProvider/> *@
 
 <CascadingValue Value="this">
-    <MudLayout>
+    @* <MudLayout> *@
         @ChildContent
-    </MudLayout>
+    @* </MudLayout> *@
 </CascadingValue>

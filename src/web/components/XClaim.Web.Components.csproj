@@ -22,4 +22,10 @@
     <ProjectReference Include="..\shared\XClaim.Web.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Overview\Index.razor" />
+    <UpToDateCheckInput Remove="Pages\Help\Index.razor" />
+    <UpToDateCheckInput Remove="Pages\Help\_Imports.razor" />
+  </ItemGroup>
+
 </Project>

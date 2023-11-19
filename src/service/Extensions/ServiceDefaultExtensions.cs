@@ -49,6 +49,7 @@ public static class ServiceDefaultExtensions {
         switch (app.Environment.IsDevelopment()) {
             case true:
                 app.UseMigrationsEndPoint();
+                app.UseWebAssemblyDebugging();
                 break;
             case false:
                 app.UseHsts();

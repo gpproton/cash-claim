@@ -23,7 +23,7 @@ public static class ComponentClientExtensions {
     public static IServiceCollection RegisterBlazorClientState(this IServiceCollection services) {
         services.AddSingleton<AppState>();
         // services.AddSingleton<AuthState>();
-        services.AddScoped<ThemeState>();
+        // services.AddScoped<ThemeState>();
 
         return services;
     }
