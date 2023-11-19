@@ -43,6 +43,7 @@
     <ProjectReference Include="..\common\http\XClaim.Common.Http.csproj" />
     <ProjectReference Include="..\migration\postgres\XClaim.Migrate.Postgres.csproj" />
     <ProjectReference Include="..\migration\sqlite\XClaim.Migrate.Sqlite.csproj" />
+    <ProjectReference Include="..\web\client\XClaim.Web.Client.csproj" />
     <ProjectReference Include="..\web\components\XClaim.Web.Components.csproj" />
     <ProjectReference Include="..\web\shared\XClaim.Web.Shared.csproj" />
   </ItemGroup>

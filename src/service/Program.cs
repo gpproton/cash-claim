@@ -8,7 +8,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using XClaim.Service;
 using XClaim.Service.Components;
 using XClaim.Service.Data;
 using XClaim.Service.Extensions;

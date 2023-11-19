@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using XClaim.Common.Responses;
 
-namespace XClaim.Service;
+namespace XClaim.Web.Client;
 
 internal class PersistentAuthenticationStateProvider : AuthenticationStateProvider
 {

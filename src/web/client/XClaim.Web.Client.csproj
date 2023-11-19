@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+  
+  <PropertyGroup>
+    <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+    <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+    <InvariantTimezone>true</InvariantTimezone>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\components\XClaim.Web.Components.csproj" />
+    <ProjectReference Include="..\shared\XClaim.Web.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
