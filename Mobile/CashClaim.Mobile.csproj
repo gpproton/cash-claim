@@ -3,7 +3,6 @@
     <Import Project="..\Native.props" />
 
     <PropertyGroup>
-        <RootNamespace>XClaim.Mobile</RootNamespace>
         <!-- Display name -->
         <ApplicationTitle>Cash Claim</ApplicationTitle>
         <!-- App Identifier -->

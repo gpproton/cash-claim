@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Web.Client", "Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Service", "Service\CashClaim.Service.csproj", "{FD9CF0CB-A656-4B56-8F13-254F19F9B72F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Mobile", "Mobile\XClaim.Mobile.csproj", "{23224046-60DA-49F1-A96D-C5FB0D525700}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Mobile", "Mobile\CashClaim.Mobile.csproj", "{23224046-60DA-49F1-A96D-C5FB0D525700}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
