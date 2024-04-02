@@ -1,12 +1,16 @@
-namespace XClaim.Mobile.Components;
+namespace CashClaim.Mobile.Components;
 
-public class EmptyItemView : ContentView {
-    public EmptyItemView() {
+public class EmptyItemView : ContentView
+{
+    public EmptyItemView()
+    {
         Build();
     }
 
-    private void Build() {
-        Content = new StackLayout {
+    private void Build()
+    {
+        Content = new StackLayout
+        {
             Children = {
                 new Image().Source(Icons.EmptyBanner)
                     .Height(165)

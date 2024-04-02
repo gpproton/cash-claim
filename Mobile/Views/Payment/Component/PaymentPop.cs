@@ -1,6 +1,6 @@
 ﻿using MauiPopup.Views;
 
-namespace XClaim.Mobile.Views.Payment.Component;
+namespace CashClaim.Mobile.Views.Payment.Component;
 
 public partial class PaymentPop : BasePopupPage {
     private enum SectionLevel {

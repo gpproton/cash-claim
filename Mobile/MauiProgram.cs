@@ -1,18 +1,20 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using UraniumUI;
-using XClaim.Mobile.Views.Profile;
-using XClaim.Mobile.Views.Review;
-using XClaim.Mobile.Views.Startup;
-using XClaim.Mobile.Views.Claim;
-using XClaim.Mobile.Views.Home;
-using XClaim.Mobile.Views.Payment;
-using XClaim.Mobile.Services;
+using CashClaim.Mobile.Views.Profile;
+using CashClaim.Mobile.Views.Review;
+using CashClaim.Mobile.Views.Startup;
+using CashClaim.Mobile.Views.Claim;
+using CashClaim.Mobile.Views.Home;
+using CashClaim.Mobile.Views.Payment;
+using CashClaim.Mobile.Services;
 
-namespace XClaim.Mobile;
+namespace CashClaim.Mobile;
 
-public static class MauiProgram {
-    public static MauiApp CreateMauiApp() {
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
@@ -20,7 +22,8 @@ public static class MauiProgram {
             .UseMauiCommunityToolkitMarkup()
             .UseUraniumUI()
             .UseUraniumUIMaterial()
-            .ConfigureFonts(fonts => {
+            .ConfigureFonts(fonts =>
+            {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 fonts.AddFont("Roboto-Thin.ttf", "RobotoThin");
@@ -31,7 +34,8 @@ public static class MauiProgram {
             })
             .ConfigureMauiHandlers(handlers => { handlers.AddUraniumUIHandlers(); });
         builder.Services.AddSingleton<HttpsClientHandlerService>()
-        .AddSingleton<HttpClient>(provider => {
+        .AddSingleton<HttpClient>(provider =>
+        {
             var handler = provider.GetService<HttpsClientHandlerService>();
             if (handler != null) return new HttpClient();
             else return new HttpClient(handler.GetPlatformMessageHandler());
@@ -44,7 +48,8 @@ public static class MauiProgram {
         return builder.Build();
     }
 
-    private static void RegisterServices(IServiceCollection s) {
+    private static void RegisterServices(IServiceCollection s)
+    {
         s.AddTransient<AppShell>();
         s.AddTransient<AppShellViewModel>();
         s.AddSingleton<SettingsService>();

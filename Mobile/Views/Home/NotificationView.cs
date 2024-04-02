@@ -1,7 +1,7 @@
 using Microsoft.Maui.Controls.Shapes;
 using CashClaim.Common.Enums;
 
-namespace XClaim.Mobile.Views.Home;
+namespace CashClaim.Mobile.Views.Home;
 
 public record AlertItem(Guid Id, string Title, string Description, DateTime Time, EventType Type = EventType.Claim);
 

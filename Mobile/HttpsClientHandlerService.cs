@@ -1,7 +1,9 @@
-﻿namespace XClaim.Mobile;
+﻿namespace CashClaim.Mobile;
 
-public class HttpsClientHandlerService {
-    public HttpMessageHandler GetPlatformMessageHandler() {
+public class HttpsClientHandlerService
+{
+    public HttpMessageHandler GetPlatformMessageHandler()
+    {
 #if ANDROID
         var handler = new Xamarin.Android.Net.AndroidMessageHandler();
         handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => {
@@ -17,7 +19,7 @@ public class HttpsClientHandlerService {
         };
         return handler;
 #else
-     throw new PlatformNotSupportedException("Only Android and iOS supported.");
+        throw new PlatformNotSupportedException("Only Android and iOS supported.");
 #endif
     }
 

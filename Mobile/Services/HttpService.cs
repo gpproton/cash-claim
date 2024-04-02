@@ -1,6 +1,6 @@
 using CashClaim.Common.Service;
 
-namespace XClaim.Mobile.Services;
+namespace CashClaim.Mobile.Services;
 
 public class HttpService : AbstractHttpService {
 

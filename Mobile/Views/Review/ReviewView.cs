@@ -1,6 +1,6 @@
 using CashClaim.Common.Dtos;
 
-namespace XClaim.Mobile.Views.Review;
+namespace CashClaim.Mobile.Views.Review;
 
 public class ReviewView : BaseView<ReviewViewModel> {
     private enum SectionLevel {

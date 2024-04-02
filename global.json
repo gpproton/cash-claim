@@ -9,7 +9,7 @@
     "p": "dotnet publish ./src/service -p:PublishDir=output --os linux",
     "b:web": "dotnet build src/Web/Server/",
     "docs": "cd docs && dotnet docfx docfx.json --serve",
-    "b:app": "dotnet build src/Mobile/XClaim.Mobile.csproj",
+    "b:app": "dotnet build src/Mobile/CashClaim.Mobile.csproj",
     "format": "dotnet format ./XClaim.sln",
     "web": "dotnet watch --project src/Web/Server/",
     "dev:blazor": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet watch --project src/Web/Client/",

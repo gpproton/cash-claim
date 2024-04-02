@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Extensions;
+﻿namespace CashClaim.Mobile.Extensions;
 
 public static class ViewExtension {
     public static View SetStyle(this View view, string styleName) {

@@ -1,4 +1,4 @@
-namespace XClaim.Mobile.Views.Startup;
+namespace CashClaim.Mobile.Views.Startup;
 
 public class LoadingView : BaseView<LoadingViewModel> {
     public LoadingView(LoadingViewModel vm) : base(vm) => Build();

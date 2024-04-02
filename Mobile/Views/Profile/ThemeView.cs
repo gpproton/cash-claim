@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Views.Profile;
+﻿namespace CashClaim.Mobile.Views.Profile;
 
 internal class ThemeView : BaseView<ThemeViewModel> {
     public ThemeView(ThemeViewModel vm) : base(vm) {

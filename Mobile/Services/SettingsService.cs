@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Services;
+﻿namespace CashClaim.Mobile.Services;
 
 public partial class SettingsService : ObservableObject {
     private static SettingsService _instance;

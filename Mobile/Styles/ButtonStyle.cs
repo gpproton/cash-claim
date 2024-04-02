@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Styles;
+﻿namespace CashClaim.Mobile.Styles;
 
 public static class ButtonStyle {
     public static Style<Button> Large = new Style<Button>()

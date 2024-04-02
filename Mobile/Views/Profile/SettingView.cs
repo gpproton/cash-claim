@@ -1,4 +1,4 @@
-namespace XClaim.Mobile.Views.Profile;
+namespace CashClaim.Mobile.Views.Profile;
 
 public class SettingView : BaseView<SettingViewModel> {
     private enum SectionLevel {

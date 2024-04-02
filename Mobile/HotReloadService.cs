@@ -1,5 +1,5 @@
 ﻿#nullable enable
-namespace XClaim.Mobile;
+namespace CashClaim.Mobile;
 #if DEBUG
 public static class HotReloadService {
 #pragma warning disable CS8632

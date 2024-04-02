@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace XClaim.Mobile;
+namespace CashClaim.Mobile;
 
 [Application]
 public class MainApplication : MauiApplication {

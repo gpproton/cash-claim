@@ -1,6 +1,6 @@
 using Microsoft.Maui.Layouts;
 
-namespace XClaim.Mobile.Extensions.Layouts;
+namespace CashClaim.Mobile.Extensions.Layouts;
 
 public class ColumnLayout : VerticalStackLayout {
     public static readonly BindableProperty FillProperty = BindableProperty.Create("Fill", typeof(bool),

@@ -1,7 +1,7 @@
 #nullable enable
 using Microsoft.Maui.Layouts;
 
-namespace XClaim.Mobile.Extensions.Layouts;
+namespace CashClaim.Mobile.Extensions.Layouts;
 
 public class ColumnLayoutManager : ILayoutManager {
     private readonly ColumnLayout _columnLayout;

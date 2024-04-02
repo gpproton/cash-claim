@@ -1,6 +1,6 @@
 using CashClaim.Common.Dtos;
 
-namespace XClaim.Mobile.Views.Claim;
+namespace CashClaim.Mobile.Views.Claim;
 
 internal enum FilterOptions {
     Pending,

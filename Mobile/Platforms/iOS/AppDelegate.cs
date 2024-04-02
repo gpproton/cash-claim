@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace XClaim.Mobile;
+namespace CashClaim.Mobile;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate {

@@ -1,6 +1,6 @@
-using XClaim.Mobile.Views.Payment.Component;
+using CashClaim.Mobile.Views.Payment.Component;
 
-namespace XClaim.Mobile.Views.Payment;
+namespace CashClaim.Mobile.Views.Payment;
 
 public class PaymentView : BaseView<PaymentViewModel> {
     private enum SectionLevel {

@@ -1,6 +1,7 @@
-﻿namespace XClaim.Mobile;
+﻿namespace CashClaim.Mobile;
 
-public static class AppConst {
+public static class AppConst
+{
     // Auth details
     public const string AppId = "xclaim";
     public const string AppUId = "dev.gpproton.xclaim";

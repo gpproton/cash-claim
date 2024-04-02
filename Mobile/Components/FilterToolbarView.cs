@@ -1,9 +1,10 @@
 using Microsoft.Maui.Controls.Shapes;
 using CashClaim.Common.Extensions;
 
-namespace XClaim.Mobile.Components;
+namespace CashClaim.Mobile.Components;
 
-public partial class FilterToolbarView : Grid {
+public partial class FilterToolbarView : Grid
+{
     private static Page CurrentPage => Application.Current?.MainPage ?? throw new NullReferenceException();
 
 #pragma warning disable IDE0051
@@ -20,25 +21,30 @@ public partial class FilterToolbarView : Grid {
     [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]
     private DateTime _endDate = DateTime.Now;
 
-    private enum FrameColumn {
+    private enum FrameColumn
+    {
         First,
         Second,
         Third
     }
 
-    public FilterToolbarView() {
+    public FilterToolbarView()
+    {
         Build();
     }
 
-    private void Build() {
+    private void Build()
+    {
         Margin = new Thickness { Top = 4, Left = 0, Right = 0, Bottom = 0 };
         ColumnDefinitions = Columns.Define(
             (FrameColumn.First, Star),
             (FrameColumn.Second, Auto)
         );
 
-        Children.Add(new Border {
-            Content = new Grid {
+        Children.Add(new Border
+        {
+            Content = new Grid
+            {
                 ColumnDefinitions = Columns.Define(
                         (FrameColumn.First, Star),
                         (FrameColumn.Second, Auto)
@@ -81,7 +87,8 @@ public partial class FilterToolbarView : Grid {
                 .Bind(DateRangePop.EndDateProperty, nameof(EndDate), source: this))
             ));
 
-        Children.Add(new Grid {
+        Children.Add(new Grid
+        {
             Children = {
                     new Border().Style(SharedStyle.BoxFormField),
                     new TextField { Keyboard = Keyboard.Text, BorderColor = Colors.Transparent }

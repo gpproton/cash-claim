@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace XClaim.Mobile;
+namespace CashClaim.Mobile;
 
 public class Program
 {

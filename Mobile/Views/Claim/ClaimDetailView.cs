@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Views.Claim;
+﻿namespace CashClaim.Mobile.Views.Claim;
 
 public class ClaimDetailView : BaseView<ClaimDetailViewModel> {
     private enum SectionLevel {

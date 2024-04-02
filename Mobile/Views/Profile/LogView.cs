@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Views.Profile;
+﻿namespace CashClaim.Mobile.Views.Profile;
 
 public class LogView : BaseView<LogViewModel> {
     public LogView(LogViewModel vm) : base(vm) {

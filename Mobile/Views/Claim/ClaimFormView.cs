@@ -1,6 +1,6 @@
 using Microsoft.Maui.Controls.Shapes;
 
-namespace XClaim.Mobile.Views.Claim;
+namespace CashClaim.Mobile.Views.Claim;
 
 public class ClaimFormView : BaseView<ClaimFormViewModel> {
     private enum SectionLevel {

@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Models;
+﻿namespace CashClaim.Mobile.Models;
 
 public sealed class Theme {
     public static readonly Theme Dark = new(AppTheme.Dark, "Night Mode");

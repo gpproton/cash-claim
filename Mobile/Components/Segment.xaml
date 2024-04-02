@@ -2,7 +2,7 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XClaim.Mobile.Components.Segment"
+             x:Class="CashClaim.Mobile.Components.Segment"
              x:Name="this">
     <Border Padding="3" StrokeThickness="0" BackgroundColor="{StaticResource Tertiary}">
         <Border.StrokeShape>

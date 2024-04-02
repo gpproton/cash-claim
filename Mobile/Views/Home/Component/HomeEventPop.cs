@@ -1,6 +1,6 @@
 ﻿using MauiPopup.Views;
 
-namespace XClaim.Mobile.Views.Home.Component;
+namespace CashClaim.Mobile.Views.Home.Component;
 
 public partial class HomeEventPop : BasePopupPage {
     [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]

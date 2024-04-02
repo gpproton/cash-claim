@@ -1,6 +1,6 @@
 ﻿using MauiPopup.Views;
 
-namespace XClaim.Mobile.Components;
+namespace CashClaim.Mobile.Components;
 
 public partial class DateRangePop : BasePopupPage {
     [BindableProp(DefaultBindingMode = (int)BindingMode.TwoWay)]

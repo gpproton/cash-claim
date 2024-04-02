@@ -1,4 +1,4 @@
-namespace XClaim.Mobile.Views.Startup;
+namespace CashClaim.Mobile.Views.Startup;
 
 public class VerifyAccountView : BaseView<VerifyAccountViewModel> {
     public VerifyAccountView(VerifyAccountViewModel vm) : base(vm) {

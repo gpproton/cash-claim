@@ -2,7 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 
-namespace XClaim.Mobile;
+namespace CashClaim.Mobile;
 
 [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true,
     ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode |

@@ -1,10 +1,10 @@
 using Microsoft.Maui.Controls.Shapes;
-using XClaim.Mobile.Views.Profile;
-using XClaim.Mobile.Views.Claim;
+using CashClaim.Mobile.Views.Profile;
+using CashClaim.Mobile.Views.Claim;
 using CashClaim.Common.Enums;
-using XClaim.Mobile.Views.Home.Component;
+using CashClaim.Mobile.Views.Home.Component;
 
-namespace XClaim.Mobile.Views.Home;
+namespace CashClaim.Mobile.Views.Home;
 
 public class HomeView : BaseView<HomeViewModel> {
 

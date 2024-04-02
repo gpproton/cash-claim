@@ -1,6 +1,6 @@
-using XClaim.Mobile.Views.Home;
+using CashClaim.Mobile.Views.Home;
 
-namespace XClaim.Mobile.Views.Profile;
+namespace CashClaim.Mobile.Views.Profile;
 
 public record ProfileLink(string Name, string Icon, string Route);
 

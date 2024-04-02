@@ -1,6 +1,6 @@
-using XClaim.Mobile.Views.Home;
+using CashClaim.Mobile.Views.Home;
 
-namespace XClaim.Mobile.Views.Startup;
+namespace CashClaim.Mobile.Views.Startup;
 
 public class AuthView : BaseView<AuthViewModel> {
     private enum PageRow {

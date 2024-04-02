@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Models;
+﻿namespace CashClaim.Mobile.Models;
 
 internal static class Icons {
     public const string Apple = "apple_icon.svg";

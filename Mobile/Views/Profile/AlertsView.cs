@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Views.Profile;
+﻿namespace CashClaim.Mobile.Views.Profile;
 
 internal class AlertsView : BaseView<AlertsViewModel> {
     public AlertsView(AlertsViewModel vm) : base(vm) {

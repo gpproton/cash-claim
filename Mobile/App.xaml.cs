@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using Microsoft.Maui.Platform;
-using XClaim.Mobile.Services;
+using CashClaim.Mobile.Services;
 
-namespace XClaim.Mobile;
+namespace CashClaim.Mobile;
 
 public partial class App : Application {
     public App(AppShell shell) {

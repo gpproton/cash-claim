@@ -2,7 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 
-namespace XClaim.Mobile;
+namespace CashClaim.Mobile;
 
 [Activity(NoHistory = true, LaunchMode = LaunchMode.SingleTop, Exported = true)]
 [IntentFilter(new[] { Android.Content.Intent.ActionView },

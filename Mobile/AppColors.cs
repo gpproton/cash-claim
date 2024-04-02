@@ -1,6 +1,7 @@
-﻿namespace XClaim.Mobile;
+﻿namespace CashClaim.Mobile;
 
-public static class AppColors {
+public static class AppColors
+{
     // Light mode colors
     public static Color Primary { get; set; } = Color.Parse("#4E549C");
     public static Color Secondary { get; set; } = Color.Parse("#919AFA");

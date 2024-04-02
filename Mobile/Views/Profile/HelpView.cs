@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Views.Profile;
+﻿namespace CashClaim.Mobile.Views.Profile;
 
 public class HelpView : BaseView<HelpViewModel> {
     public HelpView(HelpViewModel vm) : base(vm) {

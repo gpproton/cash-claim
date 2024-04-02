@@ -1,6 +1,6 @@
 #pragma warning disable
 #nullable enable
-namespace XClaim.Mobile.Components;
+namespace CashClaim.Mobile.Components;
 
 internal enum DefaultState {
     First,

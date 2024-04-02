@@ -1,4 +1,4 @@
-﻿namespace XClaim.Mobile.Components;
+﻿namespace CashClaim.Mobile.Components;
 
 internal static class Gradients {
     internal static LinearGradientBrush AppGradient => new() {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Maui.Controls.Shapes;
 
-namespace XClaim.Mobile.Styles;
+namespace CashClaim.Mobile.Styles;
 
 public static class SharedStyle {
     public static Style<BoxView> HorizontalLine = new Style<BoxView>()

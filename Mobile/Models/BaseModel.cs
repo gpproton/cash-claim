@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace XClaim.Mobile.Models;
+namespace CashClaim.Mobile.Models;
 
 public abstract class BaseModel {
 

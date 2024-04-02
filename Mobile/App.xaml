@@ -5,7 +5,7 @@
              xmlns:u="clr-namespace:UraniumUI.Resources;assembly=UraniumUI"
              xmlns:m="clr-namespace:UraniumUI.Material.Resources;assembly=UraniumUI.Material"
              xmlns:c="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
-             x:Class="XClaim.Mobile.App">
+             x:Class="CashClaim.Mobile.App">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

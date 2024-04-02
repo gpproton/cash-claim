@@ -2,7 +2,7 @@ using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using UraniumUI.Pages;
 
-namespace XClaim.Mobile.Views;
+namespace CashClaim.Mobile.Views;
 
 public abstract class BaseView : UraniumContentPage {
     protected BaseView(in bool shouldUseSafeArea = false) {

@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace XClaim.Mobile;
+namespace CashClaim.Mobile;
 
 class Program : MauiApplication
 {
