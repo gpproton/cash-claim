@@ -1,6 +1,6 @@
 using MudBlazor;
 
-namespace XClaim.Web.Shared;
+namespace CashClaim.Web.Shared;
 
 public static class WebConst {
     public const string RootApi = "/api/v1";

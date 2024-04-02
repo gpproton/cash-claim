@@ -11,7 +11,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Common\CashClaim.Common.csproj" />
-        <ProjectReference Include="..\Shared\XClaim.Web.Shared.csproj" />
+        <ProjectReference Include="..\Shared\CashClaim.Web.Shared.csproj" />
     </ItemGroup>
 
 </Project>

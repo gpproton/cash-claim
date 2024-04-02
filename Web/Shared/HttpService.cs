@@ -1,8 +1,8 @@
 using System.Net.Http.Headers;
 using CashClaim.Common.Service;
-using XClaim.Web.Shared.States;
+using CashClaim.Web.Shared.States;
 
-namespace XClaim.Web.Shared;
+namespace CashClaim.Web.Shared;
 
 public class HttpService : AbstractHttpService {
     private readonly Lazy<AuthState>  _state;

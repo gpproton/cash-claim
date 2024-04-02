@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using CashClaim.Common.Service;
-using XClaim.Web.Shared.States;
+using CashClaim.Web.Shared.States;
 
-namespace XClaim.Web.Shared;
+namespace CashClaim.Web.Shared;
 
 public static class SharedServiceExtensions {
     public static IServiceCollection UseSharedExtensions(this IServiceCollection services) {

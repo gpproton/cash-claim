@@ -6,7 +6,7 @@ using CashClaim.Common.Dtos;
 using CashClaim.Common.Enums;
 using CashClaim.Common.HTTP;
 
-namespace XClaim.Web.Shared.States;
+namespace CashClaim.Web.Shared.States;
 
 public class AuthState : RootState {
     private readonly NavigationManager _nav;

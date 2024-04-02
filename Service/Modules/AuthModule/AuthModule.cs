@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Mvc;
 using Nextended.Core.Extensions;
-using XClaim.Web.Shared;
+using CashClaim.Web.Shared;
 
 namespace XClaim.Web.Server.Modules.AuthModule;
 

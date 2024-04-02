@@ -1,4 +1,4 @@
-namespace XClaim.Web.Shared.States;
+namespace CashClaim.Web.Shared.States;
 
 public abstract class RootState {
     public event Action? OnChange;

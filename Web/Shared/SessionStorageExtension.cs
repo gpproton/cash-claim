@@ -2,7 +2,7 @@ using System.Text;
 using System.Text.Json;
 using Blazored.SessionStorage;
 
-namespace XClaim.Web.Shared;
+namespace CashClaim.Web.Shared;
 
 public static class SessionStorageExtension {
     public static async Task SaveAsync<T>(this ISessionStorageService sessionStorageService, string key, T item) {

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using CashClaim.Common;
 using CashClaim.Common.Dtos;
 
-namespace XClaim.Web.Shared.States;
+namespace CashClaim.Web.Shared.States;
 
 public class AppState : RootState {
     public RenderFragment? LayoutTitle { get; private set; }

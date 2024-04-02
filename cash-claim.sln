@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Common", "Common\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{057EB9F6-800E-46D7-A16C-FAC73423E796}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Shared", "Web\Shared\XClaim.Web.Shared.csproj", "{9D62A126-65DA-4664-925A-42673E19EBEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Web.Shared", "Web\Shared\CashClaim.Web.Shared.csproj", "{9D62A126-65DA-4664-925A-42673E19EBEC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Components", "Web\Components\XClaim.Web.Components.csproj", "{9C62D3E0-50FD-433E-8F74-858C5CA0F512}"
 EndProject

@@ -1,6 +1,6 @@
 using MudBlazor;
 
-namespace XClaim.Web.Shared.States;
+namespace CashClaim.Web.Shared.States;
 
 public class ThemeState : RootState {
     public bool IsLightMode { get; private set; } = true;

@@ -3,7 +3,7 @@ using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using CashClaim.Common.Dtos;
 
-namespace XClaim.Web.Shared;
+namespace CashClaim.Web.Shared;
 
 public class AuthProvider : AuthenticationStateProvider {
     private readonly ISessionStorageService _sessionStorage;

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using CashClaim.Common.HTTP;
 using XClaim.Web.Client;
 using XClaim.Web.Components.Extensions;
-using XClaim.Web.Shared;
+using CashClaim.Web.Shared;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
