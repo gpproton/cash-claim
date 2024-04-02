@@ -25,7 +25,7 @@ Cash claim is an application that allows organizations to manage the expense pro
 - [ ] Simplify API endpoints using Axolotl
 - [ ] Improve queries with specifications
 - [ ] Setup microsoft auth key from a service provider
-- [ ] Clean up MAUI project
+- [ ] Clean up MAUI project errors
 - [ ] API revisions
 - [ ] Create & deploy hybrid mobile apps
 - [ ] Bind API with native MAUI project
