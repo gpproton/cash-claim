@@ -13,7 +13,7 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
-  
+
 jobs:
   publish-docs:
     environment:
@@ -29,7 +29,7 @@ jobs:
         dotnet-version: 8.x
 
     - run: dotnet tool restore
-    - run: dotnet r docs
+    - run: dotnet r docs:publish
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
