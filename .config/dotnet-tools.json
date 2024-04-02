@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "dotnet-ef": {
-      "version": "8.0.0",
+      "version": "7.0.2",
       "commands": [
         "dotnet-ef"
       ]
@@ -18,6 +18,12 @@
       "version": "2.1.175",
       "commands": [
         "libman"
+      ]
+    },
+    "docfx": {
+      "version": "2.75.3",
+      "commands": [
+        "docfx"
       ]
     }
   }

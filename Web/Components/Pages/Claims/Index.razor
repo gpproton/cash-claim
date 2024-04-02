@@ -1,0 +1,92 @@
+@using CashClaim.Common.Dtos
+@using CashClaim.Common.Enums
+@using CashClaim.Common.Helpers
+@using CashClaim.Web.Components.Pages.Reviews
+@inject IClaimService Http
+@inject AuthState AuthState
+@page "/app/claims"
+@attribute [Authorize]
+
+@code {
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private int Current { get; set; } = 1;
+    private string? DefaultCurrency { get;set; }
+    MudDataGrid<ClaimResponse>? _dataGrid;
+    private DateRange DateRange { get; set; } = WebConst.AppDateRange;
+    private HashSet<ClaimResponse> SelectedItems { get; set; } = new HashSet<ClaimResponse>();
+
+    private Func<ClaimResponse, bool> Filter => x =>
+    string.IsNullOrWhiteSpace(Search)
+    || x.Description.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.Notes.Contains(Search, StringComparison.OrdinalIgnoreCase);
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        var user = await AuthState.GetAccount();
+        DefaultCurrency = user!.Currency!.Symbol ?? "$";
+    }
+
+    private async Task<GridData<ClaimResponse>> ServerDataFunc(GridState<ClaimResponse> state) {
+        SelectedItems.Clear();
+        this.Loading = true;
+        var filter = new DateSearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null,
+            StartDate = DateRange.Start,
+            EndDate = DateRange.End
+        };
+        var items = await Http.GetAllAsync(filter);
+        this.Loading = false;
+        return new GridData<ClaimResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
+    }
+
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
+}
+
+<Title>Personal Claims</Title>
+
+<MudDataGrid @ref="_dataGrid" T="ClaimResponse" MultiSelection="true" SelectedItems="SelectedItems" ServerData="ServerDataFunc"
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" SortMode="SortMode.Multiple"
+             Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
+    <ToolBarContent>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateClaim" @bind-Value="DateRange"
+            OnCreateClicked="ReloadList" IsFilterActive="true" @bind-Search="Search" />
+    </ToolBarContent>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <Column T="ClaimResponse" Field="Description" />
+        <Column T="ClaimResponse" Field="Amount">
+            <CellTemplate>
+                @(context.Item.Currency?.Symbol ?? DefaultCurrency)@($"{context.Item.Amount:N0}")
+            </CellTemplate>
+        </Column>
+        <Column T="ClaimResponse" Field="Status" />
+        <Column T="ClaimResponse" Field="Category">
+            <CellTemplate>
+                @(context.Item.Category?.Name ?? "None")
+            </CellTemplate>
+        </Column>
+        <Column T="ClaimResponse">
+            <CellTemplate>
+                @if (context.Item.Status == ClaimStatus.Pending) {
+                    <FormEditTrigger TForm="MutateClaim" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
+                } else {
+                    <FormEditTrigger TForm="MutateReview" Id="context.Item.Id!.Value" ButtonColor="Color.Primary"
+                                     Icon="@Icons.Material.Filled.Info" OnTriggered="ReloadList"></FormEditTrigger>
+                }
+            </CellTemplate>
+        </Column>
+    </Columns>
+    <PagerContent>
+         <MudDataGridPager T="ClaimResponse" PageSizeOptions="WebConst.AppPaged" />
+    </PagerContent>
+</MudDataGrid>

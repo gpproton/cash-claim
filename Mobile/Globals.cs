@@ -1,0 +1,17 @@
+﻿global using System.Collections.ObjectModel;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+global using CommunityToolkit.Maui.Markup;
+global using CommunityToolkit.Maui.Views;
+global using static CommunityToolkit.Maui.Markup.GridRowsColumns;
+global using FA = UraniumUI.Icons.FontAwesome;
+global using UraniumUI.Material.Controls;
+global using BindableProps;
+global using CashClaim.Mobile.Handlers;
+global using CashClaim.Mobile.Models;
+global using CashClaim.Mobile.Views;
+global using CashClaim.Common.Extensions;
+global using CashClaim.Mobile.Extensions.Layouts;
+global using CashClaim.Mobile.Components;
+global using CashClaim.Mobile.Styles;
+global using CashClaim.Common.Dtos;

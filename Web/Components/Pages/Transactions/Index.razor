@@ -1,0 +1,82 @@
+@using CashClaim.Common.Dtos
+@using CashClaim.Common.Helpers
+@using CashClaim.Web.Components.Pages.Transactions.Components
+@inject IPaymentService Http
+@page "/app/transactions"
+@attribute [Authorize(Roles = "System, Administrator, Finance, Cashier")]
+
+@code {
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private int Current { get; set; } = 1;
+    MudDataGrid<PaymentResponse>? _dataGrid;
+    private DateRange DateRange { get; set; } = WebConst.AppDateRange;
+    private HashSet<PaymentResponse> SelectedItems { get; set; } = new HashSet<PaymentResponse>();
+    
+    private Func<PaymentResponse, bool> Filter => x =>
+    string.IsNullOrWhiteSpace(Search)
+    || x.Description.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.Notes.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task<GridData<PaymentResponse>> ServerDataFunc(GridState<PaymentResponse> state) {
+        SelectedItems.Clear();
+        this.Loading = true;
+        var filter = new DateSearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null,
+            StartDate = DateRange.Start,
+            EndDate = DateRange.End
+        };
+        var items = await Http.GetAllAsync(filter);
+        this.Loading = false;
+        return new GridData<PaymentResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
+}
+
+<Title>Transactions</Title>
+
+<MudDataGrid @ref="_dataGrid" T="PaymentResponse" MultiSelection="true" SelectedItems="SelectedItems" ServerData="ServerDataFunc"
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
+    <ToolBarContent>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateTransaction" IsFilterActive="true" IsCreateActive="true" @bind-Value="DateRange" @bind-Search="Search">
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                <MudIconButton Class="pa-3 mr-2" Icon="@Icons.Material.Filled.Downloading" Variant="Variant.Filled" Color="Color.Surface"/>
+                <MudIconButton Class="pa-3 mr-2" Icon="@Icons.Material.Filled.Checklist" Variant="Variant.Filled" Color="Color.Primary"/>
+            </MudHidden>
+        </TableToolbar>
+    </ToolBarContent>
+    <LoadingContent>
+        <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <SelectColumn T="PaymentResponse" ShowInFooter="false" ShowInHeader="false" />
+        <Column T="PaymentResponse" Field="Description"/>
+        <Column T="PaymentResponse" Field="Amount"/>
+        <Column T="PaymentResponse" Field="Owner">
+            <CellTemplate>
+                @(context.Item.Owner!.FullName ?? "Missing")
+            </CellTemplate>
+        </Column>
+        <Column T="PaymentResponse" Field="Confirmed" />
+        <Column T="PaymentResponse" Field="Claims">
+            <CellTemplate>1</CellTemplate>
+        </Column>
+        <Column T="PaymentResponse">
+            <CellTemplate>
+                <FormEditTrigger TForm="DetailTransaction" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
+            </CellTemplate>
+        </Column>
+    </Columns>
+    <PagerContent>
+         <MudDataGridPager T="PaymentResponse" PageSizeOptions="WebConst.AppPaged" />
+    </PagerContent>
+</MudDataGrid>

@@ -1,0 +1,86 @@
+@using CashClaim.Common.Dtos
+@using CashClaim.Common.Helpers
+@layout ManageLayout
+@inject ICompanyService Http
+@page "/app/manage/companies"
+@attribute [Authorize(Roles = "System")]
+
+@code {
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private int Current { get; set; } = 1;
+    MudDataGrid<CompanyResponse>? _dataGrid;
+    private HashSet<CompanyResponse> SelectedItems { get; set; } = new HashSet<CompanyResponse>();
+    
+    private async Task<GridData<CompanyResponse>> ServerDataFunc(GridState<CompanyResponse> state) {
+        SelectedItems.Clear();
+        this.Loading = true;
+        var filter = new SearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null
+        };
+        var items = await Http.GetAllAsync(filter);
+        
+        this.Loading = false;
+        return new GridData<CompanyResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
+    }
+    
+    private Func<CompanyResponse, bool> Filter => x =>
+    string.IsNullOrWhiteSpace(Search)
+    || x.ShortName.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.FullName.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.AdminEmail.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task ArchiveSelectedItems(bool allow) {
+        if (!allow) return;
+        List<Guid> items = SelectedItems
+        .Where(f => f?.Id != null)
+        .Select(f => ((Guid) f.Id!)).ToList();
+        if (items.Count > 0) {
+            var result = (await Http.ArchiveRangeAsync(items));
+            await ReloadList(result.Succeeded);
+        }
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
+}
+
+<Title>Organizations</Title>
+
+<MudDataGrid @ref="_dataGrid" T="CompanyResponse" MultiSelection="true" ServerData="ServerDataFunc" SelectedItems="SelectedItems"
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
+    <ToolBarContent>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateCompany"
+                      OnCreateClicked="ReloadList" IsFilterActive="false" @bind-Search="Search">
+            <ConfirmationDialog Count="@SelectedItems.Count" OnTriggered="ArchiveSelectedItems"></ConfirmationDialog>
+        </TableToolbar>
+    </ToolBarContent>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <SelectColumn T="CompanyResponse" ShowInFooter="false" ShowInHeader="false" />
+        <Column T="CompanyResponse" Field="FullName" Title="Name" />
+        <Column T="CompanyResponse" Field="Active" />
+        <Column T="CompanyResponse" Field="Manager">
+            <CellTemplate>
+                @(context.Item.Manager?.FullName ?? "Un-Assigned")
+            </CellTemplate>
+        </Column>
+        <Column T="CompanyResponse">
+            <CellTemplate>
+                <FormEditTrigger TForm="MutateCompany" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
+            </CellTemplate>
+        </Column>
+    </Columns>
+    <PagerContent>
+         <MudDataGridPager T="CompanyResponse" PageSizeOptions="WebConst.AppPaged" />
+    </PagerContent>
+</MudDataGrid>

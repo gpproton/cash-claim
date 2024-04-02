@@ -1,16 +1,23 @@
 {
   "sdk": {
-    "version": "8.0.100",
-    "rollForward": "latestFeature"
+    "version": "8.0.200",
+    "rollForward": "latestPatch"
   },
   "scripts": {
     "c": "rm -rf ./**/{bin,obj}",
     "b": "dotnet build --configuration Debug",
-    "p": "dotnet publish ./src/service -p:PublishDir=output --os linux",
+    "p": "dotnet publish ./Service -p:PublishDir=output --os linux",
+    "b:web": "dotnet build ./Service",
+    "docs": "cd docs && dotnet docfx docfx.json --serve",
+    "b:app": "dotnet build ./Mobile/CashClaim.Mobile.csproj",
+    "format": "dotnet format ./CashClaim.sln",
+    "web": "dotnet watch --project ./Service",
+    "dev:blazor": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet watch --project ./Web/Client/",
+    "dev:web": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet r web",
     "test": "dotnet test --configuration Release",
     "ci": "dotnet r build && dotnet r test",
-    "service": "dotnet run --project ./src/service",
-    "m:clean": "rm -rf src/service/Migrations/* && rm ./**/*.sqlite*",
+    "service": "dotnet run --project ./Service",
+    "m:clean": "rm -rf ./Service/Migrations/* && rm ./**/*.sqlite*",
     "m:sqlite": "dotnet-ef migrations add Initial --output-dir Setup -s ./src/service/XClaim.Service.csproj -p ./src/migration/sqlite/XClaim.Migrate.Sqlite.csproj --verbose -- --provider sqlite",
     "m:postgres": "dotnet-ef migrations add Initial --output-dir Setup -s ./src/service/XClaim.Service.csproj -p ./src/migration/postgres/XClaim.Migrate.Postgres.csproj --verbose -- --provider postgres",
     "m:all": "dotnet r m:sqlite; dotnet r m:postgres"

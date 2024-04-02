@@ -1,0 +1,149 @@
+@using CashClaim.Common.Enums
+@using Nextended.Core.Extensions
+@using CashClaim.Common.Dtos
+@using CashClaim.Common.Helpers
+@implements IDisposable
+@inject Navigation Nav
+@inject IProfileService ProfileService
+@inject ICompanyService CompanyService
+@inject IUserService UserService
+@inject ISnackbar Snackbar
+@inject ThemeState ThemeState
+@inject AuthState AuthState
+@page "/app/account/settings"
+@attribute [Authorize]
+
+@code {
+    bool _success;
+    string[] _errors = { };
+    MudForm? _form;
+    private SettingResponse Item { get; set; } = new SettingResponse();
+    private bool TransferRequestView { get; set; }
+    private TransferRequestResponse? TransferRequest { get; set; }
+    private CompanyResponse? Company { get; set; }
+    
+    private async Task<IEnumerable<CompanyResponse>> SearchCompany(string value) {
+        var response = await CompanyService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<CompanyResponse> {})!;
+    }
+    
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        var result = await ProfileService.GetSettingAsync();
+        if (result is { Succeeded: true, Data: { } }) {
+            Item = result.Data;
+        }
+        await this.LoadUserTransfer();
+    }
+
+    private async Task Submit() {
+        await _form!.Validate();
+        if (!_success) return;
+        var result = await ProfileService.UpdateSettingAsync(Item);
+        if (result.Data != null) {
+            await AuthState.Refresh();
+            var lightMode = !(result.Data.DarkMode);
+            ThemeState.SetLightMode(lightMode);
+            ThemeState.OnChange += StateHasChanged;
+        }
+        Snackbar.Clear();
+        await Task.Delay(500);
+        Snackbar.Add(result.Succeeded ? "Updated successfully.." : "Update failed..", result.Succeeded ? Severity.Success : Severity.Error);
+    }
+
+    private async Task LoadUserTransfer() {
+        var transfer = await UserService.GetTransferAsync();
+        if(transfer.Succeeded) TransferRequest = transfer.Data;
+    }
+
+    private async Task TransferUser() {
+        var user = await AuthState.GetAccount();
+        if (Company!.Id == null && user!.Id == null)
+            return;
+        
+        var payload = new TransferRequestResponse {
+            UserId = user!.Id,
+            CompanyId = Company!.Id
+        };
+        var transfer = await UserService.CreateTransferAsync(payload);
+        if (transfer.Succeeded)
+            await this.LoadUserTransfer();
+    }
+    
+    private async Task CancelTransfer() {
+        if(TransferRequest!.Id == null)
+            return;
+        var id = (Guid) TransferRequest.Id!;
+        var transfer = await UserService.ArchiveTransferAsync(id);
+        if (transfer.Succeeded)
+            TransferRequest = null;
+    }
+    
+    public void Dispose() => ThemeState.OnChange -= StateHasChanged;
+}
+
+<Title>Account Settings</Title>
+
+<MudContainer Class="mt-12" MaxWidth="MaxWidth.Medium">
+    <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
+        <MudGrid Justify="Justify.Center" Class="mt-6">
+            <MudItem xs="12" md="6">
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudSelect T="AppLanguage" Label="Select Language" Variant="Variant.Outlined" @bind-Value="Item.Language"
+                                   For="@(() => Item.Language)" AnchorOrigin="Origin.BottomCenter">
+                            @foreach (var lang in Enum.GetValues<AppLanguage>()) {
+                                <MudSelectItem Value="lang">@lang.ToDescriptionString().Capitalize()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudCheckBox @bind-Checked="@Item.DarkMode" Label="@(Item.DarkMode ? "Dark Mode Enabled" : "Dark Mode Disabled")" />
+                    </MudItem>
+                    <MudItem xs="12" Class="mb-2">
+                        <MudCard Outlined="true" Class="py-3">
+                            <MudCardContent>
+                                @if (TransferRequest != null) {
+                                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                        <MudText>Pending company transfer..</MudText>
+                                        <MudButton Variant="Variant.Outlined" Color="Color.Success" Class="px-6 py-3"
+                                                   OnClick="CancelTransfer">Cancel</MudButton>
+                                    </MudStack>
+                                } else {
+                                    @if (!TransferRequestView) {
+                                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                            <MudText Typo="Typo.body2">Request for company transfer</MudText>
+                                            <MudButton Variant="Variant.Outlined" Color="Color.Warning" Class="px-4"
+                                                       OnClick="() => TransferRequestView = !TransferRequestView">Get Started</MudButton>
+                                        </MudStack>
+                                    }
+                                    else {
+                                        <MudStack>
+                                            <MudAutocomplete T="CompanyResponse" Label="Company" @bind-Value="Company" SearchFunc="@SearchCompany"
+                                                         Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Company = null"
+                                                         Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.FullName}")"/>
+                                            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                                <MudButton Variant="Variant.Text" Color="Color.Primary" Class="px-6 py-3"
+                                                           OnClick="() => TransferRequestView = !TransferRequestView">Cancel</MudButton>
+                                                <MudButton Variant="Variant.Filled" Color="Color.Warning" Class="px-6 py-3"
+                                                           Disabled="@(Company == null)" OnClick="TransferUser">Request</MudButton>
+                                            </MudStack>
+                                        </MudStack>
+                                    }
+                                }
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudStack Row="true" Justify="Justify.SpaceBetween">
+                            <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateBack()"
+                                       Size="Size.Large" Class="mt-8 px-12 py-3">Back</MudButton>
+                            <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large"
+                                       Class="mt-8 px-12 py-3" OnClick="Submit">Update</MudButton>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+</MudContainer>

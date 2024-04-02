@@ -1,0 +1,24 @@
+﻿@inherits LayoutComponentBase
+@implements IDisposable
+@inject AppState AppState
+
+@code {
+    [CascadingParameter]
+    RootLayout Layout { get; set; } = default!;
+    
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        AppState.OnChange += StateHasChanged;
+    }
+    
+    public void Dispose() => AppState.OnChange -= StateHasChanged;
+    
+}
+
+<AppBar />
+<NavMenu SideBarOpen="AppState.IsSidebarOpen" />
+<MudMainContent>
+    <MudContainer Class="px-lg-12 px-sm-0">
+        @Body
+    </MudContainer>
+</MudMainContent>

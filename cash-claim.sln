@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Common", "Common\CashClaim.Common.csproj", "{41CD477D-ECDF-4517-99BD-08382C3623E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{057EB9F6-800E-46D7-A16C-FAC73423E796}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Web.Shared", "Web\Shared\CashClaim.Web.Shared.csproj", "{9D62A126-65DA-4664-925A-42673E19EBEC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Web.Components", "Web\Components\CashClaim.Web.Components.csproj", "{9C62D3E0-50FD-433E-8F74-858C5CA0F512}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Web.Client", "Web\Client\CashClaim.Web.Client.csproj", "{45EF9E5E-E794-467E-879F-2142D639833F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Service", "Service\CashClaim.Service.csproj", "{FD9CF0CB-A656-4B56-8F13-254F19F9B72F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Mobile", "Mobile\CashClaim.Mobile.csproj", "{23224046-60DA-49F1-A96D-C5FB0D525700}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41CD477D-ECDF-4517-99BD-08382C3623E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41CD477D-ECDF-4517-99BD-08382C3623E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41CD477D-ECDF-4517-99BD-08382C3623E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41CD477D-ECDF-4517-99BD-08382C3623E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D62A126-65DA-4664-925A-42673E19EBEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D62A126-65DA-4664-925A-42673E19EBEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D62A126-65DA-4664-925A-42673E19EBEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D62A126-65DA-4664-925A-42673E19EBEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C62D3E0-50FD-433E-8F74-858C5CA0F512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C62D3E0-50FD-433E-8F74-858C5CA0F512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C62D3E0-50FD-433E-8F74-858C5CA0F512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C62D3E0-50FD-433E-8F74-858C5CA0F512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45EF9E5E-E794-467E-879F-2142D639833F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45EF9E5E-E794-467E-879F-2142D639833F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45EF9E5E-E794-467E-879F-2142D639833F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45EF9E5E-E794-467E-879F-2142D639833F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD9CF0CB-A656-4B56-8F13-254F19F9B72F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD9CF0CB-A656-4B56-8F13-254F19F9B72F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD9CF0CB-A656-4B56-8F13-254F19F9B72F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD9CF0CB-A656-4B56-8F13-254F19F9B72F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23224046-60DA-49F1-A96D-C5FB0D525700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23224046-60DA-49F1-A96D-C5FB0D525700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23224046-60DA-49F1-A96D-C5FB0D525700}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{23224046-60DA-49F1-A96D-C5FB0D525700}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23224046-60DA-49F1-A96D-C5FB0D525700}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9D62A126-65DA-4664-925A-42673E19EBEC} = {057EB9F6-800E-46D7-A16C-FAC73423E796}
+		{9C62D3E0-50FD-433E-8F74-858C5CA0F512} = {057EB9F6-800E-46D7-A16C-FAC73423E796}
+		{45EF9E5E-E794-467E-879F-2142D639833F} = {057EB9F6-800E-46D7-A16C-FAC73423E796}
+	EndGlobalSection
+EndGlobal

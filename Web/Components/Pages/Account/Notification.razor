@@ -1,0 +1,115 @@
+@inject Navigation Nav
+@inject IProfileService ProfileService
+@inject ISnackbar Snackbar
+@page "/app/account/notification"
+@using CashClaim.Common.Dtos
+@using CashClaim.Common.Enums
+@using Nextended.Core.Extensions
+
+@code {
+    bool _success;
+    string[] _errors = { };
+    MudForm? _form;
+
+    private class EventObject {
+        public string? Key { get; set; }
+        public string? Name { get; set; }
+        public EventType Value { get; set; }
+        public bool Active { get; set; }
+    }
+
+    private readonly ICollection<EventObject> _eventList = new List<EventObject> { };
+    private NotificationChannels ChannelValue { get; set; }
+    private IEnumerable<NotificationChannels> Channels { get; set; } =  new List<NotificationChannels> { };
+    private IEnumerable<EventType> Events { get; set; } = new List<EventType> { };
+    
+    private NotificationResponse Item { get; set; } = new NotificationResponse();
+
+    private void LoadEventList() {
+        foreach (var eventItem in Enum.GetValues<EventType>()) {
+            var name = Enum.Parse<EventType>(eventItem.ToString());
+            _eventList.Add(new EventObject { Key = name.ToString(), Name = name.ToDescriptionString().Capitalize(), Value = eventItem, Active = false });
+        }
+    }
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        this.LoadEventList();
+        
+        var result = await ProfileService.GetNotificationAsync();
+        if (result is { Succeeded: true, Data: { } }) {
+            Item = result.Data;
+            Channels = Item.Channels;
+            Events = Item.Types;
+
+            foreach (var eventType in Events) {
+                _eventList.First(x => x.Value == eventType).Active = true;
+            }
+        }
+    }
+    
+    private async Task Submit() {
+        await _form!.Validate();
+        if (!_success) return;
+        Item.Channels = Channels.ToList();
+        Item.Types = _eventList.Where(x => x.Active).Select(x => x.Value).ToList();
+        var result = await ProfileService.UpdateNotificationAsync(Item);
+        Snackbar.Clear();
+        await Task.Delay(500);
+        Snackbar.Add(result.Succeeded ? "Updated successfully.." : "Update failed..", result.Succeeded ? Severity.Success : Severity.Error);
+    }
+}
+
+<Title>Notification Settings</Title>
+
+<MudContainer Class="mt-12" MaxWidth="MaxWidth.Medium">
+    <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
+        <MudGrid Justify="Justify.Center" Class="mt-6">
+            <MudItem xs="12" md="6">
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudSelect T="NotificationChannels" MultiSelection="true" SelectAll="true" @bind-SelectedValues="Channels"
+                                   @bind-Value="ChannelValue" HelperText="Select notification options" Variant="Variant.Outlined"
+                                   AnchorOrigin="Origin.BottomCenter">
+                            @foreach (var lang in Enum.GetValues<NotificationChannels>()) {
+                                <MudSelectItem Value="lang">@lang.ToDescriptionString().Capitalize()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudCard Class="pa-0">
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">Notification types</MudText>
+                                </CardHeaderContent>
+                                <CardHeaderActions>
+                                    <MudIconButton Icon="@Icons.Material.Filled.SelectAll" Color="Color.Default" />
+                                </CardHeaderActions>
+                            </MudCardHeader>
+                            <MudCardContent Class="pa-0" Style="height: 350px; overflow-y: scroll">
+                                <MudList Dense="true">
+                                    @foreach (var eventValue in _eventList) {
+                                        <MudListItem Dense="true">
+                                            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                                <MudText>@eventValue.Name</MudText>
+                                                <MudCheckBox @bind-Checked="eventValue.Active" Color="@Color.Primary"></MudCheckBox>
+                                            </MudStack>
+                                        </MudListItem>
+                                    }
+                                </MudList>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudStack Row="true" Justify="Justify.SpaceBetween">
+                            <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateBack()"
+                                       Size="Size.Large" Class="mt-8 px-12 py-3">Back</MudButton>
+                            <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large"
+                                       Class="mt-8 px-12 py-3" OnClick="Submit">Update</MudButton>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+</MudContainer>

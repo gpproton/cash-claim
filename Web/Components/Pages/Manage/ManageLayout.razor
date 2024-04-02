@@ -1,0 +1,39 @@
+@inherits LayoutComponentBase
+@layout MainLayout
+@inject NavigationManager Nav
+
+@code {
+    private int TabState { get; set; }
+
+    private record ManagePage(string Title, string Path, string Icon = Icons.Material.Filled.Settings);
+    
+    private readonly List<ManagePage> _pages = new List<ManagePage>() {
+        new ManagePage("Teams", "app/manage/teams", Icons.Material.Filled.Groups),
+        new ManagePage("Category", "app/manage/category", Icons.Material.Filled.Category),
+        new ManagePage("Companies", "app/manage/companies", Icons.Material.Filled.PendingActions),
+        new ManagePage("Banks", "app/manage/banks", Icons.Material.Filled.Money),
+        new ManagePage("Domains", "app/manage/domains", Icons.Material.Filled.Computer),
+        new ManagePage("Currency", "app/manage/currency", Icons.Material.Filled.CurrencyExchange),
+    };
+
+    private void TriggerNavigation(ManagePage page) {
+        TabState = _pages.IndexOf(page);
+        Nav.NavigateTo(page.Path);
+    }
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        var page = _pages.Find(x => Nav.ToAbsoluteUri(x.Path).ToString() == Nav.Uri);
+        if (page == null) return;
+        TabState = _pages.IndexOf(page);
+    }
+}
+
+<MudTabs Elevation="2" Rounded="true" Centered="true" ActivePanelIndex="TabState">
+    @foreach (var tab in _pages) {
+        <MudTabPanel Style="text-transform: capitalize" OnClick="() => TriggerNavigation(tab)" Icon="@tab.Icon" Text="@tab.Title"/>
+    }
+</MudTabs>
+<MudContainer MaxWidth="MaxWidth.Large" Class="px-0 mx-0 pt-2">
+    @Body
+</MudContainer>

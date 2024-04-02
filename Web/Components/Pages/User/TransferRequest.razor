@@ -1,0 +1,99 @@
+@using CashClaim.Common.Dtos
+@using CashClaim.Common.Helpers
+@using CashClaim.Web.Components.Pages.User.Components
+@page "/app/users/transfer-request"
+@inject IUserService Http
+@inject ISnackbar Snackbar
+@attribute [Authorize(Roles = "System")]
+
+@code {
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private int Current { get; set; } = 1;
+    MudDataGrid<TransferRequestItem>? _dataGrid;
+    private HashSet<TransferRequestItem> SelectedItems { get; set; } = new HashSet<TransferRequestItem>();
+    private Func<TransferRequestItem, bool> Filter => x =>
+    string.IsNullOrWhiteSpace(Search)
+    || x.User!.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.Email!.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task<GridData<TransferRequestItem>> ServerDataFunc(GridState<TransferRequestItem> state) {
+        SelectedItems.Clear();
+        this.Loading = true;
+        var filter = new SearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null
+        };
+        var items = await Http.GetAllTransferAsync(filter);
+        this.Loading = false;
+        return new GridData<TransferRequestItem> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
+
+    private async Task TriggerSnack(bool success) {
+        Snackbar.Clear();
+        await Task.Delay(500);
+        Snackbar.Add(success ? "Succeeded.." : "Failed..", success ? Severity.Success : Severity.Error);
+    }
+
+    private async Task Approve(bool state, Guid id) {
+        if(!state) return;
+        var result = await Http.ApproveTransferAsync(id);
+        await TriggerSnack(result.Succeeded);
+        await this.ReloadList(result.Succeeded);
+    }
+    
+    private async Task Reject(bool state, Guid id) {
+        if(!state) return;
+        var result = await Http.ArchiveTransferAsync(id);
+        await TriggerSnack(result.Succeeded);
+        await this.ReloadList(result.Succeeded);
+    }
+}
+
+<Title>User Account Transfers</Title>
+
+<MudDataGrid @ref="_dataGrid" Dense="true" T="TransferRequestItem" MultiSelection="false" SelectedItems="SelectedItems" ServerData="ServerDataFunc"
+             Loading="Loading"Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
+             SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
+    <ToolBarContent>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateUser" IsFilterActive="false" IsCreateActive="false" @bind-Search="Search">
+        </TableToolbar>
+    </ToolBarContent>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <Column T="TransferRequestItem">
+            <CellTemplate>
+                <MudStack Spacing="2" Row="true">
+                    <ConfirmationDialog Count="1" Small="true" ButtonVariant="Variant.Filled"
+                          Icon="@Icons.Material.Filled.Check" ButtonColor="Color.Success" Title="Confirm company transfer?"
+                          OnTriggered="async (e) => { await Approve(e, context.Item.Id!.Value ); }"></ConfirmationDialog>
+                    <ConfirmationDialog Count="1" Small="true" ButtonVariant="Variant.Filled"
+                          Icon="@Icons.Material.Filled.Delete" ButtonColor="Color.Error" Title="Cancel company transfer?"
+                          OnTriggered="async (e) => { await Reject(e, context.Item.Id!.Value ); }"></ConfirmationDialog>
+                </MudStack>
+            </CellTemplate>
+        </Column>
+        <Column T="TransferRequestItem" Field="User" Title="Name" />
+        <Column T="TransferRequestItem" Field="Email" />
+        <Column T="TransferRequestItem" Field="Completed">
+            <CellTemplate>
+                <MudChip Label="true">@(context.Item.Completed ? "Yes" : "No")</MudChip>
+            </CellTemplate>
+        </Column>
+        <Column T="TransferRequestItem" Field="Company" Title="New" />
+        <Column T="TransferRequestItem" Field="PreviousCompany" Title="Previous" />
+    </Columns>
+    <PagerContent>
+         <MudDataGridPager T="TransferRequestItem" PageSizeOptions="WebConst.AppPaged" />
+    </PagerContent>
+</MudDataGrid>
