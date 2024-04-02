@@ -42,7 +42,7 @@
 
   <ItemGroup>
       <ProjectReference Include="..\Common\CashClaim.Common.csproj" />
-      <ProjectReference Include="..\Web\Client\XClaim.Web.Client.csproj" />
+      <ProjectReference Include="..\Web\Client\CashClaim.Web.Client.csproj" />
   </ItemGroup>
 
 </Project>

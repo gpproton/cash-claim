@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using CashClaim.Common.HTTP;
-using XClaim.Web.Client;
+using CashClaim.Web.Client;
 using CashClaim.Web.Components.Extensions;
 using CashClaim.Web.Shared;
 
