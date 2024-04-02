@@ -9,6 +9,7 @@
     "p": "dotnet publish ./Service -p:PublishDir=output --os linux",
     "b:web": "dotnet build ./Service",
     "docs": "cd docs && dotnet docfx docfx.json --serve",
+    "docs:publish": "cd docs && dotnet docfx docfx.json",
     "b:app": "dotnet build ./Mobile/CashClaim.Mobile.csproj",
     "format": "dotnet format ./CashClaim.sln",
     "web": "dotnet watch --project ./Service",
