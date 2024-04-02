@@ -1,34 +1,35 @@
-@* @using Axolotl.Filters *@
-@* @inject ITeamService TeamService *@
-@* *@
-@* @code { *@
-@*     #pragma warning disable BL0007 *@
-@* *@
-@*     private  Team? _value; *@
-@* *@
-@*     [Parameter] *@
-@*     public  Team? Value { get => _value; set { *@
-@*         if(value == _value) return; *@
-@*         _value = value; *@
-@*         if(ValueChanged.HasDelegate)  ValueChanged.InvokeAsync(_value); *@
-@*     }} *@
-@* *@
-@*     [Parameter] *@
-@*     public bool Disabled { get; set; } *@
-@* *@
-@*     [Parameter] *@
-@*     public bool Required { get; set; } *@
-@* *@
-@*     [Parameter] *@
-@*     public EventCallback< Team?> ValueChanged { get; set; } *@
-@* *@
-@*     private async Task<IEnumerable< Team>> Search(string value) { *@
-@*         var response = await TeamService.GetAllAsync(new PageFilter { Search = value }); *@
-@*         return (response.Succeeded ? response.Data : new List< Team>())!; *@
-@*     } *@
-@* } *@
-@* *@
-@* <MudAutocomplete T=" Team" Label="Team" @bind-Value="Value" SearchFunc="@Search" *@
-@*                  Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Value = null" *@
-@*                  Clearable="true" ToStringFunc="@(e => e.Name)" Disabled="@Disabled" *@
-@*                  Required="@Required" RequiredError="Team is required!" /> *@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@inject ITeamService TeamService
+
+@code {
+    #pragma warning disable BL0007
+    
+    private TeamResponse? _value;
+    
+    [Parameter]
+    public TeamResponse? Value { get => _value; set {
+        if(value == _value) return;
+        _value = value;  
+        if(ValueChanged.HasDelegate)  ValueChanged.InvokeAsync(_value);
+    }}
+    
+    [Parameter]
+    public bool Disabled { get; set; }
+    
+    [Parameter]
+    public bool Required { get; set; }
+    
+    [Parameter]
+    public EventCallback<TeamResponse?> ValueChanged { get; set; }
+
+    private async Task<IEnumerable<TeamResponse>> Search(string value) {
+        var response = await TeamService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<TeamResponse>())!;
+    }
+}
+
+<MudAutocomplete T="TeamResponse" Label="Team" @bind-Value="Value" SearchFunc="@Search"
+                 Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Value = null"
+                 Clearable="true" ToStringFunc="@(e => e.Name)" Disabled="@Disabled"
+                 Required="@Required" RequiredError="Team is required!" />

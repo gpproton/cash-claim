@@ -1,33 +1,35 @@
-@* @using Axolotl.Filters *@
-@* *@
-@* @code { *@
-@*     #pragma warning disable BL0007 *@
-@* *@
-@*     private  Company? _value; *@
-@* *@
-@*     [Parameter] *@
-@*     public  Company? Value { get => _value; set { *@
-@*         if(value == _value) return; *@
-@*         _value = value; *@
-@*         if(ValueChanged.HasDelegate)  ValueChanged.InvokeAsync(_value); *@
-@*     }} *@
-@* *@
-@*     [Parameter] *@
-@*     public bool Disabled { get; set; } *@
-@* *@
-@*     [Parameter] *@
-@*     public bool Required { get; set; } *@
-@* *@
-@*     [Parameter] *@
-@*     public EventCallback< Company?> ValueChanged { get; set; } *@
-@* *@
-@*     private async Task<IEnumerable< Company>> Search(string value) { *@
-@*         var response = await CompanyService.GetAllAsync(new PageFilter { Search = value }); *@
-@*         return (response.Succeeded ? response.Data : new List< Company>())!; *@
-@*     } *@
-@* } *@
-@* *@
-@* <MudAutocomplete T=" Company" Label="Company" @bind-Value="Value" SearchFunc="@Search" *@
-@*                  Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Value = null" *@
-@*                  Clearable="true" ToStringFunc="@(e => e.FullName)" Disabled="@Disabled" *@
-@*                  Required="@Required" RequiredError="Company is required!" /> *@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@inject ICompanyService CompanyService
+
+@code {
+    #pragma warning disable BL0007
+    
+    private CompanyResponse? _value;
+    
+    [Parameter]
+    public CompanyResponse? Value { get => _value; set {
+        if(value == _value) return;
+        _value = value;  
+        if(ValueChanged.HasDelegate)  ValueChanged.InvokeAsync(_value);
+    }}
+    
+    [Parameter]
+    public bool Disabled { get; set; }
+    
+    [Parameter]
+    public bool Required { get; set; }
+    
+    [Parameter]
+    public EventCallback<CompanyResponse?> ValueChanged { get; set; }
+
+    private async Task<IEnumerable<CompanyResponse>> Search(string value) {
+        var response = await CompanyService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<CompanyResponse>())!;
+    }
+}
+
+<MudAutocomplete T="CompanyResponse" Label="Company" @bind-Value="Value" SearchFunc="@Search"
+                 Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Value = null"
+                 Clearable="true" ToStringFunc="@(e => e.FullName)" Disabled="@Disabled"
+                 Required="@Required" RequiredError="Company is required!" />

@@ -1,0 +1,72 @@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@using XClaim.Web.Components.Pages.Transactions.Components
+@inject IPaymentService Http
+@page "/app/payments"
+@attribute [Authorize]
+
+@code {
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private int Current { get; set; } = 1;
+    MudDataGrid<PaymentResponse>? _dataGrid;
+    private DateRange DateRange { get; set; } = WebConst.AppDateRange;
+    private HashSet<PaymentResponse> SelectedItems { get; set; } = new HashSet<PaymentResponse>();
+    
+    private Func<PaymentResponse, bool> Filter => x =>
+    string.IsNullOrWhiteSpace(Search)
+    || x.Description.Contains(Search, StringComparison.OrdinalIgnoreCase)
+    || x.Notes.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task<GridData<PaymentResponse>> ServerDataFunc(GridState<PaymentResponse> state) {
+        SelectedItems.Clear();
+        this.Loading = true;
+        var filter = new DateSearchFilter {
+            Page = Current,
+            PerPage = state.PageSize,
+            Search = Search.Length > 2 ? Search : null,
+            StartDate = DateRange.Start,
+            EndDate = DateRange.End
+        };
+        var items = await Http.GetAllAsync(filter);
+        this.Loading = false;
+        return new GridData<PaymentResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
+}
+
+<Title>Personal Payments</Title>
+
+<MudDataGrid @ref="_dataGrid" T="PaymentResponse" MultiSelection="true" FixedFooter="true" SelectedItems="SelectedItems" ServerData="ServerDataFunc"
+             Loading="Loading" Height="@WebConst.TableHeight" Hover="true" SortMode="SortMode.Multiple"
+             Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
+    <ToolBarContent>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="FormDialog" IsFilterActive="true" IsCreateActive="false" @bind-Value="DateRange" @bind-Search="Search">
+        </TableToolbar>
+    </ToolBarContent>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <Column T="PaymentResponse" Field="Description" />
+        <Column T="PaymentResponse" Field="Amount" />
+        <Column T="PaymentResponse" Field="Confirmed" />
+        <Column T="PaymentResponse" Field="Count" Title="Claims">
+            <CellTemplate>1</CellTemplate>
+        </Column>
+        <Column T="PaymentResponse">
+            <CellTemplate>
+                <FormEditTrigger TForm="DetailTransaction" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
+            </CellTemplate>
+        </Column>
+    </Columns>
+    <PagerContent>
+         <MudDataGridPager T="PaymentResponse" PageSizeOptions="WebConst.AppPaged" />
+    </PagerContent>
+</MudDataGrid>

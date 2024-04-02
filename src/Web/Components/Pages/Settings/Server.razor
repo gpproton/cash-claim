@@ -1,0 +1,81 @@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@using Nextended.Core.Extensions
+@page "/app/settings/server"
+@inject Navigation Nav
+@inject ISnackbar Snackbar
+@inject ICurrencyService CurrencyService
+@inject IServerService ServerService
+@inject AppState AppState
+@attribute [Authorize(Roles = "System")]
+
+@code {
+    bool _success;
+    string[] _errors = { };
+    MudForm? _form;
+    private CurrencyResponse? Currency { get; set; }
+    
+    private ServerResponse Item { get; set; } = new ServerResponse();
+    
+    private async Task<IEnumerable<CurrencyResponse>> SearchCurrency(string value) {
+        var response = await CurrencyService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<CurrencyResponse> {})!;
+    }
+    
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        var current = AppState.ServerState;
+        Item = await current.MapToAsync<ServerResponse>();
+        Currency = Item.Currency;
+    }
+
+    private async Task Submit() {
+        await _form!.Validate();
+        if (!_success) return;
+        
+        var result = await ServerService.UpdateAsync(Item);
+        if (result.Succeeded)
+            AppState.LoadServerState(result.Data!);
+        Snackbar.Add(result.Succeeded ? "Deleted successfully" : "Archiving failed", result.Succeeded ? Severity.Success : Severity.Error);
+        
+    }
+}
+
+<Title>Server options</Title>
+
+<MudContainer Class="mt-12" MaxWidth="MaxWidth.Medium">
+    <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
+        <MudGrid Justify="Justify.Center" Class="mt-6">
+            <MudItem xs="12" md="6">
+                <MudGrid>
+                    <MudItem xs="6">
+                        <MudTextField Variant="Variant.Outlined" T="string" Label="Service Name" @bind-Value="Item.ServiceName" />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudTextField Variant="Variant.Outlined" T="string" Label="Admin Email" @bind-Value="Item.AdminEmail" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTextField Variant="Variant.Outlined" Lines="4" T="string" Label="Maintenance Text" @bind-Value="Item.MaintenanceText" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudAutocomplete T="CurrencyResponse" Label="Currency" @bind-Value="Currency" SearchFunc="@SearchCurrency"
+                                         Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Currency = null"
+                                         Clearable="true" ToStringFunc="@(e => e == null ? null : $"{e.Symbol} - {e.Name}")"
+                                         Required="true" RequiredError="Currency selection is required!" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudSwitch @bind-Checked="@Item.MaintenanceMode" Color="Color.Primary" Label="@(Item.MaintenanceMode ? "Maintenance Enabled" : "Maintenance Disabled")"/>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudStack Row="true" Justify="Justify.SpaceBetween">
+                            <MudButton Variant="Variant.Text" DisableElevation="true" Color="Color.Primary" OnClick="() => Nav.NavigateBack()"
+                                       Size="Size.Large" Class="mt-8 px-12 py-3">Back</MudButton>
+                            <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" OnClick="Submit"
+                                       Size="Size.Large" Class="mt-8 px-12 py-3">Update</MudButton>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+</MudContainer>

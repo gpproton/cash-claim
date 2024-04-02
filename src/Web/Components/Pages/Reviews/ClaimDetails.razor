@@ -1,0 +1,141 @@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Enums
+@using XClaim.Common.Extensions
+@using XClaim.Common.Wrappers
+@inject IClaimService Http
+@inject ISnackbar Snackbar
+@inject AuthState AuthState
+
+@code {
+    private enum ActionState {
+        None,
+        Approve,
+        Reject,
+    }
+    
+    bool _success;
+    string[] _errors = { };
+    MudForm? _form;
+    private bool Loading { get; set; }
+    private string Comment { get; set; } = string.Empty;
+    private ActionState State { get; set; } = ActionState.None;
+    private Guid? UserId { get; set; } = default!;
+    
+    [Parameter]
+    public ClaimStateResponse? Item { get; set; } = new ClaimStateResponse();
+
+    private bool IsOwner => Item!.OwnerId == UserId;
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        var user = await AuthState.GetAccount();
+        UserId = user!.Id;
+    }
+
+    private async Task Submit() {
+        Loading = true;
+        await _form!.Validate();
+        if (!_success) return;
+        var id = (Guid) Item!.Id!;
+        Response<ClaimStateResponse> result = null!;
+        switch (State) {
+            case ActionState.Approve:
+                result = await Http.ValidateReviewAsync(id, Comment);
+                break;
+            case ActionState.Reject:
+                result = await Http.RejectReviewAsync(id, Comment);
+                break;
+            case ActionState.None:
+            default:
+                break;
+        }
+
+        if (result != null) {
+            var state = result.Succeeded;
+            Snackbar.Clear();
+            Snackbar.Add(state ? "Successful" : "Failed", state ? Severity.Success : Severity.Error);
+            if (state) {
+                Item = result.Data;
+                Loading = false;
+                await Task.Delay(200);
+                State = ActionState.None;
+            }
+        }
+    }
+    private async Task Cancel() {
+        var id = (Guid) Item!.Id!;
+        var result = await Http.CancelReviewAsync(id);
+        Loading = true;
+        var state = result.Succeeded;
+        Snackbar.Clear();
+        Snackbar.Add(state ? "Successful" : "Failed", state ? Severity.Success : Severity.Error);
+        if (state) {
+            Item = result.Data;
+            await Task.Delay(200);
+            Loading = false;
+        }
+    }
+}
+
+<MudContainer Class="my-8" MaxWidth="MaxWidth.Small">
+    @if (Item != null) {
+        <MudStack Justify="Justify.SpaceBetween" Spacing="10">
+            <MudStack AlignItems="AlignItems.Center" Spacing="2">
+                <MudText Typo="Typo.h5">@(Item?.Owner ?? "Firstname Lastname")</MudText>
+                <MudText>@(Item.Description ?? "Unknown")</MudText>
+            </MudStack>
+            <MudStack AlignItems="AlignItems.Center">
+                <MudImage Height="320" Width="320" ObjectFit="ObjectFit.ScaleDown" Fluid="true"
+                          Src="_content/XClaim.Web.Components/vectors/money_savings.svg" Alt="review_image"/>
+            </MudStack>
+            <MudStack AlignItems="AlignItems.Center" Spacing="5">
+                @if (!Item.Completed) {
+                     <MudText Typo="Typo.h5" Color="Color.Primary">@Item.Status</MudText>
+                }
+                <MudText Typo="Typo.h3">@Item.Currency @($"{Item.Amount:N0}")</MudText>
+                <MudText Align="Align.Center" Typo="Typo.caption">@Item.Notes.Truncate(55)</MudText>
+            </MudStack>
+            @if (Item.Completed) {
+                <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center">
+                    <MudButton Disabled="true" Color="Color.Primary" FullWidth="true" Variant="Variant.Filled"
+                               OnClick="() => State = ActionState.Approve"
+                               Size="Size.Large" Class="py-4">@Item.Status</MudButton>
+                    @if (Item.OwnerId == UserId && Item.Status != ClaimStatus.Cancelled) {
+                        <MudButton Disabled="Item.Payed || Item.Status == ClaimStatus.Rejected"
+                                   Color="Color.Primary" FullWidth="true" Variant="Variant.Filled"
+                                   OnClick="Cancel" Size="Size.Large" Class="py-4">
+                            @(Item.Status == ClaimStatus.Cancelled ? Item.Status : "Cancel")
+                            </MudButton>
+                    }
+                </MudStack>
+            } else {
+                @if (State == ActionState.None) {
+                    <MudStack Row="true" Justify="Justify.SpaceEvenly">
+                        <MudButton Disabled="IsOwner" Color="Color.Primary" Variant="Variant.Filled"
+                                   OnClick="() => State = ActionState.Approve"
+                                   Size="Size.Large" Class="px-12 py-3">Approve</MudButton>
+                        <MudButton Disabled="IsOwner" Color="Color.Primary" Variant="Variant.Text"
+                                   OnClick="() => State = ActionState.Reject"
+                                   Size="Size.Large" Class="px-12 py-3">Reject</MudButton>
+                    </MudStack>
+                } else {
+                    <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
+                        <MudStack Justify="Justify.Center" AlignItems="AlignItems.Stretch">
+                            <MudGrid>
+                                <MudItem xs="12">
+                                    <MudTextField Variant="Variant.Outlined" @bind-Value="Comment" Lines="4" T="string" Label="Comment"
+                                                  Required="true" RequiredError="A simple comment required!"/>
+                                    <MudStack Row="true" Class="mt-4" Justify="Justify.SpaceBetween">
+                                        <MudButton Color="Color.Primary" Variant="Variant.Text" OnClick="() => State = ActionState.None"
+                                                   Size="Size.Large" Class="px-12 py-3">Cancel</MudButton>
+                                        <MudButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" OnClick="Submit" Class="px-12 py-3">Continue</MudButton>
+                                    </MudStack>
+                                </MudItem>
+                            </MudGrid>
+                        </MudStack>
+                    </MudForm>
+                }
+            }
+        </MudStack>
+    }
+</MudContainer>

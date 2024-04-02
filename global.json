@@ -1,12 +1,18 @@
 {
   "sdk": {
-    "version": "8.0.100",
-    "rollForward": "latestFeature"
+    "version": "7.0.407",
+    "rollForward": "latestPatch"
   },
   "scripts": {
     "c": "rm -rf ./**/{bin,obj}",
     "b": "dotnet build --configuration Debug",
     "p": "dotnet publish ./src/service -p:PublishDir=output --os linux",
+    "b:web": "dotnet build src/Web/Server/",
+    "b:app": "dotnet build src/Mobile/XClaim.Mobile.csproj",
+    "format": "dotnet format ./XClaim.sln",
+    "web": "dotnet watch --project src/Web/Server/",
+    "dev:blazor": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet watch --project src/Web/Client/",
+    "dev:web": "DOTNET_USE_POLLING_FILE_WATCHER=true dotnet r web",
     "test": "dotnet test --configuration Release",
     "ci": "dotnet r build && dotnet r test",
     "service": "dotnet run --project ./src/service",

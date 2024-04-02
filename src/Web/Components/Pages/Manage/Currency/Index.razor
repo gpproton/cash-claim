@@ -1,0 +1,74 @@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@layout ManageLayout
+@inject ICurrencyService Http
+@page "/app/manage/currency"
+@attribute [Authorize(Roles = "System")]
+
+@code {
+    private string Search { get; set; } = string.Empty;
+    private bool Loading { get; set; }
+    private int Current { get; set; } = 1;
+    MudDataGrid<CurrencyResponse>? _dataGrid;
+    private HashSet<CurrencyResponse> SelectedItems { get; set; } = new HashSet<CurrencyResponse>();
+
+    private async Task<GridData<CurrencyResponse>> ServerDataFunc(GridState<CurrencyResponse> state) {
+        SelectedItems.Clear();
+        this.Loading = true;
+        var items = await Http.GetAllAsync(new PaginationFilter { Page = Current, PerPage = state.PageSize });
+        this.Loading = false;
+        return new GridData<CurrencyResponse> {
+            Items = items.Data,
+            TotalItems = items.Total
+        };
+    }
+    
+    private Func<CurrencyResponse, bool> Filter => x => string.IsNullOrWhiteSpace(Search) || x.Name.Contains(Search, StringComparison.OrdinalIgnoreCase);
+    
+    private async Task ArchiveSelectedItems(bool allow) {
+        if (!allow) return;
+        List<Guid> items = SelectedItems
+        .Where(f => f?.Id != null)
+        .Select(f => ((Guid) f.Id!)).ToList();
+        if (items.Count > 0) {
+            var result = (await Http.ArchiveRangeAsync(items));
+            await ReloadList(result.Succeeded);
+        }
+    }
+    
+    private async Task ReloadList(bool reload) {
+        if (reload) await _dataGrid!.ReloadServerData();
+    }
+}
+
+<Title>Currencies</Title>
+
+<MudDataGrid @ref="_dataGrid" T="CurrencyResponse" MultiSelection="true" SelectedItems="SelectedItems" ServerData="ServerDataFunc"
+                      Loading="Loading" Height="@WebConst.TableHeight" Hover="true" FixedHeader="true" FixedFooter="true"
+                      SortMode="SortMode.Multiple" Filterable="false" QuickFilter="@Filter" Hideable="true" CurrentPage="Current">
+    <ToolBarContent>
+        <TableToolbar TFilter="DateDialog" TValue="DateRange" TCreate="MutateCurrency" OnCreateClicked="ReloadList"
+                      IsFilterActive="false" @bind-Search="Search">
+            <ConfirmationDialog Count="@SelectedItems.Count" OnTriggered="ArchiveSelectedItems"></ConfirmationDialog>
+        </TableToolbar>
+    </ToolBarContent>
+    <LoadingContent>
+         <TableLoading></TableLoading>
+    </LoadingContent>
+    <Columns>
+        <SelectColumn T="CurrencyResponse" ShowInFooter="false" ShowInHeader="false" />
+        <Column T="CurrencyResponse" Field="Name" />
+        <Column T="CurrencyResponse" Field="Symbol" />
+        <Column T="CurrencyResponse" Field="Code" />
+        <Column T="CurrencyResponse" Field="Active" />
+        <Column T="CurrencyResponse" Field="Description" />
+        <Column T="CurrencyResponse">
+            <CellTemplate>
+                <FormEditTrigger TForm="MutateCurrency" Id="context.Item.Id!.Value" OnTriggered="ReloadList"></FormEditTrigger>
+            </CellTemplate>
+        </Column>
+    </Columns>
+    <PagerContent>
+         <MudDataGridPager T="CurrencyResponse" PageSizeOptions="WebConst.AppPaged" />
+    </PagerContent>
+</MudDataGrid>

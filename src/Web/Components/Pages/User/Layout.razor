@@ -1,0 +1,35 @@
+@inherits LayoutComponentBase
+@layout MainLayout
+@inject NavigationManager Nav
+
+@code {
+    private int TabState { get; set; }
+
+    private record ManagePage(string Title, string Path, string Icon = Icons.Material.Filled.Settings);
+    
+    private readonly List<ManagePage> _pages = new List<ManagePage>() {
+        new ManagePage("Users", "app/users", Icons.Material.Filled.VerifiedUser),
+        new ManagePage("Transfers", "app/users/transfer-request", Icons.Material.Filled.Transform)
+    };
+
+    private void TriggerNavigation(ManagePage page) {
+        TabState = _pages.IndexOf(page);
+        Nav.NavigateTo(page.Path);
+    }
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        var page = _pages.Find(x => Nav.ToAbsoluteUri(x.Path).ToString() == Nav.Uri);
+        if (page == null) return;
+        TabState = _pages.IndexOf(page);
+    }
+}
+
+<MudTabs Elevation="2" Rounded="true" ActivePanelIndex="TabState">
+    @foreach (var tab in _pages) {
+        <MudTabPanel Style="text-transform: capitalize" OnClick="() => TriggerNavigation(tab)" Icon="@tab.Icon" Text="@tab.Title"/>
+    }
+</MudTabs>
+<MudContainer MaxWidth="MaxWidth.Large" Class="px-0 mx-0 pt-2">
+    @Body
+</MudContainer>

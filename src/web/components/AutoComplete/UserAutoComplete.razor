@@ -1,34 +1,35 @@
-@* @using Axolotl.Filters *@
-@* @inject IUserService UserService *@
-@* *@
-@* @code { *@
-@*     #pragma warning disable BL0007 *@
-@* *@
-@*     private  User? _value; *@
-@* *@
-@*     [Parameter] *@
-@*     public  User? Value { get => _value; set { *@
-@*         if(value == _value) return; *@
-@*         _value = value; *@
-@*         if(ValueChanged.HasDelegate)  ValueChanged.InvokeAsync(_value); *@
-@*     }} *@
-@* *@
-@*     [Parameter] *@
-@*     public bool Disabled { get; set; } *@
-@* *@
-@*     [Parameter] *@
-@*     public bool Required { get; set; } *@
-@* *@
-@*     [Parameter] *@
-@*     public EventCallback< User?> ValueChanged { get; set; } *@
-@* *@
-@*     private async Task<IEnumerable< User>> Search(string value) { *@
-@*         var response = await UserService.GetAllAsync(new PageFilter { Search = value }); *@
-@*         return (response.Succeeded ? response.Data : new List< User>())!; *@
-@*     } *@
-@* } *@
-@* *@
-@* <MudAutocomplete T=" User" Label="Team" @bind-Value="Value" SearchFunc="@Search" *@
-@*                  Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Value = null" *@
-@*                  Clearable="true" ToStringFunc="@(e => e.FullName)" Disabled="@Disabled" *@
-@*                  Required="@Required" RequiredError="User is required!" /> *@
+@using XClaim.Common.Dtos
+@using XClaim.Common.Helpers
+@inject IUserService UserService
+
+@code {
+    #pragma warning disable BL0007
+    
+    private UserResponse? _value;
+    
+    [Parameter]
+    public UserResponse? Value { get => _value; set {
+        if(value == _value) return;
+        _value = value;  
+        if(ValueChanged.HasDelegate)  ValueChanged.InvokeAsync(_value);
+    }}
+    
+    [Parameter]
+    public bool Disabled { get; set; }
+    
+    [Parameter]
+    public bool Required { get; set; }
+    
+    [Parameter]
+    public EventCallback<UserResponse?> ValueChanged { get; set; }
+
+    private async Task<IEnumerable<UserResponse>> Search(string value) {
+        var response = await UserService.GetAllAsync(new SearchFilter { Search = value });
+        return (response.Succeeded ? response.Data : new List<UserResponse>())!;
+    }
+}
+
+<MudAutocomplete T="UserResponse" Label="Team" @bind-Value="Value" SearchFunc="@Search"
+                 Variant="Variant.Outlined" ShowProgressIndicator="true" OnClearButtonClick="() => Value = null"
+                 Clearable="true" ToStringFunc="@(e => e.FullName)" Disabled="@Disabled"
+                 Required="@Required" RequiredError="User is required!" />

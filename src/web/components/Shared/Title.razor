@@ -1,3 +1,4 @@
+@using XClaim.Web.Shared.States
 @implements IDisposable
 @inject AppState AppState;
 
@@ -17,7 +18,7 @@
         if(AppTitle != null) AppState.SetAppTitle(AppTitle);
         AppState.OnChange += StateHasChanged;
     }
-
+    
     public void Dispose() => AppState.OnChange -= StateHasChanged;
 }
 
