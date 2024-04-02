@@ -1,31 +1,42 @@
-# X-CLAIM Expense App
+# Cash claim - Expense Remuneration App
 
  A basic organization expense management system
 
  ## Overview
-x-claim is an application that allows organizations to manage the expense process of individual in the organization
+Cash claim is an application that allows organizations to manage the expense process of individual in the organization
 
-## Roadmap for x-claim
+## Roadmap for cash claim
 
 - [ ] Web version.
 - [ ] API Completion
 
+## Todo's for cash claim
+
+- Use central package management
+- Migrate to dotnet 8
+- Update namespaces to match new name
+- Setup multi database compatibility
+- Enable email based user authentication
+- integrate new user system
+- Make admin account only email/username
+- Use database interceptors
+- improve server settings
+- Add Axolotl to project
+- Simplify API endpoints with Axolotl
+- Improve queries with specifications
+- Setup microsoft auth key from a service provider
+- Clean up MAUI project
+- API revisions
+- Create & deploy hybrid mobile apps
+- Bind API with native MAUI project
+
 
 ## License
+Cash claim is license under the [MIT License](./LICENSE.md)
 
-Copyright (c) 2023 [Godwin peter .O](mailto:me@godwin.dev)
+[![MIT License](https://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](./LICENSE.md)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-associated documentation files (the "Software"), to deal in the Software without restriction
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
-subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial
-portions of the Software.
+- Agboola A Solomon ([abiodun@drolx.com](mailto:mis.dev@tolaram.com))
+- Godwin peter .O ([me@godwin.dev](mailto:me@godwin.dev))
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
