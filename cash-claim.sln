@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{057EB9F6-800
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Web.Shared", "Web\Shared\CashClaim.Web.Shared.csproj", "{9D62A126-65DA-4664-925A-42673E19EBEC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Components", "Web\Components\XClaim.Web.Components.csproj", "{9C62D3E0-50FD-433E-8F74-858C5CA0F512}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Web.Components", "Web\Components\CashClaim.Web.Components.csproj", "{9C62D3E0-50FD-433E-8F74-858C5CA0F512}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Web.Client", "Web\Client\XClaim.Web.Client.csproj", "{45EF9E5E-E794-467E-879F-2142D639833F}"
 EndProject

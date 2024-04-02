@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 
-namespace XClaim.Web.Components;
+namespace CashClaim.Web.Components;
 
 public class Navigation : IDisposable {
     private const int MinHistorySize = 256;
