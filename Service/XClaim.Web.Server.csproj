@@ -51,8 +51,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Common\XClaim.Common.csproj" />
-        <ProjectReference Include="..\Client\XClaim.Web.Client.csproj" />
+        <ProjectReference Include="..\Common\XClaim.Common.csproj" />
+        <ProjectReference Include="..\Web\Client\XClaim.Web.Client.csproj" />
     </ItemGroup>
 
     <ItemGroup>
