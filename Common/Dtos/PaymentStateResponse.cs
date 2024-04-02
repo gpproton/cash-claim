@@ -1,6 +1,6 @@
-using XClaim.Common.Base;
+using CashClaim.Common.Base;
 
-namespace XClaim.Common.Dtos;
+namespace CashClaim.Common.Dtos;
 
 public class PaymentStateResponse : BaseResponse {
     public string Description { get; set; } = string.Empty;

@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata;
-using XClaim.Common.Base;
+using CashClaim.Common.Base;
 
 namespace XClaim.Web.Server.Data;
 

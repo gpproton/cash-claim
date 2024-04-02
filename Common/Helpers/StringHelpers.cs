@@ -1,6 +1,6 @@
 using System;
 
-namespace XClaim.Common.Helpers;
+namespace CashClaim.Common.Helpers;
 
 public static class StringHelpers {
     public static string GetInitialsText(string?[] value) {

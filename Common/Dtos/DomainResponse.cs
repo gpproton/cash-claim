@@ -1,6 +1,6 @@
-using XClaim.Common.Base;
+using CashClaim.Common.Base;
 
-namespace XClaim.Common.Dtos;
+namespace CashClaim.Common.Dtos;
 
 public class DomainResponse : BaseResponse {
     public string Address { get; set; } = string.Empty;

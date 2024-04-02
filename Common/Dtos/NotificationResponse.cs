@@ -1,7 +1,7 @@
-using XClaim.Common.Base;
-using XClaim.Common.Enums;
+using CashClaim.Common.Base;
+using CashClaim.Common.Enums;
 
-namespace XClaim.Common.Dtos;
+namespace CashClaim.Common.Dtos;
 
 public class NotificationResponse : BaseResponse {
     public UserResponse? Owner { get; set; }

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace XClaim.Common.Extensions;
+namespace CashClaim.Common.Extensions;
 
 public static class LazyResolutionExtension {
     public static IServiceCollection AddLazyResolution(this IServiceCollection services)

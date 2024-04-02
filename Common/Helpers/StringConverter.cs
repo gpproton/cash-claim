@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace XClaim.Common.Helpers;
+namespace CashClaim.Common.Helpers;
 
 public class StringConverter : JsonConverter<string> {
     public override string Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {

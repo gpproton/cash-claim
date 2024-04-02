@@ -1,4 +1,4 @@
-namespace XClaim.Common.Extensions;
+namespace CashClaim.Common.Extensions;
 
 public static class StringExtensions {
     public static string Truncate(this string? value, int length = 15) {

@@ -1,4 +1,4 @@
-namespace XClaim.Common.Helpers;
+namespace CashClaim.Common.Helpers;
 
 public class PaginationFilter {
     public int Page { get; set; } = 1;

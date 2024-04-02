@@ -1,7 +1,7 @@
-using XClaim.Common.Dtos;
-using XClaim.Common.Wrappers;
+using CashClaim.Common.Dtos;
+using CashClaim.Common.Wrappers;
 
-namespace XClaim.Common.HTTP;
+namespace CashClaim.Common.HTTP;
 
 public interface ICurrencyService {
     Task<PagedResponse<List<CurrencyResponse>>> GetAllAsync(object? query = null);

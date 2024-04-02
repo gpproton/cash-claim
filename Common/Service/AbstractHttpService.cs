@@ -3,10 +3,10 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using XClaim.Common.Extensions;
-using XClaim.Common.Helpers;
+using CashClaim.Common.Helpers;
+using CashClaim.Common.Extensions;
 
-namespace XClaim.Common.Service;
+namespace CashClaim.Common.Service;
 
 public abstract class AbstractHttpService : IHttpService {
     private readonly HttpClient _http;
@@ -30,7 +30,7 @@ public abstract class AbstractHttpService : IHttpService {
         var request = CreateRequest(HttpMethod.Post, uri, value);
         await SendRequest(request);
     }
-    
+
     public async Task<T> Post<T>(string uri) {
         var request = CreateRequest(HttpMethod.Post, uri);
         return await SendRequest<T>(request);
@@ -45,7 +45,7 @@ public abstract class AbstractHttpService : IHttpService {
         var request = CreateRequest(HttpMethod.Put, uri, value);
         await SendRequest(request);
     }
-    
+
     public async Task<T> Put<T>(string uri) {
         var request = CreateRequest(HttpMethod.Put, uri);
         return await SendRequest<T>(request);

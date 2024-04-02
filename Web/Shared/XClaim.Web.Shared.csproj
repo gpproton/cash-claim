@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\XClaim.Common.csproj" />
+    <ProjectReference Include="..\..\Common\CashClaim.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

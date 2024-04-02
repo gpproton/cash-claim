@@ -1,7 +1,7 @@
-using XClaim.Common.Dtos;
-using XClaim.Common.Service;
+using CashClaim.Common.Dtos;
+using CashClaim.Common.Service;
 
-namespace XClaim.Common.HTTP;
+namespace CashClaim.Common.HTTP;
 
 public class EventService : IEventService {
     private const string RootApi = "api/v1/event";

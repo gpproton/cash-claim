@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
-using XClaim.Common.Dtos;
+using CashClaim.Common.Dtos;
 
 namespace XClaim.Web.Shared;
 

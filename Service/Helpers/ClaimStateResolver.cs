@@ -1,5 +1,5 @@
-using XClaim.Common.Dtos;
-using XClaim.Common.Enums;
+using CashClaim.Common.Dtos;
+using CashClaim.Common.Enums;
 using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Helpers;

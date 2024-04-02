@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using XClaim.Common.Dtos;
-using XClaim.Common.Enums;
+using CashClaim.Common.Dtos;
+using CashClaim.Common.Enums;
 using XClaim.Web.Server.Helpers;
 using XClaim.Web.Server.Modules.UserModule;
 

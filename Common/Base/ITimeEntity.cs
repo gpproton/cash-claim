@@ -1,4 +1,4 @@
-namespace XClaim.Common.Base;
+namespace CashClaim.Common.Base;
 
 public class ITimedEntity : IBaseEntity {
     public Guid Id { get; set; }

@@ -1,6 +1,6 @@
 using AutoFilterer.Types;
-using XClaim.Common.Dtos;
-using XClaim.Common.Helpers;
+using CashClaim.Common.Dtos;
+using CashClaim.Common.Helpers;
 using XClaim.Web.Server.Entities;
 using AutoMapperProfile = AutoMapper.Profile;
 

@@ -1,4 +1,4 @@
-using XClaim.Common.Dtos;
+using CashClaim.Common.Dtos;
 
 namespace XClaim.Mobile.Views.Review;
 

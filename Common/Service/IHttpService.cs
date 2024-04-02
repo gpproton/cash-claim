@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace XClaim.Common.Service;
+namespace CashClaim.Common.Service;
 
 public interface IHttpService {
     Task<T> Get<T>(string uri);

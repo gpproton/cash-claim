@@ -1,8 +1,8 @@
 
 using AutoFilterer.Types;
 using Microsoft.EntityFrameworkCore;
-using XClaim.Common.Base;
-using XClaim.Common.Wrappers;
+using CashClaim.Common.Base;
+using CashClaim.Common.Wrappers;
 
 namespace XClaim.Web.Server.Modules;
 

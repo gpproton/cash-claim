@@ -2,9 +2,9 @@ using AutoFilterer.Extensions;
 using AutoFilterer.Types;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using XClaim.Common.Base;
-using XClaim.Common.Helpers;
-using XClaim.Common.Wrappers;
+using CashClaim.Common.Base;
+using CashClaim.Common.Helpers;
+using CashClaim.Common.Wrappers;
 
 namespace XClaim.Web.Server.Modules;
 

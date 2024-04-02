@@ -1,7 +1,7 @@
 using Microsoft.Maui.Controls.Shapes;
 using XClaim.Mobile.Views.Profile;
 using XClaim.Mobile.Views.Claim;
-using XClaim.Common.Enums;
+using CashClaim.Common.Enums;
 using XClaim.Mobile.Views.Home.Component;
 
 namespace XClaim.Mobile.Views.Home;

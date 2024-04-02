@@ -1,5 +1,5 @@
 using Microsoft.Net.Http.Headers;
-using XClaim.Common.Dtos;
+using CashClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Helpers;
 

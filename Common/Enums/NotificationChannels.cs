@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace XClaim.Common.Enums {
+namespace CashClaim.Common.Enums {
     public enum NotificationChannels {
         [Description("Email Notifications")]
         Email,

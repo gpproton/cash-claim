@@ -1,4 +1,4 @@
-﻿namespace XClaim.Common.Enums;
+﻿namespace CashClaim.Common.Enums;
 
 public enum ClaimStatus {
     Pending,

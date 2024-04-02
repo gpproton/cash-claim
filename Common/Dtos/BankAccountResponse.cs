@@ -1,6 +1,6 @@
-﻿using XClaim.Common.Base;
+﻿using CashClaim.Common.Base;
 
-namespace XClaim.Common.Dtos;
+namespace CashClaim.Common.Dtos;
 
 public class BankAccountResponse : BaseResponse {
     public string FullName { get; set; } = string.Empty;

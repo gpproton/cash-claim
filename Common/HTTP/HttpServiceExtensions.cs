@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using XClaim.Common.Extensions;
+using CashClaim.Common.Extensions;
 
-namespace XClaim.Common.HTTP;
+namespace CashClaim.Common.HTTP;
 
 public static class HttpServiceExtensions {
     public static IServiceCollection UseHttpServices(this IServiceCollection services) {

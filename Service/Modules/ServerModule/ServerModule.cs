@@ -1,5 +1,5 @@
-using XClaim.Common.Dtos;
-using XClaim.Common.HTTP;
+using CashClaim.Common.Dtos;
+using CashClaim.Common.HTTP;
 
 namespace XClaim.Web.Server.Modules.ServerModule;
 

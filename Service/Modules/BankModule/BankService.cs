@@ -1,5 +1,5 @@
 using AutoMapper;
-using XClaim.Common.Dtos;
+using CashClaim.Common.Dtos;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Entities;
 

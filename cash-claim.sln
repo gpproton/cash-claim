@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XClaim.Common", "Common\XClaim.Common.csproj", "{41CD477D-ECDF-4517-99BD-08382C3623E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashClaim.Common", "Common\CashClaim.Common.csproj", "{41CD477D-ECDF-4517-99BD-08382C3623E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{057EB9F6-800E-46D7-A16C-FAC73423E796}"
 EndProject

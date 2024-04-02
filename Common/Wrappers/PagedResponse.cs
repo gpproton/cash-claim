@@ -1,6 +1,6 @@
-using XClaim.Common.Helpers;
+using CashClaim.Common.Helpers;
 
-namespace XClaim.Common.Wrappers;
+namespace CashClaim.Common.Wrappers;
 
 public class PagedResponse<T> : Response<T> {
     public PagedResponse() { }

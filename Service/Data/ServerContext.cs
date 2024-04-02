@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using XClaim.Common.Base;
-using XClaim.Common.Enums;
+using CashClaim.Common.Base;
+using CashClaim.Common.Enums;
 using XClaim.Web.Server.Converters;
 using XClaim.Web.Server.Entities;
 

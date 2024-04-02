@@ -1,6 +1,6 @@
-using XClaim.Common.Dtos;
+using CashClaim.Common.Dtos;
 
-namespace XClaim.Common.HTTP;
+namespace CashClaim.Common.HTTP;
 
 public interface IEventService {
     Task<List<EventResponse>> GetAllAsync();

@@ -1,4 +1,4 @@
-namespace XClaim.Common.Dtos;
+namespace CashClaim.Common.Dtos;
 
 public class AuthResponse {
     public bool Confirmed { get; set; }

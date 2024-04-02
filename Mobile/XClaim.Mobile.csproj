@@ -25,7 +25,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\Common\XClaim.Common.csproj" />
+        <ProjectReference Include="..\Common\CashClaim.Common.csproj" />
         <ProjectReference Include="..\web\shared\XClaim.Web.Shared.csproj" />
         <!-- <ProjectReference Include="..\web\components\XClaim.Web.Components.csproj" /> -->
     </ItemGroup>

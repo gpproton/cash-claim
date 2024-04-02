@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using XClaim.Common.Dtos;
+using CashClaim.Common.Dtos;
 
 namespace XClaim.Web.Server.Modules.TeamModule;
 

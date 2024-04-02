@@ -1,4 +1,4 @@
-﻿namespace XClaim.Common.Helpers;
+﻿namespace CashClaim.Common.Helpers;
 
 public static class FactoryLoader {
     public static IEnumerable<T> LoadClassInstance<T>() {

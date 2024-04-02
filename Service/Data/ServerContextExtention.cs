@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using XClaim.Common.Base;
+using CashClaim.Common.Base;
 using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Data;

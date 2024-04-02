@@ -4,7 +4,7 @@ using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Nextended.Core.Extensions;
-using XClaim.Common.Dtos;
+using CashClaim.Common.Dtos;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Entities;
 using XClaim.Web.Server.Extensions;

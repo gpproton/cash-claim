@@ -1,4 +1,4 @@
-﻿namespace XClaim.Common.Extensions;
+﻿namespace CashClaim.Common.Extensions;
 
 public static class DateTimeExtensions {
     public static TimeOnly ToTimeOnly(this DateTime dateTime) {

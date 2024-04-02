@@ -1,7 +1,7 @@
-﻿using XClaim.Common.Base;
-using XClaim.Common.Enums;
+﻿using CashClaim.Common.Base;
+using CashClaim.Common.Enums;
 
-namespace XClaim.Common.Dtos;
+namespace CashClaim.Common.Dtos;
 
 public class UserResponse : BaseResponse {
     public string Identifier { get; set; } = string.Empty;
@@ -23,7 +23,7 @@ public class UserResponse : BaseResponse {
     public BankAccountResponse? BankAccount { get; set; }
     public NotificationResponse? Notification { get; set; }
     public SettingResponse? Setting { get; set; }
-    
+
     public bool Active { get; set; }
     public string Token { get; set; } = String.Empty;
     public string? Image { get; set; }

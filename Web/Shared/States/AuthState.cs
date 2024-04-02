@@ -2,9 +2,9 @@ using System.Security.Claims;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using XClaim.Common.Dtos;
-using XClaim.Common.Enums;
-using XClaim.Common.HTTP;
+using CashClaim.Common.Dtos;
+using CashClaim.Common.Enums;
+using CashClaim.Common.HTTP;
 
 namespace XClaim.Web.Shared.States;
 

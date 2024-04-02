@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using XClaim.Common;
-using XClaim.Common.Dtos;
+using CashClaim.Common;
+using CashClaim.Common.Dtos;
 
 namespace XClaim.Web.Shared.States;
 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using XClaim.Common.Base;
+using CashClaim.Common.Base;
 
 namespace XClaim.Web.Server.Modules;
 

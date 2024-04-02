@@ -1,7 +1,7 @@
-using XClaim.Common.Dtos;
-using XClaim.Common.Wrappers;
+using CashClaim.Common.Dtos;
+using CashClaim.Common.Wrappers;
 
-namespace XClaim.Common.HTTP;
+namespace CashClaim.Common.HTTP;
 
 public interface IDomainService {
     Task<PagedResponse<List<DomainResponse>>> GetAllAsync(object? query = null);

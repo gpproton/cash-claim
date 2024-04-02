@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using XClaim.Common.Base;
+using CashClaim.Common.Base;
 
 namespace XClaim.Web.Server.Entities;
 

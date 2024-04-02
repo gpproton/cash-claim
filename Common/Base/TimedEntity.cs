@@ -1,4 +1,4 @@
-namespace XClaim.Common.Base;
+namespace CashClaim.Common.Base;
 
 public abstract class TimedEntity : ITimedEntity {
     new public DateTime CreatedAt { get; set; }

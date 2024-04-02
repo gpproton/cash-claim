@@ -1,9 +1,9 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using XClaim.Common;
-using XClaim.Common.Dtos;
-using XClaim.Common.HTTP;
-using XClaim.Common.Wrappers;
+using CashClaim.Common;
+using CashClaim.Common.Dtos;
+using CashClaim.Common.HTTP;
+using CashClaim.Common.Wrappers;
 using XClaim.Web.Server.Data;
 using XClaim.Web.Server.Entities;
 

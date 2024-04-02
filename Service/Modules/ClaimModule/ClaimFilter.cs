@@ -1,7 +1,7 @@
 using AutoFilterer.Attributes;
 using AutoFilterer.Enums;
 using AutoFilterer.Types;
-using XClaim.Common.Enums;
+using CashClaim.Common.Enums;
 using XClaim.Web.Server.Entities;
 
 namespace XClaim.Web.Server.Modules.ClaimModule;

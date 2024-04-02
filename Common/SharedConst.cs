@@ -1,4 +1,4 @@
-namespace XClaim.Common;
+namespace CashClaim.Common;
 
 public static class SharedConst {
     public const string ServiceName = "X-Claim";

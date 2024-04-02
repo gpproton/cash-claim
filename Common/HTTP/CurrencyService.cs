@@ -1,8 +1,8 @@
-using XClaim.Common.Dtos;
-using XClaim.Common.Service;
-using XClaim.Common.Wrappers;
+using CashClaim.Common.Dtos;
+using CashClaim.Common.Service;
+using CashClaim.Common.Wrappers;
 
-namespace XClaim.Common.HTTP;
+namespace CashClaim.Common.HTTP;
 
 public class CurrencyService : ICurrencyService {
     private const string RootApi = "api/v1/currency";

@@ -1,6 +1,6 @@
 using System.Web;
 
-namespace XClaim.Common.Extensions;
+namespace CashClaim.Common.Extensions;
 
 public static class ObjectExtensions {
     public static string GetQueryString(this object? obj) {

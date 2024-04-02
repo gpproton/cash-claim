@@ -1,4 +1,4 @@
-namespace XClaim.Common.Wrappers;
+namespace CashClaim.Common.Wrappers;
 
 public class Response<T> {
     public Response() { }

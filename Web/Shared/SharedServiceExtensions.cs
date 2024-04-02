@@ -2,7 +2,7 @@ using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
-using XClaim.Common.Service;
+using CashClaim.Common.Service;
 using XClaim.Web.Shared.States;
 
 namespace XClaim.Web.Shared;

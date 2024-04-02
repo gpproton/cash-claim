@@ -1,5 +1,5 @@
 using Microsoft.Maui.Controls.Shapes;
-using XClaim.Common.Enums;
+using CashClaim.Common.Enums;
 
 namespace XClaim.Mobile.Views.Home;
 
