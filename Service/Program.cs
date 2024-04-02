@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text.Json.Serialization;
 using AutoFilterer.Swagger;
-using HealthChecks.ApplicationStatus.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.StaticFiles;
@@ -14,10 +13,6 @@ using XClaim.Web.Server.Extensions;
 using XClaim.Web.Server.Helpers;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-builder.Host.ConfigureServices((ctx, srv) => {
-    ConfigHelper.ApplyDefaultAppConfiguration(ctx, builder.Configuration, args);
-});
 
 builder.Services.SetupDatabase(builder.Configuration)
 .Configure<JsonOptions>(options => {
@@ -67,21 +62,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.RegisterModules();
 
-
-builder.Services.AddHealthChecksUI()
-    .AddInMemoryStorage();
-IHealthChecksBuilder healthCheck = builder.Services.AddHealthChecks()
-.AddApplicationStatus();
-string? appConnectionString = builder.Configuration.GetConnectionString("Default");
-if (appConnectionString != null) {
-    _ = healthCheck.AddSqlite(appConnectionString);
-}
-
 WebApplication app = builder.Build();
 
 using (var scope = app.Services.CreateScope()) {
     var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<ServerContext>();    
+    var context = services.GetRequiredService<ServerContext>();
     await context.Database.MigrateAsync();
 }
 
@@ -94,13 +79,13 @@ app.UseReDoc(c => {
 
 if (app.Environment.IsDevelopment()) {
     app.UseWebAssemblyDebugging();
-        app.UseSwagger();
-        app.UseSwaggerUI(opt => {
-            opt.SwaggerEndpoint(swaggerPath, swaggerTittle);
-            opt.DefaultModelExpandDepth(3);
-            opt.EnableDeepLinking();
-            opt.DisplayRequestDuration();
-            opt.ShowExtensions();
+    app.UseSwagger();
+    app.UseSwaggerUI(opt => {
+        opt.SwaggerEndpoint(swaggerPath, swaggerTittle);
+        opt.DefaultModelExpandDepth(3);
+        opt.EnableDeepLinking();
+        opt.DisplayRequestDuration();
+        opt.ShowExtensions();
     });
 }
 else {
