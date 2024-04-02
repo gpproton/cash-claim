@@ -1,3 +1,5 @@
+name: Generate docs with docfx
+
 on:
   push:
     branches:
