@@ -1,18 +1,16 @@
 # Cash claim - Expense Remuneration App
 
- A basic organization expense management system
+A basic organization expense management system
 
- ## Overview
+## Overview
+
 Cash claim is an application that allows organizations to manage the expense process of individual in the organization
 
-## Roadmap for cash claim
-
-- [ ] Web version.
-- [ ] API Completion
 
 ## Todo's for cash claim
 
 - Use central package management
+- Use default config method
 - Migrate to dotnet 8
 - Update namespaces to match new name
 - Setup multi database compatibility
@@ -29,6 +27,11 @@ Cash claim is an application that allows organizations to manage the expense pro
 - API revisions
 - Create & deploy hybrid mobile apps
 - Bind API with native MAUI project
+- Improve claim creation form
+- Enable image upload
+- Create payment confrmation forms
+- Create reporting and history pages
+- IOS application fixes
 
 
 ## License
