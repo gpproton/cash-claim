@@ -14,26 +14,30 @@ Cash claim is an application that allows organizations to manage the expense pro
 - [x] Migrate to dotnet 8
 - [x] Added docfx
 - [x] Fix MAUI build issues
-- [ ] Update namespaces to match new name
+- [x] Update namespaces to match new name
 - [ ] Setup multi database compatibility
-- [ ] Enable email based user authentication
+- [ ] Aspire based deployment using postgres
+- [ ] Add Axolotl to project
+- [ ] Enable email based authentication
+- [ ] Implement registration process
+- [ ] Make new admin account only email based
+- [ ] Update documentation
+- [ ] Add simple tests
 - [ ] integrate new user system
-- [ ] Make admin account only email/username
 - [ ] Use context interceptors
 - [ ] improve server settings
-- [ ] Add Axolotl to project
 - [ ] Simplify API endpoints using Axolotl
 - [ ] Improve queries with specifications
-- [ ] Setup microsoft auth key from a service provider
-- [ ] Clean up MAUI project errors
+- [ ] Setup microsoft auth key from db service provider
+- [ ] Clean up MAUI project warnings
 - [ ] API revisions
 - [ ] Create & deploy hybrid mobile apps
 - [ ] Bind API with native MAUI project
 - [ ] Improve claim creation form
-- [ ] Enable image upload
-- [ ] Create payment confrmation forms
-- [ ] Create reporting and history pages
-- [ ] IOS application fixes
+- [ ] Implement image upload
+- [ ] Create payment confrmation process
+- [ ] Create history pages
+- [ ] IOS design fixes
 
 
 ## License
