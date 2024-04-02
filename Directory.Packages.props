@@ -2,28 +2,38 @@
 
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <ArdalisVersion>8.0.0</ArdalisVersion>
+    <AxolotlVersion>8.0.5</AxolotlVersion>
+    <AspCoreVersion>8.0.3</AspCoreVersion>
+    <RuntimeVersion>8.0.0</RuntimeVersion>
+    <EFCoreVersion>8.0.3</EFCoreVersion>
+    <AutoFiltererVersion>2.13.0</AutoFiltererVersion>
   </PropertyGroup>
 
   <!-- Shared packages -->
   <ItemGroup Label="Core">
-    <PackageVersion Include="Ardalis.SmartEnum" Version="$(ArdalisVersion)" />
-    <PackageVersion Include="Ardalis.SmartEnum.SystemTextJson" Version="$(ArdalisVersion)" />
     <PackageVersion Include="Ardalis.Specification" Version="$(ArdalisVersion)" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(DotnetVersion)" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="$(DotnetVersion)" />
-    <PackageVersion Include="Nextended.Core" Version="$(NextendedVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(RuntimeVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(RuntimeVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="$(RuntimeVersion)" />
+    <PackageVersion Include="AutoMapper" Version="13.0.0" />
+    <PackageVersion Include="Nextended.Core" Version="7.0.21" />
+    <PackageVersion Include="SourceExpress.ShorterGuid" Version="2.0.0" />
   </ItemGroup>
 
   <!-- EFCore packages -->
   <ItemGroup Label="EFCore">
-    <PackageVersion Include="EFCore.NamingConventions" Version="8.0.0-rc.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(EfcoreVersion)" />
+    <PackageVersion Include="EFCore.NamingConventions" Version="8.0.3" />
+    <PackageVersion Include="EFCore.BulkExtensions" Version="8.0.2" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(EFCoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.AutoHistory" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfcoreVersion)" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EfcoreVersion)" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfcoreVersion)" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(EfcoreVersion)" />
-    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-rc.2" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EFCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EFCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(EFCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EFCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(EFCoreVersion)" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
+    <PackageVersion Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
   </ItemGroup>
 
   <!-- Razor packages -->
@@ -34,12 +44,11 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
-    <PackageVersion Include="MudBlazor" Version="6.11.0" />
+    <PackageVersion Include="MudBlazor" Version="6.1.9" />
   </ItemGroup>
 
-  <!-- Asp.net packages -->
+  <!-- AspNet packages -->
   <ItemGroup Label="AspNet">
-    <PackageVersion Include="CoreAdmin" Version="2.7.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"
@@ -61,22 +70,29 @@
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.Identity.Web" Version="2.10.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspCoreVersion)" />
+    <PackageVersion Include="IdentityModel" Version="6.2.0" />
+  </ItemGroup>
+
+  <!-- Additional AspNet packages -->
+  <ItemGroup Label="Auth">
+    <PackageVersion Include="AutoFilterer" Version="$(AutoFiltererVersion)" />
+    <PackageVersion Include="AutoFilterer.Generators" Version="$(AutoFiltererVersion)" />
+    <PackageVersion Include="AutoFilterer.Swagger" Version="$(AutoFiltererVersion)" />
   </ItemGroup>
 
   <!-- Axolotl packages -->
   <ItemGroup Label="Axolotl">
-    <PackageVersion Include="Axolotl" Version="$(AxolotlVersion)" />
     <PackageVersion Include="Axolotl.Http" Version="$(AxolotlVersion)" />
-    <PackageVersion Include="Axolotl.AspNet" Version="$(AxolotlVersion)" />
-    <PackageVersion Include="Axolotl.EFCore" Version="$(AxolotlVersion)" />
-    <PackageVersion Include="Axolotl.Razor" Version="$(AxolotlVersion)" />
+    <!-- <PackageVersion Include="Axolotl.AspNet" Version="$(AxolotlVersion)" /> -->
+    <!-- <PackageVersion Include="Axolotl.EFCore" Version="$(AxolotlVersion)" /> -->
   </ItemGroup>
 
   <!-- Test packages -->
   <ItemGroup Label="Test">
     <PackageVersion Include="AutoFixture" Version="4.11.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(DotnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(RuntimeVersion)" />
     <PackageVersion Include="xunit" Version="2.4.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
     <PackageVersion Include="coverlet.collector" Version="3.2.0" />

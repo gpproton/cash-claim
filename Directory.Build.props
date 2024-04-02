@@ -1,9 +1,9 @@
 <Project>
   <PropertyGroup>
-    <Title>x-claim</Title>
+    <Title>Cash claim</Title>
     <Version>0.1-preview.1</Version>
     <Authors>Godwin peter .O</Authors>
-    <Description>An IOU payment management system</Description>
+    <Description>An expense remuneration management system</Description>
     <RepositoryType>git</RepositoryType>
     <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
     <RepositoryUrl>https://github.com/gpproton/x-claim</RepositoryUrl>
@@ -19,17 +19,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>11</LangVersion>
     <!-- TODO: Enable when in public release -->
     <!-- <UseArtifactsOutput>true</UseArtifactsOutput> -->
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <ArdalisVersion>7.0.0</ArdalisVersion>
-    <AxolotlVersion>8.0-rc.1</AxolotlVersion>
-    <AspCoreVersion>8.0.0</AspCoreVersion>
-    <DotnetVersion>8.0.0</DotnetVersion>
-    <EfcoreVersion>8.0.0</EfcoreVersion>
   </PropertyGroup>
 
 </Project>

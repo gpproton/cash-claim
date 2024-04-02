@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
-        <TargetFrameworks>net7.0-android</TargetFrameworks>
-<!--        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('macos'))">$(TargetFrameworks);net7.0-ios;net7.0-maccatalyst</TargetFrameworks>-->
-<!--        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-ios;net7.0-windows10.0.19041.0</TargetFrameworks>-->
+        <TargetFrameworks>net8.0-android</TargetFrameworks>
+<!--        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('macos'))">$(TargetFrameworks);net8.0-ios;net8.0-maccatalyst</TargetFrameworks>-->
+<!--        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-ios;net8.0-windows10.0.19041.0</TargetFrameworks>-->
         <OutputType>Exe</OutputType>
         <RootNamespace>XClaim.Mobile</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -24,6 +25,7 @@
 <!--        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
         <UserSecretsId>bd5a3517-8f17-454e-adb6-7f443a3e171f</UserSecretsId>
     </PropertyGroup>
+
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#4E549C" />
@@ -37,13 +39,15 @@
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
+
     <ItemGroup>
+        <ProjectReference Include="..\Common\XClaim.Common.csproj" />
         <PackageReference Include="BindableProps" Version="1.3.4" />
         <PackageReference Include="CommunityToolkit.Maui" Version="4.0.0" />
         <PackageReference Include="CommunityToolkit.Maui.Markup" Version="3.0.0" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
         <PackageReference Include="Microsoft.Identity.Client" Version="4.50.0" />
         <PackageReference Include="Plugin.Maui.Popup" Version="1.0.4" />
         <PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.3.1" />
@@ -54,10 +58,5 @@
         <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.4" />
         <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.4" />
     </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Common\XClaim.Common.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-        <EditorConfigFiles Remove=".editorconfig" />
-    </ItemGroup>
+    
 </Project>
