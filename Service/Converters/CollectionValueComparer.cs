@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace XClaim.Web.Server.Converters;
+namespace CashClaim.Service.Converters;
 
 public class CollectionValueComparer<T> : ValueComparer<ICollection<T>> {
     public CollectionValueComparer() : base((c1, c2) => c1!.SequenceEqual(c2!),

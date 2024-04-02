@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SourceExpress.ShorterGuid;
 using CashClaim.Common;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Data;
+namespace CashClaim.Service.Data;
 
 public class DbInitializer {
     private readonly ModelBuilder _modelBuilder;

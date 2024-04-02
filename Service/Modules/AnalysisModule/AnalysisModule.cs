@@ -1,4 +1,4 @@
-namespace XClaim.Web.Server.Modules.AnalysisModule;
+namespace CashClaim.Service.Modules.AnalysisModule;
 
 public class AnalysisModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {

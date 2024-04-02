@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using CashClaim.Common.Base;
 
-namespace XClaim.Web.Server.Entities;
+namespace CashClaim.Service.Entities;
 
 [Index(nameof(Name), IsUnique = true)]
 [Index(nameof(Code), IsUnique = true)]

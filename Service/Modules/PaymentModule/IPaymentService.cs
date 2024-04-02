@@ -2,7 +2,7 @@ using AutoFilterer.Types;
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Wrappers;
 
-namespace XClaim.Web.Server.Modules.PaymentModule;
+namespace CashClaim.Service.Modules.PaymentModule;
 
 public interface IPaymentService {
     Task<PagedResponse<List<PaymentResponse>>> GetAllAsync(PaginationFilterBase responseFilter);

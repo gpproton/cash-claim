@@ -2,9 +2,9 @@ using AutoFilterer.Attributes;
 using AutoFilterer.Enums;
 using AutoFilterer.Types;
 using CashClaim.Common.Enums;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.ClaimModule;
+namespace CashClaim.Service.Modules.ClaimModule;
 
 public sealed class ClaimFilter : GenericFilter {
     [CompareTo(nameof(ClaimEntity.Description), nameof(ClaimEntity.Notes), CombineWith = CombineType.Or)]

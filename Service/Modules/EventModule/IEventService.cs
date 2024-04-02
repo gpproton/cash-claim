@@ -1,7 +1,7 @@
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Wrappers;
 
-namespace XClaim.Web.Server.Modules.EventModule;
+namespace CashClaim.Service.Modules.EventModule;
 
 public interface IEventService {
     Task<PagedResponse<List<EventResponse>>> GetRecentAsync();

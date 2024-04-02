@@ -2,9 +2,9 @@ using AutoFilterer.Types;
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Enums;
 using CashClaim.Common.Wrappers;
-using XClaim.Web.Server.Modules.UserModule;
+using CashClaim.Service.Modules.UserModule;
 
-namespace XClaim.Web.Server.Modules.ClaimModule;
+namespace CashClaim.Service.Modules.ClaimModule;
 
 public interface IClaimService {
     public Task<PagedResponse<List<ClaimStateResponse>>> GetReviewAllAsync(ClaimFilter filter);

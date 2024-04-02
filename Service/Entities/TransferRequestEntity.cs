@@ -1,6 +1,6 @@
 using CashClaim.Common.Base;
 
-namespace XClaim.Web.Server.Entities;
+namespace CashClaim.Service.Entities;
 
 public class TransferRequestEntity : TimedEntity {
     public UserEntity? User { get; set; }

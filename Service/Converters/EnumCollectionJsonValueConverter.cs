@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Newtonsoft.Json;
 
-namespace XClaim.Web.Server.Converters;
+namespace CashClaim.Service.Converters;
 
 public class EnumCollectionJsonValueConverter<T> : ValueConverter<ICollection<T>, string> where T : Enum {
     public EnumCollectionJsonValueConverter() : base(

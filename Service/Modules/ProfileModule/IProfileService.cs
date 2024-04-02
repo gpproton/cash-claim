@@ -1,7 +1,7 @@
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Wrappers;
 
-namespace XClaim.Web.Server.Modules.ProfileModule;
+namespace CashClaim.Service.Modules.ProfileModule;
 
 public interface IProfileService {
     Task<Response<AuthResponse?>> GetAccountAsync();

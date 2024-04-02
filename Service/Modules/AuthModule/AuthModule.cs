@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nextended.Core.Extensions;
 using CashClaim.Web.Shared;
 
-namespace XClaim.Web.Server.Modules.AuthModule;
+namespace CashClaim.Service.Modules.AuthModule;
 
 public class AuthModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {

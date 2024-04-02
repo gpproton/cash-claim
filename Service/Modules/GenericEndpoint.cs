@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CashClaim.Common.Base;
 
-namespace XClaim.Web.Server.Modules;
+namespace CashClaim.Service.Modules;
 
 // TODO: Fix service injection issues later
 public class GenericEndpoint {

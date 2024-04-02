@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CashClaim.Common.Dtos;
 
-namespace XClaim.Web.Server.Modules.CurrencyModule;
+namespace CashClaim.Service.Modules.CurrencyModule;
 
 public class CurrencyModule : IModule {
 

@@ -1,4 +1,4 @@
-namespace XClaim.Web.Server.Modules.EventModule;
+namespace CashClaim.Service.Modules.EventModule;
 
 public class EventModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {

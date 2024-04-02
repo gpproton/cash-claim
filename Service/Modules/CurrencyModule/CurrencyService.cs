@@ -1,9 +1,9 @@
 using AutoMapper;
 using CashClaim.Common.Dtos;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Data;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.CurrencyModule;
+namespace CashClaim.Service.Modules.CurrencyModule;
 
 public sealed class CurrencyService : GenericService<ServerContext, CurrencyEntity, CurrencyResponse> {
     public CurrencyService(ServerContext ctx, IMapper mapper, ILogger<CurrencyService> logger) : base(ctx, mapper, logger) { }

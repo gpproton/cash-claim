@@ -1,8 +1,8 @@
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Enums;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Helpers;
+namespace CashClaim.Service.Helpers;
 
 public class ClaimStateResolver {
     private readonly IdentityHelper _identity;

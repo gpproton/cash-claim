@@ -1,7 +1,7 @@
 using AutoFilterer.Attributes;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.CurrencyModule;
+namespace CashClaim.Service.Modules.CurrencyModule;
 
 public class CurrencyFilter : GenericFilter {
     [CompareTo(nameof(CurrencyEntity.Name), nameof(CurrencyEntity.Description))]

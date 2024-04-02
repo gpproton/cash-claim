@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CashClaim.Common.Base;
 using CashClaim.Common.Enums;
-using XClaim.Web.Server.Converters;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Converters;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Data;
+namespace CashClaim.Service.Data;
 
 public partial class ServerContext : DbContext {
     public ServerContext(DbContextOptions<ServerContext> options) : base(options) { }

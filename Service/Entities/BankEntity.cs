@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using CashClaim.Common.Base;
 
-namespace XClaim.Web.Server.Entities;
+namespace CashClaim.Service.Entities;
 
 [Index(nameof(Name), IsUnique = true)]
-[GenerateAutoFilter("XClaim.Web.Server.Filters")]
+[GenerateAutoFilter("CashClaim.Service.Filters")]
 public class BankEntity : TimedEntity {
     [MaxLength(128)]
     public string Name { get; set; } = string.Empty;

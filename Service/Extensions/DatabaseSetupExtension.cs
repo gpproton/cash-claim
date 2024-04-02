@@ -1,8 +1,8 @@
+using CashClaim.Service.Data;
+using CashClaim.Service.Helpers;
 using Microsoft.EntityFrameworkCore;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Helpers;
 
-namespace XClaim.Web.Server.Extensions;
+namespace CashClaim.Service.Extensions;
 
 public static class DatabaseSetupExtension {
     public static IServiceCollection SetupDatabase(this IServiceCollection services, IConfiguration config) {

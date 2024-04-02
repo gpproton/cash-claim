@@ -1,10 +1,10 @@
 using AutoFilterer.Types;
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Helpers;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 using AutoMapperProfile = AutoMapper.Profile;
 
-namespace XClaim.Web.Server;
+namespace CashClaim.Service;
 
 public class MapperProfile : AutoMapperProfile {
     public MapperProfile() {

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using CashClaim.Common.Base;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Data;
+namespace CashClaim.Service.Data;
 
 public partial class ServerContext {
     // REF: https://threewill.com/how-to-auto-generate-created-updated-field-in-ef-core/

@@ -1,8 +1,8 @@
 using AutoFilterer.Attributes;
 using AutoFilterer.Enums;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.TeamModule;
+namespace CashClaim.Service.Modules.TeamModule;
 
 public sealed class TeamFilter : GenericFilter {
     [CompareTo(nameof(TeamEntity.Name), nameof(TeamEntity.Description))]

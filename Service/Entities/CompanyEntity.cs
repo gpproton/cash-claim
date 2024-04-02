@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using CashClaim.Common.Base;
 
-namespace XClaim.Web.Server.Entities;
+namespace CashClaim.Service.Entities;
 
 public sealed class CompanyEntity : TimedEntity {
     public bool Active { get; set; }

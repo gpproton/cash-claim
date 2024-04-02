@@ -4,12 +4,12 @@ using Nextended.Core.Extensions;
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Enums;
 using CashClaim.Common.Wrappers;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Entities;
-using XClaim.Web.Server.Helpers;
-using XClaim.Web.Server.Modules.UserModule;
+using CashClaim.Service.Data;
+using CashClaim.Service.Entities;
+using CashClaim.Service.Helpers;
+using CashClaim.Service.Modules.UserModule;
 
-namespace XClaim.Web.Server.Modules.ProfileModule;
+namespace CashClaim.Service.Modules.ProfileModule;
 
 public class ProfileService : IProfileService {
     

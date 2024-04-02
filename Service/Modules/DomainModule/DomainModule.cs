@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CashClaim.Common.Dtos;
 
-namespace XClaim.Web.Server.Modules.DomainModule;
+namespace CashClaim.Service.Modules.DomainModule;
 
 public class DomainModule : IModule {
 

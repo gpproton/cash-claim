@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CashClaim.Common.Base;
 
-namespace XClaim.Web.Server.Entities;
+namespace CashClaim.Service.Entities;
 
-[GenerateAutoFilter("XClaim.Web.Server.Filters")]
+[GenerateAutoFilter("CashClaim.Service.Filters")]
 public sealed class BankAccountEntity : TimedEntity {
     public string FullName { get; set; } = string.Empty;
     public BankEntity? Bank { get; set; }

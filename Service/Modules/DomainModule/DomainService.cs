@@ -1,9 +1,9 @@
 using AutoMapper;
 using CashClaim.Common.Dtos;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Data;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.DomainModule;
+namespace CashClaim.Service.Modules.DomainModule;
 
 public sealed class DomainService : GenericService<ServerContext, DomainEntity, DomainResponse> {
     public DomainService(ServerContext ctx, IMapper mapper, ILogger<DomainService> logger) : base(ctx, mapper, logger) { }

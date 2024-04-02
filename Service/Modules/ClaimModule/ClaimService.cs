@@ -8,12 +8,12 @@ using CashClaim.Common.Dtos;
 using CashClaim.Common.Enums;
 using CashClaim.Common.Helpers;
 using CashClaim.Common.Wrappers;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Entities;
-using XClaim.Web.Server.Helpers;
-using XClaim.Web.Server.Modules.UserModule;
+using CashClaim.Service.Data;
+using CashClaim.Service.Entities;
+using CashClaim.Service.Helpers;
+using CashClaim.Service.Modules.UserModule;
 
-namespace XClaim.Web.Server.Modules.ClaimModule;
+namespace CashClaim.Service.Modules.ClaimModule;
 
 public sealed class ClaimService : GenericService<ServerContext, ClaimEntity, ClaimResponse>, IClaimService {
     private readonly IdentityHelper _identity;

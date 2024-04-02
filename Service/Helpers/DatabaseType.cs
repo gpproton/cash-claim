@@ -1,4 +1,4 @@
-namespace XClaim.Web.Server.Helpers;
+namespace CashClaim.Service.Helpers;
 
 public enum DatabaseType {
     Sqlite,

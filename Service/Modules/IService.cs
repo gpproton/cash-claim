@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using CashClaim.Common.Base;
 using CashClaim.Common.Wrappers;
 
-namespace XClaim.Web.Server.Modules;
+namespace CashClaim.Service.Modules;
 
 public interface IService<TContext, TEntity, TResponse>
     where TContext : DbContext

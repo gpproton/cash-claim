@@ -1,8 +1,8 @@
 using AutoFilterer.Attributes;
 using AutoFilterer.Enums;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.UserModule;
+namespace CashClaim.Service.Modules.UserModule;
 
 public sealed class UserFilter : GenericFilter {
     [CompareTo(nameof(UserEntity.FirstName), nameof(UserEntity.LastName), nameof(UserEntity.Email), CombineWith = CombineType.Or)]

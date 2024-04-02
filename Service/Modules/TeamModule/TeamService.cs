@@ -6,11 +6,11 @@ using CashClaim.Common.Dtos;
 using CashClaim.Common.Enums;
 using CashClaim.Common.Helpers;
 using CashClaim.Common.Wrappers;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Entities;
-using XClaim.Web.Server.Helpers;
+using CashClaim.Service.Data;
+using CashClaim.Service.Entities;
+using CashClaim.Service.Helpers;
 
-namespace XClaim.Web.Server.Modules.TeamModule;
+namespace CashClaim.Service.Modules.TeamModule;
 
 public sealed class TeamService : GenericService<ServerContext, TeamEntity, TeamResponse> {
     private readonly IdentityHelper _identity;

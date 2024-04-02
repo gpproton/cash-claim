@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Helpers;
 using CashClaim.Common.Wrappers;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Data;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.CompanyModule;
+namespace CashClaim.Service.Modules.CompanyModule;
 
 public sealed class CompanyService : GenericService<ServerContext, CompanyEntity, CompanyResponse> {
     public CompanyService(ServerContext ctx, IMapper mapper, ILogger<CompanyService> logger) : base(ctx, mapper, logger) { }

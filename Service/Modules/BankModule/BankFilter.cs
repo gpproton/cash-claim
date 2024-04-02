@@ -1,7 +1,7 @@
 using AutoFilterer.Attributes;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.BankModule;
+namespace CashClaim.Service.Modules.BankModule;
 
 public sealed class BankFilter : GenericFilter {
     [CompareTo(nameof(BankEntity.Name), nameof(BankEntity.Description), nameof(BankEntity.SwiftCode))]

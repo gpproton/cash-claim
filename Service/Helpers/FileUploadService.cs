@@ -1,7 +1,7 @@
 using Microsoft.Net.Http.Headers;
 using CashClaim.Common.Dtos;
 
-namespace XClaim.Web.Server.Helpers;
+namespace CashClaim.Service.Helpers;
 
 public class FileUploadService {
     private readonly IConfiguration _config;

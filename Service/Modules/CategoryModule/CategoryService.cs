@@ -6,11 +6,11 @@ using CashClaim.Common.Dtos;
 using CashClaim.Common.Enums;
 using CashClaim.Common.Helpers;
 using CashClaim.Common.Wrappers;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Entities;
-using XClaim.Web.Server.Helpers;
+using CashClaim.Service.Data;
+using CashClaim.Service.Entities;
+using CashClaim.Service.Helpers;
 
-namespace XClaim.Web.Server.Modules.CategoryModule;
+namespace CashClaim.Service.Modules.CategoryModule;
 
 public sealed class CategoryService : GenericService<ServerContext, CategoryEntity, CategoryResponse> {
     

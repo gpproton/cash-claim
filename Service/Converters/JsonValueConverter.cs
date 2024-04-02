@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Newtonsoft.Json;
 
-namespace XClaim.Web.Server.Converters;
+namespace CashClaim.Service.Converters;
 
 public class JsonValueConverter<T> : ValueConverter<T, string> {
     public JsonValueConverter() : base(v => JsonConvert.SerializeObject(v),

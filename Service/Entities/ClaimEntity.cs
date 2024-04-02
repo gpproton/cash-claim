@@ -2,7 +2,7 @@
 using CashClaim.Common.Base;
 using CashClaim.Common.Enums;
 
-namespace XClaim.Web.Server.Entities;
+namespace CashClaim.Service.Entities;
 
 public sealed class ClaimEntity : TimedEntity {
     [Required]

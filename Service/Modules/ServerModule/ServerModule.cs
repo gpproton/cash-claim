@@ -1,7 +1,7 @@
 using CashClaim.Common.Dtos;
 using CashClaim.Common.HTTP;
 
-namespace XClaim.Web.Server.Modules.ServerModule;
+namespace CashClaim.Service.Modules.ServerModule;
 
 public class ServerModule : IModule {
 

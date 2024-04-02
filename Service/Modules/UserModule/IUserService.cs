@@ -1,7 +1,7 @@
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Wrappers;
 
-namespace XClaim.Web.Server.Modules.UserModule;
+namespace CashClaim.Service.Modules.UserModule;
 
 public interface IUserService {
     public Task<Response<UserResponse?>> GetByEmailAsync(string email);

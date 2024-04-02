@@ -4,10 +4,10 @@ using CashClaim.Common;
 using CashClaim.Common.Dtos;
 using CashClaim.Common.HTTP;
 using CashClaim.Common.Wrappers;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Data;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.ServerModule;
+namespace CashClaim.Service.Modules.ServerModule;
 
 public class ServerService : IServerService {
     

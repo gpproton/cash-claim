@@ -1,6 +1,6 @@
 ﻿using CashClaim.Common.Helpers;
 
-namespace XClaim.Web.Server;
+namespace CashClaim.Service;
 
 public interface IModule {
     IServiceCollection RegisterApiModule(IServiceCollection services);

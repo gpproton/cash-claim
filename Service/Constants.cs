@@ -1,4 +1,4 @@
-namespace XClaim.Web.Server;
+namespace CashClaim.Service;
 
 public static class Constants {
     public const string RootApi = "/api/v1";

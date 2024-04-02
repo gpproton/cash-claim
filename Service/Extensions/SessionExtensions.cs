@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace XClaim.Web.Server.Extensions;
+namespace CashClaim.Service.Extensions;
 
 public static class SessionExtensions {
     public static void Set<T>(this ISession session, string key, T value)

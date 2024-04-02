@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
-using XClaim.Web.Server;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Extensions;
-using XClaim.Web.Server.Helpers;
+using CashClaim.Service;
+using CashClaim.Service.Data;
+using CashClaim.Service.Extensions;
+using CashClaim.Service.Helpers;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

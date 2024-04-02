@@ -1,7 +1,7 @@
 using AutoFilterer.Enums;
 using AutoFilterer.Types;
 
-namespace XClaim.Web.Server.Modules;
+namespace CashClaim.Service.Modules;
 
 public class GenericFilter : PaginationFilterBase {
     public sealed override int Page { get; set; }

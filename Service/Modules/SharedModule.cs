@@ -1,4 +1,4 @@
-namespace XClaim.Web.Server.Modules;
+namespace CashClaim.Service.Modules;
 
 public class SharedModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {

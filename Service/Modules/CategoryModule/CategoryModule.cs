@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CashClaim.Common.Dtos;
 
-namespace XClaim.Web.Server.Modules.CategoryModule;
+namespace CashClaim.Service.Modules.CategoryModule;
 
 public class CategoryModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {

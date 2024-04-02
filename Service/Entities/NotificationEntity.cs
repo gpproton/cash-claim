@@ -1,7 +1,7 @@
 using CashClaim.Common.Base;
 using CashClaim.Common.Enums;
 
-namespace XClaim.Web.Server.Entities;
+namespace CashClaim.Service.Entities;
 
 public class NotificationEntity : TimedEntity {
     public UserEntity? Owner { get; set; }

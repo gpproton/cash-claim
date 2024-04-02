@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Enums;
-using XClaim.Web.Server.Helpers;
-using XClaim.Web.Server.Modules.UserModule;
+using CashClaim.Service.Helpers;
+using CashClaim.Service.Modules.UserModule;
 
-namespace XClaim.Web.Server.Modules.ClaimModule;
+namespace CashClaim.Service.Modules.ClaimModule;
 
 public class ClaimModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {

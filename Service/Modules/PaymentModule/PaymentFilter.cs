@@ -1,8 +1,8 @@
 using AutoFilterer.Attributes;
 using AutoFilterer.Enums;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.PaymentModule;
+namespace CashClaim.Service.Modules.PaymentModule;
 
 public sealed class PaymentFilter : GenericFilter {
     [CompareTo(nameof(PaymentEntity.Description), nameof(PaymentEntity.Notes), CombineWith = CombineType.Or)]

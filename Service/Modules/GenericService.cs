@@ -6,7 +6,7 @@ using CashClaim.Common.Base;
 using CashClaim.Common.Helpers;
 using CashClaim.Common.Wrappers;
 
-namespace XClaim.Web.Server.Modules;
+namespace CashClaim.Service.Modules;
 
 public abstract class GenericService<TContext, TEntity, TResponse> : IService<TContext, TEntity, TResponse>
     where TContext : DbContext

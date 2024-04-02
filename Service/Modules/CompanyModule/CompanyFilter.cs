@@ -1,7 +1,7 @@
 using AutoFilterer.Attributes;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.CompanyModule;
+namespace CashClaim.Service.Modules.CompanyModule;
 
 public class CompanyFilter : GenericFilter {
     [CompareTo(nameof(CompanyEntity.ShortName), nameof(CompanyEntity.FullName))]

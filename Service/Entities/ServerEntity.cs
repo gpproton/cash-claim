@@ -1,6 +1,6 @@
 using CashClaim.Common.Base;
 
-namespace XClaim.Web.Server.Entities;
+namespace CashClaim.Service.Entities;
 
 public class ServerEntity : BaseEntity {
     public string ServiceName { get; set; } = string.Empty;

@@ -1,7 +1,7 @@
 using AutoFilterer.Attributes;
 using AutoFilterer.Enums;
-using XClaim.Web.Server.Entities;
-using XClaim.Web.Server.Modules;
+using CashClaim.Service.Entities;
+using CashClaim.Service.Modules;
 
 public sealed class TransferRequestFilter : GenericFilter {
     [CompareTo(nameof(TransferRequestEntity.CreatedAt))]

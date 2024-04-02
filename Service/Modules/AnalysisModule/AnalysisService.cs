@@ -1,6 +1,6 @@
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.AnalysisModule;
+namespace CashClaim.Service.Modules.AnalysisModule;
 
 public class AnalysisService : IAnalysisService {
     public Task<List<ClaimEntity>> GetClaimPayments() {

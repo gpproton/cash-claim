@@ -1,7 +1,7 @@
 using AutoFilterer.Attributes;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.DomainModule;
+namespace CashClaim.Service.Modules.DomainModule;
 
 public class DomainFilter : GenericFilter {
     [CompareTo(nameof(DomainEntity.Address), nameof(DomainEntity.Description))]

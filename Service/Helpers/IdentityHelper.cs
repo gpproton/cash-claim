@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Nextended.Core.Extensions;
 using CashClaim.Common.Dtos;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Entities;
-using XClaim.Web.Server.Extensions;
+using CashClaim.Service.Data;
+using CashClaim.Service.Entities;
+using CashClaim.Service.Extensions;
 
-namespace XClaim.Web.Server.Helpers;
+namespace CashClaim.Service.Helpers;
 
 public sealed class IdentityHelper {
 

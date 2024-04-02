@@ -1,4 +1,4 @@
-namespace XClaim.Web.Server.Modules.BankModule;
+namespace CashClaim.Service.Modules.BankModule;
 
 public interface IBankService {
 

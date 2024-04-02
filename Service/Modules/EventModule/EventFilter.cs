@@ -1,8 +1,8 @@
 using AutoFilterer.Attributes;
 using AutoFilterer.Enums;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.EventModule;
+namespace CashClaim.Service.Modules.EventModule;
 
 public class EventFilter : GenericFilter {
     [CompareTo(nameof(EventEntity.CreatedAt))]

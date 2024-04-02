@@ -1,10 +1,10 @@
 using AutoMapper;
 using CashClaim.Common.Dtos;
 using CashClaim.Common.Wrappers;
-using XClaim.Web.Server.Data;
-using XClaim.Web.Server.Entities;
+using CashClaim.Service.Data;
+using CashClaim.Service.Entities;
 
-namespace XClaim.Web.Server.Modules.EventModule;
+namespace CashClaim.Service.Modules.EventModule;
 
 public sealed class EventService : GenericService<ServerContext, EventEntity, EventResponse>, IEventService {
     public EventService(ServerContext ctx, IMapper mapper, ILogger<EventService> logger) : base(ctx, mapper, logger) { }
