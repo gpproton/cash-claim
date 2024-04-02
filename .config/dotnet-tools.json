@@ -19,6 +19,12 @@
       "commands": [
         "libman"
       ]
+    },
+    "docfx": {
+      "version": "2.75.3",
+      "commands": [
+        "docfx"
+      ]
     }
   }
 }

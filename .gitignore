@@ -482,3 +482,4 @@ static-files
 **/wwwroot/lib
 secret.json
 published
+_site
