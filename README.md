@@ -1,6 +1,6 @@
 # Cash claim - Expense Remuneration App
 
-A basic organization expense management system
+A basic organization members expense remuneration management system
 
 ## Overview
 
